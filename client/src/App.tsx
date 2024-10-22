@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { AuthPage } from './modules/features/auth/auth';
 
 function App() {
 
@@ -6,7 +7,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<p>hi</p>} />
+        <Route path="/" element={<AuthPage />} />
         <Route path="/about" element={<p>xd</p>} />
       </Routes>
     </Router>
