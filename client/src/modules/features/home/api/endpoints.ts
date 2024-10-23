@@ -6,7 +6,7 @@ import {
   collection,
 } from "@/core/libs/firebase";
 
-export async function addUQuestionToDB(
+export async function addQuestionToDB(
   userData: QuestionDTO
 ) {
   const question: Question = {

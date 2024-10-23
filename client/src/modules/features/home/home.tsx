@@ -1,8 +1,9 @@
 import { useForm } from "@/core/hooks/useForm";
 import { questionSchema } from "./validations/question.schema";
-import { addUQuestionToDB } from "./api/endpoints";
+import { addQuestionToDB } from "./api/endpoints";
 import { QuestionDTO } from "./api/dtos";
 import { FieldError } from "react-hook-form";
+import { Input } from "@/core/components/form/input";
 
 type ParamsType = {};
 export const HomePage = ({}: ParamsType) => {
@@ -18,7 +19,7 @@ export const HomePage = ({}: ParamsType) => {
   } = useForm({
     schema: questionSchema,
     service: (data) => {
-      return addUQuestionToDB(data);
+      return addQuestionToDB(data);
     },
   });
 
@@ -29,18 +30,20 @@ export const HomePage = ({}: ParamsType) => {
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label htmlFor="question">Pregunta</label>
-          <input type="string" {...register("question")} />
-          {errors.question && <p>{(errors.question as FieldError).message}</p>}
-        </div>
+        <Input
+          text="Pregunta"
+          error={errors.question}
+          register={register("question")}
+        />
 
         <button type="submit" disabled={isPendingQuestion}>
           {isPendingQuestion ? "Guardando..." : "Guardar"}
         </button>
       </form>
 
-      {isErrorQuestion && questionError && <p>Error: {questionError.message}</p>}
+      {isErrorQuestion && questionError && (
+        <p>Error: {questionError.message}</p>
+      )}
       {isSuccessQuestion && <p>Se guardo la pregunta</p>}
     </div>
   );
