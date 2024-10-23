@@ -5,6 +5,7 @@ import { Input } from "@/core/components/form/input";
 import useAuthStore from "@/core/store/auth";
 import { User } from "@/core/types/user";
 import { DocumentData, DocumentSnapshot } from "firebase/firestore";
+import Btn from "@/core/components/form/button";
 
 const createUserObject = (
   doc: DocumentSnapshot<DocumentData, DocumentData>
@@ -70,11 +71,8 @@ export const AuthPage = () => {
           register={register("confirmPassword")}
         />
 
-        <button type="submit" disabled={isSignUpPending}>
-          {isSignUpPending ? "Signing up..." : "Sign Up"}
-        </button>
+        <Btn isPending={isSignUpPending} text="Iniciar" />
       </form>
-
     </div>
   );
 };
