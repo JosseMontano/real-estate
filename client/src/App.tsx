@@ -1,8 +1,9 @@
+import { HomePage } from "@/features/home/home";
 import { AuthPage } from "./modules/features/auth/auth";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 function App() {
   return (
@@ -10,7 +11,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<AuthPage />} />
-          <Route path="/about" element={<p>xd</p>} />
+          <Route path="/home" element={<HomePage />} />
         </Routes>
       </Router>
     </QueryClientProvider>
