@@ -4,11 +4,12 @@ type ParamsType = {
     text:string
     error:FieldError | undefined
     register: any
+    type?:string
 }
-export const Input = ({text, error, register}:ParamsType) => {
+export const Input = ({text, error, register,type="text"}:ParamsType) => {
     return (
        <>
-           <input type="string" placeholder={text} {...register} />
+           <input type={type} placeholder={text} {...register} />
            {error && <p>{(error as FieldError).message}</p>}
        </>
     );

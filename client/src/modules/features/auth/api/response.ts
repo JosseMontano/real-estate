@@ -1,5 +1,3 @@
-import { z } from "zod";
-import { userSchema } from "../validations/signUp";
 
 export type User = {
     id?: string;
@@ -12,6 +10,6 @@ export type User = {
     available: boolean;
   };
   
-export type UserFormData = z.infer<typeof userSchema>;
+
   
   

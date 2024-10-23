@@ -2,7 +2,6 @@ import { useForm } from "@/core/hooks/useForm";
 import { questionSchema } from "./validations/question.schema";
 import { addQuestionToDB } from "./api/endpoints";
 import { QuestionDTO } from "./api/dtos";
-import { FieldError } from "react-hook-form";
 import { Input } from "@/core/components/form/input";
 
 type ParamsType = {};

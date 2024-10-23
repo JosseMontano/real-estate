@@ -1,4 +1,5 @@
-import { User, UserFormData } from "../types/user";
+import { UserDTO } from "./dtos";
+import { User } from "./response";
 import {
   auth,
   createUserWithEmailAndPassword,
@@ -9,7 +10,7 @@ import {
 
 export async function addUserToDB(
   userId: string,
-  userData: UserFormData
+  userData: UserDTO
 ) {
   const user: User = {
     userName: "",
@@ -27,7 +28,7 @@ export async function addUserToDB(
 export async function signUpFirebase(
   email: string,
   password: string,
-  userData: UserFormData
+  userData: UserDTO
 ) {
   const userCredential = await createUserWithEmailAndPassword(
     auth,

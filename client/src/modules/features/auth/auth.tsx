@@ -1,8 +1,9 @@
 import { userSchema } from "./validations/signUp";
 import { signUpFirebase } from "./api/auth";
-import { UserFormData } from "./types/user";
 import { useForm } from "@/core/hooks/useForm";
 import { FieldError } from "react-hook-form";
+import { UserDTO } from "./api/dtos";
+import { Input } from "@/core/components/form/input";
 
 export const AuthPage = () => {
   const {
@@ -17,40 +18,37 @@ export const AuthPage = () => {
   } = useForm({
     schema: userSchema,
     service: (data) => {
-       return signUpFirebase(data.email, data.password, data);
+      return signUpFirebase(data.email, data.password, data);
     },
   });
 
-  const onSubmit = (data: UserFormData) => {
+  const onSubmit = (data: UserDTO) => {
     mutateSignUp(data);
   };
 
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input id="email" type="email" {...register("email")} />
-          {errors.email && <p>{(errors.email as FieldError).message}</p>}
-        </div>
+        <Input
+          type="email"
+          text="Email"
+          error={errors.email}
+          register={register("email")}
+        />
 
-        <div>
-          <label htmlFor="password">Password</label>
-          <input id="password" type="password" {...register("password")} />
-          {errors.password && <p>{(errors.password as FieldError).message}</p>}
-        </div>
+        <Input
+          type="password"
+          text="Contraseña"
+          error={errors.password}
+          register={register("password")}
+        />
 
-        <div>
-          <label htmlFor="confirmPassword">Confirm Password</label>
-          <input
-            id="confirmPassword"
-            type="password"
-            {...register("confirmPassword")}
-          />
-          {errors.confirmPassword && (
-            <p>{(errors.confirmPassword as FieldError).message}</p>
-          )}
-        </div>
+        <Input
+          type="password"
+          text="Confirmar contraseña"
+          error={errors.confirmPassword}
+          register={register("confirmPassword")}
+        />
 
         <button type="submit" disabled={isSignUpPending}>
           {isSignUpPending ? "Signing up..." : "Sign Up"}
