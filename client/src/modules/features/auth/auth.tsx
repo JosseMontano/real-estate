@@ -1,11 +1,28 @@
 import { userSchema } from "./validations/signUp";
-import { signUpFirebase } from "./api/auth";
+import { addUserToDB, findUser } from "./api/endpoints";
 import { useForm } from "@/core/hooks/useForm";
-import { FieldError } from "react-hook-form";
 import { UserDTO } from "./api/dtos";
 import { Input } from "@/core/components/form/input";
+import useAuthStore from "@/core/store/auth";
+import { User } from "@/core/types/user";
+import { DocumentData, DocumentSnapshot } from "firebase/firestore";
+
+const createUserObject = (
+  doc: DocumentSnapshot<DocumentData, DocumentData>
+) => ({
+  id: doc.id,
+  email: doc.data()?.email,
+  userName: doc.data()?.userName,
+  cellphoneNumber: doc.data()?.cellphoneNumber,
+  qualification: doc.data()?.qualification,
+  codeRecuperation: doc.data()?.codeRecuperation,
+  role: doc.data()?.role,
+  available: doc.data()?.available,
+});
 
 export const AuthPage = () => {
+  const { login } = useAuthStore();
+  
   const {
     register,
     handleSubmit,
@@ -17,8 +34,19 @@ export const AuthPage = () => {
     isSuccess: isSignUpSuccess,
   } = useForm({
     schema: userSchema,
-    service: (data) => {
-      return signUpFirebase(data.email, data.password, data);
+    service: async (userData) => {
+      const queryFindUser = await findUser(userData.email);
+      let userObject = {} as User;
+
+      if (queryFindUser.empty) {
+        const doc = await addUserToDB(userData);
+        if (doc.exists()) userObject = createUserObject(doc);
+      } else {
+        queryFindUser.forEach((doc) => {
+          userObject = createUserObject(doc);
+        });
+      }
+      login(userObject);
     },
   });
 
