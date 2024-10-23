@@ -5,7 +5,7 @@ import { Input } from "@/core/components/form/input";
 import useAuthStore from "@/core/store/auth";
 import { User } from "@/core/types/user";
 import { DocumentData, DocumentSnapshot } from "firebase/firestore";
-import Btn from "@/core/components/form/button";
+import FormComponent from "@/core/components/form/form";
 
 const createUserObject = (
   doc: DocumentSnapshot<DocumentData, DocumentData>
@@ -31,8 +31,8 @@ export const AuthPage = () => {
   } = useForm({
     schema: userSchema,
     form: async (userData) => {
-      const queryFindUser = await findUser(userData.email);
       let userObject = {} as User;
+      const queryFindUser = await findUser(userData.email);
 
       if (queryFindUser.empty) {
         const doc = await addUserToDB(userData);
@@ -49,30 +49,35 @@ export const AuthPage = () => {
 
   return (
     <div>
-      <form onSubmit={handleOnSubmit}>
-        <Input
-          type="email"
-          text="Email"
-          error={errors.email}
-          register={register("email")}
-        />
+      <FormComponent
+        isPending={isSignUpPending}
+        handleOnSubmit={handleOnSubmit}
+        btnText="Iniciar"
+        children={
+          <>
+            <Input
+              type="email"
+              text="Email"
+              error={errors.email}
+              register={register("email")}
+            />
 
-        <Input
-          type="password"
-          text="Contraseña"
-          error={errors.password}
-          register={register("password")}
-        />
+            <Input
+              type="password"
+              text="Contraseña"
+              error={errors.password}
+              register={register("password")}
+            />
 
-        <Input
-          type="password"
-          text="Confirmar contraseña"
-          error={errors.confirmPassword}
-          register={register("confirmPassword")}
-        />
-
-        <Btn isPending={isSignUpPending} text="Iniciar" />
-      </form>
+            <Input
+              type="password"
+              text="Confirmar contraseña"
+              error={errors.confirmPassword}
+              register={register("confirmPassword")}
+            />
+          </>
+        }
+      />
     </div>
   );
 };
