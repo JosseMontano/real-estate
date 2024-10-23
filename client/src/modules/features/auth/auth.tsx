@@ -27,9 +27,6 @@ export const AuthPage = () => {
     handleOnSubmit,
     errors,
     isPending: isSignUpPending,
-    isError: isSignUpError,
-    error: signUpError,
-    isSuccess: isSignUpSuccess,
   } = useForm({
     schema: userSchema,
     form: async (userData) => {
@@ -78,8 +75,6 @@ export const AuthPage = () => {
         </button>
       </form>
 
-      {isSignUpError && signUpError && <p>Error: {signUpError.message}</p>}
-      {isSignUpSuccess && <p>Inicio de sesion correcto!</p>}
     </div>
   );
 };

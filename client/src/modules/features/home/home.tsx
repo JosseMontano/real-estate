@@ -9,13 +9,10 @@ export const HomePage = () => {
     handleOnSubmit,
     errors,
     isPending: isPendingQuestion,
-    isError: isErrorQuestion,
-    error: questionError,
-    isSuccess: isSuccessQuestion,
   } = useForm({
     schema: questionSchema,
-    form: (data) => {
-      return addQuestionToDB(data);
+    form: async (data) => {
+       await addQuestionToDB(data);
     },
   });
 
@@ -33,11 +30,6 @@ export const HomePage = () => {
           {isPendingQuestion ? "Guardando..." : "Guardar"}
         </button>
       </form>
-
-      {isErrorQuestion && questionError && (
-        <p>Error: {questionError.message}</p>
-      )}
-      {isSuccessQuestion && <p>Se guardo la pregunta</p>}
     </div>
   );
 };

@@ -16,6 +16,7 @@ export async function findUser(email: string) {
   const usersRef = collection(db, "users");
   const q = query(usersRef, where("email", "==", email));
   return await getDocs(q);
+  
 }
 
 export async function addUserToDB(userData: UserDTO) {
