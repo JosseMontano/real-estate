@@ -1,34 +1,28 @@
 import { useForm } from "@/core/hooks/useForm";
 import { questionSchema } from "./validations/question.schema";
 import { addQuestionToDB } from "./api/endpoints";
-import { QuestionDTO } from "./api/dtos";
 import { Input } from "@/core/components/form/input";
 
-type ParamsType = {};
-export const HomePage = ({}: ParamsType) => {
+export const HomePage = () => {
   const {
     register,
-    handleSubmit,
+    handleOnSubmit,
     errors,
-    mutate: mutateQuestion,
     isPending: isPendingQuestion,
     isError: isErrorQuestion,
     error: questionError,
     isSuccess: isSuccessQuestion,
   } = useForm({
     schema: questionSchema,
-    service: (data) => {
+    form: (data) => {
       return addQuestionToDB(data);
     },
   });
 
-  const onSubmit = (data: QuestionDTO) => {
-    mutateQuestion(data);
-  };
 
   return (
     <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleOnSubmit}>
         <Input
           text="Pregunta"
           error={errors.question}

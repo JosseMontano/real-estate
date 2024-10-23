@@ -1,7 +1,6 @@
 import { userSchema } from "./validations/signUp";
 import { addUserToDB, findUser } from "./api/endpoints";
 import { useForm } from "@/core/hooks/useForm";
-import { UserDTO } from "./api/dtos";
 import { Input } from "@/core/components/form/input";
 import useAuthStore from "@/core/store/auth";
 import { User } from "@/core/types/user";
@@ -22,19 +21,18 @@ const createUserObject = (
 
 export const AuthPage = () => {
   const { login } = useAuthStore();
-  
+
   const {
     register,
-    handleSubmit,
+    handleOnSubmit,
     errors,
-    mutate: mutateSignUp,
     isPending: isSignUpPending,
     isError: isSignUpError,
     error: signUpError,
     isSuccess: isSignUpSuccess,
   } = useForm({
     schema: userSchema,
-    service: async (userData) => {
+    form: async (userData) => {
       const queryFindUser = await findUser(userData.email);
       let userObject = {} as User;
 
@@ -46,17 +44,14 @@ export const AuthPage = () => {
           userObject = createUserObject(doc);
         });
       }
+
       login(userObject);
     },
   });
 
-  const onSubmit = (data: UserDTO) => {
-    mutateSignUp(data);
-  };
-
   return (
     <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleOnSubmit}>
         <Input
           type="email"
           text="Email"
@@ -84,7 +79,7 @@ export const AuthPage = () => {
       </form>
 
       {isSignUpError && signUpError && <p>Error: {signUpError.message}</p>}
-      {isSignUpSuccess && <p>Sign up successful!</p>}
+      {isSignUpSuccess && <p>Inicio de sesion correcto!</p>}
     </div>
   );
 };

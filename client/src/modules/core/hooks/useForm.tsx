@@ -5,12 +5,12 @@ import { z } from "zod";
 
 type ParamsType<T extends z.ZodType<any, any>> = {
   schema: T;
-  service: (data: z.infer<T>) => Promise<any>;
+  form: (data: z.infer<T>) => Promise<any>;
 };
 
 export const useForm = <T extends z.ZodType<any, any>>({
   schema,
-  service,
+  form,
 }: ParamsType<T>) => {
   type FormType = z.infer<T>;
   const {
@@ -28,17 +28,21 @@ export const useForm = <T extends z.ZodType<any, any>>({
     error,
     isSuccess,
   } = useMutation({
-    mutationFn: (data: FormType) => service(data),
+    mutationFn: (data: FormType) => form(data),
   });
+
+  const onSubmit = (data: FormType) => mutate(data);
+  const handleOnSubmit = handleSubmit(onSubmit);
 
   return {
     register,
-    handleSubmit,
+    handleOnSubmit,
     errors,
     mutate,
     isPending,
     isError,
     error,
     isSuccess,
+    onSubmit
   };
 };
