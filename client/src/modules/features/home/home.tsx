@@ -3,6 +3,7 @@ import { questionSchema } from "./validations/question.schema";
 import { addQuestionToDB } from "./api/endpoints";
 import { Input } from "@/core/components/form/input";
 import FormComponent from "@/core/components/form/form";
+import { useModal } from "@/core/hooks/useModal";
 
 export const HomePage = () => {
   const {
@@ -17,6 +18,8 @@ export const HomePage = () => {
     },
   });
 
+  const { ShowModal, handleStateModal } = useModal();
+
   return (
     <div>
       <FormComponent
@@ -30,6 +33,16 @@ export const HomePage = () => {
               error={errors.question}
               register={register("question")}
             />
+          </>
+        }
+      />
+
+      <button onClick={handleStateModal}>open</button>
+      <ShowModal
+        title="Hola2"
+        children={
+          <>
+            <span>hola</span>
           </>
         }
       />
