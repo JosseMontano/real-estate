@@ -4,9 +4,9 @@ type Props = {
   children: JSX.Element;
   isPending: boolean;
   handleOnSubmit: () => void;
-  btnText: string;
+  btnText?: string;
 };
-const FormComponent = ({ children, handleOnSubmit, isPending, btnText }: Props) => {
+const FormComponent = ({ children, handleOnSubmit, isPending, btnText="" }: Props) => {
   return (
     <form onSubmit={handleOnSubmit}>
       {children}
