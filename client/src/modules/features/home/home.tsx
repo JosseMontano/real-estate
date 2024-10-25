@@ -3,6 +3,7 @@ import { questionSchema } from "./validations/question.schema";
 import { addQuestionToDB } from "./api/endpoints";
 import { Input } from "@/core/components/form/input";
 import FormComponent from "@/core/components/form/form";
+import { SectionRealStates } from "./components/sectionRealStates";
 
 export const HomePage = () => {
   const {
@@ -18,21 +19,24 @@ export const HomePage = () => {
   });
 
   return (
-    <div>
-      <FormComponent
-        isPending={isPendingQuestion}
-        handleOnSubmit={handleOnSubmit}
-        btnText="Guardar"
-        children={
-          <>
-            <Input
-              text="Pregunta"
-              error={errors.question}
-              register={register("question")}
-            />
-          </>
-        }
-      />
-    </div>
+    <>
+      <div>
+        <FormComponent
+          isPending={isPendingQuestion}
+          handleOnSubmit={handleOnSubmit}
+          btnText="Guardar"
+          children={
+            <>
+              <Input
+                text="Pregunta"
+                error={errors.question}
+                register={register("question")}
+              />
+            </>
+          }
+        />
+      </div>
+      <SectionRealStates />
+    </>
   );
 };
