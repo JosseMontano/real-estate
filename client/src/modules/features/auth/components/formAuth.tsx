@@ -1,7 +1,6 @@
 import { primaryColor } from "@/const/colors";
 import FormComponent from "@/core/components/form/form";
 import { Input } from "@/core/components/form/input";
-import { GoogleIcon } from "@/shared/assets/icons/google";
 import { LockIcon } from "@/shared/assets/icons/lock";
 import { LockRepeatIcon } from "@/shared/assets/icons/lockRepeat";
 import { UserIcon } from "@/shared/assets/icons/user";

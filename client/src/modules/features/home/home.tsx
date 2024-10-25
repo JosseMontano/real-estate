@@ -1,4 +1,3 @@
-
 import { useForm } from "@/core/hooks/useForm";
 import { questionSchema } from "./validations/question.schema";
 import { addQuestionToDB } from "./api/endpoints";
@@ -8,10 +7,17 @@ import { TitleCenter } from "./components/titleCenter";
 import { SearchPropierties } from "./components/searchForm";
 import { Input } from "@/core/components/form/input";
 import FormComponent from "@/core/components/form/form";
+import { SectionRealStates } from "./components/sectionRealEstates";
 import { Footer } from "./components/footer";
 import { Questions } from "./components/question";
+
 export const HomePage = () => {
-  const {} = useForm({
+  const {
+    register,
+    errors,
+    handleOnSubmit,
+    isPending: isPendingQuestion,
+  } = useForm({
     schema: questionSchema,
     form: async (data) => {
       await addQuestionToDB(data);
@@ -19,6 +25,9 @@ export const HomePage = () => {
   });
 
   return (
+
+ 
+
     <div>
 
       <div
@@ -30,6 +39,7 @@ export const HomePage = () => {
           <TitleCenter />
           <SearchPropierties />
         </div>
+        <SectionRealStates />
       </div>
       <div></div>
 
@@ -51,5 +61,6 @@ export const HomePage = () => {
       <Footer />
 
     </div>
+
   );
 };
