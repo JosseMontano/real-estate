@@ -1,3 +1,4 @@
+
 import { useForm } from "@/core/hooks/useForm";
 import { questionSchema } from "./validations/question.schema";
 import { addQuestionToDB } from "./api/endpoints";
@@ -8,7 +9,7 @@ import { SearchPropierties } from "./components/searchForm";
 import { Input } from "@/core/components/form/input";
 import FormComponent from "@/core/components/form/form";
 import { Footer } from "./components/footer";
-
+import { Questions } from "./components/question";
 export const HomePage = () => {
   const {} = useForm({
     schema: questionSchema,
@@ -46,7 +47,9 @@ export const HomePage = () => {
           </>
         }
       />
+            <Questions />
       <Footer />
+
     </div>
   );
 };
