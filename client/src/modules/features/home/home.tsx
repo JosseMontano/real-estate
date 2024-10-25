@@ -5,6 +5,9 @@ import bgImage from "@/shared/assets/bg.jpg";
 import { Header } from "./components/header";
 import { TitleCenter } from "./components/titleCenter";
 import { SearchPropierties } from "./components/searchForm";
+import { Input } from "@/core/components/form/input";
+import FormComponent from "@/core/components/form/form";
+import { Footer } from "./components/footer";
 
 export const HomePage = () => {
   const {} = useForm({
@@ -16,6 +19,7 @@ export const HomePage = () => {
 
   return (
     <div>
+
       <div
         className="w-full h-screen relative bg-cover"
         style={{ backgroundImage: `url(${bgImage})` }}
@@ -27,6 +31,22 @@ export const HomePage = () => {
         </div>
       </div>
       <div></div>
+
+      <FormComponent
+        isPending={isPendingQuestion}
+        handleOnSubmit={handleOnSubmit}
+        btnText="Guardar"
+        children={
+          <>
+            <Input
+              text="Pregunta"
+              error={errors.question}
+              register={register("question")}
+            />
+          </>
+        }
+      />
+      <Footer />
     </div>
   );
 };
