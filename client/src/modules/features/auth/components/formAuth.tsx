@@ -6,6 +6,7 @@ import { LockRepeatIcon } from "@/shared/assets/icons/lockRepeat";
 import { UserIcon } from "@/shared/assets/icons/user";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { FormAuthFooter } from "./formAuthFooter";
+import { GoogleIcon } from "@/shared/assets/icons/google";
 
 type ParamsType = {
   register: UseFormRegister<{
@@ -32,6 +33,7 @@ export const FormAuth = ({
       <FormComponent
         isPending={isSignUpPending}
         handleOnSubmit={handleOnSubmit}
+        btnText="Iniciar"
         children={
           <>
             <div className="mb-4">
@@ -68,6 +70,26 @@ export const FormAuth = ({
           </>
         }
       />
+      <div className="flex flex-col gap-3">
+        <p className="text-center text-sm text-gray-500 mt-3">
+          ¿Sin cuenta? <span>Ingresa tus datos y listo</span>
+        </p>
+    
+          <p className="flex flex-col gap-3 text-center text-sm text-gray-500">
+            <span>O</span>
+            <span>
+
+            inicia con:
+
+            </span>
+          </p>
+          <div className="flex justify-center space-x-4">
+            <button className="bg-gray-200 p-3 rounded-full">
+              <GoogleIcon size={20} />
+            </button>
+     
+        </div>
+      </div>
     </div>
   );
 };
