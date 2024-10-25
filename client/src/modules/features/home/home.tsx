@@ -3,6 +3,7 @@ import { questionSchema } from "./validations/question.schema";
 import { addQuestionToDB } from "./api/endpoints";
 import { Input } from "@/core/components/form/input";
 import FormComponent from "@/core/components/form/form";
+import { Footer } from "./components/footer";
 
 export const HomePage = () => {
   const {
@@ -33,6 +34,7 @@ export const HomePage = () => {
           </>
         }
       />
+      <Footer />
     </div>
   );
 };
