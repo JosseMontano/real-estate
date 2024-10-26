@@ -1,30 +1,17 @@
 import img1 from "@/shared/assets/BR.jpg";
-import img2 from "@/shared/assets/BR2.jpg";
-import img3 from "@/shared/assets/BR3.jpg";
 
+import { RealEstate } from "@/shared/types/realEstate";
 
-export const SectionRealStates = () => {
-  const data = [
-    {
-      image: img1,
-      subTitle: "Se lo ponemos fácil a inquilinos y propietarios.",
-      text: "Ya sea para vender su vivienda actual, obtener financiación o comprar una nueva, nosotros se lo ponemos fácil y eficaz. ¿Y lo mejor? Ahorrará mucho dinero y tiempo con nuestros servicios.",
-    },
-    {
-      image: img2,
-      subTitle: "Se lo ponemos fácil a inquilinos y propietarios.",
-      text: "Ya sea para vender su vivienda actual, obtener financiación o comprar una nueva, nosotros se lo ponemos fácil y eficaz. ¿Y lo mejor? Ahorrará mucho dinero y tiempo con nuestros servicios.",
-    },
-    {
-      image: img3,
-      subTitle: "Se lo ponemos fácil a inquilinos y propietarios.",
-      text: "Ya sea para vender su vivienda actual, obtener financiación o comprar una nueva, nosotros se lo ponemos fácil y eficaz. ¿Y lo mejor? Ahorrará mucho dinero y tiempo con nuestros servicios.",
-    },
-  ];
+type Params = {
+  realEstates: RealEstate[]
+}
+
+export const SectionRealStates = ({realEstates}:Params) => {
+
 
   return (
     <div className="space-y-12 py-10">
-      {data.map((item, index) => (
+      {realEstates.map((item, index) => (
         <div
           key={index}
           className={`flex flex-col md:flex-row gap-8 items-center ${
@@ -33,7 +20,7 @@ export const SectionRealStates = () => {
         >
           <div className="flex justify-center w-full md:w-1/2">
             <img
-              src={item.image}
+              src={img1}
               alt="Imagen"
               className="w-full max-w-xs md:max-w-md lg:max-w-lg h-auto rounded-lg shadow-lg"
             />
@@ -52,11 +39,11 @@ export const SectionRealStates = () => {
               </button>
             </div>
             <h1 className="mt-6 text-start text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 max-w-xs md:max-w-md lg:max-w-lg">
-              {item.subTitle}
+              {item.description}
             </h1>
 
             <p className="mt-4 text-base md:text-lg lg:text-xl text-gray-600 max-w-xs md:max-w-md lg:max-w-lg text-justify">
-              {item.text}
+              {item.title}
             </p>
             <button className="mt-6 bg-purple-600 text-white py-2 px-6 rounded-full shadow-md hover:bg-purple-700">
               Ver más

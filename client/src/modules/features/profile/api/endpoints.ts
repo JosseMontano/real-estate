@@ -1,4 +1,4 @@
-import { RealEstate } from "./response";
+import { RealEstate } from "../../../shared/types/realEstate";
 import {RealEstateDTO} from "./dtos"
 import {
   db,
