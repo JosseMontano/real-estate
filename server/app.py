@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from routes.realEstate import post_realEstate,translate_text
+from psycopg2 import extras
+from googletrans import Translator
+from geopy.geocoders import Nominatim
 
 app = Flask(__name__)
 
@@ -16,15 +18,25 @@ def translateEsEn():
     val = request.get_json().get('val', '')
     fromLanguage= request.get_json().get('from', '')
     to = request.get_json().get('to', '')
-    print(fromLanguage, to)
-    value = translate_text(val, fromLanguage, to)
+
+    translator = Translator()
+    translation = translator.translate(val, src=fromLanguage, dest=to)
+    value= translation.text
+
     return jsonify({"val": value})
 
 
 @app.route('/api/real-estate', methods=['POST'])
 def post_companyApi():
     ubication = request.get_json().get('ubication', '')
-    address = post_realEstate(ubication)
+
+    if ubication != "":
+        geoLocation = Nominatim(user_agent="GetLoc")
+        locName = geoLocation.reverse(ubication)
+        address = locName.address
+
+    if ubication == "":
+        address = " "
 
     response = {
         "val":    address,
