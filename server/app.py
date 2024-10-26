@@ -23,11 +23,11 @@ def translateEsEn():
 
 @app.route('/api/real-estate', methods=['POST'])
 def post_companyApi():
-    new_created_company = post_realEstate()
+    ubication = request.get_json().get('ubication', '')
+    address = post_realEstate(ubication)
 
     response = {
-        "message": "El inmueble se creo con exito",
-        "data":    new_created_company,
+        "val":    address,
     }
 
     return jsonify(response)

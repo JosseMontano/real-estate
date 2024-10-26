@@ -8,11 +8,7 @@ def translate_text(text, fromLanguage, to):
     translation = translator.translate(text, src=fromLanguage, dest=to)
     return translation.text
 
-def post_realEstate():
-    new_company = request.get_json()
-
-    # * ========= Get data =========
-    ubication = new_company['ubication']
+def post_realEstate(ubication):
     # * ========= Convert lat and long to Address =========
     if ubication != "":
         address = convertToAddres(ubication)
