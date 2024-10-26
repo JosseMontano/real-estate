@@ -1,51 +1,33 @@
-import { useForm } from "@/core/hooks/useForm";
-import { questionSchema } from "./validations/question.schema";
-import { addQuestionToDB } from "./api/endpoints";
-import { Input } from "@/core/components/form/input";
-import FormComponent from "@/core/components/form/form";
-import { useModal } from "@/core/hooks/useModal";
+
+
+import bgImage from "@/shared/assets/bg.jpg";
+import { Header } from "./components/header";
+import { TitleCenter } from "./components/titleCenter";
+import { SearchPropierties } from "./components/searchForm";
+
+import { SectionRealStates } from "./components/sectionRealEstates";
+import { Footer } from "./components/footer";
+import { Questions } from "./components/question";
 
 export const HomePage = () => {
-  const {
-    register,
-    handleOnSubmit,
-    errors,
-    isPending: isPendingQuestion,
-  } = useForm({
-    schema: questionSchema,
-    form: async (data) => {
-      await addQuestionToDB(data);
-    },
-  });
-
-  const { ShowModal, handleStateModal } = useModal();
-
   return (
     <div>
-      <FormComponent
-        isPending={isPendingQuestion}
-        handleOnSubmit={handleOnSubmit}
-        btnText="Guardar"
-        children={
-          <>
-            <Input
-              text="Pregunta"
-              error={errors.question}
-              register={register("question")}
-            />
-          </>
-        }
-      />
+      <div
+        className="w-full h-screen bg-cover relative"
+        style={{ backgroundImage: `url(${bgImage})` }}
+      >
+        <div className="h-screen bg-black bg-opacity-50 ">
+          <Header />
+          <TitleCenter />
+          <SearchPropierties />
+        </div>
+      </div>
+      <SectionRealStates />
 
-      <button onClick={handleStateModal}>open</button>
-      <ShowModal
-        title="Hola2"
-        children={
-          <>
-            <span>hola</span>
-          </>
-        }
-      />
+        <Questions />
+        <Footer />
+     
+
     </div>
   );
 };

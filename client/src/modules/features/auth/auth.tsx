@@ -1,11 +1,10 @@
 import { userSchema } from "./validations/signUp";
 import { addUserToDB, findUser } from "./api/endpoints";
 import { useForm } from "@/core/hooks/useForm";
-import { Input } from "@/core/components/form/input";
 import useAuthStore from "@/core/store/auth";
 import { User } from "@/core/types/user";
 import { DocumentData, DocumentSnapshot } from "firebase/firestore";
-import FormComponent from "@/core/components/form/form";
+import { FormAuth } from "./components/formAuth";
 
 const createUserObject = (
   doc: DocumentSnapshot<DocumentData, DocumentData>
@@ -22,7 +21,6 @@ const createUserObject = (
 
 export const AuthPage = () => {
   const { login } = useAuthStore();
-
   const {
     register,
     handleOnSubmit,
@@ -42,42 +40,20 @@ export const AuthPage = () => {
           userObject = createUserObject(doc);
         });
       }
-
       login(userObject);
     },
   });
-
   return (
-    <div>
-      <FormComponent
-        isPending={isSignUpPending}
-        handleOnSubmit={handleOnSubmit}
-        btnText="Iniciar"
-        children={
-          <>
-            <Input
-              type="email"
-              text="Email"
-              error={errors.email}
-              register={register("email")}
-            />
-
-            <Input
-              type="password"
-              text="Contraseña"
-              error={errors.password}
-              register={register("password")}
-            />
-
-            <Input
-              type="password"
-              text="Confirmar contraseña"
-              error={errors.confirmPassword}
-              register={register("confirmPassword")}
-            />
-          </>
-        }
-      />
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
+        <h2 className="text-2xl font-bold text-center mb-6">Iniciar sesion</h2>
+        <FormAuth
+          errors={errors}
+          handleOnSubmit={handleOnSubmit}
+          isSignUpPending={isSignUpPending}
+          register={register}
+        />
+      </div>
     </div>
   );
 };

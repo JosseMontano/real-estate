@@ -12,7 +12,9 @@ const DashboardPage = () => {
     }
   }, [user]);
 
-  return <div>Hello {user?.email}</div>;
+  return <div>Hello {user?.email}
+  <input type="file" name="" id="" />
+  </div>;
 };
 
 export default DashboardPage;
