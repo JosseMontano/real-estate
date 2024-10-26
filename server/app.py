@@ -1,6 +1,5 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from psycopg2 import extras
 from googletrans import Translator
 from geopy.geocoders import Nominatim
 
