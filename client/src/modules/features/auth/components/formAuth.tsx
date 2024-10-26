@@ -42,7 +42,6 @@ export const FormAuth = ({
                 text="Email"
                 error={errors.email}
                 register={register("email")}
-                className={`w-full border-gray-300 rounded px-2 py-2 focus:outline-none focus:ring-2 focus:ring-[${primaryColor}]`}
                 Icon={UserIcon}
               />
             </div>
@@ -52,7 +51,6 @@ export const FormAuth = ({
                 text="Contraseña"
                 error={errors.password}
                 register={register("password")}
-                className={`w-full border-gray-300 rounded px-2 py-2 focus:outline-none focus:ring-2 focus:ring-[${primaryColor}]`}
                 Icon={LockIcon}
               />
             </div>
@@ -62,7 +60,6 @@ export const FormAuth = ({
                 text="Confirmar contraseña"
                 error={errors.confirmPassword}
                 register={register("confirmPassword")}
-                className={`w-full border-gray-300 rounded px-2 py-2 focus:outline-none focus:ring-2 focus:ring-[${primaryColor}]`}
                 Icon={LockRepeatIcon}
               />
             </div>
@@ -74,20 +71,15 @@ export const FormAuth = ({
         <p className="text-center text-sm text-gray-500 mt-3">
           ¿Sin cuenta? <span>Ingresa tus datos y listo</span>
         </p>
-    
-          <p className="flex flex-col gap-3 text-center text-sm text-gray-500">
-            <span>O</span>
-            <span>
 
-            inicia con:
-
-            </span>
-          </p>
-          <div className="flex justify-center space-x-4">
-            <button className="bg-gray-200 p-3 rounded-full">
-              <GoogleIcon size={20} />
-            </button>
-     
+        <p className="flex flex-col gap-3 text-center text-sm text-gray-500">
+          <span>O</span>
+          <span>inicia con</span>
+        </p>
+        <div className="flex justify-center space-x-4">
+          <button className="bg-gray-200 p-3 rounded-full">
+            <GoogleIcon size={20} />
+          </button>
         </div>
       </div>
     </div>
