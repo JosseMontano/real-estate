@@ -23,7 +23,7 @@ export const SectionRealStates = () => {
   ];
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-12 py-10">
       {data.map((item, index) => (
         <div
           key={index}
@@ -51,7 +51,7 @@ export const SectionRealStates = () => {
                 Para los propietarios
               </button>
             </div>
-            <h1 className="mt-6 text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 max-w-xs md:max-w-md lg:max-w-lg">
+            <h1 className="mt-6 text-start text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 max-w-xs md:max-w-md lg:max-w-lg">
               {item.subTitle}
             </h1>
 
