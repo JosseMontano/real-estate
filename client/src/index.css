@@ -10,9 +10,10 @@
       to {
         transform: translateY(0);
         opacity: 1;
-      }
-    
+      }  
 }
+
+
 /* styles.css */
 body {
   font-family: 'Montserrat', sans-serif;

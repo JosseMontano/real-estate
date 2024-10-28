@@ -1,4 +1,3 @@
-import { primaryColor } from "@/const/colors";
 import FormComponent from "@/core/components/form/form";
 import { Input } from "@/core/components/form/input";
 import { LockIcon } from "@/shared/assets/icons/lock";

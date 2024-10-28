@@ -8,3 +8,4 @@ export const userSchema = z.object({
   path: ["confirmPassword"],
   message: "Las contraseñas no coinciden",
 });
+

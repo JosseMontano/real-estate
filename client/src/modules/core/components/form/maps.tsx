@@ -39,12 +39,12 @@ interface Params {
 
 export const Map = ({ location, setLocation }: Params) => {
   return (
-    <div className="flex flex-col items-center">
-      <h1 className="text-2xl font-bold mb-4">Seleciona la ubicacion</h1>
+    <div className="flex flex-col">
+      <h1 className=" mb-4">Seleciona la ubicacion</h1>
       <MapContainer
         center={[-17.37242843568179, -66.16250126879922]}
         zoom={13}
-        className="w-full h-96 rounded-lg shadow-lg"
+        className="w-[500px] h-[200px] rounded-lg shadow-lg"
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

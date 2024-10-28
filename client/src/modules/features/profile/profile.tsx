@@ -11,10 +11,6 @@ import { ShowModal } from "@/core/components/form/modal";
 import { handlePost } from "@/core/utils/fetch";
 import { Location, Map } from "@/core/components/form/maps";
 
-
-
-
-
 const DashboardPage = () => {
   const { user } = useAuthStore();
   const { handleNavigate } = useNavigation();
@@ -26,7 +22,7 @@ const DashboardPage = () => {
     handleOnSubmit,
     errors,
     isPending: isPendingRealEstate,
-    reset
+    reset,
   } = useForm({
     schema: realEstateSchema,
     form: async (data) => {
@@ -36,10 +32,8 @@ const DashboardPage = () => {
           ubication: data.latLong,
         };
         const res = await handlePost("api/real-estate", payload);
-
         data.address = res.val;
-  
-        console.log(data.latLong);
+
         await addREToDB(data, user);
 
         handleStateModal();
@@ -53,8 +47,6 @@ const DashboardPage = () => {
       handleNavigate("/auth");
     }
   }, [user]);
-
-
 
   return (
     <div>
@@ -101,11 +93,9 @@ const DashboardPage = () => {
                   error={errors.squareMeter}
                   register={register("squareMeter")}
                 />
-   
-  
-                <Map location={location} setLocation={setLocation}/>
               </div>
             }
+            children2={<Map location={location} setLocation={setLocation} />}
           />
         }
       />
