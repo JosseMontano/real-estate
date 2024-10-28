@@ -59,7 +59,6 @@ export const Input = ({
           )}
         </div>
       </div>
-      {/*    {error && <p className="text-red-500">{(error as FieldError).message}</p>} */}
     </>
   );
 };

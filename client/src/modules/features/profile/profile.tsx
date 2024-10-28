@@ -2,19 +2,24 @@ import { useForm } from "@/core/hooks/useForm";
 import { useModal } from "@/core/hooks/useModal";
 import useNavigation from "@/core/hooks/useNavigate";
 import useAuthStore from "@/core/store/auth";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { realEstateSchema } from "./validations/realEstates.schema";
 import FormComponent from "@/core/components/form/form";
 import { Input } from "@/core/components/form/input";
 import { addREToDB } from "./api/endpoints";
 import { ShowModal } from "@/core/components/form/modal";
 import { handlePost } from "@/core/utils/fetch";
+import { Location, Map } from "@/core/components/form/maps";
+
+
+
 
 
 const DashboardPage = () => {
   const { user } = useAuthStore();
   const { handleNavigate } = useNavigation();
   const { handleStateModal, isModalOpen } = useModal();
+  const [location, setLocation] = useState<Location | null>(null);
 
   const {
     register,
@@ -26,11 +31,15 @@ const DashboardPage = () => {
     schema: realEstateSchema,
     form: async (data) => {
       if (user) {
+        data.latLong = `${location?.lat}, ${location?.lng}`;
         const payload = {
           ubication: data.latLong,
         };
         const res = await handlePost("api/real-estate", payload);
+
         data.address = res.val;
+  
+        console.log(data.latLong);
         await addREToDB(data, user);
 
         handleStateModal();
@@ -44,6 +53,8 @@ const DashboardPage = () => {
       handleNavigate("/auth");
     }
   }, [user]);
+
+
 
   return (
     <div>
@@ -90,11 +101,9 @@ const DashboardPage = () => {
                   error={errors.squareMeter}
                   register={register("squareMeter")}
                 />
-                <Input
-                  text="Latitud y longitud"
-                  error={errors.latLong}
-                  register={register("latLong")}
-                />
+   
+  
+                <Map location={location} setLocation={setLocation}/>
               </div>
             }
           />
