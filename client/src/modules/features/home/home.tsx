@@ -17,7 +17,11 @@ export const HomePage = () => {
     error,
   } = useQuery({
     queryKey: ["realEstates"],
-    queryFn: () => fetchRealEstates(),
+    queryFn: async () => {
+      const res = await fetchRealEstates();
+      console.log(res);
+      return res
+    },
   });
 
   return (

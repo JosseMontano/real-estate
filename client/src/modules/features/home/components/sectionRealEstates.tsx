@@ -1,6 +1,7 @@
 import img1 from "@/shared/assets/BR.jpg";
 
 import { RealEstate } from "@/shared/types/realEstate";
+import { useState } from "react";
 
 type Params = {
   realEstates: RealEstate[]
@@ -8,10 +9,17 @@ type Params = {
 
 export const SectionRealStates = ({realEstates}:Params) => {
 
+  const [startPagination, setStartPagination] = useState(0);
+const [endPagination, setEndPagination] = useState(3);
+const itemsPerPage = 3;
 
+const handlePagination = (page:number) => {
+  setStartPagination((page - 1) * itemsPerPage);
+  setEndPagination(page*itemsPerPage)
+}
   return (
     <div className="space-y-12 py-10">
-      {realEstates.map((item, index) => (
+      {realEstates.slice(startPagination,endPagination).map((item, index) => (
         <div
           key={index}
           className={`flex flex-col md:flex-row gap-8 items-center ${
@@ -51,6 +59,12 @@ export const SectionRealStates = ({realEstates}:Params) => {
           </div>
         </div>
       ))}
+
+      <div>
+        <button onClick={()=>handlePagination(1)}>1</button>
+        <button onClick={()=>handlePagination(2)}>2</button>
+        <button onClick={()=>handlePagination(3)}>3</button>
+      </div>
     </div>
   );
 };
