@@ -18,6 +18,7 @@ export const useForm = <T extends z.ZodType<any, any>>({
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useFormHook<FormType>({
     resolver: zodResolver(schema),
   });
@@ -35,6 +36,7 @@ export const useForm = <T extends z.ZodType<any, any>>({
   }, [error,isError, isSuccess]);
 
   return {
+  reset,
     register,
     handleOnSubmit,
     errors,

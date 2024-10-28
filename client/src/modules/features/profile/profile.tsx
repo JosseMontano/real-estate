@@ -8,6 +8,8 @@ import FormComponent from "@/core/components/form/form";
 import { Input } from "@/core/components/form/input";
 import { addREToDB } from "./api/endpoints";
 import { ShowModal } from "@/core/components/form/modal";
+import { handlePost } from "@/core/utils/fetch";
+
 
 const DashboardPage = () => {
   const { user } = useAuthStore();
@@ -19,12 +21,20 @@ const DashboardPage = () => {
     handleOnSubmit,
     errors,
     isPending: isPendingRealEstate,
-
+    reset
   } = useForm({
     schema: realEstateSchema,
     form: async (data) => {
       if (user) {
+        const payload = {
+          ubication: data.latLong,
+        };
+        const res = await handlePost("api/real-estate", payload);
+        data.address = res.val;
         await addREToDB(data, user);
+
+        handleStateModal();
+        reset();
       }
     },
   });
@@ -39,63 +49,57 @@ const DashboardPage = () => {
     <div>
       <button onClick={handleStateModal}> crar </button>
 
-        <ShowModal
-          title="Crear inmueble"
-          isModalOpen={isModalOpen}
-          setIsModalOpen={handleStateModal}
-          children={
-            <FormComponent
-              handleOnSubmit={handleOnSubmit}
-              isPending={isPendingRealEstate}
-              btnText="Guardar"
-              children={
-                <>
-                  <Input
-                    text="Titulo"
-                    error={errors.title}
-                    register={register("title")}
-                  />
-                  <Input
-                    text="Descripcion"
-                    error={errors.description}
-                    register={register("description")}
-                  />
-                  <Input
-                    text="Precio"
-                    error={errors.price}
-                    register={register("price")}
-                  />
-                  <Input
-                    text="Habitaciones"
-                    error={errors.amountBedroom}
-                    register={register("amountBedroom")}
-                  />
-                  <Input
-                    text="Baños"
-                    error={errors.amountBathroom}
-                    register={register("amountBathroom")}
-                  />
-                  <Input
-                    text="Metros cuadrados"
-                    error={errors.squareMeter}
-                    register={register("squareMeter")}
-                  />
-                  <Input
-                    text="Direccion"
-                    error={errors.address}
-                    register={register("address")}
-                  />
-                  <Input
-                    text="Latitud y longitud"
-                    error={errors.latLong}
-                    register={register("latLong")}
-                  />
-                </>
-              }
-            />
-          }
-        />
-    
+      <ShowModal
+        title="Crear inmueble"
+        isModalOpen={isModalOpen}
+        setIsModalOpen={handleStateModal}
+        children={
+          <FormComponent
+            handleOnSubmit={handleOnSubmit}
+            isPending={isPendingRealEstate}
+            btnText="Guardar"
+            children={
+              <div className="grid grid-cols-2 gap-3 ">
+                <Input
+                  text="Titulo"
+                  error={errors.title}
+                  register={register("title")}
+                />
+                <Input
+                  text="Descripcion"
+                  error={errors.description}
+                  register={register("description")}
+                />
+                <Input
+                  text="Precio"
+                  error={errors.price}
+                  register={register("price")}
+                />
+                <Input
+                  text="Habitaciones"
+                  error={errors.amountBedroom}
+                  register={register("amountBedroom")}
+                />
+                <Input
+                  text="Baños"
+                  error={errors.amountBathroom}
+                  register={register("amountBathroom")}
+                />
+                <Input
+                  text="Metros cuadrados"
+                  error={errors.squareMeter}
+                  register={register("squareMeter")}
+                />
+                <Input
+                  text="Latitud y longitud"
+                  error={errors.latLong}
+                  register={register("latLong")}
+                />
+              </div>
+            }
+          />
+        }
+      />
     </div>
   );
 };

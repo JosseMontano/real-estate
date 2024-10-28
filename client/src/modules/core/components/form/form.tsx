@@ -6,12 +6,19 @@ type Props = {
   handleOnSubmit: () => void;
   btnText?: string;
 };
-const FormComponent = ({ children, handleOnSubmit, isPending, btnText="" }: Props) => {
+const FormComponent = ({
+  children,
+  handleOnSubmit,
+  isPending,
+  btnText = "",
+}: Props) => {
   return (
     <form onSubmit={handleOnSubmit}>
       {children}
 
-      <Btn isPending={isPending} text={btnText} />
+      <div className="mt-4">
+        <Btn isPending={isPending} text={btnText} />
+      </div>
     </form>
   );
 };

@@ -20,5 +20,4 @@ export const realEstateSchema = z.object({
     .transform((val) => parseFloat(val))
     .refine((val) => !isNaN(val) && val > 0, { message: "Square meter must be a positive number" }),
   latLong: z.string().min(1, { message: "LatLong is required" }).max(100, { message: "LatLong must be 100 characters or less" }),
-  address: z.string().min(1, { message: "Address is required" }).max(200, { message: "Address must be 200 characters or less" }),
-});
+  address: z.string().optional().or(z.literal('')),});
