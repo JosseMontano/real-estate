@@ -7,17 +7,19 @@ import { realEstateSchema } from "./validations/realEstates.schema";
 import FormComponent from "@/core/components/form/form";
 import { Input } from "@/core/components/form/input";
 import { addREToDB } from "./api/endpoints";
+import { ShowModal } from "@/core/components/form/modal";
 
 const DashboardPage = () => {
   const { user } = useAuthStore();
   const { handleNavigate } = useNavigation();
-  const { ShowModal, handleStateModal, isModalOpen } = useModal();
+  const { handleStateModal, isModalOpen } = useModal();
 
   const {
     register,
     handleOnSubmit,
     errors,
     isPending: isPendingRealEstate,
+
   } = useForm({
     schema: realEstateSchema,
     form: async (data) => {
@@ -36,9 +38,11 @@ const DashboardPage = () => {
   return (
     <div>
       <button onClick={handleStateModal}> crar </button>
-      {isModalOpen && (
+
         <ShowModal
           title="Crear inmueble"
+          isModalOpen={isModalOpen}
+          setIsModalOpen={handleStateModal}
           children={
             <FormComponent
               handleOnSubmit={handleOnSubmit}
@@ -91,7 +95,7 @@ const DashboardPage = () => {
             />
           }
         />
-      )}
+    
     </div>
   );
 };
