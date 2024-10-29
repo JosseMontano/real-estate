@@ -100,8 +100,7 @@ def fetch_nearby_places(request: NearbyPlacesRequest):
         for place in results
     ]
     
-    return formatted_results
-
+    return {"val": formatted_results}
 
 # Run the application
 if __name__ == '__main__':
