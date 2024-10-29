@@ -1,3 +1,3 @@
 export const urls={
-    endpoint:"https://real-estate-five-pi.vercel.app/api/"
+    endpoint:import.meta.env.VITE_ENDPOINT,
 }

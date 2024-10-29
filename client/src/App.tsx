@@ -11,6 +11,7 @@ export const queryClient = new QueryClient();
 export type Routes = "/" | "/profile" | "/auth" | "/img360";
 
 function App() {
+
   return (
     <>
       <Toaster />

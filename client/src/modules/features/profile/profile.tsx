@@ -8,7 +8,7 @@ import FormComponent from "@/core/components/form/form";
 import { Input } from "@/core/components/form/input";
 import { addREToDB, fetchTypesRE } from "./api/endpoints";
 import { ShowModal } from "@/core/components/form/modal";
-import { Location, Map } from "@/core/components/form/maps";
+import { Location, Map } from "@/core/components/map/maps";
 import useGet from "@/core/hooks/useGet";
 import { useLanguageStore } from "@/core/store/language";
 import Select from "@/core/components/form/select";

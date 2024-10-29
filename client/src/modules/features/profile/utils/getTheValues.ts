@@ -1,4 +1,4 @@
-import { Location } from "@/core/components/form/maps";
+import { Location } from "@/core/components/map/maps";
 import { RealEstateDTO } from "../api/dtos";
 import { handlePost } from "@/core/utils/fetch";
 
