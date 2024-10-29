@@ -6,16 +6,21 @@ import { useEffect, useState } from "react";
 import { realEstateSchema } from "./validations/realEstates.schema";
 import FormComponent from "@/core/components/form/form";
 import { Input } from "@/core/components/form/input";
-import { addREToDB } from "./api/endpoints";
+import { addREToDB, fetchTypesRE } from "./api/endpoints";
 import { ShowModal } from "@/core/components/form/modal";
 import { handlePost } from "@/core/utils/fetch";
 import { Location, Map } from "@/core/components/form/maps";
+import useGet from "@/core/hooks/useGet";
+import { useLanguageStore } from "@/core/store/language";
+import Select from "@/core/components/form/select";
 
 const DashboardPage = () => {
+  const { language } = useLanguageStore();
   const { user } = useAuthStore();
   const { handleNavigate } = useNavigation();
   const { handleStateModal, isModalOpen } = useModal();
   const [location, setLocation] = useState<Location | null>(null);
+  const [typeRE, setTypeRE] = useState("");
 
   const {
     register,
@@ -34,12 +39,54 @@ const DashboardPage = () => {
         const res = await handlePost("api/real-estate", payload);
         data.address = res.val;
 
+        //save english title
+        const payloadEn = {
+          val: data.titleEs,
+          from:"es",
+          to:"en"
+        }
+        const resEn = await handlePost("api/translate", payloadEn);
+        data.titleEn = resEn.val;
+
+        //save portuguese title
+        const payloadPt = {
+          val: data.titleEs,
+          from:"es",
+          to:"pt"
+        }
+        const resPt = await handlePost("api/translate", payloadPt);
+        data.titlePt = resPt.val;
+
+        //save english description
+        const payloadEnDes = {
+          val: data.descriptionEs,
+          from:"es",
+          to:"en"
+        }
+        const resEnDes = await handlePost("api/translate", payloadEnDes);
+        data.descriptionEn = resEnDes.val;
+
+        //save portuguese description
+        const payloadPtDes = {
+          val: data.descriptionEs,
+          from:"es",
+          to:"pt"
+        }
+        const resPtDes = await handlePost("api/translate", payloadPtDes);
+        data.descriptionPt = resPtDes.val;
+      
         await addREToDB(data, user);
 
         handleStateModal();
         reset();
       }
     },
+  });
+
+  const { data } = useGet({
+    itemsPerPage: 10,
+    queryKey: "type-realEstates",
+    services: fetchTypesRE,
   });
 
   useEffect(() => {
@@ -62,16 +109,16 @@ const DashboardPage = () => {
             isPending={isPendingRealEstate}
             btnText="Guardar"
             children={
-              <div className="grid grid-cols-2 gap-3 ">
+              <div className="grid grid-cols-2 gap-3">
                 <Input
                   text="Titulo"
-                  error={errors.title}
-                  register={register("title")}
+                  error={errors.titleEs}
+                  register={register("titleEs")}
                 />
                 <Input
                   text="Descripcion"
-                  error={errors.description}
-                  register={register("description")}
+                  error={errors.descriptionEs}
+                  register={register("descriptionEs")}
                 />
                 <Input
                   text="Precio"
@@ -92,6 +139,14 @@ const DashboardPage = () => {
                   text="Metros cuadrados"
                   error={errors.squareMeter}
                   register={register("squareMeter")}
+                />
+                <Select
+                  value={typeRE}
+                  onChange={(e) => setTypeRE(e.target.value)}
+                  options={data?.map((v) => ({
+                    value: v.name[language],
+                    label: v.name[language],
+                  }))}
                 />
               </div>
             }

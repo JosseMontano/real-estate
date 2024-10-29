@@ -1,8 +1,12 @@
 import { z } from "zod";
 
 export const realEstateSchema = z.object({
-  title: z.string().min(1, { message: "Title is required" }).max(100, { message: "Title must be 100 characters or less" }),
-  description: z.string().min(1, { message: "Description is required" }).max(500, { message: "Description must be 500 characters or less" }),
+  titleEs: z.string().min(1, { message: "Title is required" }).max(100, { message: "Title must be 100 characters or less" }),
+  titleEn: z.string().optional().or(z.literal('')),
+  titlePt: z.string().optional().or(z.literal('')),
+  descriptionEs: z.string().min(1, { message: "Description is required" }).max(500, { message: "Description must be 500 characters or less" }),
+  descriptionEn: z.string().optional().or(z.literal('')),
+  descriptionPt: z.string().optional().or(z.literal('')),
   amountBedroom: z
     .string()
     .transform((val) => parseInt(val, 10))

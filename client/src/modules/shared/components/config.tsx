@@ -3,6 +3,7 @@ import WrenchIcon from "../assets/icons/wrench";
 import { useModal } from "@/core/hooks/useModal";
 import { ShowModal } from "@/core/components/form/modal";
 import { useLanguageStore } from "@/core/store/language";
+import Select from "@/core/components/form/select";
 
 export const Config = () => {
   const { texts, language, setLanguage } = useLanguageStore();
@@ -33,21 +34,16 @@ export const Config = () => {
           <div className="w-[300px]">
             <div className="flex gap-2 items-center">
               <h3>{texts.languageConfig}</h3>
-              <select
+
+              <Select
                 value={language}
                 onChange={handleLanguageChange}
-                className="block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              >
-                <option value="es" className="text-gray-900">
-                  {texts.language1Config}
-                </option>
-                <option value="en" className="text-gray-900">
-                  {texts.language2Config}
-                </option>
-                <option value="pt" className="text-gray-900">
-                  {texts.language3Config}
-                </option>
-              </select>
+                options={[
+                  { value: "es", label: texts.language1Config },
+                  { value: "en", label: texts.language2Config },
+                  { value: "pt", label: texts.language3Config },
+                ]}
+              />
             </div>
           </div>
         }

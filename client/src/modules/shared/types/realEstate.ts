@@ -1,9 +1,10 @@
 import { User } from "@/core/types/user";
+import { LanguageDB } from "./language";
 
   export interface RealEstate {
     id?: string;
-    title: string;
-    description: string;
+    title: LanguageDB;
+    description: LanguageDB;
     available: boolean;
     amountBedroom: number;
     price: number;
@@ -13,4 +14,9 @@ import { User } from "@/core/types/user";
     address: string;
     userId: string;
     user: User;
+  }
+
+  export interface TypeRE{
+    id?: string;
+    name: LanguageDB;
   }
