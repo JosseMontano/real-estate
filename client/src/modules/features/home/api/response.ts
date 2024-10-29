@@ -1,7 +1,8 @@
+import { LanguageDB } from "@/shared/types/language";
 
 export type Question = {
     id?: string;
-    question: string;
+    question: LanguageDB;
   };
   
 

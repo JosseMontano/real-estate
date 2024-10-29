@@ -4,9 +4,10 @@ import { Input } from "@/core/components/form/input";
 import { questionSchema } from "../validations/question.schema";
 import { addQuestionToDB } from "../api/endpoints";
 import { useForm } from "@/core/hooks/useForm";
+import { handlePost } from "@/core/utils/fetch";
 
-type ParamsType = {};
-export const Questions = ({}: ParamsType) => {
+
+export const Questions = () => {
   const {
     register,
     handleOnSubmit,
@@ -15,6 +16,9 @@ export const Questions = ({}: ParamsType) => {
   } = useForm({
     schema: questionSchema,
     form: async (data) => {
+      const res = await handlePost("translate", {val: data.questionEs});
+      data.questionEn = res.val.valEn;
+      data.questionPt = res.val.valPt;
       await addQuestionToDB(data);
     },
   });
@@ -39,8 +43,8 @@ export const Questions = ({}: ParamsType) => {
               <>
                 <Input
                   text="tu pregunta"
-                  error={errors.question}
-                  register={register("question")}
+                  error={errors.questionEs}
+                  register={register("questionEs")}
                 />
               </>
             }

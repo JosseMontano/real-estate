@@ -12,7 +12,11 @@ export async function addQuestionToDB(
   userData: QuestionDTO
 ) {
   const question: Question = {
-    question: userData.question,
+    question: {
+      es: userData.questionEs,
+      en: userData.questionEn ?? "",
+      pt: userData.questionPt ?? "",
+    },
   };
 
   await addDoc(collection(db, "questions"), question);
