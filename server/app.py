@@ -15,14 +15,21 @@ def index():
 @app.route('/api/translate', methods=['POST'])
 def translateEsEn():
     val = request.get_json().get('val', '')
-    fromLanguage= request.get_json().get('from', '')
-    to = request.get_json().get('to', '')
 
     translator = Translator()
-    translation = translator.translate(val, src=fromLanguage, dest=to)
-    value= translation.text
+    translation = translator.translate(val, src="es", dest="en")
+    valueEn= translation.text
 
-    return jsonify({"val": value})
+    translation = translator.translate(valueEn, src="es", dest="pt")
+    valuePt= translation.text
+
+    response = {
+        "valEs":    val,
+        "valEn":  valueEn,
+        "valPt":  valuePt
+    }
+
+    return jsonify({"val": response})
 
 
 @app.route('/api/real-estate', methods=['POST'])
