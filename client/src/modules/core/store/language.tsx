@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-type Language = "en" | "es" | "pt";
+export type Language = "en" | "es" | "pt";
 
 interface Translations {
   //auth

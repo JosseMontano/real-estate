@@ -23,7 +23,7 @@ export const handlePost = async <T>(
     }
 
     const data = await response.json();
-    console.log('data', data);
+
     
     return {
       val: data.val,
