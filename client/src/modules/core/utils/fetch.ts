@@ -1,7 +1,7 @@
 import { urls } from "../config/endpoint";
 
 interface Reponse {
-  val: string;
+  val: any;
 }
 
 export const handlePost = async <T>(

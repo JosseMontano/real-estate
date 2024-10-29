@@ -36,45 +36,23 @@ const DashboardPage = () => {
         const payload = {
           ubication: data.latLong,
         };
-        const res = await handlePost("api/real-estate", payload);
+        const res = await handlePost("real-estate", payload);
         data.address = res.val;
 
-        //save english title
-        const payloadEn = {
+        //save title
+        const resTitle = await handlePost("translate", {
           val: data.titleEs,
-          from:"es",
-          to:"en"
-        }
-        const resEn = await handlePost("api/translate", payloadEn);
-        data.titleEn = resEn.val;
+        });
+        data.titleEn = resTitle.val.valEn;
+        data.titlePt = resTitle.val.valPt;
 
-        //save portuguese title
-        const payloadPt = {
-          val: data.titleEs,
-          from:"es",
-          to:"pt"
-        }
-        const resPt = await handlePost("api/translate", payloadPt);
-        data.titlePt = resPt.val;
-
-        //save english description
-        const payloadEnDes = {
+        //save description
+        const resDes = await handlePost("translate", {
           val: data.descriptionEs,
-          from:"es",
-          to:"en"
-        }
-        const resEnDes = await handlePost("api/translate", payloadEnDes);
-        data.descriptionEn = resEnDes.val;
+        });
+        data.descriptionEn = resDes.val.valEn;
+        data.descriptionPt = resDes.val.valPt;
 
-        //save portuguese description
-        const payloadPtDes = {
-          val: data.descriptionEs,
-          from:"es",
-          to:"pt"
-        }
-        const resPtDes = await handlePost("api/translate", payloadPtDes);
-        data.descriptionPt = resPtDes.val;
-      
         await addREToDB(data, user);
 
         handleStateModal();
