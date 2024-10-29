@@ -1,27 +1,29 @@
+import { primaryColor } from "@/const/colors";
+import Pagination from "@/core/components/form/pagination";
 import img1 from "@/shared/assets/BR.jpg";
-
 import { RealEstate } from "@/shared/types/realEstate";
-import { useState } from "react";
 
 type Params = {
-  realEstates: RealEstate[]
-}
+  realEstates: RealEstate[];
+  firstElementRef: React.RefObject<HTMLDivElement>;
+  amountOfPages: number;
+  handlePagination: (page: number) => void;
+  currentPage: number;
+};
 
-export const SectionRealStates = ({realEstates}:Params) => {
-
-  const [startPagination, setStartPagination] = useState(0);
-const [endPagination, setEndPagination] = useState(3);
-const itemsPerPage = 3;
-
-const handlePagination = (page:number) => {
-  setStartPagination((page - 1) * itemsPerPage);
-  setEndPagination(page*itemsPerPage)
-}
+export const SectionRealStates = ({
+  realEstates,
+  firstElementRef,
+  amountOfPages,
+  handlePagination,
+  currentPage,
+}: Params) => {
   return (
     <div className="space-y-12 py-10">
-      {realEstates.slice(startPagination,endPagination).map((item, index) => (
+      {realEstates.map((item, index) => (
         <div
           key={index}
+          ref={index === 0 ? firstElementRef : null}
           className={`flex flex-col md:flex-row gap-8 items-center ${
             index % 2 === 1 ? "md:flex-row-reverse" : ""
           }`}
@@ -59,12 +61,13 @@ const handlePagination = (page:number) => {
           </div>
         </div>
       ))}
-
-      <div>
-        <button onClick={()=>handlePagination(1)}>1</button>
-        <button onClick={()=>handlePagination(2)}>2</button>
-        <button onClick={()=>handlePagination(3)}>3</button>
-      </div>
+      <Pagination
+        amountOfPages={amountOfPages}
+        currentPage={currentPage}
+        primaryColor={primaryColor}
+        handlePagination={handlePagination}
+        lastPage={amountOfPages}
+      />
     </div>
   );
 };

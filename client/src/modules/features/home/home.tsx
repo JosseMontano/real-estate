@@ -6,22 +6,21 @@ import { SearchPropierties } from "./components/searchForm";
 import { SectionRealStates } from "./components/sectionRealEstates";
 import { Footer } from "./components/footer";
 import { Questions } from "./components/question";
-import { useQuery } from "@tanstack/react-query";
 import { fetchRealEstates } from "./api/endpoints";
+import useGet from "@/core/hooks/useGet";
 
 export const HomePage = () => {
   const {
-    isLoading,
     data: realEstates,
-    isError,
-    error,
-  } = useQuery({
-    queryKey: ["realEstates"],
-    queryFn: async () => {
-      const res = await fetchRealEstates();
-      console.log(res);
-      return res
-    },
+    isLoading,
+    firstElementRef,
+    amountOfPages,
+    handlePagination,
+    currentPage
+  } = useGet({
+    services: fetchRealEstates,
+    queryKey: "realEstates",
+    itemsPerPage: 3,
   });
 
   return (
@@ -36,7 +35,13 @@ export const HomePage = () => {
           <SearchPropierties />
         </div>
       </div>
-      <SectionRealStates realEstates={realEstates ?? []} />
+      <SectionRealStates
+        realEstates={realEstates ?? []}
+        firstElementRef={firstElementRef}
+        amountOfPages={amountOfPages}
+        handlePagination={handlePagination}
+      currentPage={currentPage}
+      />
       {isLoading && <p>Loading...</p>}
 
       <Questions />
