@@ -1,4 +1,5 @@
 import { primaryColor } from "@/const/colors";
+import Btn from "@/core/components/form/button";
 import { NavLink } from "@/features/home/components/navLink";
 
 type ParamsType = {};
@@ -12,7 +13,7 @@ export const Header = ({}: ParamsType) => {
     "Contactanos",
   ];
   return (
-    <header className="text-white">
+    <header className="text-white relative z-10 ">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <div className="text-2xl font-bold">Oakberry</div>
         <nav className="space-x-6">
@@ -22,13 +23,9 @@ export const Header = ({}: ParamsType) => {
             </NavLink>
           ))}
         </nav>
-        <button
-          className="text-white px-4 py-2 rounded"
-          style={{ background: primaryColor }}
-        >
-          Enviar un propiedad
-        </button>
+        <Btn text="Enviar una propiendad" isPending={false} className="w-auto px-3 cursor-pointer" />
       </div>
+     
     </header>
   );
 };

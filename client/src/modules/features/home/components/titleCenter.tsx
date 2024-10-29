@@ -1,4 +1,4 @@
-import { primaryColor } from "@/const/colors";
+import Btn from "@/core/components/form/button";
 
 type ParamsType = {};
 export const TitleCenter = ({}: ParamsType) => {
@@ -12,14 +12,13 @@ export const TitleCenter = ({}: ParamsType) => {
           Un pequeño río llamado Duden fluye por su lugar y lo abastece de la
           indumentaria necesaria
         </p>
-      <div>
-      <button
-          className="bg-green-500 text-white px-6 py-2 rounded"
-          style={{ background: primaryColor }}
-        >
-          Aprender mas
-        </button>
-      </div>
+        <div>
+          <Btn
+            text="Aprender mas"
+            isPending={false}
+            className="w-auto px-6 py-2"
+          />
+        </div>
       </div>
     </section>
   );
