@@ -1,5 +1,6 @@
 import { primaryColor } from "@/const/colors";
 import Pagination from "@/core/components/form/pagination";
+import { useLanguageStore } from "@/core/store/language";
 import img1 from "@/shared/assets/BR.jpg";
 import { RealEstate } from "@/shared/types/realEstate";
 
@@ -18,6 +19,7 @@ export const SectionRealStates = ({
   handlePagination,
   currentPage,
 }: Params) => {
+  const {language} = useLanguageStore()
   return (
     <div className="space-y-12 py-10">
       {realEstates.map((item, index) => (
@@ -49,11 +51,11 @@ export const SectionRealStates = ({
               </button>
             </div>
             <h1 className="mt-6 text-start text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 max-w-xs md:max-w-md lg:max-w-lg">
-              {item.description}
+              {item.description[language]}
             </h1>
 
             <p className="mt-4 text-base md:text-lg lg:text-xl text-gray-600 max-w-xs md:max-w-md lg:max-w-lg text-justify">
-              {item.title}
+              {item.title[language]}
             </p>
             <button className="mt-6 bg-purple-600 text-white py-2 px-6 rounded-full shadow-md hover:bg-purple-700">
               Ver más

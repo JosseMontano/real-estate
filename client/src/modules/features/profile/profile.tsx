@@ -8,11 +8,11 @@ import FormComponent from "@/core/components/form/form";
 import { Input } from "@/core/components/form/input";
 import { addREToDB, fetchTypesRE } from "./api/endpoints";
 import { ShowModal } from "@/core/components/form/modal";
-import { handlePost } from "@/core/utils/fetch";
 import { Location, Map } from "@/core/components/form/maps";
 import useGet from "@/core/hooks/useGet";
 import { useLanguageStore } from "@/core/store/language";
 import Select from "@/core/components/form/select";
+import { getTheValues } from "./utils/getTheValues";
 
 const DashboardPage = () => {
   const { language } = useLanguageStore();
@@ -32,26 +32,8 @@ const DashboardPage = () => {
     schema: realEstateSchema,
     form: async (data) => {
       if (user) {
-        data.latLong = `${location?.lat}, ${location?.lng}`;
-        const payload = {
-          ubication: data.latLong,
-        };
-        const res = await handlePost("real-estate", payload);
-        data.address = res.val;
-
-        //save title
-        const resTitle = await handlePost("translate", {
-          val: data.titleEs,
-        });
-        data.titleEn = resTitle.val.valEn;
-        data.titlePt = resTitle.val.valPt;
-
-        //save description
-        const resDes = await handlePost("translate", {
-          val: data.descriptionEs,
-        });
-        data.descriptionEn = resDes.val.valEn;
-        data.descriptionPt = resDes.val.valPt;
+        const res = await getTheValues(data, location);
+        data = res;
 
         await addREToDB(data, user);
 
@@ -63,6 +45,7 @@ const DashboardPage = () => {
 
   const { data } = useGet({
     itemsPerPage: 10,
+
     queryKey: "type-realEstates",
     services: fetchTypesRE,
   });
