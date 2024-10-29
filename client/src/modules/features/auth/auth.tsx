@@ -5,6 +5,7 @@ import useAuthStore from "@/core/store/auth";
 import { User } from "@/core/types/user";
 import { DocumentData, DocumentSnapshot } from "firebase/firestore";
 import { FormAuth } from "./components/formAuth";
+import { useLanguageStore } from "@/core/store/language";
 
 const createUserObject = (
   doc: DocumentSnapshot<DocumentData, DocumentData>
@@ -20,6 +21,7 @@ const createUserObject = (
 });
 
 export const AuthPage = () => {
+  const {texts}=useLanguageStore()
   const { login } = useAuthStore();
   const {
     register,
@@ -46,7 +48,7 @@ export const AuthPage = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
-        <h2 className="text-2xl font-bold text-center mb-6">Iniciar sesion</h2>
+        <h2 className="text-2xl font-bold text-center mb-6">{texts.titleAuth}</h2>
         <FormAuth
           errors={errors}
           handleOnSubmit={handleOnSubmit}
