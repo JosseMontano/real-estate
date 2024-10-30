@@ -1,15 +1,23 @@
 import { MapContainer, TileLayer, useMapEvents, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-
+import Company from "@/shared/assets/company.png"
 // Initialize the marker icon for Leaflet (default marker in Leaflet doesn't load properly in React)
 const customIcon = new L.Icon({
   iconUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
+    Company,
   iconSize: [25, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
 });
+
+const customIcon2 = new L.Icon({
+    iconUrl:
+      "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+  });
 
 interface Location {
   lat: number;
@@ -48,7 +56,7 @@ interface Params {
 export const MapLocations = ({ location, setLocation, locations }: Params) => {
   return (
     <div className="flex flex-col">
-      <h1 className="mb-4">Select the Location</h1>
+      <h1 className="mb-4">Servicios disponibles</h1>
       <MapContainer
         center={[-17.37242843568179, -66.16250126879922]}
         zoom={13}
@@ -69,7 +77,8 @@ export const MapLocations = ({ location, setLocation, locations }: Params) => {
 
         {/* Render the user-selected location marker */}
         {location && (
-          <Marker position={location.split(',').map(Number)} icon={customIcon} />
+            /* @ts-ignore */
+          <Marker position={location.split(',').map(Number)} icon={customIcon2} />
         )}
       </MapContainer>
     </div>
