@@ -19,3 +19,16 @@ body {
   font-family: 'Montserrat', sans-serif;
   font-size: 16px; /* Set your desired font size here */
 }
+
+.embla {
+  overflow: hidden;
+}
+.embla__container {
+  display: flex;
+}
+.embla__slide {
+   flex: 0 0 100%;
+  min-width: 0;
+  cursor: grab; 
+  
+}
