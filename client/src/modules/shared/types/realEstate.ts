@@ -14,6 +14,7 @@ import { LanguageDB } from "./language";
     address: string;
     userId: string;
     user: User;
+    images:string[]
   }
 
   export interface TypeRE{

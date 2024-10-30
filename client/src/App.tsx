@@ -21,7 +21,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/profile" element={<DashboardPage />} />
             <Route path="/auth" element={<AuthPage />} />
-            <Route path="/img360" element={<Img360 />} />
+            <Route path="/img360/:url" element={<Img360 />} />
           </Routes>
           <Config />
         </Router>

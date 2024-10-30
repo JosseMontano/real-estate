@@ -12,6 +12,11 @@ export async function addREToDB(
   realEstatData: RealEstateDTO,
   user:User
 ) {
+  const imgs = [
+    "https://firebasestorage.googleapis.com/v0/b/new-realestate-f4127.appspot.com/o/realEstates%2FsecondImage.jpg?alt=media&token=d16a97e2-6993-4dff-a883-04af9220f2c1",
+    "https://firebasestorage.googleapis.com/v0/b/new-realestate-f4127.appspot.com/o/realEstates%2FfirstImage.jpg?alt=media&token=716b5bf1-65db-4449-b640-cb6a0d6f0055",
+  ];
+
    const realestate: RealEstate = {
     address: realEstatData.address ?? "",
     amountBathroom: realEstatData.amountBathroom,
@@ -32,6 +37,7 @@ export async function addREToDB(
     available: true,
     userId: user.id ?? "",
     user: user,
+    images: imgs,
   };
 
   await addDoc(collection(db, "realEstates"), realestate); 

@@ -1,7 +1,6 @@
 import { primaryColor } from "@/const/colors";
 import Pagination from "@/core/components/form/pagination";
 import { useLanguageStore } from "@/core/store/language";
-import img1 from "@/shared/assets/BR.jpg";
 import { RealEstate } from "@/shared/types/realEstate";
 import { useEffect, useState } from "react";
 import { handlePost } from "@/core/utils/fetch";
@@ -76,7 +75,8 @@ export const SectionRealStates = ({
             index % 2 === 1 ? "md:flex-row-reverse" : ""
           }`}
         >
-          <Photo img={img1} />
+          <Photo img={item.images} />
+
           <div
             className={`flex flex-col ${
               index % 2 === 1 ? "items-end" : "items-start"

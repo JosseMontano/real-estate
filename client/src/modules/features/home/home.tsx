@@ -8,8 +8,6 @@ import { Footer } from "./components/footer";
 import { Questions } from "./components/question";
 import { fetchRealEstates } from "./api/endpoints";
 import useGet from "@/core/hooks/useGet";
-import useEmblaCarousel from "embla-carousel-react";
-import Autoplay from "embla-carousel-autoplay";
 
 export const HomePage = () => {
   const {
@@ -24,7 +22,6 @@ export const HomePage = () => {
     queryKey: "realEstates",
     itemsPerPage: 3,
   });
-  const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay()]);
   return (
     <div>
       <div
@@ -48,17 +45,6 @@ export const HomePage = () => {
 
       <Questions />
       <Footer />
-
-      <div className="embla" ref={emblaRef}>
-        <div className="embla__container">
-          <div className="embla__slide">
-            <p>hi</p>
-          </div>
-          <div className="embla__slide">
-            <p>hi5</p>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
