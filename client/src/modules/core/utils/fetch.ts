@@ -6,7 +6,8 @@ interface Reponse {
 
 export const handlePost = async <T>(
   url: string,
-  payload: T
+  payload: T,
+  isBlob = false
 ): Promise<Reponse> => {
   let errorMg = "";
   try {
@@ -22,9 +23,12 @@ export const handlePost = async <T>(
       throw new Error("Network response was not ok");
     }
 
+    //@ts-ignore
+    if (isBlob) return response.blob();
+
     const data = await response.json();
 
-    
+
     return {
       val: data.val,
     };
@@ -37,3 +41,4 @@ export const handlePost = async <T>(
     val: errorMg,
   };
 };
+

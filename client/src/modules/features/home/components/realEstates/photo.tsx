@@ -1,6 +1,7 @@
 import useNavigation from "@/core/hooks/useNavigate";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
+import use360photo from "@/core/store/360photo";
 
 type ParamsType = {
   img: string[];
@@ -8,6 +9,8 @@ type ParamsType = {
 export const Photo = ({ img }: ParamsType) => {
   const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay()]);
   const {handleNavigate}= useNavigation()
+  const {loadUrl} = use360photo()
+
   return (
     <div className=" flex justify-center w-full md:w-1/2">
       <div className="embla" ref={emblaRef}>
@@ -18,7 +21,11 @@ export const Photo = ({ img }: ParamsType) => {
                 src={v}
                 alt="Imagen"
                 className="w-full max-w-xs md:max-w-md lg:max-w-lg h-auto rounded-lg shadow-lg"
-                onClick={()=>handleNavigate("/img360/"+btoa(v))}
+                onClick={()=>{
+                  loadUrl(v)
+                  // Step 2: Convert the encrypted data to Base64 directly
+                  handleNavigate("/img360")
+                }}
               />
             </div>
           ))}
