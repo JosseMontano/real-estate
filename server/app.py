@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Response  # Added Response import
 from fastapi.middleware.cors import CORSMiddleware
 from googletrans import Translator
 from geopy.geocoders import Nominatim
@@ -38,6 +38,11 @@ class RealEstateRequest(BaseModel):
 
 class NearbyPlacesRequest(BaseModel):
     location: str
+
+
+class FetchImageRequest(BaseModel):  # Added request model for fetch_image
+    url: str
+
 
 
 @app.get('/')
@@ -101,6 +106,23 @@ def fetch_nearby_places(request: NearbyPlacesRequest):
     ]
     
     return {"val": formatted_results}
+
+@app.post('/api/fetch_image')
+def fetch_image(request: FetchImageRequest):  # Changed to use request body
+    try:
+        # Realiza la solicitud a la URL proporcionada
+        response = requests.get(request.url)  # Access URL from request body
+        response.raise_for_status()
+
+        # Obtiene el tipo de contenido de la respuesta
+        content_type = response.headers.get("Content-Type")
+
+        # Retorna la imagen con el tipo de contenido correcto
+        return Response(content=response.content, media_type=content_type)
+
+    except requests.exceptions.RequestException as e:
+        # Maneja errores si la solicitud falla
+        raise HTTPException(status_code=400, detail=str(e))
 
 # Run the application
 if __name__ == '__main__':
