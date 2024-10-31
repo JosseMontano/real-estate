@@ -1,9 +1,6 @@
 import { userSchema } from "./validations/signUp";
-import { addUserToDB, findUser } from "./api/endpoints";
 import { useForm } from "@/core/hooks/useForm";
 import useAuthStore from "@/core/store/auth";
-import { User } from "@/core/types/user";
-import { DocumentData, DocumentSnapshot } from "firebase/firestore";
 import { FormAuth } from "./components/formAuth";
 import { useLanguageStore } from "@/core/store/language";
 import {

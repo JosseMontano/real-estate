@@ -2,7 +2,7 @@ import { useForm } from "@/core/hooks/useForm";
 import { useModal } from "@/core/hooks/useModal";
 import useNavigation from "@/core/hooks/useNavigate";
 import useAuthStore from "@/core/store/auth";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { realEstateSchema } from "./validations/realEstates.schema";
 import FormComponent from "@/core/components/form/form";
 import { Input } from "@/core/components/form/input";
@@ -13,17 +13,23 @@ import useGet from "@/core/hooks/useGet";
 import { useLanguageStore } from "@/core/store/language";
 import Select from "@/core/components/form/select";
 import { getTheValues } from "./utils/getTheValues";
+import {
+  uploadBytes,
+  ref,
+  storage,
+  getDownloadURL,
+} from "@/core/libs/firebase";
 
 const DashboardPage = () => {
-
-
-
   const { language } = useLanguageStore();
   const { user } = useAuthStore();
   const { handleNavigate } = useNavigation();
   const { handleStateModal, isModalOpen } = useModal();
   const [location, setLocation] = useState<Location | null>(null);
   const [typeRE, setTypeRE] = useState("");
+
+  const [uploadStatus, setUploadStatus] = useState<string[]>([]);
+  const [fileUrls, setFileUrls] = useState<string[]>([]);
 
   const {
     register,
@@ -38,7 +44,7 @@ const DashboardPage = () => {
         const res = await getTheValues(data, location);
         data = res;
 
-        await addREToDB(data, user);
+        await addREToDB(data, user, fileUrls);
 
         handleStateModal();
         reset();
@@ -57,8 +63,41 @@ const DashboardPage = () => {
     if (user === null) {
       handleNavigate("/auth");
     }
-  
   }, [user]);
+
+
+
+  const handleImageSelection = async (event: ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files) {
+      const fileArray = Array.from(files);
+
+      const uploadPromises = fileArray.map(async (file) => {
+        const uniqueFileName = `${file.name}-${crypto.randomUUID()}`;
+        const nameFolder = user?.email?.split("@")[0];
+        const storageRef = ref(
+          storage,
+          `realEstates/${nameFolder}/${uniqueFileName}`
+        );
+
+        try {
+          await uploadBytes(storageRef, file);
+          const downloadUrl = await getDownloadURL(storageRef);
+          setFileUrls((prevUrls) => [...prevUrls, downloadUrl]); // Save U
+          setUploadStatus((prev) => [
+            ...prev,
+            `${file.name} uploaded successfully`,
+          ]);
+        } catch (error) {
+          setUploadStatus((prev) => [...prev, `Error uploading ${file.name}`]);
+          console.error(`Error uploading ${file.name}`, error);
+        }
+      });
+
+      await Promise.all(uploadPromises);
+      console.log("All files uploaded!");
+    }
+  };
 
   return (
     <div>
@@ -113,6 +152,20 @@ const DashboardPage = () => {
                     label: v.name[language],
                   }))}
                 />
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  onChange={handleImageSelection}
+                />
+                <div>
+                  <h3>Upload Status:</h3>
+                  <ul>
+                    {uploadStatus.map((status, index) => (
+                      <li key={index}>{status}</li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             }
             children2={<Map location={location} setLocation={setLocation} />}
