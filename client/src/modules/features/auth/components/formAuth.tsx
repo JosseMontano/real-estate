@@ -13,6 +13,7 @@ type ParamsType = {
     password: string;
     confirmPassword: string;
   }>;
+  handleLoginGoogle: () => void
   handleOnSubmit: (e?: React.BaseSyntheticEvent) => Promise<void>;
   errors: FieldErrors<{
     email: string;
@@ -26,6 +27,7 @@ export const FormAuth = ({
   handleOnSubmit,
   isSignUpPending,
   register,
+  handleLoginGoogle
 }: ParamsType) => {
   return (
     <div>
@@ -77,7 +79,7 @@ export const FormAuth = ({
         </p>
         <div className="flex justify-center space-x-4">
           <button className="bg-gray-200 p-3 rounded-full">
-            <GoogleIcon size={20} />
+            <GoogleIcon size={20} onClick={handleLoginGoogle} />
           </button>
         </div>
       </div>

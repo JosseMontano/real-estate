@@ -6,22 +6,16 @@ import { User } from "@/core/types/user";
 import { DocumentData, DocumentSnapshot } from "firebase/firestore";
 import { FormAuth } from "./components/formAuth";
 import { useLanguageStore } from "@/core/store/language";
-
-const createUserObject = (
-  doc: DocumentSnapshot<DocumentData, DocumentData>
-) => ({
-  id: doc.id,
-  email: doc.data()?.email,
-  userName: doc.data()?.userName,
-  cellphoneNumber: doc.data()?.cellphoneNumber,
-  qualification: doc.data()?.qualification,
-  codeRecuperation: doc.data()?.codeRecuperation,
-  role: doc.data()?.role,
-  available: doc.data()?.available,
-});
+import {
+  auth,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "@/core/libs/firebase";
+import { saveUser } from "./utils/saveUser";
+import { UserDTO } from "./api/dtos";
 
 export const AuthPage = () => {
-  const {texts}=useLanguageStore()
+  const { texts } = useLanguageStore();
   const { login } = useAuthStore();
   const {
     register,
@@ -31,29 +25,39 @@ export const AuthPage = () => {
   } = useForm({
     schema: userSchema,
     form: async (userData) => {
-      let userObject = {} as User;
-      const queryFindUser = await findUser(userData.email);
-
-      if (queryFindUser.empty) {
-        const doc = await addUserToDB(userData);
-        if (doc.exists()) userObject = createUserObject(doc);
-      } else {
-        queryFindUser.forEach((doc) => {
-          userObject = createUserObject(doc);
-        });
-      }
+      const userObject = await saveUser(userData);
       login(userObject);
     },
   });
+
+  const handleLoginGoogle = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      const credential = await signInWithPopup(auth, provider);
+      const userDto: UserDTO = {
+        email: credential.user?.email ?? "",
+        password: "",
+        confirmPassword: "",
+      };
+      const userObject = await saveUser(userDto);
+      login(userObject);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
-        <h2 className="text-2xl font-bold text-center mb-6">{texts.titleAuth}</h2>
+        <h2 className="text-2xl font-bold text-center mb-6">
+          {texts.titleAuth}
+        </h2>
         <FormAuth
           errors={errors}
           handleOnSubmit={handleOnSubmit}
           isSignUpPending={isSignUpPending}
           register={register}
+          handleLoginGoogle={handleLoginGoogle}
         />
       </div>
     </div>
