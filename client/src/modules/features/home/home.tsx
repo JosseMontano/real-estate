@@ -1,7 +1,6 @@
 import bgImage from "@/shared/assets/bg.jpg";
 import { Header } from "./components/header";
 import { TitleCenter } from "./components/titleCenter";
-import { SearchPropierties } from "./components/searchForm";
 import { SectionRealStates } from "./components/sectionRealEstates";
 import { Footer } from "./components/footer";
 import { Questions } from "./components/question";
@@ -9,9 +8,9 @@ import { fetchRealEstates } from "./api/endpoints";
 import useGet from "@/core/hooks/useGet";
 import { useEffect, useState } from "react";
 import { useModal } from "@/core/hooks/useModal";
-
 import Comments from "./components/comments";
 import { RealEstate } from "@/shared/types/realEstate";
+import { SearchPropierties } from "./components/searchPropierties";
 
 export const HomePage = () => {
   const [currentRealEstate, setCurrentRealEstate] = useState({} as RealEstate);
