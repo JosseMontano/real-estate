@@ -2,15 +2,19 @@ import bgImage from "@/shared/assets/bg.jpg";
 import { Header } from "./components/header";
 import { TitleCenter } from "./components/titleCenter";
 import { SearchPropierties } from "./components/searchForm";
-
 import { SectionRealStates } from "./components/sectionRealEstates";
 import { Footer } from "./components/footer";
 import { Questions } from "./components/question";
 import { fetchRealEstates } from "./api/endpoints";
 import useGet from "@/core/hooks/useGet";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useModal } from "@/core/hooks/useModal";
+
+import Comments from "./components/comments";
+import { RealEstate } from "@/shared/types/realEstate";
 
 export const HomePage = () => {
+  const [currentRealEstate, setCurrentRealEstate] = useState({} as RealEstate);
   const {
     data: realEstates,
     isLoading,
@@ -24,14 +28,20 @@ export const HomePage = () => {
     itemsPerPage: 3,
   });
 
+  const { handleStateModal, isModalOpen } = useModal();
+
+  const handleOpenCreateComment=(v:RealEstate)=>{
+    handleStateModal()
+    setCurrentRealEstate(v)
+  }
+
   useEffect(() => {
     return () => {
       // get by class
-      const sceneEl= document.querySelector(".a-fullscreen");
+      const sceneEl = document.querySelector(".a-fullscreen");
       if (sceneEl) sceneEl.remove();
     };
   }, []);
-
 
   return (
     <div>
@@ -51,7 +61,11 @@ export const HomePage = () => {
         amountOfPages={amountOfPages}
         handlePagination={handlePagination}
         currentPage={currentPage}
+        handleStateModal={handleOpenCreateComment}
       />
+
+      <Comments currentRealEstate={currentRealEstate} isModalOpen={isModalOpen} setIsModalOpen={handleStateModal} />
+
       {isLoading && <p>Loading...</p>}
 
       <Questions />

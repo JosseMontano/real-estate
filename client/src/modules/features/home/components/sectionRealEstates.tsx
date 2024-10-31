@@ -15,6 +15,7 @@ type Params = {
   amountOfPages: number;
   handlePagination: (page: number) => void;
   currentPage: number;
+  handleStateModal: (v:RealEstate) => void
 };
 
 export interface NearbyPlace {
@@ -24,6 +25,7 @@ export interface NearbyPlace {
     lng: number;
   };
   types: string[];
+  
 }
 export type State = "info" | "places";
 
@@ -32,7 +34,7 @@ export const SectionRealStates = ({
   firstElementRef,
   amountOfPages,
   handlePagination,
-  currentPage,
+  currentPage,handleStateModal
 }: Params) => {
   const { language } = useLanguageStore();
   const [places, setPlaces] = useState<{ [key: number]: NearbyPlace[] }>({});
@@ -94,7 +96,8 @@ export const SectionRealStates = ({
               item={item}
               language={language}
               states={states}
-            />
+handleStateModal={handleStateModal}
+/>
 
             <ExtraInfo
               index={index}
