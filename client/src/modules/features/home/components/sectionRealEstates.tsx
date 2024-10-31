@@ -7,8 +7,6 @@ type Params = {
 }
 
 export const SectionRealStates = ({realEstates}:Params) => {
-
-
   return (
     <div className="space-y-12 py-10">
       {realEstates.map((item, index) => (

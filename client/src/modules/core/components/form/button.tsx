@@ -3,9 +3,10 @@ import { primaryColor } from "@/const/colors";
 type Props = {
   isPending: boolean;
   text: string;
-  className?:string;
+  className?: string;
+  onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined;
 };
-const Btn = ({ isPending, text, className}: Props) => {
+const Btn = ({ isPending, text, className, onClick }: Props) => {
   //guardar... - gurdando  //iniciar iniciando... //publicar publicando...
   const textPending = text.slice(0, -1) + "ndo...";
   return (
@@ -14,6 +15,7 @@ const Btn = ({ isPending, text, className}: Props) => {
       disabled={isPending}
       style={{ background: primaryColor }}
       className={`w-full text-white py-2 rounded-lg hover:opacity-90 border-none focus:outline-none ${className}`}
+      onClick={onClick}
     >
       {isPending ? textPending : text}
     </button>

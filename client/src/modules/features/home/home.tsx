@@ -1,13 +1,13 @@
 import bgImage from "@/shared/assets/bg.jpg";
 import { Header } from "./components/header";
 import { TitleCenter } from "./components/titleCenter";
-import { SearchPropierties } from "./components/searchForm";
 
 import { SectionRealStates } from "./components/sectionRealEstates";
 import { Footer } from "./components/footer";
 import { Questions } from "./components/question";
 import { useQuery } from "@tanstack/react-query";
 import { fetchRealEstates } from "./api/endpoints";
+import { SearchPropierties } from "./components/searchPropierties";
 
 export const HomePage = () => {
   const {

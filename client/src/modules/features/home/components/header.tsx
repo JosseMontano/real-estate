@@ -22,7 +22,7 @@ export const Header = ({}: ParamsType) => {
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           className="md:hidden"
         >
-        <div className="text-2xl font-bold hidden md:block">Oakberry</div>
+          <div className="text-2xl font-bold hidden md:block">Oakberry</div>
           {/* Icono de hamburguesa */}
           <svg
             className="w-6 h-6"
@@ -39,7 +39,9 @@ export const Header = ({}: ParamsType) => {
           </svg>
         </button>
         <nav
-          className={`md:space-x-6 ${isMenuOpen ? "flex flex-col md:hidden" : "block"} `}
+          className={`md:space-x-6 ${
+            isMenuOpen ? "flex flex-col md:hidden" : "hidden md:block"
+          } `}
         >
           {links.map((linkText, index) => (
             <NavLink key={index} href="#" primaryColor={primaryColor}>
@@ -47,11 +49,13 @@ export const Header = ({}: ParamsType) => {
             </NavLink>
           ))}
         </nav>
-        <Btn
-          text="Enviar una propiedad"
-          isPending={false}
-          className="w-auto px-3 cursor-pointer "
-        />
+        <div className="max-w-max">
+          <Btn
+            text="Enviar una propiedad"
+            isPending={false}
+            className="w-auto px-3 cursor-pointer "
+          />
+        </div>
       </div>
     </header>
   );
