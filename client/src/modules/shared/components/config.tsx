@@ -9,11 +9,7 @@ export const Config = () => {
   const { texts, language, setLanguage } = useLanguageStore();
   const { handleStateModal, isModalOpen } = useModal();
 
-  const handleLanguageChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    setLanguage(event.target.value as "en" | "es" | "pt");
-  };
+
 
   return (
     <>
@@ -37,7 +33,7 @@ export const Config = () => {
 
               <Select
                 value={language}
-                onChange={handleLanguageChange}
+                onChange={(val)=> setLanguage(val)}
                 options={[
                   { value: "es", label: texts.language1Config },
                   { value: "en", label: texts.language2Config },

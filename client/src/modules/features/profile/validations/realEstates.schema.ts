@@ -24,4 +24,6 @@ export const realEstateSchema = z.object({
     .transform((val) => parseFloat(val))
     .refine((val) => !isNaN(val) && val > 0, { message: "Square meter must be a positive number" }),
   latLong: z.string().optional().or(z.literal('')),
-  address: z.string().optional().or(z.literal('')),});
+  address: z.string().optional().or(z.literal('')),
+});
+  

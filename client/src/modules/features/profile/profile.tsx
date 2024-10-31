@@ -19,6 +19,7 @@ import {
   storage,
   getDownloadURL,
 } from "@/core/libs/firebase";
+import { TypeRE } from "@/shared/types/realEstate";
 
 const DashboardPage = () => {
   const { language } = useLanguageStore();
@@ -26,7 +27,7 @@ const DashboardPage = () => {
   const { handleNavigate } = useNavigation();
   const { handleStateModal, isModalOpen } = useModal();
   const [location, setLocation] = useState<Location | null>(null);
-  const [typeRE, setTypeRE] = useState("");
+  const [typeRE, setTypeRE] = useState({} as TypeRE);
 
   const [uploadStatus, setUploadStatus] = useState<string[]>([]);
   const [fileUrls, setFileUrls] = useState<string[]>([]);
@@ -44,7 +45,7 @@ const DashboardPage = () => {
         const res = await getTheValues(data, location);
         data = res;
 
-        await addREToDB(data, user, fileUrls);
+        await addREToDB(data, user, fileUrls, typeRE);
 
         handleStateModal();
         reset();
@@ -146,10 +147,12 @@ const DashboardPage = () => {
                 />
                 <Select
                   value={typeRE}
-                  onChange={(e) => setTypeRE(e.target.value)}
+                  onChange={(val:TypeRE) => {
+                    setTypeRE(val);
+                  }}
                   options={data?.map((v) => ({
                     value: v.name[language],
-                    label: v.name[language],
+                    id: v.id,
                   }))}
                 />
                 <input

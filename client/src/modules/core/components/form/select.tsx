@@ -1,31 +1,47 @@
-type OptionsType = {
-  value: string;
-  label: string;
-};
+import React, { useState } from "react";
 
-type Props = {
+interface Option {
   value: string;
-  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-  options: OptionsType[];
-};
-const Select = ({ options, onChange, value }: Props) => {
+  id?: string;
+}
+
+interface SelectProps {
+  value: any;
+  onChange: (value: any) => void;
+  options: Option[];
+}
+
+const CustomSelect: React.FC<SelectProps> = ({ value, onChange, options }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleOptionClick = (option: Option) => {
+    onChange(option);
+    setIsOpen(false);
+  };
+
   return (
-    <select
-      value={value}
-      onChange={onChange}
-      className="block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-    >
-      {options.map((option) => (
-        <option
-          key={option.value}
-          value={option.value}
-          className="text-gray-900"
-        >
-          {option.label}
-        </option>
-      ))}
-    </select>
+    <div className="relative inline-block w-full">
+      <div
+        className="block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm cursor-pointer"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        {value.value || "Selecionar..."}
+      </div>
+      {isOpen && (
+        <ul className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg">
+          {options.map((option) => (
+            <li
+              key={option.value}
+              className="px-3 py-2 cursor-pointer hover:bg-gray-200"
+              onClick={() => handleOptionClick(option)}
+            >
+              {option.value}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 };
 
-export default Select;
+export default CustomSelect;

@@ -14,6 +14,8 @@ import { LanguageDB } from "./language";
     address: string;
     userId: string;
     user: User;
+    typeRE:TypeRE
+    typeREId:string
     images:string[]
   }
 

@@ -6,7 +6,8 @@ import { User } from "@/core/types/user";
 export async function addREToDB(
   realEstatData: RealEstateDTO,
   user: User,
-  imgs: string[]
+  imgs: string[],
+  typeRE:TypeRE
 ) {
   const realestate: RealEstate = {
     address: realEstatData.address ?? "",
@@ -29,6 +30,8 @@ export async function addREToDB(
     userId: user.id ?? "",
     user: user,
     images: imgs,
+    typeRE:typeRE,
+    typeREId: typeRE.id ?? "",
   };
 
   await addDoc(collection(db, "realEstates"), realestate);
