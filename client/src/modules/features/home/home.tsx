@@ -8,6 +8,7 @@ import { Footer } from "./components/footer";
 import { Questions } from "./components/question";
 import { fetchRealEstates } from "./api/endpoints";
 import useGet from "@/core/hooks/useGet";
+import { useEffect } from "react";
 
 export const HomePage = () => {
   const {
@@ -22,6 +23,16 @@ export const HomePage = () => {
     queryKey: "realEstates",
     itemsPerPage: 3,
   });
+
+  useEffect(() => {
+    return () => {
+      // get by class
+      const sceneEl= document.querySelector(".a-fullscreen");
+      if (sceneEl) sceneEl.remove();
+    };
+  }, []);
+
+
   return (
     <div>
       <div

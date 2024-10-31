@@ -15,6 +15,9 @@ import Select from "@/core/components/form/select";
 import { getTheValues } from "./utils/getTheValues";
 
 const DashboardPage = () => {
+
+
+
   const { language } = useLanguageStore();
   const { user } = useAuthStore();
   const { handleNavigate } = useNavigation();
@@ -54,6 +57,7 @@ const DashboardPage = () => {
     if (user === null) {
       handleNavigate("/auth");
     }
+  
   }, [user]);
 
   return (

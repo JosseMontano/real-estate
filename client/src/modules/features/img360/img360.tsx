@@ -3,21 +3,22 @@ import { handlePost } from "@/core/utils/fetch";
 import { useEffect, useState } from "react";
 
 const Img360 = () => {
-  const {url} =use360photo()
+  const { url } = use360photo();
+
   const [img, setImg] = useState("");
 
   useEffect(() => {
     const handleGetImage = async () => {
       try {
         const res = await handlePost("fetch_image", { url }, true);
-        
-        const base64data = await new Promise((resolve) => {
+
+        const base64data = (await new Promise((resolve) => {
           const reader = new FileReader();
           //@ts-ignore
           reader.onloadend = () => resolve(reader.result);
           //@ts-ignore
           reader.readAsDataURL(res);
-        }) as string;
+        })) as string;
         setImg(base64data);
       } catch (error) {
         console.error("Error fetching image:", error);
@@ -27,6 +28,13 @@ const Img360 = () => {
     handleGetImage();
   }, [url]);
 
+  useEffect(() => {
+    return () => {
+      const sceneEl = document.querySelector(".a-fullscreen");
+      if (sceneEl) sceneEl.classList.remove("a-fullscreen"); 
+    };
+  }, []);
+  
   return (
     <>
       {img && (
