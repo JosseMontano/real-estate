@@ -6,7 +6,7 @@ from pydantic import BaseModel
 import requests
 import os
 from dotenv import load_dotenv
-
+import time
 # Load environment variables from .env file
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(BASEDIR, '.env'))
@@ -50,23 +50,45 @@ def index():
     return {"Choo Choo": "Welcome to the API realEstates 🚅"}
 
 
+
 @app.post('/api/translate')
 def translate_es_en(request: TranslateRequest):
     translator = Translator()
-    translation = translator.translate(request.val, src="es", dest="en")
-    value_en = translation.text
+    max_retries = 5
+    delay_between_retries = 1  # seconds
 
-    translation_pt = translator.translate(value_en, src="en", dest="pt")
-    value_pt = translation_pt.text
+    for attempt in range(max_retries):
+        try:
+            # Translate from Spanish to English
+            translation = translator.translate(request.val, src="es", dest="en")
+            value_en = translation.text if translation and translation.text else None
 
-    return {
-        "val": {
-            "valEs": request.val,
-            "valEn": value_en,
-            "valPt": value_pt
-        }
-    }
+            # If we didn't get a translation, retry
+            if not value_en:
+                raise ValueError("Empty translation for Spanish to English")
 
+            # Translate from English to Portuguese
+            translation_pt = translator.translate(value_en, src="en", dest="pt")
+            value_pt = translation_pt.text if translation_pt and translation_pt.text else None
+
+            # If we didn't get a translation, retry
+            if not value_pt:
+                raise ValueError("Empty translation for English to Portuguese")
+
+            # If both translations are successful, return the result
+            return {
+                "val": {
+                    "valEs": request.val,
+                    "valEn": value_en,
+                    "valPt": value_pt
+                }
+            }
+        except Exception as e:
+            print(f"Attempt {attempt + 1} failed with error: {e}")
+            time.sleep(delay_between_retries)  # Wait before retrying
+
+    # If all attempts fail, raise an HTTP 500 error
+    raise HTTPException(status_code=500, detail="A server error occurred during translation.")
 
 @app.post('/api/real-estate')
 def post_company_api(request: RealEstateRequest):
