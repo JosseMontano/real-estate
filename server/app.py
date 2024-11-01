@@ -3,10 +3,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from googletrans import Translator
 from geopy.geocoders import Nominatim
 from pydantic import BaseModel
+from email.message import EmailMessage
 import requests
 import os
 from dotenv import load_dotenv
 import time
+import ssl
+import smtplib
 # Load environment variables from .env file
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(BASEDIR, '.env'))
@@ -26,6 +29,8 @@ app.add_middleware(
 
 # Get the Google Maps API key from environment variables
 GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY')
+PASSWORD_EMAIL=os.getenv('PASSWORD_EMAIL')
+EMAIL_SENDER=os.getenv('EMAIL_SENDER')
 
 
 class TranslateRequest(BaseModel):
@@ -43,7 +48,10 @@ class NearbyPlacesRequest(BaseModel):
 class FetchImageRequest(BaseModel):  # Added request model for fetch_image
     url: str
 
-
+class EmailRequest(BaseModel):
+    email_receiver: str
+    subject: str
+    msg: str
 
 @app.get('/')
 def index():
@@ -145,6 +153,22 @@ def fetch_image(request: FetchImageRequest):  # Changed to use request body
     except requests.exceptions.RequestException as e:
         # Maneja errores si la solicitud falla
         raise HTTPException(status_code=400, detail=str(e))
+
+@app.post('/api/send_email')
+def send_email(request: EmailRequest):
+    email_receiver = request.email_receiver
+    em = EmailMessage()
+    em["From"] = EMAIL_SENDER
+    em["To"] = email_receiver
+    em["Subject"] = request.subject
+    em.set_content(request.msg)
+
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+        server.login(EMAIL_SENDER, PASSWORD_EMAIL)
+        server.sendmail(EMAIL_SENDER, email_receiver, em.as_string())
+
+    return {"val": "Email sent successfully"}
 
 # Run the application
 if __name__ == '__main__':
