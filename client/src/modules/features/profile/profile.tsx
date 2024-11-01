@@ -4,14 +4,8 @@ import useNavigation from "@/core/hooks/useNavigate";
 import useAuthStore from "@/core/store/auth";
 import { ChangeEvent, useEffect, useState } from "react";
 import { realEstateSchema } from "./validations/realEstates.schema";
-import FormComponent from "@/core/components/form/form";
-import { Input } from "@/core/components/form/input";
-import { addREToDB, fetchTypesRE } from "./api/endpoints";
-import { ShowModal } from "@/core/components/form/modal";
-import { Location, Map } from "@/core/components/map/maps";
-import useGet from "@/core/hooks/useGet";
-import { useLanguageStore } from "@/core/store/language";
-import Select from "@/core/components/form/select";
+import { addREToDB } from "./api/endpoints";
+import { Location } from "@/core/components/map/maps";
 import { getTheValues } from "./utils/getTheValues";
 import {
   uploadBytes,
@@ -20,9 +14,14 @@ import {
   getDownloadURL,
 } from "@/core/libs/firebase";
 import { TypeRE } from "@/shared/types/realEstate";
+import { ModalCreatePropierty } from "./components/modalCreatePropierty";
+import { ProfileHeader } from "./components/profileHeader";
+import { ContactInfo } from "./components/contactInfo";
+import { PublicationsAndFavorites } from "./components/publicationsAndFavorites";
+import { useQuery } from "@tanstack/react-query";
+import { fetchRealEstates } from "../home/api/endpoints";
 
 const DashboardPage = () => {
-  const { language } = useLanguageStore();
   const { user } = useAuthStore();
   const { handleNavigate } = useNavigation();
   const { handleStateModal, isModalOpen } = useModal();
@@ -31,6 +30,8 @@ const DashboardPage = () => {
 
   const [uploadStatus, setUploadStatus] = useState<string[]>([]);
   const [fileUrls, setFileUrls] = useState<string[]>([]);
+
+  const { handleStateModal: handleShowRE, isModalOpen: ShowRE } = useModal();
 
   const {
     register,
@@ -53,20 +54,11 @@ const DashboardPage = () => {
     },
   });
 
-  const { data } = useGet({
-    itemsPerPage: 10,
-
-    queryKey: "type-realEstates",
-    services: fetchTypesRE,
-  });
-
   useEffect(() => {
     if (user === null) {
       handleNavigate("/auth");
     }
   }, [user]);
-
-
 
   const handleImageSelection = async (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -100,81 +92,40 @@ const DashboardPage = () => {
     }
   };
 
-  return (
-    <div>
-      <button onClick={handleStateModal}> crar </button>
+  const { isLoading } = useQuery({
+    queryKey: ["realEstate"],
+    queryFn: () => fetchRealEstates(),
+  });
 
-      <ShowModal
-        title="Crear inmueble"
-        isModalOpen={isModalOpen}
-        setIsModalOpen={handleStateModal}
-        children={
-          <FormComponent
+  return (
+    <div className="flex h-screen  m-5">
+      <div className="grid grid-cols-1 md:grid-cols-2">
+        <div className="w-full ">
+          <ProfileHeader />
+        </div>
+        <div className=" w-full  mt-6 md:mt-0 ">
+          <ModalCreatePropierty
+            errors={errors}
             handleOnSubmit={handleOnSubmit}
-            isPending={isPendingRealEstate}
-            btnText="Guardar"
-            children={
-              <div className="grid grid-cols-2 gap-3">
-                <Input
-                  text="Titulo"
-                  error={errors.titleEs}
-                  register={register("titleEs")}
-                />
-                <Input
-                  text="Descripcion"
-                  error={errors.descriptionEs}
-                  register={register("descriptionEs")}
-                />
-                <Input
-                  text="Precio"
-                  error={errors.price}
-                  register={register("price")}
-                />
-                <Input
-                  text="Habitaciones"
-                  error={errors.amountBedroom}
-                  register={register("amountBedroom")}
-                />
-                <Input
-                  text="Baños"
-                  error={errors.amountBathroom}
-                  register={register("amountBathroom")}
-                />
-                <Input
-                  text="Metros cuadrados"
-                  error={errors.squareMeter}
-                  register={register("squareMeter")}
-                />
-                <Select
-                  value={typeRE}
-                  onChange={(val:TypeRE) => {
-                    setTypeRE(val);
-                  }}
-                  options={data?.map((v) => ({
-                    value: v.name[language],
-                    id: v.id,
-                  }))}
-                />
-                <input
-                  type="file"
-                  multiple
-                  accept="image/*"
-                  onChange={handleImageSelection}
-                />
-                <div>
-                  <h3>Upload Status:</h3>
-                  <ul>
-                    {uploadStatus.map((status, index) => (
-                      <li key={index}>{status}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            }
-            children2={<Map location={location} setLocation={setLocation} />}
+            handleStateModal={handleStateModal}
+            isModalOpen={isModalOpen}
+            handleImageSelection={handleImageSelection}
+            isPendingRE={isPendingRealEstate}
+            uploadStatus={uploadStatus}
+            setTypeRE={setTypeRE}
+            typeRE={typeRE}
+            location={location}
+            setLocation={setLocation}
+            register={register}
           />
-        }
-      />
+          <ContactInfo />
+          <PublicationsAndFavorites
+            isModalOpen={ShowRE}
+            handleStateModal={handleShowRE}
+          />
+          {isLoading && <p>Loading...</p>}
+        </div>
+      </div>
     </div>
   );
 };
