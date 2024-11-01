@@ -9,6 +9,7 @@ import {
 import { RealEstate } from "@/shared/types/realEstate";
 import { User } from "@/core/types/user";
 
+
 export async function addQuestionToDB(
   userData: QuestionDTO
 ) {
@@ -32,7 +33,9 @@ export async function addCommentToDB(commentData:CommentDTO, realEstate:RealEsta
     },
     realEstate:realEstate,
     commentator:user,
-    amountStars:5
+    amountStars:5,
+    realEstateId:realEstate.id ?? "",
+    commentatorId:user.id ?? "",
   }
   await addDoc(collection(db,"comments"),comment)
 }

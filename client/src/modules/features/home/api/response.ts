@@ -13,6 +13,8 @@ export type Comment={
     realEstate:RealEstate
     commentator: User
     amountStars:number
+    realEstateId:string
+    commentatorId:string
 }
   
   
