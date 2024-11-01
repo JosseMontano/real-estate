@@ -4,7 +4,7 @@ export type User = {
     userName: string;
     cellphoneNumber: string;
     email: string;
-    qualification: number;
+    qualification: string;
     codeRecuperation: string;
     role: number; // 1: admin, 2: user
     available: boolean;

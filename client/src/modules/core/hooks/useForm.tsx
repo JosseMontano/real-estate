@@ -1,17 +1,19 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { useForm as useFormHook } from "react-hook-form";
+import { DefaultValues, useForm as useFormHook } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
 import { useEffect } from "react";
 type ParamsType<T extends z.ZodType<any, any>> = {
   schema: T;
   form: (data: z.infer<T>) => Promise<any>;
+  defaultVales?: DefaultValues<z.TypeOf<T>>
 };
 
 export const useForm = <T extends z.ZodType<any, any>>({
   schema,
   form,
+  defaultVales
 }: ParamsType<T>) => {
   type FormType = z.infer<T>;
   const {
@@ -20,6 +22,7 @@ export const useForm = <T extends z.ZodType<any, any>>({
     formState: { errors },
   } = useFormHook<FormType>({
     resolver: zodResolver(schema),
+    defaultValues:defaultVales
   });
 
   const { mutate, isPending, isError, error, isSuccess } = useMutation({
