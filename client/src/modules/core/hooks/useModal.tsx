@@ -1,38 +1,43 @@
 import { useState } from "react";
 
 export type ModalType = {
-    children: React.ReactNode;
-    title: string;
+  children: React.ReactNode;
+  title: string;
+  modalId: string;
 };
 export const useModal = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalStates, setModalStates] = useState<{ [Key: string]: boolean }>(
+    {}
+  );
 
-  const handleStateModal = () => {
-    setIsModalOpen((prev) => !prev);
+  const handleStateModal = (modalId: string) => {
+    setModalStates((prev) => ({
+      ...prev,
+      [modalId]: !prev[modalId],
+    }));
   };
 
-  function ShowModal({ children, title }: ModalType) {
+  function ShowModal({ children, title, modalId }: ModalType) {
     return (
       <>
-        {isModalOpen && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" onClick={(e)=>{
-            if (e.target === e.currentTarget) {
-                setIsModalOpen(false);
+        {modalStates[modalId] && (
+          <div
+            className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                handleStateModal(modalId);
               }
-          }}>
+            }}
+          >
             <div
               style={{
                 animation: "modal 0.7s ease-out",
               }}
-              className={`bg-white p-5 rounded-lg shadow-lg transform transition-transform duration-300 ${
-                isModalOpen
-                  ? "translate-y-0 opacity-100"
-                  : "-translate-y-full opacity-0"
-              }`}
+              className="bg-white p-5 rounded-lg shadow-lg transform transition-transform duration-300 translate-y-0 opacity-100"
             >
-              <span
+               <span
                 className="absolute top-0 right-2 cursor-pointer"
-                onClick={() => setIsModalOpen(false)}
+                onClick={() => handleStateModal(modalId)}
               >
                 x
               </span>
@@ -46,7 +51,7 @@ export const useModal = () => {
   }
 
   return {
-    isModalOpen,
+    modalStates,
     handleStateModal,
     ShowModal,
   };

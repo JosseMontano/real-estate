@@ -34,6 +34,7 @@ export const ModalCreatePropierty = ({
       />
       {isModalOpen && (
         <ShowModal
+        modalId="createProperty"
           title="Crear inmueble"
           children={
             <FormComponent

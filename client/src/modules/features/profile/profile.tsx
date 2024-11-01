@@ -15,7 +15,7 @@ import { fetchRealEstates } from "../home/api/endpoints";
 const DashboardPage = () => {
   const { user } = useAuthStore();
   const { handleNavigate } = useNavigation();
-  const { ShowModal, handleStateModal, isModalOpen } = useModal();
+  const { ShowModal, handleStateModal, modalStates } = useModal();
 
   const {
     register,
@@ -52,17 +52,17 @@ const DashboardPage = () => {
             ShowModal={ShowModal}
             errors={errors}
             handleOnSubmit={handleOnSubmit}
-            handleStateModal={handleStateModal}
-            isModalOpen={isModalOpen}
+            handleStateModal={() => handleStateModal("createProperty")}
+            isModalOpen={modalStates["createProperty"] || false}
             isPendingRe={isPendingRealEstate}
             register={register}
           />
           <ContactInfo />
-          <PublicationsAndFavorites
-            ShowModal={ShowModal}
-            handleStateModal={handleStateModal}
-            isModalOpen={isModalOpen}
-          />
+            <PublicationsAndFavorites
+              ShowModal={ShowModal}
+              handleStateModal={handleStateModal}
+              modalStates={modalStates}
+            />
           {isLoading && <p>Loading...</p>}
         </div>
       </div>
