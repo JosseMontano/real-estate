@@ -78,8 +78,8 @@ export const FormAuth = ({
           <span>inicia con</span>
         </p>
         <div className="flex justify-center space-x-4">
-          <button className="bg-gray-200 p-3 rounded-full">
-            <GoogleIcon size={20} onClick={handleLoginGoogle} />
+          <button className="p-[10px] border  border-gray-200 rounded-lg">
+            <GoogleIcon size={29} onClick={handleLoginGoogle}/>
           </button>
         </div>
       </div>
