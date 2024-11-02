@@ -19,7 +19,7 @@ const FormComponent = ({
   const [currentVisible, setCurrentVisible] = useState(1);
 
   return (
-    <form onSubmit={handleOnSubmit}>
+    <form onSubmit={handleOnSubmit} className="flex flex-col gap-2">
       {currentVisible == 1 && children}
       {currentVisible == 2 && children2}
 
