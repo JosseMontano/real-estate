@@ -33,7 +33,7 @@ export const ModalEditUser = ({
     },
     defaultVales:user? user : {} as User
   });
-  console.log(user);
+
   return (
     <div className="">
       <Btn

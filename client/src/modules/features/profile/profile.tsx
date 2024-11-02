@@ -4,7 +4,7 @@ import useNavigation from "@/core/hooks/useNavigate";
 import useAuthStore from "@/core/store/auth";
 import { useEffect, useState } from "react";
 import { realEstateSchema } from "./validations/realEstates.schema";
-import { addREToDB, fetchUser } from "./api/endpoints";
+import { addREToDB, fetchCommentsForUser } from "./api/endpoints";
 import { ModalCreatePropierty } from "./components/modalCreatePropierty";
 import { ProfileHeader } from "./components/profileHeader";
 import { ContactInfo } from "./components/contactInfo";
@@ -18,7 +18,6 @@ const DashboardPage = () => {
   const { user } = useAuthStore();
   const { handleNavigate } = useNavigation();
   const { ShowModal, handleStateModal, modalStates } = useModal();
-
   const {
     register,
     handleOnSubmit,
@@ -49,6 +48,13 @@ const DashboardPage = () => {
   const handleImageUpload = (url: string) => {
     setProfileImageUrl(url);
   };
+
+  const { isLoading: loadingComments, data: comments } = useQuery({
+    queryKey: ["comments"],
+    queryFn: () => fetchCommentsForUser(user?.id || ""),
+  });
+  console.log(comments);
+  console.log(user?.id);
   return (
     <div className="flex h-screen  m-5">
       <div className="grid grid-cols-1 md:grid-cols-2">
@@ -59,6 +65,8 @@ const DashboardPage = () => {
             ShowModal={ShowModal}
             handleStateModal={() => handleStateModal("editImageUser")}
             isModalOpen={modalStates["editImageUser"] || false}
+            commets={comments ?? []}
+            loading={loadingComments}
           />
         </div>
         <div className=" w-full  mt-6 md:mt-0 ">

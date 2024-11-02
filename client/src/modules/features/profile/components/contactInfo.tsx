@@ -12,7 +12,6 @@ type ParamsType = {
   user: User;
 };
 export const ContactInfo = ({ user }: ParamsType) => {
-  console.log(5 - Number(user.qualification));
   return (
     <div className="mt-6 flex flex-col gap-2">
       <label className="font-bold">Correo</label>

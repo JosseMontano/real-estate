@@ -7,7 +7,6 @@ import {
 } from "@/core/libs/firebase";
 import Btn from "@/core/components/form/button";
 import { ModalType } from "@/core/hooks/useModal";
-import { primaryColor } from "@/const/colors";
 import { UploadImage } from "@/shared/assets/icons/uploadImage";
 type ParamasType = {
   onImageUpload: (url: string) => void;
@@ -50,7 +49,6 @@ export const ProfileImageUploader: React.FC<ParamasType> = ({
   const handleChangeUrl = (url: string) => {
     setURL(url);
   };
-  console.log(URL);
   return (
     <div className="flex flex-col gap-4">
       <Btn

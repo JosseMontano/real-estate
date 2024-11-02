@@ -1,4 +1,4 @@
-import {  getDocs } from "firebase/firestore";
+import { getDocs } from "firebase/firestore";
 import { RealEstate } from "../../../shared/types/realEstate";
 import { RealEstateDTO } from "./dtos"
 import {
@@ -6,9 +6,12 @@ import {
   addDoc,
   collection,
   doc,
-  updateDoc
+  updateDoc,
+  query,
+  where
 } from "@/core/libs/firebase";
 import { User } from "@/core/types/user";
+import { Comments } from "@/core/types/commets";
 
 export async function addREToDB(
   realEstatData: RealEstateDTO,
@@ -41,16 +44,19 @@ export const fetchUser = async (): Promise<User[]> => {
 }
 
 export const editUser = async (userId: string, updatedData: Partial<User>): Promise<void> => {
-  // Referencia al documento del usuario en Firestore
   const userRef = doc(db, "users", userId);
-  
-
   try {
-    // Actualiza el documento con los nuevos datos
     await updateDoc(userRef, updatedData);
-    console.log("Usuario actualizado correctamente");
   } catch (error) {
-    console.error("Error al actualizar el usuario:", error);
-    throw error; // Propaga el error si necesitas manejarlo en otro lugar
+    throw error;
   }
 };
+
+export const fetchCommentsForUser = async (userId: string): Promise<Comments[]> => {
+  const q = query(collection(db, "comments"), where("realEstate.userId", "==", userId));
+  const querySnapshot = await getDocs(q);
+  return querySnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...(doc.data() as Comments)
+  }));
+}
