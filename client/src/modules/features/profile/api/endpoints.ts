@@ -13,27 +13,41 @@ import {
 import { User } from "@/core/types/user";
 import { Commentator, Comments, CommentT } from "@/core/types/commets";
 
+
 export async function addREToDB(
   realEstatData: RealEstateDTO,
-  user: User
+  user: User,
+  imgs: string[],
+  typeRE: TypeRE
 ) {
   const realestate: RealEstate = {
-    address: realEstatData.address,
+    address: realEstatData.address ?? "",
     amountBathroom: realEstatData.amountBathroom,
     amountBedroom: realEstatData.amountBedroom,
-    description: realEstatData.description,
-    latLong: realEstatData.latLong,
+    description: {
+      es: realEstatData.descriptionEs,
+      en: realEstatData.descriptionEn ?? "",
+      pt: realEstatData.descriptionPt ?? "",
+    },
+    latLong: realEstatData.latLong ?? "",
     price: realEstatData.price,
     squareMeter: realEstatData.squareMeter,
-    title: realEstatData.title,
+    title: {
+      es: realEstatData.titleEs,
+      en: realEstatData.titleEn ?? "",
+      pt: realEstatData.titlePt ?? "",
+    },
     available: true,
     userId: user.id ?? "",
     user: user,
+    images: imgs,
+    typeRE: typeRE,
+    typeREId: typeRE.id ?? "",
   };
 
   await addDoc(collection(db, "realEstates"), realestate);
-
 }
+
 
 export async function fetchTypesRE(): Promise<TypeRE[]> {
   const querySnapshot = await getDocs(collection(db, "type_real_estates"));

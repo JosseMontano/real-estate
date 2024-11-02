@@ -13,14 +13,28 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchRealEstates } from "../home/api/endpoints";
 import { User } from "@/core/types/user";
 import { ModalEditUser } from "./components/modalEditUser";
-import { ref, storage, uploadBytes, getDownloadURL } from "@/core/libs/firebase";
+import {
+  ref,
+  storage,
+  uploadBytes,
+  getDownloadURL,
+} from "@/core/libs/firebase";
 import { TypeRE } from "@/shared/types/realEstate";
 import { Location } from "@/core/components/map/maps";
 
 const DashboardPage = () => {
   const { user } = useAuthStore();
   const { handleNavigate } = useNavigation();
-  const { ShowModal, handleStateModal, modalStates } = useModal();
+  const {
+    handleStateModal: handleShowAddComment,
+    isModalOpen: isAddCommentOpen,
+  } = useModal();
+  const { handleStateModal: handleShowEditUser, isModalOpen: isEditUserOpen } =
+    useModal();
+  const { handleStateModal: handleShowCreateRE, isModalOpen: isCreateREOpen } =
+    useModal();
+  const { handleStateModal: handleShowFav, isModalOpen: isFavOpen } =
+    useModal();
   const {
     register,
     handleOnSubmit,
@@ -56,7 +70,6 @@ const DashboardPage = () => {
     queryKey: ["comments"],
     queryFn: () => fetchCommentsForUser(user?.id || ""),
   });
-
 
   const [uploadStatus, setUploadStatus] = useState<string[]>([]);
   const [fileUrls, setFileUrls] = useState<string[]>([]);
@@ -101,9 +114,8 @@ const DashboardPage = () => {
           <ProfileHeader
             handleImageUpload={handleImageUpload}
             profileImageUrl={profileImageUrl}
-            ShowModal={ShowModal}
-            handleStateModal={() => handleStateModal("editImageUser")}
-            isModalOpen={modalStates["editImageUser"] || false}
+            handleShowModal={handleShowAddComment}
+            isModalOpen={isAddCommentOpen}
             commets={comments ?? []}
             loading={loadingComments}
             user={user}
@@ -112,31 +124,29 @@ const DashboardPage = () => {
         <div className=" w-full  mt-6 md:mt-0 ">
           <div className="flex gap-5 justify-end">
             <ModalEditUser
-              ShowModal={ShowModal}
-              handleStateModal={() => handleStateModal("editUser")}
-              isModalOpen={modalStates["editUser"] || false}
+              isModalOpen={isEditUserOpen}
+              handleShowModal={handleShowEditUser}
             />
-           <ModalCreatePropierty
-            errors={errors}
-            handleOnSubmit={handleOnSubmit}
-            handleStateModal={handleStateModal}
-            isModalOpen={isModalOpen}
-            handleImageSelection={handleImageSelection}
-            isPendingRE={isPendingRealEstate}
-            uploadStatus={uploadStatus}
-            setTypeRE={setTypeRE}
-            typeRE={typeRE}
-            location={location}
-            setLocation={setLocation}
-            register={register}
-          />
+            <ModalCreatePropierty
+              errors={errors}
+              handleOnSubmit={handleOnSubmit}
+              handleStateModal={handleShowCreateRE}
+              isModalOpen={isCreateREOpen}
+              handleImageSelection={handleImageSelection}
+              isPendingRE={isPendingRealEstate}
+              uploadStatus={uploadStatus}
+              setTypeRE={setTypeRE}
+              typeRE={typeRE}
+              location={location}
+              setLocation={setLocation}
+              register={register}
+            />
           </div>
 
           <ContactInfo user={user ? user : ({} as User)} />
           <PublicationsAndFavorites
-            ShowModal={ShowModal}
-            handleStateModal={handleStateModal}
-            modalStates={modalStates}
+            handleShowModal={handleShowFav}
+            isModalOpen={isFavOpen}
           />
           {isLoading && <p>Loading...</p>}
         </div>

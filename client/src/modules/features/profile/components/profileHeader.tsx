@@ -1,9 +1,7 @@
 import { StarFill } from "@/shared/assets/icons/starFill";
 import imgDefault from "@/shared/assets/profile.jpeg";
 import { ProfileImageUploader } from "./changeImagePerfil";
-import { ModalType } from "@/core/hooks/useModal";
 import { Comments } from "@/core/types/commets";
-import Btn from "@/core/components/form/button";
 import FormComponent from "@/core/components/form/form";
 import { useForm } from "@/core/hooks/useForm";
 import { commentSchema } from "../validations/comment.schema";
@@ -13,9 +11,8 @@ import { User } from "@/core/types/user";
 type ParamasType = {
   profileImageUrl: string | null;
   handleImageUpload: (url: string) => void;
-  handleStateModal: () => void;
-  isModalOpen: Boolean;
-  ShowModal: ({ children, title, modalId }: ModalType) => JSX.Element;
+  isModalOpen: boolean;
+  handleShowModal: () => void
   commets: Comments[];
   loading: boolean;
   user: User;
@@ -23,8 +20,7 @@ type ParamasType = {
 export const ProfileHeader = ({
   handleImageUpload,
   profileImageUrl,
-  ShowModal,
-  handleStateModal,
+  handleShowModal,
   isModalOpen,
   commets,
   loading,
@@ -70,10 +66,10 @@ export const ProfileHeader = ({
         <div>
           <ProfileImageUploader
             onImageUpload={handleImageUpload}
-            ShowModal={ShowModal}
-            handleStateModal={handleStateModal}
+            handleShowModal={handleShowModal}
             isModalOpen={isModalOpen}
-          />
+
+/>
         </div>
       </div>
 

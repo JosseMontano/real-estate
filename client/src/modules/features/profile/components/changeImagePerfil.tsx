@@ -6,19 +6,18 @@ import {
   getDownloadURL,
 } from "@/core/libs/firebase";
 import Btn from "@/core/components/form/button";
-import { ModalType } from "@/core/hooks/useModal";
+
 import { UploadImage } from "@/shared/assets/icons/uploadImage";
+import { ShowModal } from "@/core/components/form/modal";
 type ParamasType = {
   onImageUpload: (url: string) => void;
-  handleStateModal: () => void;
-  isModalOpen: Boolean;
-  ShowModal: ({ children, title, modalId }: ModalType) => JSX.Element;
+  isModalOpen: boolean;
+  handleShowModal: () => void;
 };
 
 export const ProfileImageUploader: React.FC<ParamasType> = ({
   onImageUpload,
-  ShowModal,
-  handleStateModal,
+  handleShowModal,
   isModalOpen,
 }) => {
   const [image, setImage] = useState<File | null>(null);
@@ -55,49 +54,46 @@ export const ProfileImageUploader: React.FC<ParamasType> = ({
         isPending={false}
         text="Editar imagen"
         className="max-w-max px-2"
-        onClick={handleStateModal}
+        onClick={handleShowModal}
       />
-      {isModalOpen && (
-        <ShowModal
-          modalId="editImageUser"
-          title="Cambiar foto de perfil"
-          children={
-            <div className="flex flex-col gap-2 ">
-              {URL ? (
-                <img className="w-96" src={URL} alt="Profile" />
-              ) : (
-                <p>No hay imagen de perfil</p>
-              )}
-              <input
-                type="file"
-                id="fileInput"
-                onChange={handleImageChange}
-                className="hidden"
-              />
-              <div
-                className="flex max-w-max p-2  gap-2 rounded-lg"
-                style={{ background: "#353535" }}
-              >
-                <UploadImage size="20" />
-                <label
-                  htmlFor="fileInput"
-                  className="text-white cursor-pointer"
-                >
-                  Buscar imagen
-                </label>
-              </div>
-              <p>{fileName || ""}</p>
-              {/* Muestra el nombre del archivo o vacío */}
-              <Btn
-                isPending={false}
-                text={loading ? "Subiendo..." : "Subir imagen"}
-                className="max-w-max px-2"
-                onClick={handleUpload}
-              />
+
+      <ShowModal
+        title="Cambiar foto de perfil"
+        isModalOpen={isModalOpen}
+        setIsModalOpen={handleShowModal}
+        children={
+          <div className="flex flex-col gap-2 ">
+            {URL ? (
+              <img className="w-96" src={URL} alt="Profile" />
+            ) : (
+              <p>No hay imagen de perfil</p>
+            )}
+            <input
+              type="file"
+              id="fileInput"
+              onChange={handleImageChange}
+              className="hidden"
+            />
+            <div
+              className="flex max-w-max p-2  gap-2 rounded-lg"
+              style={{ background: "#353535" }}
+            >
+              <UploadImage size="20" />
+              <label htmlFor="fileInput" className="text-white cursor-pointer">
+                Buscar imagen
+              </label>
             </div>
-          }
-        />
-      )}
+            <p>{fileName || ""}</p>
+            {/* Muestra el nombre del archivo o vacío */}
+            <Btn
+              isPending={false}
+              text={loading ? "Subiendo..." : "Subir imagen"}
+              className="max-w-max px-2"
+              onClick={handleUpload}
+            />
+          </div>
+        }
+      />
     </div>
   );
 };

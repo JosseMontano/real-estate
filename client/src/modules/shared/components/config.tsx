@@ -9,8 +9,6 @@ export const Config = () => {
   const { texts, language, setLanguage } = useLanguageStore();
   const { handleStateModal, isModalOpen } = useModal();
 
-
-
   return (
     <>
       <div
@@ -35,9 +33,9 @@ export const Config = () => {
                 value={language}
                 onChange={(val)=> setLanguage(val)}
                 options={[
-                  { value: "es", label: texts.language1Config },
-                  { value: "en", label: texts.language2Config },
-                  { value: "pt", label: texts.language3Config },
+                  { id: "es", value: texts.language1Config },
+                  { id: "en", value: texts.language2Config },
+                  { id: "pt", value: texts.language3Config },
                 ]}
               />
             </div>
