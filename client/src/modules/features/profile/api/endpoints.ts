@@ -5,9 +5,10 @@ import {
   db,
   addDoc,
   collection,
+  doc,
+  updateDoc
 } from "@/core/libs/firebase";
 import { User } from "@/core/types/user";
-import { doc, updateDoc } from "firebase/firestore";
 
 export async function addREToDB(
   realEstatData: RealEstateDTO,

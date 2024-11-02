@@ -39,7 +39,7 @@ export const PublicationsAndFavorites = ({
   return (
     <div>
       <div className="flex">
-        <button onClick={scrollLeft} className="">
+        <button onClick={scrollLeft} className=" text-2xl font-bold">
           {"<"}
         </button>
 
@@ -101,15 +101,15 @@ export const PublicationsAndFavorites = ({
           </div>
           ))}
         </div>
-        <button onClick={scrollRight}>{">"}</button>
+        <button onClick={scrollRight} className="text-2xl font-bold">{">"}</button>
       </div>
       <div className="flex">
-        <button onClick={scrollLeft2} className="">
+        <button onClick={scrollLeft2} className="text-2xl font-bold">
           {"<"}
         </button>
 
         <div
-          ref={scrollContainerRef}
+          ref={scrollContainerRef2}
           className="flex overflow-x-scroll gap-4 scrollbar-hide "
         >
           {publicationsSecondRow.map((publication)=>(
@@ -166,7 +166,7 @@ export const PublicationsAndFavorites = ({
           </div>
           ))}
         </div>
-        <button onClick={scrollRight2}>{">"}</button>
+        <button onClick={scrollRight2} className="text-2xl font-bold">{">"}</button>
       </div>
     </div>
   );
