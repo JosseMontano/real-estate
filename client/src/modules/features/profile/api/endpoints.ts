@@ -11,7 +11,7 @@ import {
   where
 } from "@/core/libs/firebase";
 import { User } from "@/core/types/user";
-import { Comments } from "@/core/types/commets";
+import { Commentator, Comments, CommentT } from "@/core/types/commets";
 
 export async function addREToDB(
   realEstatData: RealEstateDTO,
@@ -60,3 +60,52 @@ export const fetchCommentsForUser = async (userId: string): Promise<Comments[]> 
     ...(doc.data() as Comments)
   }));
 }
+
+interface MinimalCommentData {
+  comment: CommentT;              
+  commentator: Commentator;        
+  user: User
+  userId: string
+}
+
+export const addCommentToDB = async (data: MinimalCommentData): Promise<void> => {
+  try {
+    const commentsCollection = collection(db, 'comments');
+    const newComment: Comments = {
+      amountStars: 1,
+      comment: { en: "", es: data.comment.es, pt: "" },
+      commentator: data.commentator,
+      realEstate: {
+        address: "",
+        amountBathroom: 0,
+        amountBedroom: 0,
+        available: false,
+        description: { en: "", es: "", pt: "" },
+        id: "",
+        images: [],
+        latLong: "",
+        price: 0,
+        squareMeter: 0,
+        title: { en: "", es: "", pt: "" },
+        typeRE: { id: "", value: "" },
+        typeREId: "",
+        user: {
+          available: data.user.available,
+          id: data.user.id ?? "",
+          cellphoneNumber: data.user.cellphoneNumber,
+          email: data.user.email,
+          role: data.user.role,
+          userId: data.userId,
+          userName: data.user.userName
+        },
+        userId: data.userId
+      },
+      realEstateId: "",
+    };
+    await addDoc(commentsCollection, newComment);
+
+    console.log('Comentario añadido correctamente');
+  } catch (error) {
+    console.error('Error al añadir el comentario:', error);
+  }
+};

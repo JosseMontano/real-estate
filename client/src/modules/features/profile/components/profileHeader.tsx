@@ -4,6 +4,12 @@ import { ProfileImageUploader } from "./changeImagePerfil";
 import { ModalType } from "@/core/hooks/useModal";
 import { Comments } from "@/core/types/commets";
 import Btn from "@/core/components/form/button";
+import FormComponent from "@/core/components/form/form";
+import { useForm } from "@/core/hooks/useForm";
+import { commentSchema } from "../validations/comment.schema";
+import { Input } from "@/core/components/form/input";
+import { addCommentToDB } from "../api/endpoints";
+import { User } from "@/core/types/user";
 type ParamasType = {
   profileImageUrl: string | null;
   handleImageUpload: (url: string) => void;
@@ -12,6 +18,7 @@ type ParamasType = {
   ShowModal: ({ children, title, modalId }: ModalType) => JSX.Element;
   commets: Comments[];
   loading: boolean;
+  user: User;
 };
 export const ProfileHeader = ({
   handleImageUpload,
@@ -21,8 +28,34 @@ export const ProfileHeader = ({
   isModalOpen,
   commets,
   loading,
+  user,
 }: ParamasType) => {
-  console.log(loading);
+  const {
+    handleOnSubmit,
+    errors,
+    register,
+    isPending: isPendingComment,
+  } = useForm({
+    schema: commentSchema,
+    form: async (data) => {
+      await addCommentToDB({
+        comment: data,
+        commentator: {
+          available: user.available,
+          cellphoneNumber: user.cellphoneNumber,
+          codeRecuperation: user.codeRecuperation,
+          email: user.email,
+          id: user.id || "",
+          qualification: user.qualification,
+          role: user.role,
+          userName: user.userName,
+        },
+        userId: user.id ? user.id : "",
+        user: user,
+      });
+    },
+    
+  });
   return (
     <div className="flex space-x-4 flex-col gap-2 w-full">
       <div className=" flex flex-col gap-3 ">
@@ -45,12 +78,12 @@ export const ProfileHeader = ({
       </div>
 
       <p className="font-bold text-xl">Comentarios</p>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 w-1/2 max-h-96 overflow-y-auto">
         {loading ? (
           <p className="text-xl font-bold"> Cargando...</p>
         ) : (
           commets.map((comment) => (
-            <div className="flex gap-3">
+            <div className="grid grid-cols-2 gap-20 ">
               <div>
                 <p>{comment.commentator.email}</p>
                 <p>{comment.comment.es}</p>
@@ -78,11 +111,22 @@ export const ProfileHeader = ({
           ))
         )}
       </div>
-      <Btn
-        isPending={false}
-        text="Agregar comentario"
-        className="max-w-max px-2"
-      />
+      <div className="max-w-max">
+        <FormComponent
+          isPending={isPendingComment}
+          handleOnSubmit={handleOnSubmit}
+          btnText="Comentar"
+          children={
+            <>
+              <Input
+                text="Comentario. . ."
+                error={errors.es}
+                register={register("es")}
+              />
+            </>
+          }
+        />
+      </div>
     </div>
   );
 };

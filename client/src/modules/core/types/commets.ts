@@ -1,19 +1,18 @@
-interface Comment {
-    en: string;
+export type CommentT = {
+    en?: string;
     es: string;
-    pt: string;
+    pt?: string;
 }
 
-interface Commentator {
+export type Commentator = {
     available: boolean;
     cellphoneNumber: string;
     codeRecuperation: string;
     email: string;
     id: string;
-    qualification: number;
+    qualification: string;
     role: number;
     userName: string;
-    commentatorId: string;
 }
 
 interface Description {
@@ -47,8 +46,8 @@ interface RealEstate {
     title: Title;
     typeRE: TypeRE;
     typeREId: string;
-    user:User
-    userId:string
+    user: User
+    userId: string
 }
 
 interface User {
@@ -62,10 +61,10 @@ interface User {
 }
 
 export type Comments = {
-    id?:string;
+    id?: string;
     amountStars: number;
-    comment: Comment;
+    comment: CommentT;
     commentator: Commentator;
-    realEstate: RealEstate;
+    realEstate?: RealEstate;
     realEstateId: string;
 }

@@ -8,7 +8,7 @@ type Props = {
 };
 const FormComponent = ({ children, handleOnSubmit, isPending, btnText="" }: Props) => {
   return (
-    <form onSubmit={handleOnSubmit}>
+    <form onSubmit={handleOnSubmit} className="flex flex-col gap-2">
       {children}
 
       <Btn isPending={isPending} text={btnText} />

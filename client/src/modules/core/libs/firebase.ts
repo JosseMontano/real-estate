@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, doc, setDoc, addDoc, collection, query, where, getDocs, getDoc, updateDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc, addDoc, collection, query, where, getDocs, getDoc, updateDoc} from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
@@ -42,5 +42,5 @@ export {
   storage,
   ref, 
   uploadBytes, 
-  getDownloadURL
+  getDownloadURL,
 }

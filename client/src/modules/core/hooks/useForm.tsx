@@ -13,13 +13,14 @@ type ParamsType<T extends z.ZodType<any, any>> = {
 export const useForm = <T extends z.ZodType<any, any>>({
   schema,
   form,
-  defaultVales
+  defaultVales,
 }: ParamsType<T>) => {
   type FormType = z.infer<T>;
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset
   } = useFormHook<FormType>({
     resolver: zodResolver(schema),
     defaultValues:defaultVales
@@ -35,6 +36,7 @@ export const useForm = <T extends z.ZodType<any, any>>({
   useEffect(() => {
     if (isError) toast.success(error?.message || "Error");
     if (isSuccess) toast.success("Inicio de sesion correcto!");
+    reset();
   }, [error,isError, isSuccess]);
 
   return {

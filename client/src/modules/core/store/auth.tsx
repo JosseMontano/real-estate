@@ -3,7 +3,7 @@ import { User } from "../types/user";
 import { persist } from "zustand/middleware";
 
 interface AuthState {
-  user: User | null;
+  user: User;
   isAuthenticated: boolean;
   login: (user: User) => void;
   logout: () => void;
@@ -12,10 +12,10 @@ interface AuthState {
 const useAuthStore = create(
   persist<AuthState>(
     (set) => ({
-      user: null,
+      user: {} as User,
       isAuthenticated: false,
       login: (user: User) => set({ user, isAuthenticated: true }),
-      logout: () => set({ user: null, isAuthenticated: false }),
+      logout: () => set({ user: {} as User, isAuthenticated: false }),
     }),
     {
       name: "auth-storage",

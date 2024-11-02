@@ -53,8 +53,6 @@ const DashboardPage = () => {
     queryKey: ["comments"],
     queryFn: () => fetchCommentsForUser(user?.id || ""),
   });
-  console.log(comments);
-  console.log(user?.id);
   return (
     <div className="flex h-screen  m-5">
       <div className="grid grid-cols-1 md:grid-cols-2">
@@ -67,6 +65,7 @@ const DashboardPage = () => {
             isModalOpen={modalStates["editImageUser"] || false}
             commets={comments ?? []}
             loading={loadingComments}
+            user={user}
           />
         </div>
         <div className=" w-full  mt-6 md:mt-0 ">
