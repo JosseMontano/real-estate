@@ -1,11 +1,9 @@
 from fastapi import FastAPI, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from googletrans import Translator
-
 import uvicorn
 import requests
 import os
-from dotenv import load_dotenv
 from pydantic import BaseModel
 from modules.core.database import engine
 import modules.core.models as models
@@ -13,9 +11,6 @@ from modules.routes import questions
 from modules.routes import typeRE
 from modules.routes import realEstates
 
-# Load environment variables from .env file
-BASEDIR = os.path.abspath(os.path.dirname(__file__))
-load_dotenv(os.path.join(BASEDIR, '.env'))
 
 # Create FastAPI instance
 app = FastAPI()
@@ -23,8 +18,6 @@ models.Base.metadata.create_all(bind=engine)
 app.include_router(questions.app)
 app.include_router(typeRE.app)
 app.include_router(realEstates.app)
-
-
 
 # Configure CORS
 origins = ["http://localhost:5173", "exp://192.168.1.13:19000"]
@@ -36,9 +29,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Get the Google Maps API key from environment variables
-GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY')
-
 
 class TranslateRequest(BaseModel):
     val: str
@@ -48,8 +38,6 @@ class RealEstateRequest(BaseModel):
     ubication: str
 
 
-class NearbyPlacesRequest(BaseModel):
-    location: str
 
 
 class FetchImageRequest(BaseModel):  # Added request model for fetch_image
@@ -81,31 +69,6 @@ def translate_es_en(request: TranslateRequest):
 
 
 
-
-@app.post('/api/fetch_nearby_places')
-def fetch_nearby_places(request: NearbyPlacesRequest):
-    location = request.location
-    if not location:
-        raise HTTPException(status_code=400, detail="Location parameter is required")
-
-    url = f'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={location}&radius=1000&key={GOOGLE_MAPS_API_KEY}'
-    
-    response = requests.get(url, headers={"Content-Type": "application/json"})
-    response.raise_for_status()
-    
-    data = response.json()
-    results = data.get('results', [])
-
-    formatted_results = [
-        {
-            "name": place.get("name"),
-            "location": place["geometry"]["location"],
-            "types": place.get("types")
-        }
-        for place in results
-    ]
-    
-    return {"val": formatted_results}
 
 @app.post('/api/fetch_image')
 def fetch_image(request: FetchImageRequest):  # Changed to use request body

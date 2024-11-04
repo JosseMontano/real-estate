@@ -5,11 +5,19 @@ from pydantic import BaseModel
 from modules.core.database import get_db  # Import the get_db dependency
 import modules.core.models as models
 from geopy.geocoders import Nominatim
+import requests
+import os
+from dotenv import load_dotenv
+from pathlib import Path
 
 app = APIRouter(
     prefix="/real_estates",
     tags=["Real Estates"],
 )
+
+BASEDIR = Path(__file__).resolve().parent.parent.parent  # Adjust this based on your structure
+load_dotenv(BASEDIR / '.env')
+GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY')
 
 # Response model for RealEstate
 class RealEstateResponse(BaseModel):
@@ -41,6 +49,10 @@ class RealEstateDTO(BaseModel):
     square_meter: float
     title: str
     type_real_estate_id: int
+
+    
+class NearbyPlacesRequest(BaseModel):
+    location: str
 
 # CRUD endpoints for RealEstate
 
@@ -86,3 +98,29 @@ async def update_real_estate(real_estate_id: int, updated_real_estate: RealEstat
     db.commit()
     db.refresh(real_estate)
     return {"status": "200", "message": "Real estate updated successfully", "val": real_estate}
+
+
+@app.post('/api/fetch_nearby_places')
+def fetch_nearby_places(request: NearbyPlacesRequest):
+    location = request.location
+    if not location:
+        raise HTTPException(status_code=400, detail="Location parameter is required")
+
+    url = f'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={location}&radius=1000&key={GOOGLE_MAPS_API_KEY}'
+    print(GOOGLE_MAPS_API_KEY)
+    response = requests.get(url, headers={"Content-Type": "application/json"})
+    response.raise_for_status()
+    
+    data = response.json()
+    results = data.get('results', [])
+
+    formatted_results = [
+        {
+            "name": place.get("name"),
+            "location": place["geometry"]["location"],
+            "types": place.get("types")
+        }
+        for place in results
+    ]
+    
+    return {"val": formatted_results}
