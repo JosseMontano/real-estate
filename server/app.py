@@ -6,6 +6,11 @@ from pydantic import BaseModel
 import requests
 import os
 from dotenv import load_dotenv
+from pydantic import BaseModel
+from modules.core.database import engine, SessionLocal
+from sqlalchemy.orm import Session
+import modules.core.models as models
+
 
 # Load environment variables from .env file
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
@@ -13,6 +18,16 @@ load_dotenv(os.path.join(BASEDIR, '.env'))
 
 # Create FastAPI instance
 app = FastAPI()
+models.Base.metadata.create_all(bind=engine)
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+
 
 # Configure CORS
 origins = ["http://localhost:5173", "exp://192.168.1.13:19000"]
