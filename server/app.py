@@ -1,17 +1,17 @@
-from fastapi import FastAPI, HTTPException, Response, Depends
+from fastapi import FastAPI, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from googletrans import Translator
-from geopy.geocoders import Nominatim
 
+import uvicorn
 import requests
 import os
 from dotenv import load_dotenv
 from pydantic import BaseModel
-from modules.core.database import engine, SessionLocal
-from sqlalchemy.orm import Session
+from modules.core.database import engine
 import modules.core.models as models
 from modules.routes import questions
 from modules.routes import typeRE
+from modules.routes import realEstates
 
 # Load environment variables from .env file
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
@@ -22,7 +22,7 @@ app = FastAPI()
 models.Base.metadata.create_all(bind=engine)
 app.include_router(questions.app)
 app.include_router(typeRE.app)
-
+app.include_router(realEstates.app)
 
 
 
@@ -80,18 +80,6 @@ def translate_es_en(request: TranslateRequest):
     }
 
 
-@app.post('/api/real-estate')
-def post_company_api(request: RealEstateRequest):
-    ubication = request.ubication
-
-    if ubication:
-        geo_location = Nominatim(user_agent="GetLoc")
-        loc_name = geo_location.reverse(ubication)
-        address = loc_name.address if loc_name else "Not Found"
-    else:
-        address = " "
-
-    return {"val": address}
 
 
 @app.post('/api/fetch_nearby_places')
@@ -141,5 +129,4 @@ def fetch_image(request: FetchImageRequest):  # Changed to use request body
 
 # Run the application
 if __name__ == '__main__':
-    import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=5000, debug=True)
