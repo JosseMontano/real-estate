@@ -1,8 +1,8 @@
-from fastapi import FastAPI, HTTPException, Response  # Added Response import
+from fastapi import FastAPI, HTTPException, Response, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from googletrans import Translator
 from geopy.geocoders import Nominatim
-from pydantic import BaseModel
+
 import requests
 import os
 from dotenv import load_dotenv
@@ -11,6 +11,7 @@ from modules.core.database import engine, SessionLocal
 from sqlalchemy.orm import Session
 import modules.core.models as models
 
+from modules.routes import questions
 
 # Load environment variables from .env file
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
@@ -19,13 +20,8 @@ load_dotenv(os.path.join(BASEDIR, '.env'))
 # Create FastAPI instance
 app = FastAPI()
 models.Base.metadata.create_all(bind=engine)
+app.include_router(questions.app)
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 
 
@@ -138,6 +134,9 @@ def fetch_image(request: FetchImageRequest):  # Changed to use request body
     except requests.exceptions.RequestException as e:
         # Maneja errores si la solicitud falla
         raise HTTPException(status_code=400, detail=str(e))
+    
+
+
 
 # Run the application
 if __name__ == '__main__':
