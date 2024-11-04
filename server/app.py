@@ -10,8 +10,8 @@ from pydantic import BaseModel
 from modules.core.database import engine, SessionLocal
 from sqlalchemy.orm import Session
 import modules.core.models as models
-
 from modules.routes import questions
+from modules.routes import typeRE
 
 # Load environment variables from .env file
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
@@ -21,6 +21,7 @@ load_dotenv(os.path.join(BASEDIR, '.env'))
 app = FastAPI()
 models.Base.metadata.create_all(bind=engine)
 app.include_router(questions.app)
+app.include_router(typeRE.app)
 
 
 
