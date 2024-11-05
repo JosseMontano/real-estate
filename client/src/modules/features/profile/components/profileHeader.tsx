@@ -1,6 +1,5 @@
 import { StarFill } from "@/shared/assets/icons/starFill";
 import imgDefault from "@/shared/assets/profile.jpeg";
-import { ProfileImageUploader } from "./changeImagePerfil";
 import { Comments } from "@/core/types/commets";
 import FormComponent from "@/core/components/form/form";
 import { useForm } from "@/core/hooks/useForm";
@@ -10,18 +9,14 @@ import { addCommentToDB } from "../api/endpoints";
 import { User } from "@/core/types/user";
 type ParamasType = {
   profileImageUrl: string | null;
-  handleImageUpload: (url: string) => void;
   isModalOpen: boolean;
-  handleShowModal: () => void
+  handleShowModal: () => void;
   commets: Comments[];
   loading: boolean;
   user: User;
 };
 export const ProfileHeader = ({
-  handleImageUpload,
   profileImageUrl,
-  handleShowModal,
-  isModalOpen,
   commets,
   loading,
   user,
@@ -50,62 +45,56 @@ export const ProfileHeader = ({
         user: user,
       });
     },
-    
   });
   return (
-    <div className="flex space-x-4 flex-col gap-2 w-full">
+    <div className="flex flex-col gap-4 w-full pr-5">
       <div className=" flex flex-col gap-3 ">
         <div>
           {profileImageUrl ? (
-            <img className="w-96 " src={profileImageUrl} alt="Profile" />
+            <img className="w-full " src={profileImageUrl} alt="Profile" />
           ) : (
-            <img className="w-96 " src={imgDefault} alt="Profile" />
+            <img className="w-full " src={imgDefault} alt="Profile" />
           )}
-        </div>
-
-        <div>
-          <ProfileImageUploader
-            onImageUpload={handleImageUpload}
-            handleShowModal={handleShowModal}
-            isModalOpen={isModalOpen}
-
-/>
         </div>
       </div>
 
-      <p className="font-bold text-xl">Comentarios</p>
-      <div className="flex flex-col gap-2 w-1/2 max-h-96 overflow-y-auto">
-        {loading ? (
-          <p className="text-xl font-bold"> Cargando...</p>
-        ) : (
-          commets.map((comment) => (
-            <div className="grid grid-cols-2 gap-20 ">
-              <div>
-                <p>{comment.commentator.email}</p>
-                <p>{comment.comment.es}</p>
-              </div>
-              <div className="flex flex-col">
-                <p className="text-xl font-semibold mx-1">
-                  <span className="text-lg mr-1"> Clasificacion</span>
-                  {comment.commentator.qualification}
-                </p>
-                <div className="flex space-x-1">
-                  {/* Estrellas de calificación */}
-                  {[...Array(comment.amountStars)].map((_, i) => (
-                    <span key={i} className="text-yellow-400 text-2xl">
-                      <StarFill size="20" />
-                    </span>
-                  ))}
-                  {[...Array(5 - Number(comment.amountStars))].map((i) => (
-                    <span key={i} className="text-gray-400 text-2xl">
-                      <StarFill size="20" />
-                    </span>
-                  ))}
+      <div className="flex flex-col gap-2 max-w-max max-h-[450px]">
+        <div className="flex items-end">
+          <p className="text-[#929191] text-xl">Comentarios</p>
+          <div className="w-full h-px bg-gray-300 mb-[6px]"></div>
+        </div>
+        <div className="overflow-y-scroll">
+          {loading ? (
+            <p className="text-xl font-bold"> Cargando...</p>
+          ) : (
+            commets.map((comment) => (
+              <div className="grid grid-cols-2 gap-20 ">
+                <div>
+                  <p className="font-semibold">{comment.commentator.email}</p>
+                  <p className="text-[#888787]">{comment.comment.es}</p>
+                </div>
+                <div className="flex items-center">
+                  <p className="text-xl font-semibold mx-1">
+                    {comment.commentator.qualification}
+                  </p>
+                  <div className="flex space-x-1">
+                    {/* Estrellas de calificación */}
+                    {[...Array(comment.amountStars)].map((_, i) => (
+                      <span key={i} className="text-yellow-400 text-2xl">
+                        <StarFill size="20" />
+                      </span>
+                    ))}
+                    {[...Array(5 - Number(comment.amountStars))].map((i) => (
+                      <span key={i} className="text-gray-400 text-2xl">
+                        <StarFill size="20" />
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))
-        )}
+            ))
+          )}
+        </div>
       </div>
       <div className="max-w-max">
         <FormComponent

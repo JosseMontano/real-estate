@@ -17,7 +17,7 @@ const Btn = ({ isPending, text, className, onClick, disabled }: Props) => {
       type="submit"
       disabled={isPending || disabled}
       style={{ background: primaryColor }}
-      className={`w-full text-white py-2 rounded-lg hover:opacity-90 border-none focus:outline-none focus:ring-2 ${
+      className={`w-full text-white py-2 rounded-lg hover:opacity-90 border-none focus:outline-none ${
         isPending || disabled
           ? "opacity-50 cursor-not-allowed"
           : "hover:opacity-90"

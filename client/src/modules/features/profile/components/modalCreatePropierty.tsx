@@ -54,7 +54,7 @@ export const ModalCreatePropierty = ({
 
   return (
     <>
-    <Btn text="Crear inmueble" onClick={handleStateModal} isPending={false}/>
+    <Btn text="Crear inmueble" onClick={handleStateModal} isPending={false} className="max-w-max px-2"/>
       <ShowModal
         title="Crear inmueble"
         isModalOpen={isModalOpen}

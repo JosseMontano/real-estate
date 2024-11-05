@@ -36,6 +36,10 @@ const DashboardPage = () => {
   const { handleStateModal: handleShowFav, isModalOpen: isFavOpen } =
     useModal();
   const {
+    handleStateModal: handleShowUploadImage,
+    isModalOpen: isOpenUpImage,
+  } = useModal();
+  const {
     register,
     handleOnSubmit,
     errors,
@@ -44,7 +48,7 @@ const DashboardPage = () => {
     schema: realEstateSchema,
     form: async (data) => {
       if (user) {
-        await addREToDB(data, user);
+        //await addREToDB(data, user);
       }
     },
   });
@@ -108,48 +112,49 @@ const DashboardPage = () => {
   const [typeRE, setTypeRE] = useState({} as TypeRE);
   const [location, setLocation] = useState<Location | null>(null);
   return (
-    <div className="flex h-screen  m-5">
-      <div className="grid grid-cols-1 md:grid-cols-2">
-        <div className="w-full ">
-          <ProfileHeader
+    <div className="flex h-screen w-auto  mx-2 mt-2 gap-4 flex-wrap md:flex-nowrap">
+      <div className="md:basis-3/12 grow-0 w-full pr-16">
+        <ProfileHeader
+          profileImageUrl={profileImageUrl}
+          handleShowModal={handleShowAddComment}
+          isModalOpen={isAddCommentOpen}
+          commets={comments ?? []}
+          loading={loadingComments}
+          user={user}
+        />
+      </div>
+      <div className="md:basis-9/12 grow w-full">
+        <div className="flex gap-5 md:justify-end justify-center">
+          <ModalEditUser
+            isModaEditUserOpen={isEditUserOpen}
+            handleShowModalEditUser={handleShowEditUser}
             handleImageUpload={handleImageUpload}
-            profileImageUrl={profileImageUrl}
-            handleShowModal={handleShowAddComment}
-            isModalOpen={isAddCommentOpen}
-            commets={comments ?? []}
-            loading={loadingComments}
-            user={user}
+            handleShowModalUpImage={handleShowUploadImage}
+            isModalUpImageOpen={isOpenUpImage}
+            
+          />
+          <ModalCreatePropierty
+            errors={errors}
+            handleOnSubmit={handleOnSubmit}
+            handleStateModal={handleShowCreateRE}
+            isModalOpen={isCreateREOpen}
+            handleImageSelection={handleImageSelection}
+            isPendingRE={isPendingRealEstate}
+            uploadStatus={uploadStatus}
+            setTypeRE={setTypeRE}
+            typeRE={typeRE}
+            location={location}
+            setLocation={setLocation}
+            register={register}
           />
         </div>
-        <div className=" w-full  mt-6 md:mt-0 ">
-          <div className="flex gap-5 justify-end">
-            <ModalEditUser
-              isModalOpen={isEditUserOpen}
-              handleShowModal={handleShowEditUser}
-            />
-            <ModalCreatePropierty
-              errors={errors}
-              handleOnSubmit={handleOnSubmit}
-              handleStateModal={handleShowCreateRE}
-              isModalOpen={isCreateREOpen}
-              handleImageSelection={handleImageSelection}
-              isPendingRE={isPendingRealEstate}
-              uploadStatus={uploadStatus}
-              setTypeRE={setTypeRE}
-              typeRE={typeRE}
-              location={location}
-              setLocation={setLocation}
-              register={register}
-            />
-          </div>
 
-          <ContactInfo user={user ? user : ({} as User)} />
-          <PublicationsAndFavorites
-            handleShowModal={handleShowFav}
-            isModalOpen={isFavOpen}
-          />
-          {isLoading && <p>Loading...</p>}
-        </div>
+        <ContactInfo user={user ? user : ({} as User)} />
+        <PublicationsAndFavorites
+          handleShowModal={handleShowFav}
+          isModalOpen={isFavOpen}
+        />
+        {isLoading && <p>Loading...</p>}
       </div>
     </div>
   );
