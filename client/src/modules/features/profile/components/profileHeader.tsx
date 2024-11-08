@@ -47,7 +47,7 @@ export const ProfileHeader = ({
     },
   });
   return (
-    <div className="flex flex-col gap-4 w-full pr-5">
+    <div className="flex flex-col gap-4 w-full md:pr-5">
       <div className=" flex flex-col gap-3 ">
         <div>
           {profileImageUrl ? (
@@ -58,34 +58,29 @@ export const ProfileHeader = ({
         </div>
       </div>
 
-      <div className="flex flex-col gap-2 max-w-max max-h-[450px]">
+      <div className="flex flex-col gap-2 w-full max-h-[450px] md:items-start items-center">
         <div className="flex items-end">
           <p className="text-[#929191] text-xl">Comentarios</p>
           <div className="w-full h-px bg-gray-300 mb-[6px]"></div>
         </div>
-        <div className="overflow-y-scroll">
+        <div className="overflow-y-scroll w-full">
           {loading ? (
             <p className="text-xl font-bold"> Cargando...</p>
           ) : (
             commets.map((comment) => (
-              <div className="grid grid-cols-2 gap-20 ">
-                <div>
+              <div className="w-full flex">
+                <div className="basis-7/12 flex-wrap text-sm">
                   <p className="font-semibold">{comment.commentator.email}</p>
                   <p className="text-[#888787]">{comment.comment.es}</p>
                 </div>
-                <div className="flex items-center">
-                  <p className="text-xl font-semibold mx-1">
+                <div className="basis-5/12 flex items-center">
+                  <p className=" text-base md:text-xl font-semibold mx-1">
                     {comment.commentator.qualification}
                   </p>
                   <div className="flex space-x-1">
                     {/* Estrellas de calificación */}
                     {[...Array(comment.amountStars)].map((_, i) => (
-                      <span key={i} className="text-yellow-400 text-2xl">
-                        <StarFill size="20" />
-                      </span>
-                    ))}
-                    {[...Array(5 - Number(comment.amountStars))].map((i) => (
-                      <span key={i} className="text-gray-400 text-2xl">
+                      <span key={i} className="text-yellow-400 text-base md:text-2xl">
                         <StarFill size="20" />
                       </span>
                     ))}

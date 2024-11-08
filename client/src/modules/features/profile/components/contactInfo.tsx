@@ -25,15 +25,10 @@ export const ContactInfo = ({ user }: ParamsType) => {
         <div>
           <label className="text-[#929191]">CLASIFICACIÓN</label>
           <div className="flex  gap-3 items-center">
-            <p className="text-2xl font-semibold ">{user.qualification}</p>
+            <p className="text-base md:text-2xl font-semibold ">{user.qualification}</p>
             <div className="flex space-x-1">
               {[...Array(user.qualification)].map((_, i) => (
-                <span key={i} className="text-yellow-400 text-2xl">
-                  <StarFill size="20" />
-                </span>
-              ))}
-              {[...Array(5 - Number(user.qualification))].map((i) => (
-                <span key={i} className="text-gray-200 text-2xl">
+                <span key={i} className="text-yellow-400 text-base md:text-2xl">
                   <StarFill size="20" />
                 </span>
               ))}
@@ -41,7 +36,7 @@ export const ContactInfo = ({ user }: ParamsType) => {
           </div>
         </div>
 
-        <div className="flex gap-10 items-center">
+        <div className="flex  gap-y-1 gap-x-10 items-center  flex-wrap md">
           <div
             className="flex  w-auto py-1 pr-1 gap-2 rounded-lg  hover:bg-gray-200 focus:outline-none cursor-pointer"
           >

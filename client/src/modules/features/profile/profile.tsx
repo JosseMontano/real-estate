@@ -113,7 +113,7 @@ const DashboardPage = () => {
   const [location, setLocation] = useState<Location | null>(null);
   return (
     <div className="flex h-screen w-auto  mx-2 mt-2 gap-4 flex-wrap md:flex-nowrap">
-      <div className="md:basis-3/12 grow-0 w-full pr-16">
+      <div className="md:basis-3/12 grow-0 w-full md:pr-16">
         <ProfileHeader
           profileImageUrl={profileImageUrl}
           handleShowModal={handleShowAddComment}

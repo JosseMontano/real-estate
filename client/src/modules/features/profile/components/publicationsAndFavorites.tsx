@@ -80,12 +80,12 @@ export const PublicationsAndFavorites = ({
 
   return (
     <div>
-      <div className="w-full overflow-x-auto">
-        <div className="flex flex-nowrap gap-4 w-full max-w-none">
+      <div className="w-full overflow-x-auto ">
+        <div className="flex flex-nowrap gap-4 w-full max-w-none items-center ">
           {publicationsFirtsRow.map((publication) => (
             <div
               key={publication.id}
-              className="w-[calc(59%-8px)] p-2 pl-0 flex-shrink-0"
+              className="w-[calc(80%-8px)] md:w-[calc(30%-8px)] p-2 pl-0 flex-shrink-0 "
             >
               <div className="flex flex-col justify-center gap-3">
                 <img
