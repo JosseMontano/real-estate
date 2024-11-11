@@ -53,8 +53,9 @@ class Question(Base):
     __tablename__ = 'questions'
 
     id = Column(Integer, primary_key=True, index=True)
-    question = Column(String)
-
+    questionEs = Column(String)
+    questionEn = Column(String)
+    questionPt = Column(String)
 class Comment(Base):
     __tablename__ = 'comments'
 
