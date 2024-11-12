@@ -10,15 +10,14 @@ app = APIRouter(
     prefix="/type-real-estates",
     tags=["Type Real Estates"],
 )
-
+endpoint="/api/type-real-estates/"
 class TypeREResponse(BaseModel):
     id: int
     name: str
-
     class Config:
         orm_mode = True
 
-@app.get('/type-real-estates/')
+@app.get(endpoint)
 async def get_question(db: Session = Depends(get_db)):
     typeRE: List[TypeREResponse] = db.query(models.TypeRealEstate).all()
     if not typeRE:

@@ -51,21 +51,18 @@ class RealEstateDTO(BaseModel):
     title: str
     type_real_estate_id: int
 
-    
 class NearbyPlacesRequest(BaseModel):
     location: str
+endpoint="/api/real-estates/"
 
-# CRUD endpoints for RealEstate
-
-@app.get('/', response_model=List[RealEstateResponse])
+@app.get(endpoint, response_model=List[RealEstateResponse])
 async def get_real_estates(db: Session = Depends(get_db)):
     real_estates = db.query(models.RealEstate).all()
     if not real_estates:
         raise HTTPException(status_code=404, detail="No real estates found")
     return {"status": "200", "message": "Real estates retrieved successfully", "val": real_estates}
 
-
-@app.post('/')
+@app.post(endpoint)
 async def create_real_estate(real_estate: RealEstateDTO, db: Session = Depends(get_db)):
     # Obtener la dirección a partir de las coordenadas
     geo_location = Nominatim(user_agent="GetLoc")
@@ -99,9 +96,7 @@ async def create_real_estate(real_estate: RealEstateDTO, db: Session = Depends(g
     db.refresh(db_real_estate)
     return {"status": "201", "message": "Real estate created successfully", "val": db_real_estate}
 
-
-
-@app.delete('/{real_estate_id}')
+@app.delete(endpoint+'{real_estate_id}')
 async def delete_real_estate(real_estate_id: int, db: Session = Depends(get_db)):
     real_estate = db.query(models.RealEstate).filter(models.RealEstate.id == real_estate_id).first()
     if real_estate is None:
@@ -110,7 +105,7 @@ async def delete_real_estate(real_estate_id: int, db: Session = Depends(get_db))
     db.commit()
     return {"status": "200", "message": "Real estate deleted successfully", "val": real_estate}
 
-@app.put('/{real_estate_id}')
+@app.put(endpoint+'{real_estate_id}')
 async def update_real_estate(real_estate_id: int, updated_real_estate: RealEstateDTO, db: Session = Depends(get_db)):
     real_estate = db.query(models.RealEstate).filter(models.RealEstate.id == real_estate_id).first()
     if real_estate is None:
@@ -124,8 +119,7 @@ async def update_real_estate(real_estate_id: int, updated_real_estate: RealEstat
     db.refresh(real_estate)
     return {"status": "200", "message": "Real estate updated successfully", "val": real_estate}
 
-
-@app.post('/api/fetch_nearby_places')
+@app.post(endpoint+'fetch_nearby_places')
 def fetch_nearby_places(request: NearbyPlacesRequest):
     location = request.location
     if not location:

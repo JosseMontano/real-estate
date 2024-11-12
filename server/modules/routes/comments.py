@@ -30,8 +30,10 @@ class CommentResponse(BaseModel):
 
     class Config:
         orm_mode = True
+        
+endpoint="/api/comments/"
 
-@app.get('/comments/', response_model=List[CommentResponse])
+@app.get(endpoint, response_model=List[CommentResponse])
 async def get_comments(db: Session = Depends(get_db)):
     comments = db.query(models.Comment).all()
     if not comments:
@@ -39,7 +41,7 @@ async def get_comments(db: Session = Depends(get_db)):
     return {"status": "200", "message": "Comments retrieved successfully", "val": comments}
 
 
-@app.post('/comments/')
+@app.post(endpoint)
 async def create_comment(comment: CommentDTO, db: Session = Depends(get_db)):
     # Obtener traducciones para el comentario
     resultComment = translate_es_en_pt(comment.comment)
@@ -63,7 +65,7 @@ async def create_comment(comment: CommentDTO, db: Session = Depends(get_db)):
     return {"status": "201", "message": "Comment created successfully", "val": db_comment}
 
 
-@app.delete('/comments/{comment_id}')
+@app.delete(endpoint+'{comment_id}')
 async def delete_comment(comment_id: int, db: Session = Depends(get_db)):
     comment = db.query(models.Comment).filter(models.Comment.id == comment_id).first()
     if comment is None:
@@ -73,7 +75,7 @@ async def delete_comment(comment_id: int, db: Session = Depends(get_db)):
     return {"status": "200", "message": "Comment deleted successfully", "val": comment}
 
 
-@app.put('/comments/{comment_id}')
+@app.put(endpoint+'{comment_id}')
 async def update_comment(comment_id: int, updated_comment: CommentDTO, db: Session = Depends(get_db)):
     comment = db.query(models.Comment).filter(models.Comment.id == comment_id).first()
     if comment is None:
