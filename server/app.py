@@ -10,6 +10,7 @@ import modules.core.models as models
 from modules.routes import questions
 from modules.routes import typeRE
 from modules.routes import realEstates
+from modules.routes import comments
 
 
 # Create FastAPI instance
@@ -18,6 +19,7 @@ models.Base.metadata.create_all(bind=engine)
 app.include_router(questions.app)
 app.include_router(typeRE.app)
 app.include_router(realEstates.app)
+app.include_router(comments.app)
 
 # Configure CORS
 origins = ["http://localhost:5173", "exp://192.168.1.13:19000"]
@@ -66,9 +68,6 @@ def translate_es_en(request: TranslateRequest):
             "valPt": value_pt
         }
     }
-
-
-
 
 @app.post('/api/fetch_image')
 def fetch_image(request: FetchImageRequest):  # Changed to use request body

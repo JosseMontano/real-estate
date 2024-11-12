@@ -23,8 +23,9 @@ class TypeRealEstate(Base):
     __tablename__ = 'type_real_estates'
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, unique=True, index=True)
-
+    nameEs = Column(String, unique=True, index=True)
+    nameEn = Column(String, unique=True, index=True)
+    namePt = Column(String, unique=True, index=True)
     # relationships
     real_estates = relationship("RealEstate", back_populates="type_real_estate")
 
@@ -37,14 +38,18 @@ class RealEstate(Base):
     amount_bathroom = Column(Integer)
     amount_bedroom = Column(Integer)
     available = Column(Boolean, default=True)
-    description = Column(String)
     image = Column(String)
     lat_long = Column(String)  # Assuming this is a string, or could use Geography for lat/long in PostGIS
     price = Column(Float)
     square_meter = Column(Float)
-    title = Column(String)
+    titleEs = Column(String)
+    titleEn = Column(String)
+    titlePt = Column(String)
+    descriptionEs = Column(String)
+    descriptionEn = Column(String)
+    descriptionPt = Column(String)
     type_real_estate_id = Column(Integer, ForeignKey('type_real_estates.id'))
-
+    
     # relationships
     type_real_estate = relationship("TypeRealEstate", back_populates="real_estates")
     comments = relationship("Comment", back_populates="real_estate")
@@ -61,7 +66,9 @@ class Comment(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     amount_star = Column(Integer)
-    comment = Column(String)
+    commentEs = Column(String)
+    commentEn = Column(String)
+    commentPt = Column(String)
     commentator_id = Column(Integer, ForeignKey('users.id'))
     real_estate_id = Column(Integer, ForeignKey('real_estates.id'))
 

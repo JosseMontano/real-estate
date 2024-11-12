@@ -9,6 +9,7 @@ import requests
 import os
 from dotenv import load_dotenv
 from pathlib import Path
+from modules.core.utils.translate import translate_es_en_pt
 
 app = APIRouter(
     prefix="/real_estates",
@@ -63,18 +64,42 @@ async def get_real_estates(db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="No real estates found")
     return {"status": "200", "message": "Real estates retrieved successfully", "val": real_estates}
 
+
 @app.post('/')
 async def create_real_estate(real_estate: RealEstateDTO, db: Session = Depends(get_db)):
-
+    # Obtener la dirección a partir de las coordenadas
     geo_location = Nominatim(user_agent="GetLoc")
     loc_name = geo_location.reverse(real_estate.lat_long)
     address = loc_name.address if loc_name else "Not Found"
-    db_real_estate = models.RealEstate(**real_estate.dict())
+
+    # Obtener traducciones para título y descripción
+    resultTitle = translate_es_en_pt(real_estate.title)
+    resultDescription = translate_es_en_pt(real_estate.description)
+
+    # Crear diccionario de datos a partir del DTO y limpiar campos innecesarios
+    real_estate_data = real_estate.dict()
+    real_estate_data.pop("title", None)  # Elimina "title" si no está en el modelo
+    real_estate_data.pop("description", None)  # Elimina "description" si no está en el modelo
+
+    # Crear instancia de RealEstate solo con los campos válidos
+    db_real_estate = models.RealEstate(**{k: v for k, v in real_estate_data.items() if hasattr(models.RealEstate, k)})
+
+    # Asignar valores adicionales manualmente
     db_real_estate.address = address
+    db_real_estate.titleEs = resultTitle["valEs"]
+    db_real_estate.titleEn = resultTitle["valEn"]
+    db_real_estate.titlePt = resultTitle["valPt"]
+    db_real_estate.descriptionEs = resultDescription["valEs"]
+    db_real_estate.descriptionEn = resultDescription["valEn"]
+    db_real_estate.descriptionPt = resultDescription["valPt"]
+
+    # Guardar en la base de datos
     db.add(db_real_estate)
     db.commit()
     db.refresh(db_real_estate)
     return {"status": "201", "message": "Real estate created successfully", "val": db_real_estate}
+
+
 
 @app.delete('/{real_estate_id}')
 async def delete_real_estate(real_estate_id: int, db: Session = Depends(get_db)):
