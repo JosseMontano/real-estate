@@ -4,7 +4,7 @@ import { SumaryCard } from "../sumaryCards";
 type ParamsType = {};
 export const DashboardProduct = ({}: ParamsType) => {
   return (
-    <div className="">
+    <div>
       <SumaryCard />
       <CustomerTable />
     </div>

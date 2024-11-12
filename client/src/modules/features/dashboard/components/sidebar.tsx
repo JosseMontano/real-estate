@@ -19,7 +19,7 @@ export const Sidebar = ({}: ParamsType) => {
     <>
       <div
         onClick={toggleSidebar}
-        className="absolute  md:hidden  my-5  mx-3  top-0 left-4 z-50 cursor-pointer"
+        className="absolute  lg:hidden  my-5  mx-3  top-0 left-4 z-50 cursor-pointer"
       >
         <MenuIcon size="20" />
       </div>
@@ -29,7 +29,7 @@ export const Sidebar = ({}: ParamsType) => {
           isOpen ? "translate-x-0" : "-translate-x-full"
         } lg:translate-x-0 lg:block `}
       >
-        <div className="mb-14 mt-5 md:mt-0">
+        <div className="mb-14 mt-5 lg:mt-0">
           <Link to="" className="text-3xl font-semibold">
             Dashboard
           </Link>
