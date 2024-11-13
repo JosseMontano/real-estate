@@ -18,6 +18,7 @@ class User(Base):
 
     # relationships if needed
     comments = relationship("Comment", back_populates="commentator")
+    favorites = relationship("FavoriteRealEstate", back_populates="user")
 
 class TypeRealEstate(Base):
     __tablename__ = 'type_real_estates'
@@ -53,6 +54,30 @@ class RealEstate(Base):
     # relationships
     type_real_estate = relationship("TypeRealEstate", back_populates="real_estates")
     comments = relationship("Comment", back_populates="real_estate")
+    favorites = relationship("FavoriteRealEstate", back_populates="real_estate")
+    photos = relationship("PhotosRealEstate", back_populates="real_estate")
+    responses = relationship("Response", back_populates="real_estate")
+
+class FavoriteRealEstate(Base):
+    __tablename__ = 'favorite_real_estates'
+
+    id = Column(Integer, primary_key=True, index=True)
+    real_estate_id = Column(Integer, ForeignKey('real_estates.id'))
+    user_id = Column(Integer, ForeignKey('users.id'))
+
+    # relationships
+    real_estate = relationship("RealEstate", back_populates="favorites")
+    user = relationship("User", back_populates="favorites")
+
+class PhotosRealEstate(Base):
+    __tablename__ = 'photos_real_estates'
+
+    id = Column(Integer, primary_key=True, index=True)
+    image = Column(String)
+    real_estate_id = Column(Integer, ForeignKey('real_estates.id'))
+
+    # relationships
+    real_estate = relationship("RealEstate", back_populates="photos")
 
 class Question(Base):
     __tablename__ = 'questions'
@@ -61,6 +86,23 @@ class Question(Base):
     questionEs = Column(String)
     questionEn = Column(String)
     questionPt = Column(String)
+    
+    responses = relationship("Response", back_populates="question")
+
+class Response(Base):
+    __tablename__ = 'responses'
+
+    id = Column(Integer, primary_key=True, index=True)
+    responseEs = Column(String)
+    responseEn = Column(String)
+    responsePt = Column(String)
+    question_id = Column(Integer, ForeignKey('questions.id'))
+    real_estate_id = Column(Integer, ForeignKey('real_estates.id'))
+
+
+    question = relationship("Question", back_populates="responses")
+    real_estate = relationship("RealEstate", back_populates="responses")
+
 class Comment(Base):
     __tablename__ = 'comments'
 

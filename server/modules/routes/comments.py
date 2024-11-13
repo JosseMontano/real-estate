@@ -5,13 +5,13 @@ from pydantic import BaseModel
 from modules.core.database import get_db  # Import the get_db dependency
 import modules.core.models as models
 from modules.core.utils.translate import translate_es_en_pt
+from modules.core.const import Messages
 
 app = APIRouter(
     prefix="/comments",
     tags=["Comments"],
 )
 
-# Request model para crear y actualizar un comentario
 class CommentDTO(BaseModel):
     amount_star: int
     comment: str
@@ -37,8 +37,8 @@ endpoint="/api/comments/"
 async def get_comments(db: Session = Depends(get_db)):
     comments = db.query(models.Comment).all()
     if not comments:
-        raise HTTPException(status_code=404, detail="No comments found")
-    return {"status": "200", "message": "Comments retrieved successfully", "val": comments}
+        return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": []}
+    return {"status": 200, "message": Messages.DATA_FOUND, "val":  comments}
 
 
 @app.post(endpoint)
@@ -62,24 +62,24 @@ async def create_comment(comment: CommentDTO, db: Session = Depends(get_db)):
     db.add(db_comment)
     db.commit()
     db.refresh(db_comment)
-    return {"status": "201", "message": "Comment created successfully", "val": db_comment}
+    return {"status": 201, "message": Messages.DATA_CREATED, "val": db_comment}
 
 
 @app.delete(endpoint+'{comment_id}')
 async def delete_comment(comment_id: int, db: Session = Depends(get_db)):
     comment = db.query(models.Comment).filter(models.Comment.id == comment_id).first()
     if comment is None:
-        raise HTTPException(status_code=404, detail="Comment not found")
+        return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": []}
     db.delete(comment)
     db.commit()
-    return {"status": "200", "message": "Comment deleted successfully", "val": comment}
+    return {"status": 200, "message": Messages.DATA_DELETED, "val": comment}
 
 
 @app.put(endpoint+'{comment_id}')
 async def update_comment(comment_id: int, updated_comment: CommentDTO, db: Session = Depends(get_db)):
     comment = db.query(models.Comment).filter(models.Comment.id == comment_id).first()
     if comment is None:
-        raise HTTPException(status_code=404, detail="Comment not found")
+        return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": []}
 
     # Actualizar los campos del comentario
     for key, value in updated_comment.dict().items():
@@ -87,4 +87,4 @@ async def update_comment(comment_id: int, updated_comment: CommentDTO, db: Sessi
 
     db.commit()
     db.refresh(comment)
-    return {"status": "200", "message": "Comment updated successfully", "val": comment}
+    return {"status": 200, "message": Messages.DATA_UPDATED, "val": comment}

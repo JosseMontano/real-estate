@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from typing import List
 from pydantic import BaseModel
-from modules.core.database import get_db  # Import the get_db dependency
+from modules.core.database import get_db 
 import modules.core.models as models
 from geopy.geocoders import Nominatim
 import requests
@@ -12,7 +12,7 @@ from pathlib import Path
 from modules.core.utils.translate import translate_es_en_pt
 
 app = APIRouter(
-    prefix="/real_estates",
+    prefix="/api/real-estates/real_estates",
     tags=["Real Estates"],
 )
 
@@ -53,16 +53,17 @@ class RealEstateDTO(BaseModel):
 
 class NearbyPlacesRequest(BaseModel):
     location: str
-endpoint="/api/real-estates/"
 
-@app.get(endpoint, response_model=List[RealEstateResponse])
+
+@app.get('/')
 async def get_real_estates(db: Session = Depends(get_db)):
-    real_estates = db.query(models.RealEstate).all()
-    if not real_estates:
-        raise HTTPException(status_code=404, detail="No real estates found")
+    
+    query = db.query(models.RealEstate).options(joinedload(models.RealEstate.photos))
+    
+    real_estates = query.all()
     return {"status": "200", "message": "Real estates retrieved successfully", "val": real_estates}
 
-@app.post(endpoint)
+@app.post('/')
 async def create_real_estate(real_estate: RealEstateDTO, db: Session = Depends(get_db)):
     # Obtener la dirección a partir de las coordenadas
     geo_location = Nominatim(user_agent="GetLoc")
@@ -96,7 +97,7 @@ async def create_real_estate(real_estate: RealEstateDTO, db: Session = Depends(g
     db.refresh(db_real_estate)
     return {"status": "201", "message": "Real estate created successfully", "val": db_real_estate}
 
-@app.delete(endpoint+'{real_estate_id}')
+@app.delete('/{real_estate_id}')
 async def delete_real_estate(real_estate_id: int, db: Session = Depends(get_db)):
     real_estate = db.query(models.RealEstate).filter(models.RealEstate.id == real_estate_id).first()
     if real_estate is None:
@@ -105,7 +106,7 @@ async def delete_real_estate(real_estate_id: int, db: Session = Depends(get_db))
     db.commit()
     return {"status": "200", "message": "Real estate deleted successfully", "val": real_estate}
 
-@app.put(endpoint+'{real_estate_id}')
+@app.put('/{real_estate_id}')
 async def update_real_estate(real_estate_id: int, updated_real_estate: RealEstateDTO, db: Session = Depends(get_db)):
     real_estate = db.query(models.RealEstate).filter(models.RealEstate.id == real_estate_id).first()
     if real_estate is None:
@@ -119,7 +120,7 @@ async def update_real_estate(real_estate_id: int, updated_real_estate: RealEstat
     db.refresh(real_estate)
     return {"status": "200", "message": "Real estate updated successfully", "val": real_estate}
 
-@app.post(endpoint+'fetch_nearby_places')
+@app.post('/fetch_nearby_places')
 def fetch_nearby_places(request: NearbyPlacesRequest):
     location = request.location
     if not location:

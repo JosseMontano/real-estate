@@ -11,7 +11,8 @@ from modules.routes import questions
 from modules.routes import typeRE
 from modules.routes import realEstates
 from modules.routes import comments
-
+from modules.routes import favorite_real_estates
+from modules.routes import responses
 
 # Create FastAPI instance
 app = FastAPI()
@@ -20,6 +21,8 @@ app.include_router(questions.app)
 app.include_router(typeRE.app)
 app.include_router(realEstates.app)
 app.include_router(comments.app)
+app.include_router(favorite_real_estates.app)
+app.include_router(responses.app)
 
 # Configure CORS
 origins = ["http://localhost:5173", "exp://192.168.1.13:19000"]
