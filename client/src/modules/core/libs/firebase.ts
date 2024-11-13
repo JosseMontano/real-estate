@@ -44,5 +44,5 @@ export {
   updateDoc,
   ref, 
   uploadBytes, 
-  getDownloadURL,
+  getDownloadURL
 }

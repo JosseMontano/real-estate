@@ -22,6 +22,11 @@ import {
 import { TypeRE } from "@/shared/types/realEstate";
 import { Location } from "@/core/components/map/maps";
 
+export type FileStatus = {
+  name: string;
+  status: boolean;
+};
+
 const DashboardPage = () => {
   const { user } = useAuthStore();
   const { handleNavigate } = useNavigation();
@@ -74,15 +79,20 @@ const DashboardPage = () => {
     queryKey: ["comments"],
     queryFn: () => fetchCommentsForUser(user?.id || ""),
   });
-
-  const [uploadStatus, setUploadStatus] = useState<string[]>([]);
+  const [isUploaded, setIsUploaded] = useState<boolean>(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [fileUrls, setFileUrls] = useState<string[]>([]);
+  const [filesSelected, setFilesSelected] = useState<FileStatus[]>([]);
+
+  const [countFilesUp, setCountFilesUp] =useState<number[]>([]);
 
   const handleImageSelection = async (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files) {
       const fileArray = Array.from(files);
-
+      fileArray.map((v) =>
+        setFilesSelected((prev) => [...prev, { name: v.name, status: true }])
+      );
       const uploadPromises = fileArray.map(async (file) => {
         const uniqueFileName = `${file.name}-${crypto.randomUUID()}`;
         const nameFolder = user?.email?.split("@")[0];
@@ -95,22 +105,34 @@ const DashboardPage = () => {
           await uploadBytes(storageRef, file);
           const downloadUrl = await getDownloadURL(storageRef);
           setFileUrls((prevUrls) => [...prevUrls, downloadUrl]); // Save U
-          setUploadStatus((prev) => [
-            ...prev,
-            `${file.name} uploaded successfully`,
-          ]);
+          setCountFilesUp((prev)=>[...prev, +1 ])
+          setIsUploaded(true);
         } catch (error) {
-          setUploadStatus((prev) => [...prev, `Error uploading ${file.name}`]);
+          setFileUrls((prev) => [...prev, `Error uploading ${file.name}`]);
           console.error(`Error uploading ${file.name}`, error);
         }
       });
-
+   
       await Promise.all(uploadPromises);
       console.log("All files uploaded!");
     }
   };
+  useEffect(() => {
+    setFilesSelected((prev) =>
+      prev.map((file, index) =>
+        index === filesSelected.findIndex((v) => v.status === true)
+          ? { ...file, status: false }
+          : file
+      )
+    );
+
+    setIsUploaded(false);
+  }, [isUploaded == true]);
+
+  const toggleExpand = () => setIsExpanded(!isExpanded);
   const [typeRE, setTypeRE] = useState({} as TypeRE);
   const [location, setLocation] = useState<Location | null>(null);
+  console.log(countFilesUp);
   return (
     <div className="flex h-screen w-auto  mx-2 mt-2 gap-4 flex-wrap md:flex-nowrap">
       <div className="md:basis-3/12 grow-0 w-full md:pr-16">
@@ -131,7 +153,6 @@ const DashboardPage = () => {
             handleImageUpload={handleImageUpload}
             handleShowModalUpImage={handleShowUploadImage}
             isModalUpImageOpen={isOpenUpImage}
-            
           />
           <ModalCreatePropierty
             errors={errors}
@@ -140,12 +161,16 @@ const DashboardPage = () => {
             isModalOpen={isCreateREOpen}
             handleImageSelection={handleImageSelection}
             isPendingRE={isPendingRealEstate}
-            uploadStatus={uploadStatus}
             setTypeRE={setTypeRE}
             typeRE={typeRE}
             location={location}
             setLocation={setLocation}
             register={register}
+            isExpanded={isExpanded}
+            toggleExpand={toggleExpand}
+            fileUrl={fileUrls}
+            filesSelected={filesSelected}
+            countFilesUp={countFilesUp}
           />
         </div>
 
