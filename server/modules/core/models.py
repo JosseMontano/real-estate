@@ -30,6 +30,13 @@ class TypeRealEstate(Base):
     # relationships
     real_estates = relationship("RealEstate", back_populates="type_real_estate")
 
+class Translate(Base):
+    __tablename__ = 'translates'
+
+    id = Column(Integer, primary_key=True, index=True)
+    es = Column(String)
+    en = Column(String)
+    pt = Column(String)
 
 class RealEstate(Base):
     __tablename__ = 'real_estates'
@@ -43,13 +50,12 @@ class RealEstate(Base):
     lat_long = Column(String)  # Assuming this is a string, or could use Geography for lat/long in PostGIS
     price = Column(Float)
     square_meter = Column(Float)
-    titleEs = Column(String)
-    titleEn = Column(String)
-    titlePt = Column(String)
-    descriptionEs = Column(String)
-    descriptionEn = Column(String)
-    descriptionPt = Column(String)
     type_real_estate_id = Column(Integer, ForeignKey('type_real_estates.id'))
+    title_id = Column(Integer, ForeignKey('translates.id'))
+    description_id = Column(Integer, ForeignKey('translates.id'))
+    
+    title = relationship("Translate", foreign_keys=[title_id])
+    description = relationship("Translate", foreign_keys=[description_id])
     
     # relationships
     type_real_estate = relationship("TypeRealEstate", back_populates="real_estates")

@@ -54,7 +54,7 @@ export const SectionRealStates = ({
     if (newState === "places" && !places[index]) {
       // Only fetch if not already fetched
       const res = await handlePost("fetch_nearby_places", {
-        location: item.latLong,
+        location: item.lat_long,
       });
       setPlaces((prevPlaces) => ({
         ...prevPlaces,
@@ -77,7 +77,7 @@ export const SectionRealStates = ({
             index % 2 === 1 ? "md:flex-row-reverse" : ""
           }`}
         >
-          <Photo img={item.images} />
+          <Photo img={item.photos} />
 
           <div
             className={`flex flex-col ${

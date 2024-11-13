@@ -2,6 +2,13 @@ import { create } from "zustand";
 
 export type Language = "en" | "es" | "pt";
 
+export type TranslateRes = {
+  es: string;
+  en: string;
+  pt: string;
+};
+
+
 interface Translations {
   //auth
   titleAuth: string;

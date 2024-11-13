@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { useRef, useState } from "react";
+import { Res } from "../types/res";
 
 type Props<T> = {
-  services: () => Promise<T>;
+  services: () => Promise<Res<T>>;
   queryKey: string;
   itemsPerPage: number;
 };
@@ -11,7 +12,7 @@ const useGet = <T,>({ services, queryKey, itemsPerPage }: Props<T>) => {
     queryKey: [queryKey],
     queryFn: async () => {
       const res = await services();
-      return res;
+      return res.val;
     },
   });
 

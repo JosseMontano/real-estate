@@ -27,6 +27,8 @@ export const HomePage = () => {
     itemsPerPage: 3,
   });
 
+  console.log(realEstates);
+
   const { handleStateModal, isModalOpen } = useModal();
 
   const handleOpenCreateComment=(v:RealEstate)=>{
@@ -41,7 +43,6 @@ export const HomePage = () => {
       if (sceneEl) sceneEl.remove();
     };
   }, []);
-
   return (
     <div>
       <div

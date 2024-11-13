@@ -20,19 +20,26 @@ BASEDIR = Path(__file__).resolve().parent.parent.parent  # Adjust this based on 
 load_dotenv(BASEDIR / '.env')
 GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY')
 
-# Response model for RealEstate
+class TranslateResponse(BaseModel):
+    es: str
+    en: str
+    pt: str
+
+    class Config:
+        orm_mode = True
+
 class RealEstateResponse(BaseModel):
     id: int
     address: str
     amount_bathroom: int
     amount_bedroom: int
     available: bool
-    description: str
+    description: TranslateResponse  # Changed to include Translate relationship
     image: str
     lat_long: str
     price: float
     square_meter: float
-    title: str
+    title: TranslateResponse  # Changed to include Translate relationship
     type_real_estate_id: int
 
     class Config:
@@ -57,44 +64,43 @@ class NearbyPlacesRequest(BaseModel):
 
 @app.get('/')
 async def get_real_estates(db: Session = Depends(get_db)):
-    
-    query = db.query(models.RealEstate).options(joinedload(models.RealEstate.photos))
-    
+    query = db.query(models.RealEstate).options(
+        joinedload(models.RealEstate.photos),
+        joinedload(models.RealEstate.title),
+        joinedload(models.RealEstate.description)
+    )
     real_estates = query.all()
     return {"status": "200", "message": "Real estates retrieved successfully", "val": real_estates}
 
 @app.post('/')
 async def create_real_estate(real_estate: RealEstateDTO, db: Session = Depends(get_db)):
-    # Obtener la dirección a partir de las coordenadas
+    # Get address from coordinates
     geo_location = Nominatim(user_agent="GetLoc")
     loc_name = geo_location.reverse(real_estate.lat_long)
     address = loc_name.address if loc_name else "Not Found"
 
-    # Obtener traducciones para título y descripción
-    resultTitle = translate_es_en_pt(real_estate.title)
-    resultDescription = translate_es_en_pt(real_estate.description)
+    # Generate translations for title and description
+    result_title = translate_es_en_pt(real_estate.title)
+    result_description = translate_es_en_pt(real_estate.description)
 
-    # Crear diccionario de datos a partir del DTO y limpiar campos innecesarios
-    real_estate_data = real_estate.dict()
-    real_estate_data.pop("title", None)  # Elimina "title" si no está en el modelo
-    real_estate_data.pop("description", None)  # Elimina "description" si no está en el modelo
+    # Create Translate records for title and description
+    title_translate = models.Translate(es=result_title["valEs"], en=result_title["valEn"], pt=result_title["valPt"])
+    description_translate = models.Translate(es=result_description["valEs"], en=result_description["valEn"], pt=result_description["valPt"])
 
-    # Crear instancia de RealEstate solo con los campos válidos
-    db_real_estate = models.RealEstate(**{k: v for k, v in real_estate_data.items() if hasattr(models.RealEstate, k)})
+    # Add these to the session
+    db.add(title_translate)
+    db.add(description_translate)
+    db.commit()  # Commit to assign IDs
 
-    # Asignar valores adicionales manualmente
-    db_real_estate.address = address
-    db_real_estate.titleEs = resultTitle["valEs"]
-    db_real_estate.titleEn = resultTitle["valEn"]
-    db_real_estate.titlePt = resultTitle["valPt"]
-    db_real_estate.descriptionEs = resultDescription["valEs"]
-    db_real_estate.descriptionEn = resultDescription["valEn"]
-    db_real_estate.descriptionPt = resultDescription["valPt"]
+    # Create RealEstate entry
+    real_estate_data = real_estate.dict(exclude={"title", "description"})
+    db_real_estate = models.RealEstate(**real_estate_data, address=address, title_id=title_translate.id, description_id=description_translate.id)
 
-    # Guardar en la base de datos
+    # Save RealEstate entry
     db.add(db_real_estate)
     db.commit()
     db.refresh(db_real_estate)
+
     return {"status": "201", "message": "Real estate created successfully", "val": db_real_estate}
 
 @app.delete('/{real_estate_id}')
@@ -112,8 +118,21 @@ async def update_real_estate(real_estate_id: int, updated_real_estate: RealEstat
     if real_estate is None:
         raise HTTPException(status_code=404, detail="Real estate not found")
 
-    # Update fields
-    for key, value in updated_real_estate.dict().items():
+    # Update fields and translations if provided
+    if updated_real_estate.title:
+        result_title = translate_es_en_pt(updated_real_estate.title)
+        real_estate.title.es = result_title["valEs"]
+        real_estate.title.en = result_title["valEn"]
+        real_estate.title.pt = result_title["valPt"]
+
+    if updated_real_estate.description:
+        result_description = translate_es_en_pt(updated_real_estate.description)
+        real_estate.description.es = result_description["valEs"]
+        real_estate.description.en = result_description["valEn"]
+        real_estate.description.pt = result_description["valPt"]
+
+    # Update other fields
+    for key, value in updated_real_estate.dict(exclude={"title", "description"}).items():
         setattr(real_estate, key, value)
 
     db.commit()
