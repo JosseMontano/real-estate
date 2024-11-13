@@ -5,15 +5,22 @@ import { useForm } from "@/core/hooks/useForm";
 import useAuthStore from "@/core/store/auth";
 import { User } from "@/core/types/user";
 import { userEditSchema } from "../validations/userEdit.schema";
-import {editUser } from "../api/endpoints";
+import { editUser } from "../api/endpoints";
 import { ShowModal } from "@/core/components/form/modal";
+import { ProfileImageUploader } from "./changeImagePerfil";
 type ParamsType = {
-  isModalOpen: boolean;
-  handleShowModal: () => void;
+  isModaEditUserOpen: boolean;
+  handleShowModalEditUser: () => void;
+  handleImageUpload: (url: string) => void;
+  handleShowModalUpImage: () => void;
+  isModalUpImageOpen: boolean;
 };
 export const ModalEditUser = ({
-  isModalOpen,
-  handleShowModal,
+  isModaEditUserOpen,
+  handleShowModalEditUser,
+  handleImageUpload,
+  handleShowModalUpImage,
+  isModalUpImageOpen,
 }: ParamsType) => {
   const { user } = useAuthStore();
 
@@ -29,7 +36,7 @@ export const ModalEditUser = ({
         await editUser(user.id, data);
       }
     },
-    defaultVales:user? user : {} as User
+    defaultVales: user ? user : ({} as User),
   });
 
   return (
@@ -38,41 +45,45 @@ export const ModalEditUser = ({
         isPending={false}
         text="Editar usuario"
         className="max-w-max p-2"
-        onClick={handleShowModal}
+        onClick={handleShowModalEditUser}
       />
- 
-        <ShowModal
-          setIsModalOpen={handleShowModal}
-          isModalOpen={isModalOpen}
-          title="Editar usuario"
-          children={
-            <FormComponent
-              handleOnSubmit={handleOnSubmit}
-              isPending={isPendingUser}
-              btnText="Guardar"
-              children={
-                <>
-                  <Input
-                    text="Nombre de usuario"
-                    error={errors?.userName}
-                    register={register("userName")}
-                  />
-                  <Input
-                    text="Numero de celular"
-                    error={errors?.cellphoneNumber}
-                    register={register("cellphoneNumber")}
-                  />
-                  <Input
-                    text="Correo"
-                    error={errors?.email}
-                    register={register("email")}
-                  />
-                </>
-              }
-            />
-          }
-        />
-    
+
+      <ShowModal
+        setIsModalOpen={handleShowModalEditUser}
+        isModalOpen={isModaEditUserOpen}
+        title="Editar usuario"
+        children={
+          <FormComponent
+            handleOnSubmit={handleOnSubmit}
+            isPending={isPendingUser}
+            btnText="Guardar"
+            children={
+              <>
+                <Input
+                  text="Nombre de usuario"
+                  error={errors?.userName}
+                  register={register("userName")}
+                />
+                <Input
+                  text="Numero de celular"
+                  error={errors?.cellphoneNumber}
+                  register={register("cellphoneNumber")}
+                />
+                <Input
+                  text="Correo"
+                  error={errors?.email}
+                  register={register("email")}
+                />
+                <ProfileImageUploader
+                  onImageUpload={handleImageUpload}
+                  handleShowModal={handleShowModalUpImage}
+                  isModalOpen={isModalUpImageOpen}
+                />
+              </>
+            }
+          />
+        }
+      />
     </div>
   );
 };

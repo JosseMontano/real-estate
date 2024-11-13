@@ -84,7 +84,6 @@ export const ProfileImageUploader: React.FC<ParamasType> = ({
               </label>
             </div>
             <p>{fileName || ""}</p>
-            {/* Muestra el nombre del archivo o vacío */}
             <Btn
               isPending={false}
               text={loading ? "Subiendo..." : "Subir imagen"}
