@@ -49,6 +49,7 @@ class RealEstate(Base):
     amount_bathroom = Column(Integer)
     amount_bedroom = Column(Integer)
     available = Column(Boolean, default=True)
+    active = Column(Boolean, default=True)
     taken= Column(Boolean, default=False)
     image = Column(String)
     lat_long = Column(String)  # Assuming this is a string, or could use Geography for lat/long in PostGIS

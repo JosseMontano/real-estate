@@ -72,6 +72,28 @@ async def get_real_estates(db: Session = Depends(get_db)):
     
     return {"status": 200, "message": Messages.DATA_FOUND, "val": real_estates}
 
+
+@app.get('/statistics')
+async def get_statistics(db: Session = Depends(get_db)):
+    real_estates = db.query(models.RealEstate).all()
+    
+    val={
+        "total": len(real_estates),
+        "active": len([val for val in real_estates if val.active]),
+        "inactive": len([val for val in real_estates if not val.active])
+    }
+    
+    if not real_estates:
+        return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": {
+            "total": 0,
+            "active": 0,
+            "inactive": 0
+        }}
+        
+    return {"status": 200, "message": Messages.DATA_FOUND, "val": val }
+
+
+
 @app.get('/{type_real_estate_id}')
 async def get_real_estates_by_type(type_real_estate_id:int ,db: Session = Depends(get_db)):
     query = db.query(models.RealEstate).options(
@@ -126,7 +148,7 @@ async def delete_real_estate(real_estate_id: int, db: Session = Depends(get_db))
     if real_estate is None:
         return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": []}
     
-    real_estate.available = not real_estate.available
+    real_estate.active = not real_estate.active
     db.commit()
     db.refresh(real_estate)
     

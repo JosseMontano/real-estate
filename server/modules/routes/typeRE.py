@@ -33,6 +33,26 @@ async def get_question(db: Session = Depends(get_db)):
         return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": []}
     return {"status": 200, "message": Messages.DATA_FOUND, "val":  typeRE}
 
+@app.get('/statistics')
+async def get_statistics(db: Session = Depends(get_db)):
+    types = db.query(models.TypeRealEstate).all()
+    
+    val={
+        "total": len(types),
+        "active": len([typeRE for typeRE in types if typeRE.active]),
+        "inactive": len([typeRE for typeRE in types if not typeRE.active])
+    }
+    
+    if not types:
+        return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": {
+            "total": 0,
+            "active": 0,
+            "inactive": 0
+        }}
+        
+    return {"status": 200, "message": Messages.DATA_FOUND, "val": val }
+
+
 
 @app.post('/')
 async def create_type_real_estate(type_real_estate: TypeRealEstateDTO, db: Session = Depends(get_db)):
