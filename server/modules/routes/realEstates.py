@@ -10,6 +10,7 @@ import os
 from dotenv import load_dotenv
 from pathlib import Path
 from modules.core.utils.translate import translate_es_en_pt
+from modules.core.const import TranslateResponse
 
 app = APIRouter(
     prefix="/api/real-estates/real_estates",
@@ -20,13 +21,6 @@ BASEDIR = Path(__file__).resolve().parent.parent.parent  # Adjust this based on 
 load_dotenv(BASEDIR / '.env')
 GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY')
 
-class TranslateResponse(BaseModel):
-    es: str
-    en: str
-    pt: str
-
-    class Config:
-        orm_mode = True
 
 class RealEstateResponse(BaseModel):
     id: int

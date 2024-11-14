@@ -4,6 +4,15 @@ from sqlalchemy import Column, Integer, String, Boolean
 from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey, Float
 
+
+class Translate(Base):
+    __tablename__ = 'translates'
+
+    id = Column(Integer, primary_key=True, index=True)
+    es = Column(String)
+    en = Column(String)
+    pt = Column(String)
+
 class User(Base):
     __tablename__ = 'users'
 
@@ -24,19 +33,12 @@ class TypeRealEstate(Base):
     __tablename__ = 'type_real_estates'
 
     id = Column(Integer, primary_key=True, index=True)
-    nameEs = Column(String, unique=True, index=True)
-    nameEn = Column(String, unique=True, index=True)
-    namePt = Column(String, unique=True, index=True)
+    name_id = Column(Integer, ForeignKey('translates.id'))
+    active = Column(Boolean, default=True)
+    
+    name = relationship("Translate", foreign_keys=[name_id])
     # relationships
     real_estates = relationship("RealEstate", back_populates="type_real_estate")
-
-class Translate(Base):
-    __tablename__ = 'translates'
-
-    id = Column(Integer, primary_key=True, index=True)
-    es = Column(String)
-    en = Column(String)
-    pt = Column(String)
 
 class RealEstate(Base):
     __tablename__ = 'real_estates'
@@ -89,9 +91,10 @@ class Question(Base):
     __tablename__ = 'questions'
 
     id = Column(Integer, primary_key=True, index=True)
-    questionEs = Column(String)
-    questionEn = Column(String)
-    questionPt = Column(String)
+    question_id = Column(Integer, ForeignKey('translates.id'))
+    active = Column(Boolean, default=True)
+    
+    question = relationship("Translate", foreign_keys=[question_id])
     
     responses = relationship("Response", back_populates="question")
 
@@ -99,12 +102,12 @@ class Response(Base):
     __tablename__ = 'responses'
 
     id = Column(Integer, primary_key=True, index=True)
-    responseEs = Column(String)
-    responseEn = Column(String)
-    responsePt = Column(String)
     question_id = Column(Integer, ForeignKey('questions.id'))
     real_estate_id = Column(Integer, ForeignKey('real_estates.id'))
-
+    response_id = Column(Integer, ForeignKey('translates.id'))
+    active = Column(Boolean, default=True)
+    
+    response = relationship("Translate", foreign_keys=[response_id])
 
     question = relationship("Question", back_populates="responses")
     real_estate = relationship("RealEstate", back_populates="responses")
@@ -114,11 +117,12 @@ class Comment(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     amount_star = Column(Integer)
-    commentEs = Column(String)
-    commentEn = Column(String)
-    commentPt = Column(String)
+    comment_id = Column(Integer, ForeignKey('translates.id'))
     commentator_id = Column(Integer, ForeignKey('users.id'))
     real_estate_id = Column(Integer, ForeignKey('real_estates.id'))
+    active = Column(Boolean, default=True)
+
+    comment = relationship("Translate", foreign_keys=[comment_id])
 
     # relationships
     commentator = relationship("User", back_populates="comments")
