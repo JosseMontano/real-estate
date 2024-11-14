@@ -27,6 +27,7 @@ class User(Base):
 
     # relationships if needed
     comments = relationship("Comment", back_populates="commentator")
+    real_estates = relationship("RealEstate", back_populates="user")
     favorites = relationship("FavoriteRealEstate", back_populates="user")
 
 class TypeRealEstate(Base):
@@ -48,6 +49,7 @@ class RealEstate(Base):
     amount_bathroom = Column(Integer)
     amount_bedroom = Column(Integer)
     available = Column(Boolean, default=True)
+    taken= Column(Boolean, default=False)
     image = Column(String)
     lat_long = Column(String)  # Assuming this is a string, or could use Geography for lat/long in PostGIS
     price = Column(Float)
@@ -55,6 +57,9 @@ class RealEstate(Base):
     type_real_estate_id = Column(Integer, ForeignKey('type_real_estates.id'))
     title_id = Column(Integer, ForeignKey('translates.id'))
     description_id = Column(Integer, ForeignKey('translates.id'))
+    
+    user_id = Column(Integer, ForeignKey('users.id'))
+    user = relationship("User", back_populates="real_estates")
     
     title = relationship("Translate", foreign_keys=[title_id])
     description = relationship("Translate", foreign_keys=[description_id])
@@ -124,6 +129,6 @@ class Comment(Base):
 
     comment = relationship("Translate", foreign_keys=[comment_id])
 
-    # relationships
+
     commentator = relationship("User", back_populates="comments")
     real_estate = relationship("RealEstate", back_populates="comments")

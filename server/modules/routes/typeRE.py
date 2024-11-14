@@ -9,7 +9,7 @@ from modules.core.const import Messages
 from modules.core.utils.translate import translate_es_en_pt
 from modules.core.const import TranslateResponse
 app = APIRouter(
-    prefix="/type-real-estates",
+    prefix="/api/type-real-estates",
     tags=["Type Real Estates"],
 )
 

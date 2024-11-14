@@ -9,10 +9,9 @@ from modules.core.utils.translate import translate_es_en_pt
 from modules.core.const import Messages
 
 app = APIRouter(
-    prefix="/questions",
+    prefix="/api/questions",
     tags=["Questions"],
 )
-
 
 class QuestionDTO(BaseModel): 
     question: str

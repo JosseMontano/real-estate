@@ -11,9 +11,10 @@ from dotenv import load_dotenv
 from pathlib import Path
 from modules.core.utils.translate import translate_es_en_pt
 from modules.core.const import TranslateResponse
+from modules.core.const import Messages
 
 app = APIRouter(
-    prefix="/api/real-estates/real_estates",
+    prefix="/api/real_estates",
     tags=["Real Estates"],
 )
 
@@ -43,7 +44,7 @@ class RealEstateResponse(BaseModel):
 class RealEstateDTO(BaseModel):
     amount_bathroom: int
     amount_bedroom: int
-    available: bool
+    taken: bool
     description: str
     image: str
     lat_long: str
@@ -51,6 +52,7 @@ class RealEstateDTO(BaseModel):
     square_meter: float
     title: str
     type_real_estate_id: int
+    user_id: int
 
 class NearbyPlacesRequest(BaseModel):
     location: str
@@ -64,47 +66,71 @@ async def get_real_estates(db: Session = Depends(get_db)):
         joinedload(models.RealEstate.description)
     )
     real_estates = query.all()
-    return {"status": "200", "message": "Real estates retrieved successfully", "val": real_estates}
+    
+    if not real_estates:
+        return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": []}
+    
+    return {"status": 200, "message": Messages.DATA_FOUND, "val": real_estates}
 
+@app.get('/{type_real_estate_id}')
+async def get_real_estates_by_type(type_real_estate_id:int ,db: Session = Depends(get_db)):
+    query = db.query(models.RealEstate).options(
+        joinedload(models.RealEstate.photos),
+        joinedload(models.RealEstate.title),
+        joinedload(models.RealEstate.description)
+    ).filter(models.RealEstate.type_real_estate_id == type_real_estate_id)
+    real_estates = query.all()
+    
+    if not real_estates:
+        return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": []}
+    
+    return {"status": 200, "message": Messages.DATA_FOUND, "val": real_estates}
 @app.post('/')
 async def create_real_estate(real_estate: RealEstateDTO, db: Session = Depends(get_db)):
-    # Get address from coordinates
-    geo_location = Nominatim(user_agent="GetLoc")
-    loc_name = geo_location.reverse(real_estate.lat_long)
-    address = loc_name.address if loc_name else "Not Found"
+    try:
+        # Get address from coordinates
+        geo_location = Nominatim(user_agent="GetLoc")
+        loc_name = geo_location.reverse(real_estate.lat_long)
+        address = loc_name.address if loc_name else "Not Found"
 
-    # Generate translations for title and description
-    result_title = translate_es_en_pt(real_estate.title)
-    result_description = translate_es_en_pt(real_estate.description)
+        # Generate translations for title and description
+        result_title = translate_es_en_pt(real_estate.title)
+        result_description = translate_es_en_pt(real_estate.description)
 
-    # Create Translate records for title and description
-    title_translate = models.Translate(es=result_title["valEs"], en=result_title["valEn"], pt=result_title["valPt"])
-    description_translate = models.Translate(es=result_description["valEs"], en=result_description["valEn"], pt=result_description["valPt"])
+        # Create Translate records for title and description
+        title_translate = models.Translate(es=result_title["valEs"], en=result_title["valEn"], pt=result_title["valPt"])
+        description_translate = models.Translate(es=result_description["valEs"], en=result_description["valEn"], pt=result_description["valPt"])
+        
+        # Add these to the session
+        db.add(title_translate)
+        db.add(description_translate)
+        db.commit()  # Commit to assign IDs
 
-    # Add these to the session
-    db.add(title_translate)
-    db.add(description_translate)
-    db.commit()  # Commit to assign IDs
+        # Create RealEstate entry
+        real_estate_data = real_estate.dict(exclude={"title", "description"})
+        db_real_estate = models.RealEstate(**real_estate_data, address=address, title_id=title_translate.id, description_id=description_translate.id)
 
-    # Create RealEstate entry
-    real_estate_data = real_estate.dict(exclude={"title", "description"})
-    db_real_estate = models.RealEstate(**real_estate_data, address=address, title_id=title_translate.id, description_id=description_translate.id)
+        # Save RealEstate entry
+        db.add(db_real_estate)
+        db.commit()
+        db.refresh(db_real_estate)
 
-    # Save RealEstate entry
-    db.add(db_real_estate)
-    db.commit()
-    db.refresh(db_real_estate)
-
-    return {"status": "201", "message": "Real estate created successfully", "val": db_real_estate}
+        return {"status": 201, "message": Messages.DATA_CREATED, "val": db_real_estate}
+    except Exception as e:
+        db.rollback()
+        return {"status": 500, "message": str(e), "val": []}
 
 @app.delete('/{real_estate_id}')
 async def delete_real_estate(real_estate_id: int, db: Session = Depends(get_db)):
     real_estate = db.query(models.RealEstate).filter(models.RealEstate.id == real_estate_id).first()
     if real_estate is None:
-        raise HTTPException(status_code=404, detail="Real estate not found")
-    db.delete(real_estate)
+        return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": []}
+    
+    real_estate.available = not real_estate.available
     db.commit()
-    return {"status": "200", "message": "Real estate deleted successfully", "val": real_estate}
+    db.refresh(real_estate)
+    
+    return {"status": "200", "message": Messages.DATA_DELETED, "val": real_estate}
 
 @app.put('/{real_estate_id}')
 async def update_real_estate(real_estate_id: int, updated_real_estate: RealEstateDTO, db: Session = Depends(get_db)):
@@ -131,7 +157,7 @@ async def update_real_estate(real_estate_id: int, updated_real_estate: RealEstat
 
     db.commit()
     db.refresh(real_estate)
-    return {"status": "200", "message": "Real estate updated successfully", "val": real_estate}
+    return {"status": 200, "message": Messages.DATA_UPDATED,"val": real_estate}
 
 @app.post('/fetch_nearby_places')
 def fetch_nearby_places(request: NearbyPlacesRequest):
