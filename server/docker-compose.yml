@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+
+  postgres:
+    image: postgres:latest
+    restart: always
+    container_name: DB
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: realEstateDB
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
