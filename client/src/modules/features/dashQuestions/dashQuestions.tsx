@@ -10,7 +10,6 @@ export const DashQuestions = ({}: ParamsType) => {
   const {
     data: questions,
     isLoading,
-    firstElementRef,
     amountOfPages,
     handlePagination,
     currentPage,
@@ -32,7 +31,15 @@ export const DashQuestions = ({}: ParamsType) => {
   return (
     <div>
       <SumaryCard />
-      <CustomerTable header={header} data={questions} handleState={mutateToState}/>
+      <CustomerTable
+        header={header}
+        data={questions}
+        handleState={mutateToState}
+        amountOfPages={amountOfPages}
+        currentPage={currentPage}
+        handlePagination={handlePagination}
+        isloading={isLoading}
+      />
     </div>
   );
 };
