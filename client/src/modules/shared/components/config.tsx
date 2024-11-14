@@ -31,7 +31,9 @@ export const Config = () => {
 
               <Select
                 value={language}
-                onChange={(val)=> setLanguage(val)}
+                onChange={(val) => {
+                  setLanguage(val.id);
+                }}
                 options={[
                   { id: "es", value: texts.language1Config },
                   { id: "en", value: texts.language2Config },

@@ -12,6 +12,7 @@ import { DashboardProduct } from "@/features/dashboard/components/dashboardP/das
 import { DashboardIncome } from "@/features/dashboard/components/dashboardI/dashboardI";
 import { DashboardGraphics } from "@/features/dashboard/components/dashboardGraphics/dashboardGraphics";
 import { Side } from "@/features/dashboard/components/side";
+import { DashQuestions } from "@/features/dashQuestions/dashQuestions";
 
 export const queryClient = new QueryClient();
 export type Routes = "/" | "/profile" | "/auth" | "/img360";
@@ -33,6 +34,7 @@ function App() {
               <Route path="product" element={<DashboardProduct />} />
               <Route path="customers" element={<DashboardCustomers />} />
               <Route path="income" element={<DashboardIncome />} />
+              <Route path="questions" element={<DashQuestions />} />
             </Route>
           </Routes>
           <Config />

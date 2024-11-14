@@ -42,3 +42,12 @@ export const handlePost = async <T>(
   };
 };
 
+
+export const Delete = async (url: string, id: number) => {
+  const response = await fetch(urls.endpoint + `${url}/${id}`, {
+    method: 'DELETE'
+  })
+  const data = await response.json()
+  return data
+}
+

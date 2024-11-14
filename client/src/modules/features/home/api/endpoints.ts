@@ -1,4 +1,4 @@
-import { Comment, Question } from "./response";
+import { Comment, Question } from "../../../shared/types/questions";
 import {CommentDTO, QuestionDTO} from "./dtos"
 import {
   db,

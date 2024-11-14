@@ -9,6 +9,7 @@ export const Sidebar = ({}: ParamsType) => {
     { path: "/dashboard/product", label: "Productos" },
     { path: "/dashboard/customers", label: "Clientes" },
     { path: "/dashboard/income", label: "Ingresos" },
+    { path: "/dashboard/questions", label: "Preguntas" },
   ];
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const toggleSidebar = () => {
