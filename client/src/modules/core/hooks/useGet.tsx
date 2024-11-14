@@ -4,12 +4,19 @@ import { Res } from "../types/res";
 
 type Props<T> = {
   services: () => Promise<Res<T>>;
-  queryKey: string;
-  itemsPerPage: number;
+  queryKey: any[];
+  itemsPerPage?: number;
 };
-const useGet = <T,>({ services, queryKey, itemsPerPage }: Props<T>) => {
+
+const defaultItemsPerPage = 100;
+
+const useGet = <T,>({
+  services,
+  queryKey,
+  itemsPerPage = defaultItemsPerPage,
+}: Props<T>) => {
   const { isLoading, data, isError, error } = useQuery({
-    queryKey: [queryKey],
+    queryKey: queryKey,
     queryFn: async () => {
       const res = await services();
       return res.val;
@@ -38,7 +45,7 @@ const useGet = <T,>({ services, queryKey, itemsPerPage }: Props<T>) => {
 
   return {
     isLoading,
-    data: dataPaginated,
+    data: itemsPerPage != defaultItemsPerPage ? dataPaginated : (data as T),
     isError,
     error,
     handlePagination,

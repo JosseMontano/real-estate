@@ -26,6 +26,25 @@ async def get_questions(db: Session = Depends(get_db)):
         return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": []}
     return {"status": 200, "message": Messages.DATA_FOUND, "val": questions}
 
+@app.get('/statistics')
+async def get_statistics(db: Session = Depends(get_db)):
+    questions = db.query(models.Question).all()
+    
+    val={
+        "total": len(questions),
+        "active": len([question for question in questions if question.active]),
+        "inactive": len([question for question in questions if not question.active])
+    }
+    
+    if not questions:
+        return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": {
+            "total": 0,
+            "active": 0,
+            "inactive": 0
+        }}
+        
+    return {"status": 200, "message": Messages.DATA_FOUND, "val": val }
+
 @app.post('/')
 async def create_question(question: QuestionDTO, db: Session = Depends(get_db)):
     result_question = translate_es_en_pt(question.question)

@@ -1,4 +1,5 @@
 import { urls } from "../config/endpoint";
+import { Res } from "@/core/types/res";
 
 interface Reponse {
   val: any;
@@ -51,3 +52,20 @@ export const Delete = async (url: string, id: number) => {
   return data
 }
 
+export const handleGet = async <T,>(url: string): Promise<Res<T>> => {
+
+  const response = await fetch(urls.endpoint + url)
+
+  if (!response.ok) {
+    return {
+      message: "Error",
+      val: [] as T,
+      status: response.status,
+    }
+  }
+
+  const data = await response.json();
+  
+  return data;
+
+}
