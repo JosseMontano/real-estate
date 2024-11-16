@@ -1,4 +1,49 @@
-virtualenv env
+<h1 align="center">REAL ESTATES</h1>
 
-.\env\Scripts\activate
-uvicorn app:app
+# Use of application
+<!-- 
+<p>
+    <a href="https://realestate-c70dc.web.app/" target="_blank"><b>Go to the application</b></a>
+</p> -->
+<p>The app will be in production soon</p>
+
+</p>
+
+# GENERAL STEPS TO INSTALL THE PROJECT
+
+1. Clone the repository
+
+# Steps in the backend (python)
+
+<p align="center">
+    <a href="" target="_blank">
+        <img src="https://fastapi.tiangolo.com/img/logo-margin/logo-teal.png" width="150">
+    </a>
+</p>
+
+1. `env/Scripts/Active`
+2. Rename the file `env copy` to `.env`
+3. Change the variables of environment
+4. `pip install -r requirements.txt`
+5. `uvicorn app:app --reload`
+
+# Steps in the frontend
+
+<p align="center">
+    <a href="" target="_blank">
+        <img src="https://styles.redditmedia.com/t5_2su6s/styles/communityIcon_4g1uo0kd87c61.png?width=256&s=3f7493995143d3cf40b1fedc582607cea194b579" width="150">
+    </a>
+</p>
+
+1. `pnpm i`
+2. Renam the file `env copy` to `env`
+3. Change the variables of environment
+4. `pnpm dev`
+
+# Technologies used
+
+<p align="center">
+    <img src="https://styles.redditmedia.com/t5_2v6gg/styles/communityIcon_4w7vh6c21f871.png" width="100">
+    <img src="https://fastapi.tiangolo.com/img/logo-margin/logo-teal.png" width="100">
+    <img src="https://styles.redditmedia.com/t5_2su6s/styles/communityIcon_4g1uo0kd87c61.png?width=256&s=3f7493995143d3cf40b1fedc582607cea194b579" width="100">
+</p>
