@@ -15,7 +15,7 @@
 
 
 /* styles.css */
-body {
+* {
   font-family: 'Montserrat', sans-serif;
   font-size: 16px; /* Set your desired font size here */
 }
@@ -30,5 +30,23 @@ body {
    flex: 0 0 100%;
   min-width: 0;
   cursor: grab; 
-  
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+}
+
+.shake {
+  animation: shake 1.3s ease-in-out 0s infinite;
 }

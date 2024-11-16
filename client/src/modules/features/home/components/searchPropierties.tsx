@@ -17,24 +17,19 @@ export const SearchPropierties = ({}: ParamsType) => {
   };
   const fields: Field[] = [
     {
-      label: "Ingresa alguna palabra",
-      type: "text",
-      placeholder: "3 dormitorios",
-    },
-    {
       label: "Tipo de propiedad",
       type: "select",
-      options: ["Residencial", "Soltero", "Commercial", "Casado", "Viudo"],
+      options: ["Seleccione la propiedad","Residencial", "Soltero", "Commercial", "Casado", "Viudo"],
     },
     {
       label: "Ubicación",
       type: "select",
-      options: ["Queru queru", "Cala cala", "Prado", "Bulevar"],
+      options: ["Seleccione la ubicacion","Queru queru", "Cala cala", "Prado", "Bulevar"],
     },
     {
       label: "Limites de precio",
       type: "select",
-      options: ["1000Bs", "1500Bs", "2000Bs", "2500Bs"],
+      options: ["Seleccione el precio","1000Bs", "1500Bs", "2000Bs", "2500Bs"],
     },
   ];
   return (

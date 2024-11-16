@@ -27,7 +27,6 @@ export const HomePage = () => {
     itemsPerPage: 3,
   });
 
-  console.log(realEstates);
 
   const { handleStateModal, isModalOpen } = useModal();
 
@@ -49,7 +48,7 @@ export const HomePage = () => {
         className="w-full h-screen bg-cover relative"
         style={{ backgroundImage: `url(${bgImage})` }}
       >
-        <div className="h-screen bg-black bg-opacity-50 ">
+        <div className="h-screen bg-black bg-opacity-60 ">
           <Header />
           <TitleCenter />
           <SearchPropierties />
