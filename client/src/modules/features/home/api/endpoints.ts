@@ -8,6 +8,7 @@ import {
 import { RealEstate } from "@/shared/types/realEstate";
 import { User } from "@/core/types/user";
 import { Res } from "@/core/types/res";
+import { handleGet } from "@/core/utils/fetch";
 
 
 export async function addQuestionToDB(
@@ -41,16 +42,5 @@ export async function addCommentToDB(commentData:CommentDTO, realEstate:RealEsta
 }
 
 export const fetchRealEstates = async (): Promise<Res<RealEstate[]>> => {
-  const response = await fetch('http://127.0.0.1:8000/api/real-estates/real_estates/');
-  
-  if (!response.ok) {
-    return {
-      message: "Error",
-      val: [],
-      status: response.status,
-    }
+  return await handleGet<RealEstate[]>("real_estates");
   }
-
-  const data = await response.json() as Res<RealEstate[]>;
-  return data;
-};

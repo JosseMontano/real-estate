@@ -23,7 +23,7 @@ export const HomePage = () => {
     currentPage,
   } = useGet({
     services: fetchRealEstates,
-    queryKey: "realEstates",
+    queryKey: ["realEstates"],
     itemsPerPage: 3,
   });
 
