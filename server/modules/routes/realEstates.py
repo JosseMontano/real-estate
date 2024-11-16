@@ -46,13 +46,15 @@ class RealEstateDTO(BaseModel):
     amount_bedroom: int
     taken: bool
     description: str
-    image: str
+    image: str # delete it
+    
     lat_long: str
     price: float
     square_meter: float
     title: str
     type_real_estate_id: int
     user_id: int
+    images: List[str] = []
 
 class NearbyPlacesRequest(BaseModel):
     location: str
@@ -129,15 +131,32 @@ async def create_real_estate(real_estate: RealEstateDTO, db: Session = Depends(g
         db.commit()  # Commit to assign IDs
 
         # Create RealEstate entry
-        real_estate_data = real_estate.dict(exclude={"title", "description"})
+        real_estate_data = real_estate.dict(exclude={"title", "description", "images"})
         db_real_estate = models.RealEstate(**real_estate_data, address=address, title_id=title_translate.id, description_id=description_translate.id)
+
 
         # Save RealEstate entry
         db.add(db_real_estate)
         db.commit()
         db.refresh(db_real_estate)
 
-        return {"status": 201, "message": Messages.DATA_CREATED, "val": db_real_estate}
+        # Save image URLs to PhotosRealEstate
+        for image_url in real_estate.images:
+            photo = models.PhotosRealEstate(
+                image=image_url, 
+                real_estate_id=db_real_estate.id
+            )
+            db.add(photo)
+
+        db.commit()
+        
+        result = db.query(models.RealEstate).options(
+            joinedload(models.RealEstate.title), 
+            joinedload(models.RealEstate.description),
+            joinedload(models.RealEstate.photos) 
+        ).filter(models.RealEstate.id == db_real_estate.id).first()
+
+        return {"status": 201, "message": Messages.DATA_CREATED, "val": result}
     except Exception as e:
         db.rollback()
         return {"status": 500, "message": str(e), "val": []}
