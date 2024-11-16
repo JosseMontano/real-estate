@@ -1,69 +1,121 @@
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session, joinedload
 from typing import List
-from pydantic import BaseModel
-from modules.core.database import get_db
+from modules.core.database import get_db  # Import the get_db dependency
 import modules.core.models as models
-from modules.core.utils.translate import translate_es_en_pt
+from pydantic import BaseModel
 from modules.core.const import Messages
+from modules.core.utils.translate import translate_es_en_pt
 
 app = APIRouter(
-    prefix="/responses",
+    prefix="/api/responses",
     tags=["Responses"],
 )
 
-
-class ResponseModel(BaseModel):
-    id: int
-    responseEs: str
-    responseEn: str
-    responsePt: str
-    question_id: int
-    real_estate_id: int
-
-    class Config:
-        orm_mode = True
-
+# Pydantic DTO for Response
 class ResponseDTO(BaseModel):
-    response: str
+    response_text: str
     question_id: int
     real_estate_id: int
+
 
 @app.get('/')
-async def get_responses(
-    real_estate_id:int= Query(..., description="ID of the real estate to filter responses by"),
-    db: Session = Depends(get_db)):
-    
-    query = db.query(models.Response).options(joinedload(models.Response.question)) 
-    
-    if real_estate_id:
-        query = query.filter(models.Response.real_estate_id == real_estate_id)
-    
+async def get_responses(db: Session = Depends(get_db)):
+    query = db.query(models.Response).options(
+        joinedload(models.Response.response),
+        joinedload(models.Response.question),
+        joinedload(models.Response.real_estate)
+    )
     responses = query.all()
     if not responses:
         return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": []}
     return {"status": 200, "message": Messages.DATA_FOUND, "val": responses}
 
-@app.post('/')
-async def create_response(response_data: ResponseDTO, db: Session = Depends(get_db)):
-    result = translate_es_en_pt(response_data.response)
-    db_response = models.Response(
-        responseEs=result["valEs"],
-        responseEn=result["valEn"],
-        responsePt=result["valPt"],
-        question_id=response_data.question_id,
-        real_estate_id=response_data.real_estate_id
+@app.get('/statistics')
+async def get_response_statistics(db: Session = Depends(get_db)):
+    responses = db.query(models.Response).all()
+
+    val = {
+        "total": len(responses),
+        "active": len([response for response in responses if response.active]),
+        "inactive": len([response for response in responses if not response.active])
+    }
+    
+    if not responses:
+        return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": val}
+        
+    return {"status": 200, "message": Messages.DATA_FOUND, "val": val}
+
+
+@app.get('/{question_id}')
+async def get_responses_by_question(question_id: int, db: Session = Depends(get_db)):
+    query = db.query(models.Response).filter(models.Response.question_id == question_id).options(
+        joinedload(models.Response.response),
+        joinedload(models.Response.question),
+        joinedload(models.Response.real_estate)
     )
-    db.add(db_response)
-    db.commit()
-    db.refresh(db_response)
-    return {"status": 201, "message": Messages.DATA_CREATED, "val": db_response}
+    responses = query.all()
+    if not responses:
+        return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": []}
+    return {"status": 200, "message": Messages.DATA_FOUND, "val": responses}
+
+
+@app.post('/')
+async def create_response(response: ResponseDTO, db: Session = Depends(get_db)):
+    try:
+        result_response = translate_es_en_pt(response.response_text)
+        
+        translated_response = models.Translate(es=result_response["valEs"], en=result_response["valEn"], pt=result_response["valPt"]) 
+        db.add(translated_response)
+        db.commit()
+        db.refresh(translated_response)
+
+        new_response = models.Response(
+            question_id=response.question_id,
+            real_estate_id=response.real_estate_id,
+            response_id=translated_response.id,
+            active=True
+        )
+        db.add(new_response)
+        db.commit()
+        db.refresh(new_response)
+        return {"status": 201, "message": Messages.DATA_CREATED, "val": new_response}
+    except Exception as e:
+        db.rollback()
+        return {"status": 500, "message": str(e), "val": []}
+
+
+@app.put('/{response_id}')
+async def update_response(response_id: int, updated_response: ResponseDTO, db: Session = Depends(get_db)):
+    try:
+        response = db.query(models.Response).filter(models.Response.id == response_id).first()
+        if not response:
+            return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": []}
+        
+        result_response = translate_es_en_pt(updated_response.response_text)
+        
+        response.response.es = result_response["valEs"]
+        response.response.en = result_response["valEn"]
+        response.response.pt = result_response["valPt"]
+        response.active = True
+
+        response.question_id = updated_response.question_id
+        response.real_estate_id = updated_response.real_estate_id
+        db.commit()
+        db.refresh(response)
+        return {"status": 200, "message": Messages.DATA_UPDATED, "val": response}
+    except Exception as e:
+        db.rollback()
+        return {"status": 500, "message": str(e), "val": []}
+
 
 @app.delete('/{response_id}')
 async def delete_response(response_id: int, db: Session = Depends(get_db)):
     response = db.query(models.Response).filter(models.Response.id == response_id).first()
-    if response is None:
+    if not response:
         return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": []}
-    db.delete(response)
+    
+    response.active = not response.active
     db.commit()
+    db.refresh(response)
     return {"status": 200, "message": Messages.DATA_DELETED, "val": response}
