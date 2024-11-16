@@ -18,12 +18,13 @@ class User(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     available = Column(Boolean, default=True)
-    cellphone = Column(String, unique=True, index=True)
+    password = Column(String)
+    cellphone = Column(String, index=True)
     code_recuperation = Column(String)
     email = Column(String, unique=True, index=True)
     qualification = Column(Integer)
     role = Column(String)
-    username = Column(String, unique=True, index=True)
+    username = Column(String, index=True)
 
     # relationships if needed
     comments = relationship("Comment", back_populates="commentator")
@@ -51,7 +52,6 @@ class RealEstate(Base):
     available = Column(Boolean, default=True)
     active = Column(Boolean, default=True)
     taken= Column(Boolean, default=False)
-    image = Column(String)
     lat_long = Column(String)  # Assuming this is a string, or could use Geography for lat/long in PostGIS
     price = Column(Float)
     square_meter = Column(Float)

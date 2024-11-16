@@ -3,11 +3,11 @@ import { useMutation } from "@tanstack/react-query";
 import { DefaultValues, useForm as useFormHook } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 type ParamsType<T extends z.ZodType<any, any>> = {
   schema: T;
   form: (data: z.infer<T>) => Promise<any>;
-  defaultVales?: DefaultValues<z.TypeOf<T>>
+  defaultVales?: DefaultValues<z.TypeOf<T>>;
 };
 
 export const useForm = <T extends z.ZodType<any, any>>({
@@ -16,6 +16,9 @@ export const useForm = <T extends z.ZodType<any, any>>({
   defaultVales,
 }: ParamsType<T>) => {
   type FormType = z.infer<T>;
+  const [successMsg, setSuccessMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+
   const {
     register,
     handleSubmit,
@@ -23,10 +26,10 @@ export const useForm = <T extends z.ZodType<any, any>>({
     reset,
   } = useFormHook<FormType>({
     resolver: zodResolver(schema),
-    defaultValues:defaultVales
+    defaultValues: defaultVales,
   });
 
-  const { mutate, isPending, isError, error, isSuccess } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: (data: FormType) => form(data),
   });
 
@@ -34,21 +37,19 @@ export const useForm = <T extends z.ZodType<any, any>>({
   const handleOnSubmit = handleSubmit(onSubmit);
 
   useEffect(() => {
-    if (isError) toast.success(error?.message || "Error");
-    if (isSuccess) toast.success("Inicio de sesion correcto!");
-    reset();
-  }, [error,isError, isSuccess]);
+    if (errorMsg !="") toast.success(errorMsg || "Error");
+    if (successMsg !="") toast.success(successMsg);
+  }, [errorMsg, successMsg, successMsg, errors]);
 
   return {
-  reset,
+    reset,
     register,
     handleOnSubmit,
     errors,
     mutate,
     isPending,
-    isError,
-    error,
-    isSuccess,
+    setErrorMsg,
     onSubmit,
+    setSuccessMsg,
   };
 };

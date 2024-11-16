@@ -10,20 +10,35 @@ import {
 } from "@/core/libs/firebase";
 import { saveUser } from "./utils/saveUser";
 import { UserDTO } from "./api/dtos";
+import useNavigation from "@/core/hooks/useNavigate";
 
 export const AuthPage = () => {
   const { texts } = useLanguageStore();
   const { login } = useAuthStore();
+  const { handleNavigate } = useNavigation();
   const {
     register,
     handleOnSubmit,
     errors,
     isPending: isSignUpPending,
+    setSuccessMsg,
+    setErrorMsg
   } = useForm({
     schema: userSchema,
     form: async (userData) => {
-      const userObject = await saveUser(userData);
-      login(userObject);
+      const { val: userObject, message, status } = await saveUser(userData);
+      if (status === 200 || status === 201) {
+        setSuccessMsg(message);
+        console.log(userObject, status);
+        login({
+          email: userObject.email,
+          role: 2,
+        });
+        handleNavigate("/profile");
+        return
+      }
+      console.log(message);
+      setErrorMsg(message);
     },
   });
 
@@ -31,13 +46,26 @@ export const AuthPage = () => {
     const provider = new GoogleAuthProvider();
     try {
       const credential = await signInWithPopup(auth, provider);
-      const userDto: UserDTO = {
-        email: credential.user?.email ?? "",
-        password: "",
-        confirmPassword: "",
-      };
-      const userObject = await saveUser(userDto);
-      login(userObject);
+
+      if (credential.user) {
+        const userDto: UserDTO = {
+          email: credential.user?.email ?? "",
+          password: "",
+          confirmPassword: "",
+        };
+
+        const { val: userObject, status, message } = await saveUser(userDto);
+        if (status === 200 || status === 201) {
+          setSuccessMsg(message);
+          login({
+            email: userObject.email,
+            role: 2,
+          });
+          handleNavigate("/profile");
+          return
+        }
+        setErrorMsg(message);
+      }
     } catch (error) {
       console.error(error);
     }

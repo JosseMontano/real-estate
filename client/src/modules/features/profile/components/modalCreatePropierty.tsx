@@ -59,8 +59,6 @@ export const ModalCreatePropierty = ({
 
   const { language } = useLanguageStore();
 
-  console.log(language);
-  console.log(typeRE);
   return (
     <>
       <Btn
@@ -83,13 +81,13 @@ export const ModalCreatePropierty = ({
                 <div className="grid grid-cols-2 gap-3">
                   <Input
                     text="Titulo"
-                    error={errors.titleEs}
-                    register={register("titleEs")}
+                    error={errors.title}
+                    register={register("title")}
                   />
                   <Input
                     text="Descripcion"
-                    error={errors.descriptionEs}
-                    register={register("descriptionEs")}
+                    error={errors.description}
+                    register={register("description")}
                   />
                   <Input
                     text="Precio"

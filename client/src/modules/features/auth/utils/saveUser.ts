@@ -2,6 +2,7 @@ import { DocumentData, DocumentSnapshot } from "firebase/firestore";
 import { UserDTO } from "../api/dtos";
 import { addUserToDB, findUser } from "../api/endpoints";
 import { User } from "@/core/types/user";
+import { handlePost } from "@/core/utils/fetch";
 
 const createUserObject = (
     doc: DocumentSnapshot<DocumentData, DocumentData>
@@ -18,22 +19,6 @@ const createUserObject = (
   
 
 export const saveUser =async(user:UserDTO)=>{
-    const queryFindUser = await findUser(user.email);
-    let userObject = {} as User;
-      if (queryFindUser.empty) {
-        const doc = await addUserToDB({
-          email: user.email,
-          password: user.password,
-          confirmPassword: user.confirmPassword,
-        });
-        if (doc.exists()) {
-          userObject = createUserObject(doc);
-        
-        }
-      } else {
-        queryFindUser.forEach((doc) => {
-        userObject = createUserObject(doc);
-        });
-      }
-return userObject
+  return await handlePost<UserDTO>('auth/signup',user)
+  
 }

@@ -1,15 +1,12 @@
 import { urls } from "../config/endpoint";
 import { Res } from "@/core/types/res";
 
-interface Reponse {
-  val: any;
-}
 
 export const handlePost = async <T>(
   url: string,
   payload: T,
   isBlob = false
-): Promise<Reponse> => {
+) => {
   let errorMg = "";
   try {
     const response = await fetch(urls.endpoint + url, {
@@ -25,24 +22,27 @@ export const handlePost = async <T>(
     }
 
     //@ts-ignore
-    if (isBlob) return response.blob();
+/*     if (isBlob) return response.blob(); */
 
-    const data = await response.json();
+    const data = await response.json() as Res<T>;
 
 
-    return {
-      val: data.val,
-    };
+    return data;
   } catch (error) {
     if (error instanceof Error) {
       errorMg = error.message;
+      return {
+        message: errorMg,
+        val: [] as T,
+        status: 500,
     }
   }
   return {
-    val: errorMg,
-  };
+    message: errorMg,
+    val: [] as T,
+    status: 500,
 };
-
+}}
 
 export const Delete = async (url: string, id: number) => {
   const response = await fetch(urls.endpoint + `${url}/${id}`, {

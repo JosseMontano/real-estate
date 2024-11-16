@@ -19,7 +19,7 @@ import {
   uploadBytes,
   getDownloadURL,
 } from "@/core/libs/firebase";
-import { TypeRE } from "@/shared/types/realEstate";
+import { RealEstate, TypeRE } from "@/shared/types/realEstate";
 import { Location } from "@/core/components/map/maps";
 
 export type FileStatus = {
@@ -53,6 +53,10 @@ const DashboardPage = () => {
     schema: realEstateSchema,
     form: async (data) => {
       if (user) {
+        data.typeRealEstateId = typeRE.id;
+        data.userId = user.id;
+        data.images = fileUrls;
+        console.log(data);
         //await addREToDB(data, user);
       }
     },
@@ -84,7 +88,7 @@ const DashboardPage = () => {
   const [fileUrls, setFileUrls] = useState<string[]>([]);
   const [filesSelected, setFilesSelected] = useState<FileStatus[]>([]);
 
-  const [countFilesUp, setCountFilesUp] =useState<number[]>([]);
+  const [countFilesUp, setCountFilesUp] = useState<number[]>([]);
 
   const handleImageSelection = async (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -105,14 +109,14 @@ const DashboardPage = () => {
           await uploadBytes(storageRef, file);
           const downloadUrl = await getDownloadURL(storageRef);
           setFileUrls((prevUrls) => [...prevUrls, downloadUrl]); // Save U
-          setCountFilesUp((prev)=>[...prev, +1 ])
+          setCountFilesUp((prev) => [...prev, +1]);
           setIsUploaded(true);
         } catch (error) {
           setFileUrls((prev) => [...prev, `Error uploading ${file.name}`]);
           console.error(`Error uploading ${file.name}`, error);
         }
       });
-   
+
       await Promise.all(uploadPromises);
       console.log("All files uploaded!");
     }

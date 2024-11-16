@@ -42,18 +42,15 @@ class RealEstateResponse(BaseModel):
 
 # Request model for creating and updating RealEstate
 class RealEstateDTO(BaseModel):
-    amount_bathroom: int
-    amount_bedroom: int
-    taken: bool
+    amountBathroom: int
+    amountBedroom: int
     description: str
-    image: str # delete it
-    
-    lat_long: str
+    latLong: str
     price: float
-    square_meter: float
+    squareMeter: float
     title: str
-    type_real_estate_id: int
-    user_id: int
+    typeRealEstateId: int
+    userId: int
     images: List[str] = []
 
 class NearbyPlacesRequest(BaseModel):
@@ -114,7 +111,7 @@ async def create_real_estate(real_estate: RealEstateDTO, db: Session = Depends(g
     try:
         # Get address from coordinates
         geo_location = Nominatim(user_agent="GetLoc")
-        loc_name = geo_location.reverse(real_estate.lat_long)
+        loc_name = geo_location.reverse(real_estate.latLong)
         address = loc_name.address if loc_name else "Not Found"
 
         # Generate translations for title and description
@@ -132,8 +129,20 @@ async def create_real_estate(real_estate: RealEstateDTO, db: Session = Depends(g
 
         # Create RealEstate entry
         real_estate_data = real_estate.dict(exclude={"title", "description", "images"})
-        db_real_estate = models.RealEstate(**real_estate_data, address=address, title_id=title_translate.id, description_id=description_translate.id)
-
+        """         db_real_estate = models.RealEstate(**real_estate_data, address=address, title_id=title_translate.id, description_id=description_translate.id) """
+        db_real_estate = models.RealEstate(
+            amount_bathroom=real_estate_data["amountBathroom"],
+            amount_bedroom=real_estate_data["amountBedroom"],
+            active=True,
+            address=address,
+            description_id=description_translate.id,
+            lat_long=real_estate_data["latLong"],
+            price=real_estate_data["price"],
+            square_meter=real_estate_data["squareMeter"],
+            title_id=title_translate.id,
+            type_real_estate_id=real_estate_data["typeRealEstateId"],
+            user_id=real_estate_data["userId"]
+        )
 
         # Save RealEstate entry
         db.add(db_real_estate)
