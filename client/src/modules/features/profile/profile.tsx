@@ -132,7 +132,7 @@ const DashboardPage = () => {
   const toggleExpand = () => setIsExpanded(!isExpanded);
   const [typeRE, setTypeRE] = useState({} as TypeRE);
   const [location, setLocation] = useState<Location | null>(null);
-  console.log(countFilesUp);
+
   return (
     <div className="flex h-screen w-auto  mx-2 mt-2 gap-4 flex-wrap md:flex-nowrap overflow-y-hidden">
       <div className="md:basis-3/12 grow-0 w-full md:pr-16">

@@ -1,13 +1,15 @@
+import { useLanguageStore } from "@/core/store/language";
+import { LanguageDB } from "@/shared/types/language";
 import React, { useState } from "react";
 
 interface Option {
-  value: string;
+  name: LanguageDB;
   id?: string;
 }
 
 interface SelectProps {
   value: any;
-  onChange: (value: any) => void;
+  onChange: (value: Option) => void;
   options: Option[];
 }
 
@@ -18,6 +20,7 @@ const CustomSelect: React.FC<SelectProps> = ({ value, onChange, options }) => {
     onChange(option);
     setIsOpen(false);
   };
+  const { language } = useLanguageStore();
 
   return (
     <div className="relative inline-block w-full">
@@ -31,11 +34,11 @@ const CustomSelect: React.FC<SelectProps> = ({ value, onChange, options }) => {
         <ul className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg">
           {options.map((option) => (
             <li
-              key={option.value}
+              key={option.id}
               className="px-3 py-2 cursor-pointer hover:bg-gray-200"
               onClick={() => handleOptionClick(option)}
             >
-              {option.value}
+              {option.name[language]}
             </li>
           ))}
         </ul>

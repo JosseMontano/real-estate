@@ -9,6 +9,21 @@ export const Config = () => {
   const { texts, language, setLanguage } = useLanguageStore();
   const { handleStateModal, isModalOpen } = useModal();
 
+  const options = [
+    {
+      id: "es",
+      name: { es: "Español", en: "Spanish", pt: "Espanhol" },
+    },
+    {
+      id: "en",
+      name: { es: "Inglés", en: "English", pt: "Inglês" },
+    },
+    {
+      id: "pt",
+      name: { es: "Portugués", en: "Portuguese", pt: "Português" },
+    },
+  ];
+
   return (
     <>
       <div
@@ -32,13 +47,10 @@ export const Config = () => {
               <Select
                 value={language}
                 onChange={(val) => {
+                  //@ts-ignore
                   setLanguage(val.id);
                 }}
-                options={[
-                  { id: "es", value: texts.language1Config },
-                  { id: "en", value: texts.language2Config },
-                  { id: "pt", value: texts.language3Config },
-                ]}
+                options={options}
               />
             </div>
           </div>

@@ -53,14 +53,14 @@ export const ModalCreatePropierty = ({
 }: ParamsType) => {
   const { data } = useGet({
     itemsPerPage: 10,
-
-    queryKey: "type-realEstates",
+    queryKey: ["type-realEstates"],
     services: fetchTypesRE,
   });
 
   const { language } = useLanguageStore();
 
-  console.log(filesSelected);
+  console.log(language);
+  console.log(typeRE);
   return (
     <>
       <Btn
@@ -112,12 +112,17 @@ export const ModalCreatePropierty = ({
                     register={register("squareMeter")}
                   />
                   <Select
-                    value={typeRE}
+                    value={
+                      typeRE.name != undefined
+                        ? typeRE.name[language]
+                        : undefined
+                    }
                     onChange={(val: TypeRE) => {
                       setTypeRE(val);
+                      console.log(val);
                     }}
                     options={data?.map((v) => ({
-                      value: v.name[language],
+                      name: v.name,
                       id: v.id,
                     }))}
                   />

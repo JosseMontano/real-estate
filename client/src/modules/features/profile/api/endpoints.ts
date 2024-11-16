@@ -12,6 +12,8 @@ import {
 } from "@/core/libs/firebase";
 import { User } from "@/core/types/user";
 import { Commentator, Comments, CommentT } from "@/core/types/commets";
+import { handleGet } from "@/core/utils/fetch";
+import { Res } from "@/core/types/res";
 
 
 export async function addREToDB(
@@ -49,12 +51,8 @@ export async function addREToDB(
 }
 
 
-export async function fetchTypesRE(): Promise<TypeRE[]> {
-  const querySnapshot = await getDocs(collection(db, "type_real_estates"));
-  return querySnapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  })) as TypeRE[];
+export async function fetchTypesRE(): Promise<Res<TypeRE[]>> {
+  return handleGet<TypeRE[]>("type-real-estates");
 }
 
 export const fetchUser = async (): Promise<User[]> => {
