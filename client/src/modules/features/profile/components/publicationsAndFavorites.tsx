@@ -67,13 +67,6 @@ export const PublicationsAndFavorites = ({
       description: "Contenido de la publicación 7",
       titleHouse: "La casa de hallowen",
     },
-    {
-      id: "pub7",
-      title: "Publicación 7",
-      img: img1,
-      description: "Contenido de la publicación 7",
-      titleHouse: "La casa de hallowen",
-    },
   ];
 
   const [currentRE, setCurrentRE] = useState<publication | null>(null);

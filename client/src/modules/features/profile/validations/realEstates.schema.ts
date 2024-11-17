@@ -21,7 +21,7 @@ export const realEstateSchema = z.object({
     .refine((val) => !isNaN(val) && val > 0, { message: "Square meter must be a positive number" }),
   latLong: z.string().optional().or(z.literal('')),
   typeRealEstateId: z.string().optional().or(z.literal('')),
-  userId: z.string().optional().or(z.literal('')),
-  images: z.array(z.string()),
+  userId: z.string().optional().optional().or(z.literal('')),
+  images: z.array(z.string()).optional().or(z.array(z.string()).length(0)),
 });
   

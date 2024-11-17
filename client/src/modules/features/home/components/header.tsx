@@ -1,5 +1,6 @@
 import { primaryColor } from "@/const/colors";
 import Btn from "@/core/components/form/button";
+import useNavigation from "@/core/hooks/useNavigate";
 import { NavLink } from "@/features/home/components/navLink";
 import { useState } from "react";
 
@@ -14,6 +15,7 @@ export const Header = ({}: ParamsType) => {
     "Blog",
     "Contactanos",
   ];
+  const { handleNavigate } = useNavigation();
   return (
     <header className="text-white relative z-10">
       <div className="container mx-auto px-4 py-4 flex justify-between md:items-center items-start">
@@ -51,9 +53,10 @@ export const Header = ({}: ParamsType) => {
         </nav>
         <div className="max-w-max">
           <Btn
-            text="Enviar una propiedad"
+            text="Publicar propiedad"
             isPending={false}
-            className="w-auto px-3 cursor-pointer "
+            className="w-auto px-3 cursor-pointer"
+            onClick={() => handleNavigate("/profile")}
           />
         </div>
       </div>

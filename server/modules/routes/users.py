@@ -3,8 +3,6 @@ from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from modules.core.database import get_db 
 import modules.core.models as models
-import base64
-
 from modules.core.const import AuthMsg
 import bcrypt
 

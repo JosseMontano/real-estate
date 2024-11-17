@@ -7,7 +7,7 @@ import {
 } from "@/core/libs/firebase";
 import Btn from "@/core/components/form/button";
 
-import { UploadImage } from "@/shared/assets/icons/uploadImage";
+import { UploadImageIcon } from "@/shared/assets/icons//uploadImage";
 import { ShowModal } from "@/core/components/form/modal";
 type ParamasType = {
   onImageUpload: (url: string) => void;
@@ -78,7 +78,7 @@ export const ProfileImageUploader: React.FC<ParamasType> = ({
               className="flex max-w-max p-2  gap-2 rounded-lg"
               style={{ background: "#353535" }}
             >
-              <UploadImage size="20" />
+              <UploadImageIcon size="20" />
               <label htmlFor="fileInput" className="text-white cursor-pointer">
                 Buscar imagen
               </label>

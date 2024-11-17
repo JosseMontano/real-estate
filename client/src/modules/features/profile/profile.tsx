@@ -34,16 +34,21 @@ const DashboardPage = () => {
     handleStateModal: handleShowAddComment,
     isModalOpen: isAddCommentOpen,
   } = useModal();
+
   const { handleStateModal: handleShowEditUser, isModalOpen: isEditUserOpen } =
     useModal();
+    
   const { handleStateModal: handleShowCreateRE, isModalOpen: isCreateREOpen } =
     useModal();
+
   const { handleStateModal: handleShowFav, isModalOpen: isFavOpen } =
     useModal();
+
   const {
     handleStateModal: handleShowUploadImage,
     isModalOpen: isOpenUpImage,
   } = useModal();
+
   const {
     register,
     handleOnSubmit,
@@ -54,19 +59,15 @@ const DashboardPage = () => {
     form: async (data) => {
       if (user) {
         data.typeRealEstateId = typeRE.id;
-        data.userId = user.id;
+        data.userId = 1;
         data.images = fileUrls;
+        data.latLong= location?.lat + "," + location?.lng;
         console.log(data);
-        //await addREToDB(data, user);
+        await addREToDB(data, user);
       }
     },
   });
 
-  useEffect(() => {
-    if (user === null) {
-      handleNavigate("/auth");
-    }
-  }, [user]);
 
   const { isLoading, data: realEstate } = useQuery({
     queryKey: ["realEstate"],
@@ -121,6 +122,7 @@ const DashboardPage = () => {
       console.log("All files uploaded!");
     }
   };
+
   useEffect(() => {
     setFilesSelected((prev) =>
       prev.map((file, index) =>
@@ -131,11 +133,15 @@ const DashboardPage = () => {
     );
 
     setIsUploaded(false);
-  }, [isUploaded == true]);
+  }, [isUploaded == true]); 
 
   const toggleExpand = () => setIsExpanded(!isExpanded);
   const [typeRE, setTypeRE] = useState({} as TypeRE);
   const [location, setLocation] = useState<Location | null>(null);
+
+  if (user.email == undefined) {
+    handleNavigate("/auth");
+  }
 
   return (
     <div className="flex h-screen w-auto  mx-2 mt-2 gap-4 flex-wrap md:flex-nowrap overflow-y-hidden">

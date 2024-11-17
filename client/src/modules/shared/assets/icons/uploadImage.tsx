@@ -1,5 +1,5 @@
 type ParamsType = { size: string };
-export const UploadImage = ({ size }: ParamsType) => {
+export const UploadImageIcon = ({ size }: ParamsType) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

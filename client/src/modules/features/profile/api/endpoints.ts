@@ -1,5 +1,5 @@
 import { getDocs } from "firebase/firestore";
-import { RealEstate, TypeRE } from "../../../shared/types/realEstate";
+import { TypeRE } from "../../../shared/types/realEstate";
 import { RealEstateDTO } from "./dtos"
 import {
   db,
@@ -12,42 +12,14 @@ import {
 } from "@/core/libs/firebase";
 import { User } from "@/core/types/user";
 import { Commentator, Comments, CommentT } from "@/core/types/commets";
-import { handleGet } from "@/core/utils/fetch";
+import { handleGet, handlePost } from "@/core/utils/fetch";
 import { Res } from "@/core/types/res";
 
 
 export async function addREToDB(
   realEstatData: RealEstateDTO,
-  user: User,
-  imgs: string[],
-  typeRE: TypeRE
 ) {
-  const realestate: RealEstate = {
-    address: realEstatData.address ?? "",
-    amountBathroom: realEstatData.amountBathroom,
-    amountBedroom: realEstatData.amountBedroom,
-    description: {
-      es: realEstatData.descriptionEs,
-      en: realEstatData.descriptionEn ?? "",
-      pt: realEstatData.descriptionPt ?? "",
-    },
-    latLong: realEstatData.latLong ?? "",
-    price: realEstatData.price,
-    squareMeter: realEstatData.squareMeter,
-    title: {
-      es: realEstatData.titleEs,
-      en: realEstatData.titleEn ?? "",
-      pt: realEstatData.titlePt ?? "",
-    },
-    available: true,
-    userId: user.id ?? "",
-    user: user,
-    images: imgs,
-    typeRE: typeRE,
-    typeREId: typeRE.id ?? "",
-  };
-
-  await addDoc(collection(db, "realEstates"), realestate);
+  return await handlePost("real_estates", realEstatData);    
 }
 
 

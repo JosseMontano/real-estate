@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Response
+from fastapi import FastAPI, HTTPException, Response, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from googletrans import Translator
 import uvicorn
@@ -7,6 +7,7 @@ import os
 from pydantic import BaseModel
 from modules.core.database import engine
 import modules.core.models as models
+from modules.core.seed import seed_users, seed_types_real_estates
 from modules.routes import questions
 from modules.routes import typeRE
 from modules.routes import realEstates
@@ -14,7 +15,8 @@ from modules.routes import comments
 from modules.routes import favorite_real_estates
 from modules.routes import responses
 from modules.routes import users
-
+from sqlalchemy.orm import Session
+from modules.core.database import get_db 
 # Create FastAPI instance
 app = FastAPI()
 models.Base.metadata.create_all(bind=engine)
@@ -56,6 +58,15 @@ class FetchImageRequest(BaseModel):  # Added request model for fetch_image
 def index():
     return {"Choo Choo": "Welcome to the API realEstates 🚅"}
 
+
+@app.get('/api/seed')
+async def seed(db: Session = Depends(get_db)):
+    try:
+        await seed_users(db)
+        await seed_types_real_estates(db)
+        return {"status": 200, "message": "Seed successful"}
+    except Exception as e:
+        return {"status": 500, "message": str(e)}
 
 @app.post('/api/translate')
 def translate_es_en(request: TranslateRequest):

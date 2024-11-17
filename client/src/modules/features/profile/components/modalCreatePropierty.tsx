@@ -12,7 +12,7 @@ import { ShowModal } from "@/core/components/form/modal";
 import { TypeRE } from "@/shared/types/realEstate";
 import Btn from "@/core/components/form/button";
 import { FileStatus } from "../profile";
-import { UploadImage } from "@/shared/assets/icons/uploadImage";
+import { UploadImageIcon } from "@/shared/assets/icons/uploadImage";
 import { ArrowDownIcon } from "@/shared/assets/icons/arrowDown";
 
 type ParamsType = {
@@ -117,7 +117,6 @@ export const ModalCreatePropierty = ({
                     }
                     onChange={(val: TypeRE) => {
                       setTypeRE(val);
-                      console.log(val);
                     }}
                     options={data?.map((v) => ({
                       name: v.name,
@@ -139,7 +138,7 @@ export const ModalCreatePropierty = ({
                     className="flex max-w-max p-2  gap-2 rounded-lg"
                     style={{ background: "#353535" }}
                   >
-                    <UploadImage size="20" />
+                    <UploadImageIcon size="20" />
                     <label
                       htmlFor="fileInput"
                       className="text-white cursor-pointer"
