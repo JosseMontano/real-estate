@@ -1,37 +1,37 @@
 import { RealEstate } from "@/shared/types/realEstate";
 import { State } from "../sectionRealEstates";
 import { Language } from "@/core/store/language";
-import Btn from "@/core/components/form/button";
 
 type ParamsType = {
   index: number;
   item: RealEstate;
   states: State[];
   language: Language;
-  handleStateModal: (v: RealEstate) => void;
 };
-export const Info = ({
-  index,
-  item,
-  language,
-  states,
-  handleStateModal,
-}: ParamsType) => {
+export const Info = ({ index, item, language, states }: ParamsType) => {
   return (
     <>
       {states[index] === "info" && (
         <>
-          <h1 className="mt-6 text-start text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 max-w-xs md:max-w-md lg:max-w-lg">
-            {item.description[language]}
-          </h1>
-          <p className="mt-4 text-base md:text-lg lg:text-xl text-gray-600 max-w-xs md:max-w-md lg:max-w-lg text-justify">
+          <h1 className={`w-[350px] ${
+            index % 2 === 1 ? "text-end" : "text-start"
+          }  text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 max-w-xs md:max-w-md lg:max-w-lg`}>
             {item.title[language]}
-          </p>
-
-          <Btn text="Ver mas" className="w-[150px]" isPending={false} />
-          <button onClick={() => handleStateModal(item)}>
-            Agregar comentario
-          </button>
+          </h1>
+          <div className="">
+            <p
+              style={{
+                display: "-webkit-box",
+                WebkitBoxOrient: "vertical",
+                overflow: "hidden",
+                WebkitLineClamp: 4,
+                lineClamp: 4,
+              }}
+              className="w-[450px] text-base leading-[30px]  text-gray-600 max-w-xs md:max-w-md lg:max-w-lg text-justify"
+            >
+              {item.description[language]}
+            </p>
+          </div>
         </>
       )}
     </>

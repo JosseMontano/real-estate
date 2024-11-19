@@ -1,4 +1,3 @@
-import Btn from "@/core/components/form/button";
 import { Field } from "./searchPropierties";
 import { SearchIcon } from "@/shared/assets/icons/search";
 
@@ -16,21 +15,21 @@ export const SearchFormComponent = ({
 }: ParamsType) => {
   return (
     <section
-      className={`container ${
+      className={`container rounded-lg ${
         isMobile
           ? "bg-white shadow-md p-4 flex flex-col space-y-4"
-          : "absolute bottom-4 left-1/2 transform -translate-x-1/2 max-w-5xl mx-auto bg-white shadow-md flex"
+          : "absolute bottom-4 left-1/2 transform -translate-x-1/2 max-w-3xl mx-auto bg-white shadow-md flex"
       } ${
         isMobile && isOpen
           ? "transition-all duration-500 ease-in-out overflow-hidden max-h-[1000px]"
           : ""
-      }`}
+      } `}
     >
       <div
-        className={`bg-white ${
+        className={` ${
           isMobile
             ? ""
-            : "flex flex-col md:flex-row space-y-5 md:space-y-0 w-full"
+            : "flex flex-col md:flex-row space-y-5 md:space-y-0 w-full "
         }`}
       >
         {fields.map(({ label, options }, index) => (
@@ -58,7 +57,7 @@ export const SearchFormComponent = ({
         ))}
         <div
           style={{ background: primaryColor }}
-          className="w-[70px] flex items-center justify-center text-white"
+          className="w-[70px] rounded-r-lg flex items-center justify-center text-white"
         >
           <SearchIcon size="24" />
         </div>

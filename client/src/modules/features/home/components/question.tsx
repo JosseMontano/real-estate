@@ -6,7 +6,6 @@ import { addQuestionToDB } from "../api/endpoints";
 import { useForm } from "@/core/hooks/useForm";
 import { handlePost } from "@/core/utils/fetch";
 
-
 export const Questions = () => {
   const {
     register,
@@ -16,7 +15,7 @@ export const Questions = () => {
   } = useForm({
     schema: questionSchema,
     form: async (data) => {
-      const res = await handlePost("translate", {val: data.questionEs});
+      const res = await handlePost("translate", { val: data.questionEs });
       data.questionEn = res.val.valEn;
       data.questionPt = res.val.valPt;
       await addQuestionToDB(data);
@@ -25,16 +24,19 @@ export const Questions = () => {
 
   return (
     <div className="flex justify-center bg-gray-100 py-7">
-      <div className="w-[300px] flex flex-col gap-5">
-        <h3 className="text-3xl">
-          Haz una <span>pregunta</span> para las <span>inmobiliarias</span>
-        </h3>
-        <p className="text-[10px]">
-          Tus preguntas se visualizaran en las publicaciones para que los
-          propietarios puedan responder, de esa manera se automatiza el tiempo
-          al momento de obtener informacion de los inmuebles
-        </p>
-        <div className="self-center">
+      <div className="flex flex-row gap-5">
+        <div className="w-[400px] flex flex-col gap-5">
+          <h3 className="text-4xl">
+            Haz una <b className="text-4xl font-semibold">pregunta</b> para las{" "}
+            <b className="text-4xl font-semibold">inmobiliarias</b>
+          </h3>
+          <p className="text-sm">
+            Tus preguntas se visualizarán en las publicaciones para que los
+            propietarios puedan responder de forma automática.
+          </p>
+        </div>
+
+        <div className="h-full flex flex-col justify-center">
           <FormComponent
             isPending={isPendingQuestion}
             handleOnSubmit={handleOnSubmit}
@@ -42,7 +44,7 @@ export const Questions = () => {
             children={
               <>
                 <Input
-                  text="tu pregunta"
+                  text="¿Qué te gustaría saber?"
                   error={errors.questionEs}
                   register={register("questionEs")}
                 />

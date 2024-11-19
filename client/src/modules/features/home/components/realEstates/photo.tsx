@@ -21,7 +21,7 @@ export const Photo = ({ img }: ParamsType) => {
               <img
                 src={v.image}
                 alt="Imagen"
-                className="w-full max-w-xs md:max-w-md lg:max-w-lg h-auto rounded-lg shadow-lg"
+                className="w-[650px] h-[250px] object-cover rounded-lg shadow-lg"
                 onClick={()=>{
                   loadUrl(v.image)
                   // Step 2: Convert the encrypted data to Base64 directly

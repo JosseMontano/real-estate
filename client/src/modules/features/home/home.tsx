@@ -7,8 +7,6 @@ import { Questions } from "./components/question";
 import { fetchRealEstates } from "./api/endpoints";
 import useGet from "@/core/hooks/useGet";
 import { useEffect, useState } from "react";
-import { useModal } from "@/core/hooks/useModal";
-import Comments from "./components/comments";
 import { RealEstate } from "@/shared/types/realEstate";
 import { SearchPropierties } from "./components/searchPropierties";
 
@@ -27,13 +25,6 @@ export const HomePage = () => {
     itemsPerPage: 3,
   });
 
-
-  const { handleStateModal, isModalOpen } = useModal();
-
-  const handleOpenCreateComment=(v:RealEstate)=>{
-    handleStateModal()
-    setCurrentRealEstate(v)
-  }
 
   useEffect(() => {
     return () => {
@@ -60,10 +51,8 @@ export const HomePage = () => {
         amountOfPages={amountOfPages}
         handlePagination={handlePagination}
         currentPage={currentPage}
-        handleStateModal={handleOpenCreateComment}
       />
 
-      <Comments currentRealEstate={currentRealEstate} isModalOpen={isModalOpen} setIsModalOpen={handleStateModal} />
 
       {isLoading && <p>Loading...</p>}
 

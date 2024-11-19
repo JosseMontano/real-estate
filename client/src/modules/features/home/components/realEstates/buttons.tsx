@@ -21,7 +21,7 @@ export const Buttons = ({
     <div className="flex space-x-4 bg-gray-100 p-2 rounded-full">
       <button
         onClick={() => handleStateChange(index, "info", item)}
-        className={`px-4 py-2 text-sm font-medium ${
+        className={`px-4 py-2 text-xs font-medium ${
           states[index] === "info"
             ? "text-purple-700 bg-white"
             : "text-gray-500 hover:bg-white"

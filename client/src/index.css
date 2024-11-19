@@ -50,3 +50,9 @@
 .shake {
   animation: shake 1.3s ease-in-out 0s infinite;
 }
+
+*{
+  scrollbar-color: #717171 transparent;
+  scrollbar-width: thin;
+}
+

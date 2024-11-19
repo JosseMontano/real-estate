@@ -8,6 +8,7 @@ import { Photo } from "./realEstates/photo";
 import { Buttons } from "./realEstates/buttons";
 import { Info } from "./realEstates/info";
 import { ExtraInfo } from "./realEstates/extraInfo";
+import Btn from "@/core/components/form/button";
 
 type Params = {
   realEstates: RealEstate[];
@@ -15,7 +16,6 @@ type Params = {
   amountOfPages: number;
   handlePagination: (page: number) => void;
   currentPage: number;
-  handleStateModal: (v:RealEstate) => void
 };
 
 export interface NearbyPlace {
@@ -25,7 +25,6 @@ export interface NearbyPlace {
     lng: number;
   };
   types: string[];
-  
 }
 export type State = "info" | "places";
 
@@ -34,7 +33,7 @@ export const SectionRealStates = ({
   firstElementRef,
   amountOfPages,
   handlePagination,
-  currentPage,handleStateModal
+  currentPage,
 }: Params) => {
   const { language } = useLanguageStore();
   const [places, setPlaces] = useState<{ [key: number]: NearbyPlace[] }>({});
@@ -68,19 +67,19 @@ export const SectionRealStates = ({
   }, [realEstates]);
 
   return (
-    <div className="space-y-12 py-10">
+    <div className="space-y-12 py-10 flex flex-col items-center">
       {realEstates.map((item, index) => (
         <div
           key={index}
           ref={index === 0 ? firstElementRef : null}
-          className={`flex flex-col md:flex-row gap-8 items-center ${
+          className={`flex w-[90%] flex-col md:flex-row gap-8 items-center ${
             index % 2 === 1 ? "md:flex-row-reverse" : ""
           }`}
         >
           <Photo img={item.photos} />
 
           <div
-            className={`flex flex-col ${
+            className={`flex flex-col gap-3 ${
               index % 2 === 1 ? "items-end" : "items-start"
             } text-center w-full md:w-1/2`}
           >
@@ -96,8 +95,11 @@ export const SectionRealStates = ({
               item={item}
               language={language}
               states={states}
-handleStateModal={handleStateModal}
-/>
+            />
+
+            <div className="w-[250px]">
+              <Btn text="Ver mas" className="w-[150px]" isPending={false} />
+            </div>
 
             <ExtraInfo
               index={index}

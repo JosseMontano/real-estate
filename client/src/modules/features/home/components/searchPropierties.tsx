@@ -8,8 +8,8 @@ export type Field = {
   placeholder?: string;
   options?: string[];
 };
-type ParamsType = {};
-export const SearchPropierties = ({}: ParamsType) => {
+
+export const SearchPropierties = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleForm = () => {
