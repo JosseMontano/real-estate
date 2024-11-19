@@ -8,8 +8,8 @@ export const Footer = ({}: ParamsType) => {
     <div className=" flex flex-col gap-3 items-center justify-center py-3">
       <div className="flex gap-3">
         <FacebookIcon />
-        <InstagramIcon />
         <YoutubeIcon />
+        <InstagramIcon />
       </div>
       <span className="text-sm">
         Copyright © INMUEBLES EN LA NUBE - Todos los derechos reservados

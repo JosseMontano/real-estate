@@ -8,6 +8,7 @@ type Props = {
   isPending: boolean;
   handleOnSubmit: () => void;
   btnText?: string;
+  spaceBtn?: boolean;
 };
 const FormComponent = ({
   children,
@@ -15,11 +16,12 @@ const FormComponent = ({
   handleOnSubmit,
   isPending,
   btnText = "",
+  spaceBtn=true
 }: Props) => {
   const [currentVisible, setCurrentVisible] = useState(1);
 
   return (
-    <form onSubmit={handleOnSubmit} className="flex flex-col gap-2">
+    <form onSubmit={handleOnSubmit} className={`flex flex-col ${spaceBtn ? "gap-2" : ""}`}>
       {currentVisible == 1 && children}
       {currentVisible == 2 && children2}
 

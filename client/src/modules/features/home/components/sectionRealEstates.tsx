@@ -97,7 +97,7 @@ export const SectionRealStates = ({
               states={states}
             />
 
-            <div className="w-[250px]">
+            <div className="w-[170px]">
               <Btn text="Ver mas" className="w-[150px]" isPending={false} />
             </div>
 

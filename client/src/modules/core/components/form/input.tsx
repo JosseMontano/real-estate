@@ -9,6 +9,7 @@ type ParamsType = {
   register: any;
   type?: string;
   Icon?: React.FC<{ size: string; color: string }>;
+  className?: string;
 };
 
 export const Input = ({
@@ -17,15 +18,16 @@ export const Input = ({
   register,
   type = "text",
   Icon,
+  className
 }: ParamsType) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   return (
     <>
       <div
-        className={`bg-gray-100 border border-gray-300 rounded-lg ${
+        className={`bg-gray-100 border border-gray-300 rounded-lg  ${
           isFocused ? "border" : ""
-        }`}
+        } ${className}`}
         style={{
           borderColor: error ? "red" : isFocused ? primaryColor : "transparent",
         }}

@@ -27,8 +27,7 @@ export const Questions = () => {
       <div className="flex flex-row gap-5">
         <div className="w-[400px] flex flex-col gap-5">
           <h3 className="text-4xl">
-            Haz una <b className="text-4xl font-semibold">pregunta</b> para las{" "}
-            <b className="text-4xl font-semibold">inmobiliarias</b>
+            Haz una <b className="text-4xl font-semibold">pregunta</b>
           </h3>
           <p className="text-sm">
             Tus preguntas se visualizarán en las publicaciones para que los
@@ -41,12 +40,14 @@ export const Questions = () => {
             isPending={isPendingQuestion}
             handleOnSubmit={handleOnSubmit}
             btnText="Guardar"
+            spaceBtn={false}
             children={
               <>
                 <Input
                   text="¿Qué te gustaría saber?"
                   error={errors.questionEs}
                   register={register("questionEs")}
+                  className="bg-white "
                 />
               </>
             }
