@@ -2,24 +2,40 @@ import { primaryColor } from "@/const/colors";
 import Btn from "@/core/components/form/button";
 import useNavigation from "@/core/hooks/useNavigate";
 import { NavLink } from "@/features/home/components/navLink";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type ParamsType = {};
 export const Header = ({}: ParamsType) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const links = [
-    "Inicio",
-    "Sobre nosotros",
-    "Propiedades",
-    "Agencias",
-    "Blog",
-    "Contactanos",
-  ];
+  const links = ["Inicio", "Propiedades", "Peguntas", "Contactanos"];
   const { handleNavigate } = useNavigation();
+
+
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <header className="text-white relative z-10">
-      <div className="container mx-auto px-4 py-4 flex justify-between md:items-center items-start">
-        <div className="text-2xl font-bold hidden md:block">Oakberry</div>
+    <header
+    className={`fixed w-full top-0 z-10  transition-colors duration-300 ${
+      isScrolled ? "bg-black text-white" : "bg-transparent text-white "
+    }`}
+  >
+      <div className=" container mx-auto px-4 py-4 flex justify-between md:items-center items-start">
+        <div className="text-2xl font-bold hidden md:block">InmoApp</div>
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           className="md:hidden"

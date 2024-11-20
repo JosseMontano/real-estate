@@ -5,6 +5,7 @@ import { questionSchema } from "../validations/question.schema";
 import { addQuestionToDB } from "../api/endpoints";
 import { useForm } from "@/core/hooks/useForm";
 import { handlePost } from "@/core/utils/fetch";
+import { primaryColor } from "@/const/colors";
 
 export const Questions = () => {
   const {
@@ -23,11 +24,11 @@ export const Questions = () => {
   });
 
   return (
-    <div className="flex justify-center bg-gray-100 py-7">
+    <div className="flex justify-center border-gray-200 border-t-[1px] py-7">
       <div className="flex flex-row gap-5">
         <div className="w-[400px] flex flex-col gap-5">
           <h3 className="text-4xl">
-            Haz una <b className="text-4xl font-semibold">pregunta</b>
+            Haz una <b className="text-4xl font-semibold secondary">pregunta</b>
           </h3>
           <p className="text-sm">
             Tus preguntas se visualizarán en las publicaciones para que los

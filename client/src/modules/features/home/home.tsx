@@ -33,17 +33,18 @@ export const HomePage = () => {
     };
   }, []);
   return (
-    <div>
-      <div
-        className="w-full h-screen bg-cover relative"
+    <>
+    <img src={bgImage} alt="bg" className="absolute top-0 w-full h-screen object-cover" />
+      <Header />
+      {/* <div
+        className="w-full h-screen bg-cover relative z-0"
         style={{ backgroundImage: `url(${bgImage})` }}
-      >
-        <div className="h-screen bg-black bg-opacity-60 ">
-          <Header />
+      > */}
+        <div className="h-screen relative top-0 bg-black bg-opacity-60 ">
           <TitleCenter />
           <SearchPropierties />
         </div>
-      </div>
+      {/* </div> */}
       <SectionRealStates
         realEstates={realEstates ?? []}
         firstElementRef={firstElementRef}
@@ -56,6 +57,6 @@ export const HomePage = () => {
 
       <Questions />
       <Footer />
-    </div>
+    </>
   );
 };
