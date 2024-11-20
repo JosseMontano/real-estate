@@ -1,5 +1,5 @@
 import use360photo from "@/core/store/360photo";
-import { handlePost } from "@/core/utils/fetch";
+import { handlePostBlob } from "@/core/utils/fetch";
 import { useEffect, useState } from "react";
 
 const Img360 = () => {
@@ -10,7 +10,7 @@ const Img360 = () => {
   useEffect(() => {
     const handleGetImage = async () => {
       try {
-        const res = await handlePost("fetch_image", { url }, true);
+        const res = await handlePostBlob("fetch_image", { url });
 
         const base64data = (await new Promise((resolve) => {
           const reader = new FileReader();
@@ -31,10 +31,10 @@ const Img360 = () => {
   useEffect(() => {
     return () => {
       const sceneEl = document.querySelector(".a-fullscreen");
-      if (sceneEl) sceneEl.classList.remove("a-fullscreen"); 
+      if (sceneEl) sceneEl.classList.remove("a-fullscreen");
     };
   }, []);
-  
+
   return (
     <>
       {img && (

@@ -4,8 +4,48 @@ import { Res } from "@/core/types/res";
 
 export const handlePost = async <T>(
   url: string,
+  payload: any,
+) => {
+  let errorMg = "";
+  try {
+    const response = await fetch(urls.endpoint + url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const data = await response.json() as Res<T>; 
+
+    return {
+      message: data.message,
+      val: data.val,
+      status: response.status,
+    } 
+  } catch (error) {
+    if (error instanceof Error) {
+      errorMg = error.message;
+      return {
+        message: errorMg,
+        val: [] as T,
+        status: 500,
+    }
+  }
+  return {
+    message: errorMg,
+    val: [] as T,
+    status: 500,
+};
+}}
+
+export const handlePostBlob = async <T>(
+  url: string,
   payload: T,
-  isBlob = false
 ) => {
   let errorMg = "";
   try {
@@ -22,12 +62,8 @@ export const handlePost = async <T>(
     }
 
     //@ts-ignore
-/*     if (isBlob) return response.blob(); */
+   return response.blob(); 
 
-    const data = await response.json() as Res<T>;
-
-
-    return data;
   } catch (error) {
     if (error instanceof Error) {
       errorMg = error.message;

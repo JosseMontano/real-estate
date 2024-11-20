@@ -25,7 +25,6 @@ export const HomePage = () => {
     itemsPerPage: 3,
   });
 
-
   useEffect(() => {
     return () => {
       // get by class
@@ -52,7 +51,6 @@ export const HomePage = () => {
         handlePagination={handlePagination}
         currentPage={currentPage}
       />
-
 
       {isLoading && <p>Loading...</p>}
 

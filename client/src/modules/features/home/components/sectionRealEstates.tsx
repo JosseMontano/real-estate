@@ -52,12 +52,15 @@ export const SectionRealStates = ({
 
     if (newState === "places" && !places[index]) {
       // Only fetch if not already fetched
-      const res = await handlePost("fetch_nearby_places", {
-        location: item.lat_long,
-      });
+      const res = await handlePost<NearbyPlace>(
+        "real_estates/fetch_nearby_places",
+        {
+          location: item.lat_long,
+        }
+      );
       setPlaces((prevPlaces) => ({
         ...prevPlaces,
-        [index]: res.val,
+        [index]: Array.isArray(res.val) ? res.val : [res.val],
       }));
     }
   };

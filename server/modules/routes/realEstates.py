@@ -231,5 +231,4 @@ def fetch_nearby_places(request: NearbyPlacesRequest):
         }
         for place in results
     ]
-    
-    return {"val": formatted_results}
+    return {"status": 200, "message": Messages.DATA_FOUND, "val": formatted_results}
