@@ -22,12 +22,13 @@ export const CustomerTable = ({
   isloading,
 }: ParamsType) => {
   const { language } = useLanguageStore();
+  console.log(data);
   return (
     <>
       {isloading && <p>cargando</p>}
       {!isloading && (
         <div className="bg-white p-3 md:p-7 shadow border-4 border-[#2196eb] overflow-auto">
-          <div className="flex  justify-between mb-4">
+          <div className="flex  justify-between mb-4 md:flex-row sm:flex-row flex-col gap-2">
             <div className="flex flex-col items-start">
               <h2 className="text-lg md:text-xl font-bold ">
                 Todos los clientes
@@ -37,8 +38,8 @@ export const CustomerTable = ({
               </button>
             </div>
 
-            <div className="flex gap-5 md:items-center md:flex-row flex-col">
-              <div className="flex items-center bg-[#dddee241] rounded-lg gap-3 px-4 h-10 md:w-[200px] w-[150px]">
+            <div className="flex gap-2 md:gap-5 md:items-center md:flex-row flex-col">
+              <div className="flex items-center bg-[#dddee241] rounded-lg gap-3 px-4 md:h-10 h-12 md:w-[200px] w-[200px]">
                 <SearchIcon size="20" />
                 <input
                   type="text"
@@ -46,8 +47,8 @@ export const CustomerTable = ({
                   className="bg-transparent focus:outline-none w-full"
                 />
               </div>
-              <div className="flex md:items-center bg-[#dddee241] rounded-lg gap-2 px-2 md:px-3 py-1 md:w-[200px] w-[150px] md:flex-row flex-col ">
-                <p className="text-[#b8b8b8] md:text-base text-xm leading-none md:leading-none">
+              <div className="flex md:items-center bg-[#dddee241] rounded-lg gap-2 px-2 md:px-3 py-1 md:w-[200px] w-[200px] md:flex-row flex-col md:h-10 h-auto">
+                <p className="text-[#b8b8b8] md:text-base text-xm leading-none md:leading-none whitespace-nowrap">
                   Filtrar por:
                 </p>
                 <select className="bg-transparent font-bold w-full text-sm md:text-base flex flex-wrap">
@@ -63,7 +64,10 @@ export const CustomerTable = ({
               <thead>
                 <tr>
                   {header.map((v) => (
-                    <th key={v} className="pl-10 md:pl-0 max-w-xs break-words">
+                    <th
+                      key={v}
+                      className="pl-10 md:pl-0 max-w-xs break-words text-gray-300"
+                    >
                       {v}
                     </th>
                   ))}
@@ -77,7 +81,7 @@ export const CustomerTable = ({
                         {col != "active" && (
                           <td
                             key={col}
-                            className="pl-10 md:pl-0 max-w-xs break-words"
+                            className="pl-10 md:pl-0 max-w-[130px] min-w-[130px] md:max-w-[90px] md:min-w-[90px] break-words pt-10"
                           >
                             {typeof v[col as keyof typeof v] === "object" &&
                             v[col as keyof typeof v] !== null
@@ -87,9 +91,11 @@ export const CustomerTable = ({
                         )}
 
                         {col == "active" && (
-                          <td className="pl-10 md:pl-0 max-w-xs break-words">
+                          <td className="pl-10 md:pl-0 max-w-[130px] min-w-[130px] md:max-w-[90px] md:min-w-[90px] break-words">
                             <span
-                              onClick={() => handleState(v.id)}
+                              onClick={() => {
+                                handleState(v.id);
+                              }}
                               className={`px-2 py-1 rounded-lg ${
                                 v[col as keyof typeof v]
                                   ? "bg-green-100 text-green-700"
