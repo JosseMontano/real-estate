@@ -1,9 +1,9 @@
 type ParamsType = {
 }
-export const DashboardCustomers = ({}:ParamsType) => {
+export const DashQuestions = ({}:ParamsType) => {
     return (
         <div>
-            
+            HI
         </div>
     );
 }

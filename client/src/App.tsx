@@ -7,11 +7,9 @@ import DashboardPage from "@/features/profile/profile";
 import Img360 from "@/features/img360/img360";
 import { Config } from "@/shared/components/config";
 import { Dashboard } from "@/features/dashboard/dashboard";
-import { DashboardCustomers } from "@/features/dashboard/components/dashboardC/dashboardC";
 import { DashboardProduct } from "@/features/dashboard/components/dashboardP/dashboardP";
-import { DashboardIncome } from "@/features/dashboard/components/dashboardI/dashboardI";
-import { DashboardGraphics } from "@/features/dashboard/components/dashboardGraphics/dashboardGraphics";
-import { Side } from "@/features/dashboard/components/side";
+import { DashQuestions } from "@/features/dashQuestions/dashQuestions";
+import { DashGraphics } from "@/features/dashGraphics/dashGraphics";
 
 export const queryClient = new QueryClient();
 export type Routes = "/" | "/profile" | "/auth" | "/img360";
@@ -27,12 +25,10 @@ function App() {
             <Route path="/profile" element={<DashboardPage />} />
             <Route path="/auth" element={<AuthPage />} />
             <Route path="/img360" element={<Img360 />} />
-            <Route path="/side" element={<Side />} />
             <Route path="/dashboard" element={<Dashboard />}>
-              <Route path="" element={<DashboardGraphics />} />
+              <Route path="" element={<DashGraphics />} />
               <Route path="product" element={<DashboardProduct />} />
-              <Route path="customers" element={<DashboardCustomers />} />
-              <Route path="income" element={<DashboardIncome />} />
+              <Route path="questions" element={<DashQuestions />} />
             </Route>
           </Routes>
           <Config />
