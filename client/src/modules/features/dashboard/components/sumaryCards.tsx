@@ -9,7 +9,7 @@ export const SumaryCard = ({}: ParamsType) => {
           <UsersIcon size="20" />
         </div>
         <div>
-          <h2 className="text-lg text-[#b8b8b8] text-center">Total Customers</h2>
+          <h2 className="text-lg text-[#b8b8b8] text-center">Customers</h2>
           <p className="text-2xl font-semibold text-center md:text-start">5,423</p>
         </div>
       </div>
