@@ -1,11 +1,6 @@
 import { StarFill } from "@/shared/assets/icons/starFill";
 import imgDefault from "@/shared/assets/profile.jpeg";
 import { Comments } from "@/core/types/commets";
-import FormComponent from "@/core/components/form/form";
-import { useForm } from "@/core/hooks/useForm";
-import { commentSchema } from "../validations/comment.schema";
-import { Input } from "@/core/components/form/input";
-import { addCommentToDB } from "../api/endpoints";
 import { User } from "@/core/types/user";
 type ParamasType = {
   profileImageUrl: string | null;
@@ -19,33 +14,7 @@ export const ProfileHeader = ({
   profileImageUrl,
   commets,
   loading,
-  user,
 }: ParamasType) => {
-  const {
-    handleOnSubmit,
-    errors,
-    register,
-    isPending: isPendingComment,
-  } = useForm({
-    schema: commentSchema,
-    form: async (data) => {
-      await addCommentToDB({
-        comment: data,
-        commentator: {
-          available: user.available,
-          cellphoneNumber: user.cellphoneNumber,
-          codeRecuperation: user.codeRecuperation,
-          email: user.email,
-          id: user.id || "",
-          qualification: user.qualification,
-          role: user.role,
-          userName: user.userName,
-        },
-        userId: user.id ? user.id : "",
-        user: user,
-      });
-    },
-  });
   return (
     <div className="flex flex-col gap-4 w-full md:pr-5">
       <div className=" flex flex-col gap-3 ">
@@ -59,9 +28,11 @@ export const ProfileHeader = ({
       </div>
 
       <div className="flex flex-col gap-2 w-full max-h-[450px] md:items-start items-center">
-        <div className="flex items-end">
+        <div className="flex items-end w-full">
           <p className="text-[#929191] text-xl">Comentarios</p>
-          <div className="w-full h-px bg-gray-300 mb-[6px]"></div>
+          <div className="w-full h-px bg-gray-300 mb-[6px] text-transparent">
+            line
+          </div>
         </div>
         <div className="overflow-y-scroll w-full">
           {loading ? (
@@ -80,7 +51,10 @@ export const ProfileHeader = ({
                   <div className="flex space-x-1">
                     {/* Estrellas de calificación */}
                     {[...Array(comment.amountStars)].map((_, i) => (
-                      <span key={i} className="text-yellow-400 text-base md:text-2xl">
+                      <span
+                        key={i}
+                        className="text-yellow-400 text-base md:text-2xl"
+                      >
                         <StarFill size="20" />
                       </span>
                     ))}
@@ -89,23 +63,31 @@ export const ProfileHeader = ({
               </div>
             ))
           )}
-        </div>
-      </div>
-      <div className="max-w-max">
-        <FormComponent
-          isPending={isPendingComment}
-          handleOnSubmit={handleOnSubmit}
-          btnText="Comentar"
-          children={
+          {commets.length == 0 && (
             <>
-              <Input
-                text="Comentario. . ."
-                error={errors.es}
-                register={register("es")}
-              />
+              <div className="w-full flex gap-3">
+                <div className="basis-2/12">
+                  <img src={imgDefault} alt="imagen por defecto" className="rounded-full " />
+                </div>
+                <div className="basis-9/12 flex-wrap text-sm">
+                  <p className="font-semibold">email@example.com</p>
+                  <p className="text-[#888787]">
+                    Comentario example: La casa esta bonita
+                  </p>
+                </div>
+                <div className="basis-1/12 flex items-center justify-center">
+                  <p className=" text-base md:text-xl font-semibold mx-1">3</p>
+                  <div className="flex space-x-1">
+                    {/* Estrellas de calificación */}
+                    <span className="text-yellow-400 text-base md:text-2xl">
+                      <StarFill size="20" />
+                    </span>
+                  </div>
+                </div>
+              </div>
             </>
-          }
-        />
+          )}
+        </div>
       </div>
     </div>
   );

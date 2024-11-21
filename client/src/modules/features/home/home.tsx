@@ -6,12 +6,10 @@ import { Footer } from "./components/footer";
 import { Questions } from "./components/question";
 import { fetchRealEstates } from "./api/endpoints";
 import useGet from "@/core/hooks/useGet";
-import { useEffect, useState } from "react";
-import { RealEstate } from "@/shared/types/realEstate";
+import { useEffect} from "react";
 import { SearchPropierties } from "./components/searchPropierties";
 
 export const HomePage = () => {
-  const [currentRealEstate, setCurrentRealEstate] = useState({} as RealEstate);
   const {
     data: realEstates,
     isLoading,

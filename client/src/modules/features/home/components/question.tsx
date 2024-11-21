@@ -5,7 +5,7 @@ import { questionSchema } from "../validations/question.schema";
 import { addQuestionToDB } from "../api/endpoints";
 import { useForm } from "@/core/hooks/useForm";
 import { handlePost } from "@/core/utils/fetch";
-import { primaryColor } from "@/const/colors";
+import { primaryColor } from "@/core/const/colors";
 
 export const Questions = () => {
   const {
@@ -17,6 +17,7 @@ export const Questions = () => {
     schema: questionSchema,
     form: async (data) => {
       const res = await handlePost("translate", { val: data.questionEs });
+      console.log(res);
       data.questionEn = res.val.valEn;
       data.questionPt = res.val.valPt;
       await addQuestionToDB(data);

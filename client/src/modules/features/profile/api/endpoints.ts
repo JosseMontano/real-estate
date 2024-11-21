@@ -19,7 +19,7 @@ import { Res } from "@/core/types/res";
 export async function addREToDB(
   realEstatData: RealEstateDTO,
 ) {
-  return await handlePost("real_estates", realEstatData);    
+  return await handlePost("real_estates", realEstatData);
 }
 
 
@@ -54,8 +54,8 @@ export const fetchCommentsForUser = async (userId: string): Promise<Comments[]> 
 }
 
 interface MinimalCommentData {
-  comment: CommentT;              
-  commentator: Commentator;        
+  comment: CommentT;
+  commentator: Commentator;
   user: User
   userId: string
 }
@@ -82,13 +82,13 @@ export const addCommentToDB = async (data: MinimalCommentData): Promise<void> =>
         typeRE: { id: "", value: "" },
         typeREId: "",
         user: {
-          available: data.user.available,
+          available: data?.user?.available,
           id: data.user.id ?? "",
-          cellphoneNumber: data.user.cellphoneNumber,
+          cellphoneNumber: data.user.cellphoneNumber ?? "",
           email: data.user.email,
           role: data.user.role,
           userId: data.userId,
-          userName: data.user.userName
+          userName: data.user.userName ?? ""
         },
         userId: data.userId
       },
@@ -112,7 +112,7 @@ export async function updateUserInDB() {
     available: true,
     cellphoneNumber: "123456789",
     codeRecuperation: "123456",
-    qualification: 5,
+    qualification: "5",
     role: 1,
     userName: "jhack1",
   };

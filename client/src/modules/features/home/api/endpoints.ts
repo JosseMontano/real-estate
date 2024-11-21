@@ -35,7 +35,7 @@ export async function addCommentToDB(commentData:CommentDTO, realEstate:RealEsta
     realEstate:realEstate,
     commentator:user,
     amountStars:5,
-    realEstateId:realEstate.id ?? "",
+    realEstateId:String(realEstate.id)?? "",
     commentatorId:user.id ?? "",
   }
   await addDoc(collection(db,"comments"),comment)

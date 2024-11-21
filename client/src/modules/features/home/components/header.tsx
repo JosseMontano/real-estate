@@ -1,4 +1,4 @@
-import { primaryColor } from "@/const/colors";
+import { primaryColor } from "@/core/const/colors";
 import Btn from "@/core/components/form/button";
 import useNavigation from "@/core/hooks/useNavigate";
 import { NavLink } from "@/features/home/components/navLink";
