@@ -25,7 +25,7 @@ export const Sidebar = ({}: ParamsType) => {
       </div>
 
       <aside
-        className={`fixed bg-white h-screen p-6 z-20 transform transition-transform duration-300 ${
+        className={`fixed bg-white h-screen p-6 transform transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } lg:translate-x-0 lg:block `}
       >

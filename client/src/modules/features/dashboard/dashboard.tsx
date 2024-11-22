@@ -5,7 +5,7 @@ import { HeaderDashboard } from "./components/headear";
 type ParamsType = {};
 export const Dashboard = ({}: ParamsType) => {
   return (
-    <div className="flex flex-col md:flex-row h-screen">
+    <div className="flex flex-col lg:flex-row h-screen">
       <div className="md:basis-2/12 ">
         <Sidebar />
       </div>
