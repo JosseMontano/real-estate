@@ -3,16 +3,20 @@ import Btn from "@/core/components/form/button";
 import Pagination from "@/core/components/form/pagination";
 import { useLanguageStore } from "@/core/store/language";
 import { SearchIcon } from "@/shared/assets/icons/search";
+import Select from "@/core/components/form/select";
 
 type ParamsType = {
   data: any[];
+  selectData?: any[] ;
+  currentSelected?:any
   header: string[];
   handleState: (id: number) => void;
   amountOfPages: number;
   currentPage: number;
   handlePagination: (page: number) => void;
   isloading: boolean;
-  setIsOpenModal: () => void;
+  setIsOpenModal?: () => void;
+  setCurrentSelected?: (val: any) => void;
 };
 export const CustomerTable = ({
   data,
@@ -23,9 +27,12 @@ export const CustomerTable = ({
   handlePagination,
   isloading,
   setIsOpenModal,
+  selectData,
+  currentSelected,
+  setCurrentSelected
 }: ParamsType) => {
   const { language } = useLanguageStore();
- 
+  console.log(currentSelected);
   return (
     <>
       {isloading && <p>cargando</p>}
@@ -41,14 +48,16 @@ export const CustomerTable = ({
                   Clientes activos
                 </button>
               </div>
-              <div className="">
-                <Btn
-                  isPending={false}
-                  text="Agregar"
-                  className="max-w-max p-2"
-                  onClick={setIsOpenModal}
-                />
-              </div>
+              {setIsOpenModal && (
+                <div className="">
+                  <Btn
+                    isPending={false}
+                    text="Agregar"
+                    className="max-w-max p-2"
+                    onClick={setIsOpenModal}
+                  />
+                </div>
+              )}
             </div>
 
             <div className="flex gap-2 md:gap-5 md:items-center md:flex-row flex-col">
@@ -60,16 +69,32 @@ export const CustomerTable = ({
                   className="bg-transparent focus:outline-none w-full"
                 />
               </div>
+              {selectData && (
               <div className="flex md:items-center bg-[#dddee241] rounded-lg gap-2 px-2 md:px-3 py-1 md:w-[200px] w-[200px] md:flex-row flex-col md:h-10 h-auto">
                 <p className="text-[#b8b8b8] md:text-base text-xm leading-none md:leading-none whitespace-nowrap">
                   Filtrar por:
                 </p>
-                <select className="bg-transparent font-bold w-full text-sm md:text-base flex flex-wrap">
-                  <option> Nombre</option> <option> Compania</option>{" "}
-                  <option> Teléfono</option> <option> Email</option>{" "}
-                </select>
+             
+                  <Select
+                    value={
+                      currentSelected.name != undefined
+                        ? currentSelected.name[language]
+                        : undefined
+                    }
+                    onChange={(val) => {
+                      if(setCurrentSelected)
+                      setCurrentSelected(val);
+                    }}
+                    options={selectData?.map((v) => ({
+                      name: v.name,
+                      id: v.id,
+                    }))}
+                  />
+        
               </div>
+                  )}
             </div>
+      
           </div>
 
           <div className="overflow-x-auto">
