@@ -6,8 +6,9 @@ import { Footer } from "./components/footer";
 import { Questions } from "./components/question";
 import { fetchRealEstates } from "./api/endpoints";
 import useGet from "@/core/hooks/useGet";
-import { useEffect} from "react";
+import { useEffect } from "react";
 import { SearchPropierties } from "./components/searchPropierties";
+import { useLanguageStore } from "@/core/store/language";
 
 export const HomePage = () => {
   const {
@@ -30,31 +31,59 @@ export const HomePage = () => {
       if (sceneEl) sceneEl.remove();
     };
   }, []);
+
+  //Home translate
+  const { texts } = useLanguageStore();
+  const links = [
+    texts.languageHeader1,
+    texts.languageHeader2,
+    texts.languageHeader3,
+    texts.languageHeader4,
+  ];
   return (
     <>
-    <img src={bgImage} alt="bg" className="absolute top-0 w-full h-screen object-cover" />
-      <Header />
-      {/* <div
-        className="w-full h-screen bg-cover relative z-0"
-        style={{ backgroundImage: `url(${bgImage})` }}
-      > */}
-        <div className="h-screen relative top-0 bg-black bg-opacity-60 ">
-          <TitleCenter />
-          <SearchPropierties />
-        </div>
-      {/* </div> */}
+      <img
+        src={bgImage}
+        alt="bg"
+        className="absolute top-0 w-full h-screen object-cover"
+      />
+      <Header links={links} />
+      <div className="h-screen relative top-0 bg-black bg-opacity-60 ">
+        <TitleCenter
+          titleCenter={texts.centralTitle}
+          subtitleCenter={texts.centralSubtitle}
+          seeMoreProperties={texts.centralButton}
+        />
+        <SearchPropierties
+          tipeProperty={texts.propertyTypeLabel}
+          ubication={texts.locationLabel}
+          limitPrice={texts.priceRangeLabel}
+          selectProperty={texts.propertyTypeInput}
+          selectUbi={texts.locationInput}
+          selecPrice={texts.priceRangeInput}
+        />
+      </div>
       <SectionRealStates
         realEstates={realEstates ?? []}
         firstElementRef={firstElementRef}
         amountOfPages={amountOfPages}
         handlePagination={handlePagination}
         currentPage={currentPage}
+        infoTextLanguage={texts.infoButton}
+        placeTextLanguage={texts.placesButton}
+        seeMoreBtn={texts.viewMoreButton}
       />
 
       {isLoading && <p>Loading...</p>}
 
-      <Questions />
-      <Footer />
+      <Questions
+        ask={texts.ask}
+        btn={texts.saveButton}
+        description={texts.questionSubtitle}
+        placeHolder={texts.questionPlaceholder}
+        question={texts.question}
+      />
+      <Footer textFooter={texts.copyright}/>
     </>
   );
 };

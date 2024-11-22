@@ -7,7 +7,14 @@ import { useForm } from "@/core/hooks/useForm";
 import { handlePost } from "@/core/utils/fetch";
 import { primaryColor } from "@/core/const/colors";
 
-export const Questions = () => {
+type ParamsType={
+  ask:string,
+  question:string,
+  description:string,
+  btn:string,
+  placeHolder:string
+}
+export const Questions = ({ask, description, placeHolder, btn, question}:ParamsType) => {
   const {
     register,
     handleOnSubmit,
@@ -29,11 +36,10 @@ export const Questions = () => {
       <div className="flex flex-row gap-5">
         <div className="w-[400px] flex flex-col gap-5">
           <h3 className="text-4xl">
-            Haz una <b className="text-4xl font-semibold secondary">pregunta</b>
+            {ask} <b className="text-4xl font-semibold secondary">{question}</b>
           </h3>
           <p className="text-sm">
-            Tus preguntas se visualizarán en las publicaciones para que los
-            propietarios puedan responder de forma automática.
+            {description}
           </p>
         </div>
 
@@ -41,12 +47,12 @@ export const Questions = () => {
           <FormComponent
             isPending={isPendingQuestion}
             handleOnSubmit={handleOnSubmit}
-            btnText="Guardar"
+            btnText={btn}
             spaceBtn={false}
             children={
               <>
                 <Input
-                  text="¿Qué te gustaría saber?"
+                  text={placeHolder}
                   error={errors.questionEs}
                   register={register("questionEs")}
                   className="bg-white "

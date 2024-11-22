@@ -3,13 +3,14 @@ import Btn from "@/core/components/form/button";
 import useNavigation from "@/core/hooks/useNavigate";
 import { NavLink } from "@/features/home/components/navLink";
 import { useEffect, useState } from "react";
+import { useLanguageStore } from "@/core/store/language";
 
-type ParamsType = {};
-export const Header = ({}: ParamsType) => {
+type ParamsType = { links: string[] };
+export const Header = ({ links }: ParamsType) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const links = ["Inicio", "Propiedades", "Peguntas", "Contactanos"];
-  const { handleNavigate } = useNavigation();
+  const { texts } = useLanguageStore();
 
+  const { handleNavigate } = useNavigation();
 
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -30,17 +31,16 @@ export const Header = ({}: ParamsType) => {
 
   return (
     <header
-    className={`fixed w-full top-0 z-10  transition-colors duration-300 ${
-      isScrolled ? "bg-black text-white" : "bg-transparent text-white "
-    }`}
-  >
+      className={`fixed w-full top-0 z-10  transition-colors duration-300 ${
+        isScrolled ? "bg-black text-white" : "bg-transparent text-white "
+      }`}
+    >
       <div className=" container mx-auto px-4 py-4 flex justify-between md:items-center items-start">
         <div className="text-2xl font-bold hidden md:block">InmoApp</div>
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           className="md:hidden"
         >
-          <div className="text-2xl font-bold hidden md:block">Oakberry</div>
           {/* Icono de hamburguesa */}
           <svg
             className="w-6 h-6"
@@ -69,7 +69,7 @@ export const Header = ({}: ParamsType) => {
         </nav>
         <div className="max-w-max">
           <Btn
-            text="Publicar propiedad"
+            text={texts.languageHeadeBtn}
             isPending={false}
             className="w-auto px-3 cursor-pointer"
             onClick={() => handleNavigate("/profile")}

@@ -8,7 +8,6 @@ export type TranslateRes = {
   pt: string;
 };
 
-
 interface Translations {
   //auth
   titleAuth: string;
@@ -18,8 +17,37 @@ interface Translations {
   language1Config: string;
   language2Config: string;
   language3Config: string;
+  //header Home
+  languageHeader1: string;
+  languageHeader2: string;
+  languageHeader3: string;
+  languageHeader4: string;
+  languageHeadeBtn: string;
   //dashboard RE
-  tableTile:string
+  tableTile: string;
+  //home page
+  centralTitle: string;
+  centralSubtitle: string;
+  centralButton: string;
+  //home search
+  propertyTypeLabel: string;
+  propertyTypeInput: string;
+  locationLabel: string;
+  locationInput: string;
+  priceRangeLabel: string;
+  priceRangeInput: string;
+  //home house buttons
+  infoButton: string;
+  placesButton: string;
+  viewMoreButton: string;
+  //home questions
+  ask: string;
+  question:string
+  questionSubtitle: string;
+  questionPlaceholder: string;
+  saveButton: string;
+  //home footer
+  copyright: string;
 }
 
 const translations: { [key in Language]: Translations } = {
@@ -32,8 +60,39 @@ const translations: { [key in Language]: Translations } = {
     language1Config: "Spanish",
     language2Config: "English",
     language3Config: "Portuguese",
+    //header Home
+    languageHeader1: "Home",
+    languageHeader2: "Properties",
+    languageHeader3: "Questions",
+    languageHeader4: "Contact Us",
+    languageHeadeBtn: "Publish property",
     //dashboard RE
-    tableTile: "Real Estates"
+    tableTile: "Real Estates",
+    //home page
+    centralTitle: "The modern house makes life better.",
+    centralSubtitle:
+      "Discover how to improve your quality of life with a house tailored to you.",
+    centralButton: "Explore our properties",
+    //home search
+    propertyTypeLabel: "Property Type",
+    propertyTypeInput: "Select property",
+    locationLabel: "Location",
+    locationInput: "Select location",
+    priceRangeLabel: "Price Range",
+    priceRangeInput: "Select price",
+    //home house buttons
+    infoButton: "Information",
+    placesButton: "Places",
+    viewMoreButton: "View more",
+    //home questions
+    ask:"Ask a",
+    question:"question",
+    questionSubtitle:
+      "Your questions will appear in the listings so owners can respond automatically.",
+    questionPlaceholder: "What would you like to know?",
+    saveButton: "Save",
+    //home footer
+    copyright: "Copyright © INMUEBLES EN LA NUBE - All rights reserved",
   },
   es: {
     //auth
@@ -44,8 +103,40 @@ const translations: { [key in Language]: Translations } = {
     language1Config: "Español",
     language2Config: "Inglés",
     language3Config: "Portugués",
+    //header Home
+    languageHeader1: "Inicio",
+    languageHeader2: "Propiedades",
+    languageHeader3: "Preguntas",
+    languageHeader4: "Contáctanos",
+    languageHeadeBtn: "Publicar propiedad",
     //dashboard RE
-    tableTile: "Bienes Raices"
+    tableTile: "Bienes Raíces",
+    //home page
+    centralTitle: "La casa moderna hace la vida mejor.",
+    centralSubtitle:
+      "Descubre cómo mejorar tu calidad de vida con una casa a tu medida.",
+    centralButton: "Explora nuestras propiedades",
+    //home search
+    propertyTypeLabel: "Tipo de propiedad",
+    propertyTypeInput: "Seleccione la propiedad",
+    locationLabel: "Ubicación",
+    locationInput: "Seleccione la ubicación",
+    priceRangeLabel: "Límites de precio",
+    priceRangeInput: "Seleccione el precio",
+    //home house buttons
+    infoButton: "Información",
+    placesButton: "Lugares",
+    viewMoreButton: "Ver más",
+    //home questions
+    ask:"Haz una",
+    question:"preguna",
+    questionSubtitle:
+      "Tus preguntas se visualizarán en las publicaciones para que los propietarios puedan responder de forma automática.",
+    questionPlaceholder: "¿Qué te gustaría saber?",
+    saveButton: "Guardar",
+    //home footer
+    copyright:
+      "Copyright © INMUEBLES EN LA NUBE - Todos los derechos reservados",
   },
   pt: {
     //auth
@@ -56,8 +147,40 @@ const translations: { [key in Language]: Translations } = {
     language1Config: "Espanhol",
     language2Config: "Inglês",
     language3Config: "Português",
-    //dashboard RE  
-    tableTile: "Imóveis"
+    //header Home
+    languageHeader1: "Início",
+    languageHeader2: "Propriedades",
+    languageHeader3: "Perguntas",
+    languageHeader4: "Contate-nos",
+    languageHeadeBtn: "Publicar propriedade",
+    //dashboard RE
+    tableTile: "Imóveis",
+    //home page
+    centralTitle: "A casa moderna torna a vida melhor.",
+    centralSubtitle:
+      "Descubra como melhorar sua qualidade de vida com uma casa feita para você.",
+    centralButton: "Explore nossas propriedades",
+    //home search
+    propertyTypeLabel: "Tipo de propriedade",
+    propertyTypeInput: "Selecione a propriedade",
+    locationLabel: "Localização",
+    locationInput: "Selecione a localização",
+    priceRangeLabel: "Limites de preço",
+    priceRangeInput: "Selecione o preço",
+    //home house buttons
+    infoButton: "Informação",
+    placesButton: "Lugares",
+    viewMoreButton: "Ver mais",
+    //home questions
+    ask:"Faça uma",
+    question:"pergunta",
+    questionSubtitle:
+      "Suas perguntas aparecerão nas postagens para que os proprietários possam responder automaticamente.",
+    questionPlaceholder: "O que você gostaria de saber?",
+    saveButton: "Salvar",
+    //home footer
+    copyright:
+      "Copyright © INMUEBLES EN LA NUBE - Todos os direitos reservados",
   },
 };
 

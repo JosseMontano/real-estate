@@ -2,6 +2,14 @@ import { primaryColor } from "@/core/const/colors";
 import { useState } from "react";
 import { SearchFormComponent } from "./searchFormComponent";
 
+type ParamsType={
+tipeProperty:string,
+selectProperty:string,
+ubication:string,
+selectUbi:string,
+limitPrice:string,
+selecPrice:string
+}
 export type Field = {
   label: string;
   type: "text" | "select";
@@ -9,7 +17,7 @@ export type Field = {
   options?: string[];
 };
 
-export const SearchPropierties = () => {
+export const SearchPropierties = ({limitPrice, selectProperty, selecPrice, selectUbi, tipeProperty, ubication}:ParamsType) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleForm = () => {
@@ -17,19 +25,19 @@ export const SearchPropierties = () => {
   };
   const fields: Field[] = [
     {
-      label: "Tipo de propiedad",
+      label: tipeProperty,
       type: "select",
-      options: ["Seleccione la propiedad","Residencial", "Soltero", "Commercial", "Casado", "Viudo"],
+      options: [selectProperty,"Residencial", "Soltero", "Commercial", "Casado", "Viudo"],
     },
     {
-      label: "Ubicación",
+      label: ubication,
       type: "select",
-      options: ["Seleccione la ubicacion","Queru queru", "Cala cala", "Prado", "Bulevar"],
+      options: [selectUbi,"Queru queru", "Cala cala", "Prado", "Bulevar"],
     },
     {
-      label: "Limites de precio",
+      label: limitPrice,
       type: "select",
-      options: ["Seleccione el precio","1000Bs", "1500Bs", "2000Bs", "2500Bs"],
+      options: [selecPrice,"1000Bs", "1500Bs", "2000Bs", "2500Bs"],
     },
   ];
   return (
@@ -49,7 +57,7 @@ export const SearchPropierties = () => {
         <button
           onClick={toggleForm}
           style={{ background: primaryColor }}
-          className=" text-white py-2 rounded-lg hover:opacity-90 border-none focus:outline-none"
+          className=" text-white py-2 rounded-lg hover:opacity-90 border-none focus:outline-none relative top-16"
         >
           <label className="p-3">Buscar propiedades</label>
         </button>

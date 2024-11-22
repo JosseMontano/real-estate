@@ -10,12 +10,16 @@ type ParamsType = {
   states: State[];
   index: number;
   item: RealEstate;
+  info:string;
+  places:string
 };
 export const Buttons = ({
   handleStateChange,
   states,
   index,
   item,
+  info,
+  places
 }: ParamsType) => {
   return (
     <div className="flex space-x-4 bg-gray-100 p-2 rounded-full">
@@ -27,7 +31,7 @@ export const Buttons = ({
             : "text-gray-500 hover:bg-white"
         } rounded-full shadow-sm`}
       >
-        Informacion
+        {info}
       </button>
       <button
         onClick={() => handleStateChange(index, "places", item)}
@@ -37,7 +41,7 @@ export const Buttons = ({
             : "text-gray-500 hover:bg-white"
         } rounded-full shadow-sm`}
       >
-        Lugares
+        {places}
       </button>
     </div>
   );
