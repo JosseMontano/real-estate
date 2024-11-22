@@ -9,10 +9,10 @@ import { Config } from "@/shared/components/config";
 import { Dashboard } from "@/features/dashboard/dashboard";
 import { DashboardCustomers } from "@/features/dashboard/components/dashboardC/dashboardC";
 import { DashboardProduct } from "@/features/dashboard/components/dashboardP/dashboardP";
-import { DashboardIncome } from "@/features/dashboard/components/dashboardI/dashboardI";
 import { DashboardGraphics } from "@/features/dashboard/components/dashboardGraphics/dashboardGraphics";
 import { Side } from "@/features/dashboard/components/side";
 import { DashQuestions } from "@/features/dashQuestions/dashQuestions";
+import { DashTypeRe } from "@/features/dashTypeRe/dashTypeRe";
 
 export const queryClient = new QueryClient();
 export type Routes = "/" | "/profile" | "/auth" | "/img360";
@@ -33,7 +33,7 @@ function App() {
               <Route path="" element={<DashboardGraphics />} />
               <Route path="product" element={<DashboardProduct />} />
               <Route path="customers" element={<DashboardCustomers />} />
-              <Route path="income" element={<DashboardIncome />} />
+              <Route path="typeRe" element={<DashTypeRe />} />
               <Route path="questions" element={<DashQuestions />} />
             </Route>
           </Routes>

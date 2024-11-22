@@ -7,7 +7,7 @@ type ParamsType = {};
 export const Sidebar = ({}: ParamsType) => {
   const links = [
     { path: "/dashboard/customers", label: "Clientes" },
-    { path: "/dashboard/income", label: "Ingresos" },
+    { path: "/dashboard/typeRe", label: "Tipo de Inmuebles" },
     { path: "/dashboard/questions", label: "Preguntas" },
   ];
   const [isOpen, setIsOpen] = useState<boolean>(false);

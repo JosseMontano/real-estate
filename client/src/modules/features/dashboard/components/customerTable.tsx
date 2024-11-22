@@ -1,4 +1,5 @@
 import { primaryColor } from "@/const/colors";
+import Btn from "@/core/components/form/button";
 import Pagination from "@/core/components/form/pagination";
 import { useLanguageStore } from "@/core/store/language";
 import { SearchIcon } from "@/shared/assets/icons/search";
@@ -11,6 +12,7 @@ type ParamsType = {
   currentPage: number;
   handlePagination: (page: number) => void;
   isloading: boolean;
+  setIsOpenModal: () => void;
 };
 export const CustomerTable = ({
   data,
@@ -20,22 +22,33 @@ export const CustomerTable = ({
   currentPage,
   handlePagination,
   isloading,
+  setIsOpenModal,
 }: ParamsType) => {
   const { language } = useLanguageStore();
-  console.log(data);
+ 
   return (
     <>
       {isloading && <p>cargando</p>}
       {!isloading && (
-        <div className="bg-white p-3 md:p-7 shadow border-4 border-[#2196eb] overflow-auto">
+        <div className="bg-white p-3 md:p-7 shadow overflow-auto">
           <div className="flex  justify-between mb-4 md:flex-row sm:flex-row flex-col gap-2">
-            <div className="flex flex-col items-start">
-              <h2 className="text-lg md:text-xl font-bold ">
-                Todos los clientes
-              </h2>
-              <button className="text-[#ace9c7] font-bold text-sm md:text-base text-start">
-                Clientes activos
-              </button>
+            <div className="flex items-start gap-8">
+              <div className="flex flex-col">
+                <h2 className="text-lg md:text-xl font-bold ">
+                  Todos los clientes
+                </h2>
+                <button className="text-[#ace9c7] font-bold text-sm md:text-base text-start">
+                  Clientes activos
+                </button>
+              </div>
+              <div className="">
+                <Btn
+                  isPending={false}
+                  text="Agregar"
+                  className="max-w-max p-2"
+                  onClick={setIsOpenModal}
+                />
+              </div>
             </div>
 
             <div className="flex gap-2 md:gap-5 md:items-center md:flex-row flex-col">

@@ -8,6 +8,8 @@ import {
 } from "./api/endpoints";
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "../../../App";
+import { useModal } from "@/core/hooks/useModal";
+import { ShowModal } from "@/core/components/form/modal";
 
 export const DashQuestions = () => {
   const {
@@ -36,6 +38,7 @@ export const DashQuestions = () => {
     },
   });
 
+  const {isModalOpen, handleStateModal} = useModal()
   
   return (
     <div>
@@ -45,6 +48,12 @@ export const DashQuestions = () => {
         amountInactive={statistics?.inactive}
         isloading={isLoadingStatistics}
       />
+       <ShowModal
+        title="Agregar pregunta"
+        isModalOpen={isModalOpen}
+        setIsModalOpen={handleStateModal}
+        children={<></>}
+      />
       <CustomerTable
         header={header}
         data={questions}
@@ -53,6 +62,7 @@ export const DashQuestions = () => {
         currentPage={currentPage}
         handlePagination={handlePagination}
         isloading={isLoading}
+        setIsOpenModal={handleStateModal}
       />
     </div>
   );
