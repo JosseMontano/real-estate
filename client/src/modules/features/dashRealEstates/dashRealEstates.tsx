@@ -12,6 +12,7 @@ import { CustomerTable } from "../dashboard/components/customerTable";
 import { fetchTypesRE } from "../profile/api/endpoints";
 import { useState } from "react";
 import { TypeRE } from "@/shared/types/realEstate";
+import { useLanguageStore } from "@/core/store/language";
 
 type ParamsType = {};
 export const DashRealEstates = ({}: ParamsType) => {
@@ -33,7 +34,7 @@ export const DashRealEstates = ({}: ParamsType) => {
   });
 
 
-  const header = ["title", "active"];
+  const header = ["title", "amount_bathroom","price","active"];
 
   const { mutate: mutateToState } = useMutation({
     mutationFn: deleteRealEstates,
@@ -49,6 +50,8 @@ export const DashRealEstates = ({}: ParamsType) => {
   });
 
   const [typeRE, setTypeRE] = useState({} as TypeRE);
+
+  const {texts}=useLanguageStore()
 
   return (
     <div>
@@ -70,6 +73,7 @@ export const DashRealEstates = ({}: ParamsType) => {
         selectData={TypeRE}
         currentSelected={typeRE}
         setCurrentSelected={setTypeRE}
+      tableTitle={texts.tableTile}
       />
     </div>
   );

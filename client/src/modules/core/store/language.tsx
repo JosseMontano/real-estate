@@ -18,6 +18,8 @@ interface Translations {
   language1Config: string;
   language2Config: string;
   language3Config: string;
+  //dashboard RE
+  tableTile:string
 }
 
 const translations: { [key in Language]: Translations } = {
@@ -30,6 +32,8 @@ const translations: { [key in Language]: Translations } = {
     language1Config: "Spanish",
     language2Config: "English",
     language3Config: "Portuguese",
+    //dashboard RE
+    tableTile: "Real Estates"
   },
   es: {
     //auth
@@ -40,6 +44,8 @@ const translations: { [key in Language]: Translations } = {
     language1Config: "Español",
     language2Config: "Inglés",
     language3Config: "Portugués",
+    //dashboard RE
+    tableTile: "Bienes Raices"
   },
   pt: {
     //auth
@@ -50,6 +56,8 @@ const translations: { [key in Language]: Translations } = {
     language1Config: "Espanhol",
     language2Config: "Inglês",
     language3Config: "Português",
+    //dashboard RE  
+    tableTile: "Imóveis"
   },
 };
 

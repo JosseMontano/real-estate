@@ -39,7 +39,7 @@ export const AuthPage = () => {
       }
       console.log(message);
       setErrorMsg(message);
-    },
+    }
   });
 
   const handleLoginGoogle = async () => {

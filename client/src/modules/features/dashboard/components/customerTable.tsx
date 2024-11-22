@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { primaryColor } from "@/core/const/colors";
 import Btn from "@/core/components/form/button";
 import Pagination from "@/core/components/form/pagination";
@@ -7,8 +8,8 @@ import Select from "@/core/components/form/select";
 
 type ParamsType = {
   data: any[];
-  selectData?: any[] ;
-  currentSelected?:any
+  selectData?: any[];
+  currentSelected?: any;
   header: string[];
   handleState: (id: number) => void;
   amountOfPages: number;
@@ -17,7 +18,9 @@ type ParamsType = {
   isloading: boolean;
   setIsOpenModal?: () => void;
   setCurrentSelected?: (val: any) => void;
+  tableTitle: string;
 };
+
 export const CustomerTable = ({
   data,
   header,
@@ -29,20 +32,36 @@ export const CustomerTable = ({
   setIsOpenModal,
   selectData,
   currentSelected,
-  setCurrentSelected
+  setCurrentSelected,
+  tableTitle,
 }: ParamsType) => {
   const { language } = useLanguageStore();
-  console.log(currentSelected);
+  const [searchText, setSearchText] = useState("");
+
+  const filteredData = data.filter((row) =>
+    header.some((col) => {
+      const cellValue = row[col as keyof typeof row];
+      if (typeof cellValue === "object" && cellValue !== null) {
+        return String(cellValue[language] || "")
+          .toLowerCase()
+          .includes(searchText.toLowerCase());
+      }
+      return String(cellValue || "")
+        .toLowerCase()
+        .includes(searchText.toLowerCase());
+    })
+  );
+
   return (
     <>
       {isloading && <p>cargando</p>}
       {!isloading && (
         <div className="bg-white p-3 md:p-7 shadow overflow-auto">
-          <div className="flex  justify-between mb-4 md:flex-row sm:flex-row flex-col gap-2">
+          <div className="flex justify-between mb-4 md:flex-row sm:flex-row flex-col gap-2">
             <div className="flex items-start gap-8">
               <div className="flex flex-col">
                 <h2 className="text-lg md:text-xl font-bold ">
-                  Todos los clientes
+      {tableTitle}
                 </h2>
                 <button className="text-[#ace9c7] font-bold text-sm md:text-base text-start">
                   Clientes activos
@@ -66,15 +85,17 @@ export const CustomerTable = ({
                 <input
                   type="text"
                   placeholder="Buscar"
+                  value={searchText} 
+                  onChange={(e) => setSearchText(e.target.value)}
                   className="bg-transparent focus:outline-none w-full"
                 />
               </div>
               {selectData && (
-              <div className="flex md:items-center bg-[#dddee241] rounded-lg gap-2 px-2 md:px-3 py-1 md:w-[200px] w-[200px] md:flex-row flex-col md:h-10 h-auto">
-                <p className="text-[#b8b8b8] md:text-base text-xm leading-none md:leading-none whitespace-nowrap">
-                  Filtrar por:
-                </p>
-             
+                <div className="flex md:items-center bg-[#dddee241] rounded-lg gap-2 px-2 md:px-3 py-1 md:w-[200px] w-[200px] md:flex-row flex-col md:h-10 h-auto">
+                  <p className="text-[#b8b8b8] md:text-base text-xm leading-none md:leading-none whitespace-nowrap">
+                    Filtrar por:
+                  </p>
+
                   <Select
                     value={
                       currentSelected.name != undefined
@@ -82,19 +103,16 @@ export const CustomerTable = ({
                         : undefined
                     }
                     onChange={(val) => {
-                      if(setCurrentSelected)
-                      setCurrentSelected(val);
+                      if (setCurrentSelected) setCurrentSelected(val);
                     }}
                     options={selectData?.map((v) => ({
                       name: v.name,
                       id: v.id,
                     }))}
                   />
-        
-              </div>
-                  )}
+                </div>
+              )}
             </div>
-      
           </div>
 
           <div className="overflow-x-auto">
@@ -112,7 +130,7 @@ export const CustomerTable = ({
                 </tr>
               </thead>
               <tbody>
-                {data.map((v, index) => (
+                {filteredData.map((v, index) => (
                   <tr key={index} className="border-t">
                     {header.map((col) => (
                       <>
