@@ -37,6 +37,13 @@ class ChangePassDTO(BaseModel):
     confirmPassword: str
     code: int
     
+class UpdateUserDTO(BaseModel):
+    username: str
+    cellphone: int
+    photo: str
+    password: str
+    
+    
 
 @app.post('/signup')
 async def sign_up(user: signUpDTO, db: Session = Depends(get_db)):
@@ -124,7 +131,29 @@ def change_password(request: ChangePassDTO, db: Session = Depends(get_db)):
         hashed_password = bcrypt.hashpw(request.password.encode('utf-8'), bcrypt.gensalt())
         found_user.password = hashed_password.decode('utf-8')
         db.commit()
+        db.refresh(found_user)
         return {"status": 200, "message": AuthMsg.DATA_UPDATED, "val": found_user}
+    except Exception as e:
+        db.rollback()
+        return {"status": 500, "message": str(e), "val": []}
+    
+@app.put('/edit_profile/{email}')
+def edit_profile(email: str, request: UpdateUserDTO, db: Session = Depends(get_db)):
+    try:
+        found_user = db.query(models.User).filter(models.User.email == email).first()
+        
+        if not found_user:
+            return {"status": 400, "message": Messages.DATA_NOT_FOUND, "val": []}
+        
+        hashed_password = bcrypt.hashpw(request.password.encode('utf-8'), bcrypt.gensalt())
+        found_user.password = hashed_password.decode('utf-8')
+        found_user.cellphone = request.cellphone
+        found_user.username = request.username
+        found_user.photo = request.photo
+        
+        db.commit()
+        db.refresh(found_user)
+        return {"status": 200, "message": Messages.DATA_UPDATED, "val": found_user}
     except Exception as e:
         db.rollback()
         return {"status": 500, "message": str(e), "val": []}
