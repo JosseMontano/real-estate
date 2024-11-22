@@ -2,9 +2,9 @@ import { useLanguageStore } from "@/core/store/language";
 import { LanguageDB } from "@/shared/types/language";
 import React, { useState } from "react";
 
-interface Option {
+export interface Option {
   name: LanguageDB;
-  id?: string;
+  id: number;
 }
 
 interface SelectProps {

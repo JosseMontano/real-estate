@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 type ParamsType = {};
 export const Sidebar = ({}: ParamsType) => {
   const links = [
-    { path: "/dashboard/customers", label: "Clientes" },
-    { path: "/dashboard/income", label: "Ingresos" },
+    { path: "/dashboard/realEstates", label: "Inmuebles" },
+    { path: "/dashboard/typeRe", label: "Tipo de Inmuebles" },
     { path: "/dashboard/questions", label: "Preguntas" },
   ];
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -25,7 +25,7 @@ export const Sidebar = ({}: ParamsType) => {
       </div>
 
       <aside
-        className={`fixed bg-white h-screen p-6 z-20 transform transition-transform duration-300 ${
+        className={`fixed bg-white h-screen p-6 transform transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } lg:translate-x-0 lg:block `}
       >

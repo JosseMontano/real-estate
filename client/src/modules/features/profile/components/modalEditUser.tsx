@@ -44,7 +44,7 @@ export const ModalEditUser = ({
       <Btn
         isPending={false}
         text="Editar usuario"
-        className="max-w-max p-2"
+        className="max-w-max"
         onClick={handleShowModalEditUser}
       />
 
