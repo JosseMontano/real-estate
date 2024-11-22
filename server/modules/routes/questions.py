@@ -26,6 +26,27 @@ async def get_questions(db: Session = Depends(get_db)):
         return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": []}
     return {"status": 200, "message": Messages.DATA_FOUND, "val": questions}
 
+@app.get('/unanswered/{real_estate_id}')
+async def get_unanswered_questions(real_estate_id: int, db: Session = Depends(get_db)):
+
+    answered_subquery = db.query(models.Response.question_id).filter(
+        models.Response.real_estate_id == real_estate_id,
+        models.Response.active == True 
+    ).subquery()
+
+
+    query = db.query(models.Question).filter(
+        models.Question.id.notin_(answered_subquery), 
+        models.Question.active == True 
+    ).options(joinedload(models.Question.question))
+
+    questions = query.all()
+
+    if not questions:
+        return {"status": 404, "message": "No hay preguntas sin responder para este inmueble", "val": []}
+
+    return {"status": 200, "message": "Preguntas sin responder encontradas", "val": questions}
+
 @app.get('/statistics')
 async def get_statistics(db: Session = Depends(get_db)):
     questions = db.query(models.Question).all()
