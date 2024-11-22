@@ -1,12 +1,12 @@
-import { primaryColor } from "@/const/colors";
+import { primaryColor } from "@/core/const/colors";
 import { FieldError } from "react-hook-form";
 import { useState } from "react";
 import WarningIcon from "@/shared/assets/icons/warning";
 
 type ParamsType = {
   text: string;
-  error: FieldError | undefined;
-  register: any;
+  error?: FieldError | undefined;
+  register?: any;
   type?: string;
   Icon?: React.FC<{ size: string; color: string }>;
   className?: string;

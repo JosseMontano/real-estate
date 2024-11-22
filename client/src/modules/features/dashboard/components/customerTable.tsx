@@ -1,4 +1,4 @@
-import { primaryColor } from "@/const/colors";
+import { primaryColor } from "@/core/const/colors";
 import Pagination from "@/core/components/form/pagination";
 import { useLanguageStore } from "@/core/store/language";
 import { SearchIcon } from "@/shared/assets/icons/search";

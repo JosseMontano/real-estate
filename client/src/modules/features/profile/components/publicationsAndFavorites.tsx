@@ -67,18 +67,54 @@ export const PublicationsAndFavorites = ({
       description: "Contenido de la publicación 7",
       titleHouse: "La casa de hallowen",
     },
+    {
+      id: "pub8",
+      title: "Publicación 7",
+      img: img1,
+      description: "Contenido de la publicación 7",
+      titleHouse: "La casa de hallowen",
+    },
+    {
+      id: "pub9",
+      title: "Publicación 7",
+      img: img1,
+      description: "Contenido de la publicación 7",
+      titleHouse: "La casa de hallowen",
+    },
+    {
+      id: "pub10",
+      title: "Publicación 7",
+      img: img1,
+      description: "Contenido de la publicación 7",
+      titleHouse: "La casa de hallowen",
+    },
+    {
+      id: "pub11",
+      title: "Publicación 7",
+      img: img1,
+      description: "Contenido de la publicación 7",
+      titleHouse: "La casa de hallowen",
+    },
+    {
+      id: "pub12",
+      title: "Publicación 7",
+      img: img1,
+      description: "Contenido de la publicación 7",
+      titleHouse: "La casa de hallowen",
+    },
+
   ];
 
   const [currentRE, setCurrentRE] = useState<publication | null>(null);
 
   return (
     <div>
-      <div className="w-full">
-        <div className="flex flex-wrap gap-4 w-full max-w-none items-center overflow-y-auto h-[400px]">
+      <div className="w-full my-1">
+        <div className="flex flex-wrap gap-4 w-full max-w-none items-center overflow-y-auto h-[670px]">
           {publicationsFirtsRow.map((publication) => (
             <div
               key={publication.id}
-              className="w-[calc(80%-8px)] md:w-[calc(30%-8px)] p-2 pl-0 flex-shrink-0 "
+              className="w-[calc(80%-8px)] md:w-[calc(30%-8px)]  pl-0 flex-shrink-0 "
             >
               <div className="flex flex-col justify-center gap-3">
                 <img

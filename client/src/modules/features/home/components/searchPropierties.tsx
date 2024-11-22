@@ -1,4 +1,4 @@
-import { primaryColor } from "@/const/colors";
+import { primaryColor } from "@/core/const/colors";
 import { useState } from "react";
 import { SearchFormComponent } from "./searchFormComponent";
 

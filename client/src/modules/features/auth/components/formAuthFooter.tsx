@@ -1,4 +1,4 @@
-import { primaryColor } from "@/const/colors";
+import { primaryColor } from "@/core/const/colors";
 
 type ParamsType = {};
 export const FormAuthFooter = ({}: ParamsType) => {

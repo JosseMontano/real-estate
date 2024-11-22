@@ -1,5 +1,8 @@
-import { primaryColor } from "@/const/colors";
+import { primaryColor } from "@/core/const/colors";
 import Btn from "@/core/components/form/button";
+import FormComponent from "@/core/components/form/form";
+import { Input } from "@/core/components/form/input";
+import { ShowModal } from "@/core/components/form/modal";
 import { User } from "@/core/types/user";
 
 import { ChatLeftTextFill } from "@/shared/assets/icons/chatLeftTextFill";
@@ -10,9 +13,15 @@ import { StarFill } from "@/shared/assets/icons/starFill";
 import { useState } from "react";
 
 type ParamsType = {
+  isModalOpen: boolean;
+  HandleSetIsModalOpen: () => void;
   user: User;
 };
-export const ContactInfo = ({ user }: ParamsType) => {
+export const ContactInfo = ({
+  user,
+  isModalOpen,
+  HandleSetIsModalOpen,
+}: ParamsType) => {
   type options = "Publications" | "Favorites";
   const [stateBtn, setStateBtn] = useState<options>("Publications");
   return (
@@ -25,7 +34,9 @@ export const ContactInfo = ({ user }: ParamsType) => {
         <div>
           <label className="text-[#929191]">CLASIFICACIÓN</label>
           <div className="flex  gap-3 items-center">
-            <p className="text-base md:text-2xl font-semibold ">{user.qualification}</p>
+            <p className="text-base md:text-2xl font-semibold ">
+              {user.qualification}
+            </p>
             <div className="flex space-x-1">
               {[...Array(user.qualification)].map((_, i) => (
                 <span key={i} className="text-yellow-400 text-base md:text-2xl">
@@ -37,11 +48,9 @@ export const ContactInfo = ({ user }: ParamsType) => {
         </div>
 
         <div className="flex  gap-y-1 gap-x-10 items-center  flex-wrap md">
-          <div
-            className="flex  w-auto py-1 pr-1 gap-2 rounded-lg  hover:bg-gray-200 focus:outline-none cursor-pointer"
-          >
+          <div className="flex  w-auto py-1  gap-2 rounded-lg px-2 hover:bg-gray-200 focus:outline-none cursor-pointer">
             <ChatLeftTextFill size="20" />
-            <button> Enviar mensaje</button>
+            <button onClick={HandleSetIsModalOpen}> Enviar mensaje</button>
           </div>
           <div
             className="flex  w-auto px-2 rounded-lg hover:opacity-90 focus:outline-none cursor-pointer"
@@ -50,7 +59,9 @@ export const ContactInfo = ({ user }: ParamsType) => {
             <Check size="40" />
             <Btn text="Seguir" isPending={false} className="py-0" />
           </div>
-          <button className="hover:bg-gray-200 rounded-lg p-2">Reportar usuario</button>
+          <button className="hover:bg-gray-100 rounded-lg p-2 text-gray-400">
+            Reportar usuario
+          </button>
         </div>
       </div>
       <div className="flex flex-col ">
@@ -80,6 +91,17 @@ export const ContactInfo = ({ user }: ParamsType) => {
         </div>
         <div className="w-full h-px bg-gray-300"></div>
       </div>
+      <ShowModal
+        title="Agregar comentario"
+        isModalOpen={isModalOpen}
+        setIsModalOpen={HandleSetIsModalOpen}
+        children={
+          <div className="flex flex-col gap-3">
+            <Input text="Comentario. . ." />
+            <Btn isPending={false} text="Comentar" />
+          </div>
+        }
+      />
     </div>
   );
 };

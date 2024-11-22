@@ -11,9 +11,10 @@ import { useLanguageStore } from "@/core/store/language";
 import { ShowModal } from "@/core/components/form/modal";
 import { TypeRE } from "@/shared/types/realEstate";
 import Btn from "@/core/components/form/button";
-import { FileStatus } from "../profile";
+import { FileSelectedType, FileUpType } from "../profile";
 import { UploadImageIcon } from "@/shared/assets/icons/uploadImage";
 import { ArrowDownIcon } from "@/shared/assets/icons/arrowDown";
+import { TrashIcon } from "@/shared/assets/icons/trash";
 
 type ParamsType = {
   handleStateModal: () => void;
@@ -29,9 +30,11 @@ type ParamsType = {
   setLocation: (val: Location | null) => void;
   toggleExpand: () => void;
   isExpanded: boolean;
-  fileUrl: string[];
-  filesSelected: FileStatus[];
-  countFilesUp: number[];
+  fileUrl?: string[];
+  countFilesUp: number;
+  handleDeleteFile: (index: number) => void;
+  uploadFiles: FileUpType[];
+  filesSelected: FileSelectedType[];
 };
 export const ModalCreatePropierty = ({
   errors,
@@ -47,9 +50,10 @@ export const ModalCreatePropierty = ({
   setLocation,
   toggleExpand,
   isExpanded,
-  fileUrl,
-  filesSelected,
   countFilesUp,
+  handleDeleteFile,
+  uploadFiles,
+  filesSelected,
 }: ParamsType) => {
   const { data } = useGet({
     itemsPerPage: 10,
@@ -58,7 +62,6 @@ export const ModalCreatePropierty = ({
   });
 
   const { language } = useLanguageStore();
-
   return (
     <>
       <Btn
@@ -148,7 +151,7 @@ export const ModalCreatePropierty = ({
                   </div>
                 </div>
                 {
-                  <div className="h-70 overflow-y-auto">
+                  <div>
                     {filesSelected.length !== 0 && (
                       <>
                         <button
@@ -157,48 +160,59 @@ export const ModalCreatePropierty = ({
                         >
                           <ArrowDownIcon size="15" />
                           <span>
-                            {countFilesUp.length} de {filesSelected.length}{" "}
-                            archivos subidos
+                            {countFilesUp} de {filesSelected.length} archivos
+                            subidos
                           </span>
                         </button>
 
                         {isExpanded && (
-                          <>
+                          <div className=" max-h-64 min-h-0 overflow-y-auto overflow-x-hidden">
                             {filesSelected.map((value, index) => (
-                              <>
-                                <ul className="flex flex-col gap-5 py-3 px-3">
-                                  <div className="flex items-center  ">
+                              <div>
+                                <ul className="flex flex-col gap-5 py-3 px-3 w-[566px]">
+                                  <div className="flex items-center w-full  ">
                                     <span className="w-4 text-center p-0 rounded-full bg-[#63bacb] text-white text-xs">
                                       {index + 1}
                                     </span>
                                     <div className="w-5 h-[3px] bg-[#63bacb] ml-1" />
                                     <div className="flex border-2 border-[#d3d3d3] h-16 w-full items-center gap-5 ">
-                                      {filesSelected[index]?.status === true ? (
-                                        <span>Subiendo...</span>
+                                      {filesSelected[index].status === true ? (
+                                        <span className="basis-3/12 md:basis-2/12 flex justify-center items-center">
+                                          <span className="w-12 h-12 border-4 border-black border-b-transparent rounded-full inline-block animate-spin"></span>
+                                        </span>
                                       ) : (
-                                        <>
-                                          <img
-                                            className="basis-3/12 md:basis-2/12 p-0 h-full w-full"
-                                            src={fileUrl[index]}
-                                            alt="image"
-                                          />
-                                        </>
+                                        <img
+                                          className="basis-3/12 md:basis-2/12 p-0 h-full w-full"
+                                          src={uploadFiles[index]?.url}
+                                          alt="image"
+                                        />
                                       )}
-                                      <>
-                                        <span className="basis-8/12 md:basis-9/12">
+
+                                      <div className="basis-8/12 md:basis-9/12 flex overflow-hidden text-ellipsis whitespace-nowrap flex-col">
+                                        <span className="w-[300px] overflow-hidden text-ellipsis whitespace-nowrap">
                                           {value.name}
                                         </span>
+                                        <span>
+                                          {value.size &&
+                                            (value?.size / 1024).toFixed(
+                                              2
+                                            )}{" "}
+                                          KB
+                                        </span>
+                                      </div>
 
-                                        <button className="basis-1/12 md:basis-1/12 text-[#beeaff] text-xl font-normal px-5">
-                                          X
-                                        </button>
-                                      </>
+                                      <button
+                                        onClick={() => handleDeleteFile(index)}
+                                        className="basis-1/12 md:basis-1/12 text-[#63bacb] text-xl font-semibold px-5"
+                                      >
+                                        <TrashIcon size="20" />
+                                      </button>
                                     </div>
                                   </div>
                                 </ul>
-                              </>
+                              </div>
                             ))}
-                          </>
+                          </div>
                         )}
                       </>
                     )}
