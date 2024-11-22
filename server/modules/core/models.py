@@ -25,6 +25,7 @@ class User(Base):
     qualification = Column(Integer)
     role = Column(String)
     username = Column(String, index=True)
+    photo= Column(String)
 
     # relationships if needed
     comments = relationship("Comment", back_populates="commentator")

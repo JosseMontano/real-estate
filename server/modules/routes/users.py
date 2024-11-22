@@ -44,6 +44,7 @@ async def sign_up(user: signUpDTO, db: Session = Depends(get_db)):
             cellphone=0,
             code_recuperation="",
             qualification=0,
+            photo="",
             role=2,
             username="1234"
         )

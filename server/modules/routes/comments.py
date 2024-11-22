@@ -6,6 +6,8 @@ import modules.core.models as models
 from pydantic import BaseModel
 from modules.core.const import Messages
 from modules.core.utils.translate import translate_es_en_pt
+from sqlalchemy import desc
+
 app = APIRouter(
     prefix="/api/comments",
     tags=["Comments"],
@@ -36,6 +38,24 @@ async def get_comments_by_real_estate(real_estate_id: int, db: Session = Depends
         joinedload(models.Comment.comment),
         joinedload(models.Comment.commentator),
         joinedload(models.Comment.real_estate)
+    )
+    comments = query.all()
+    if not comments:
+        return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": []}
+    return {"status": 200, "message": Messages.DATA_FOUND, "val": comments}
+
+@app.get('/top-comments/{real_estate_id}')
+async def get_top_comments_by_real_estate(real_estate_id: int, db: Session = Depends(get_db)):
+    query = (
+        db.query(models.Comment)
+        .filter(models.Comment.real_estate_id == real_estate_id, models.Comment.active == True)
+        .order_by(desc(models.Comment.amount_star))
+        .options(
+            joinedload(models.Comment.comment),
+            joinedload(models.Comment.commentator),
+            joinedload(models.Comment.real_estate)
+        )
+        .limit(5)  # Limitar a los 5 mejores comentarios
     )
     comments = query.all()
     if not comments:

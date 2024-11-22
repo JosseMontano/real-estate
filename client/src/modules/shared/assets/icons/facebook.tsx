@@ -8,7 +8,7 @@ export const FacebookIcon = ({size=25}: ParamsType) => {
       width={size}
       height={size}
       fill="currentColor"
-      className="bi bi-facebook"
+      className="bi bi-facebook cursor-pointer"
       viewBox="0 0 16 16"
     
     >
