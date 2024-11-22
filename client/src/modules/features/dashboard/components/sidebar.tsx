@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 type ParamsType = {};
 export const Sidebar = ({}: ParamsType) => {
   const links = [
-    { path: "/dashboard/customers", label: "Clientes" },
+    { path: "/dashboard/realEstates", label: "Inmuebles" },
     { path: "/dashboard/typeRe", label: "Tipo de Inmuebles" },
     { path: "/dashboard/questions", label: "Preguntas" },
   ];
