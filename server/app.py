@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from googletrans import Translator
 import uvicorn
 import requests
-import os
+
 from pydantic import BaseModel
 from modules.core.database import engine
 import modules.core.models as models
@@ -17,6 +17,7 @@ from modules.routes import responses
 from modules.routes import users
 from sqlalchemy.orm import Session
 from modules.core.database import get_db 
+
 # Create FastAPI instance
 app = FastAPI()
 models.Base.metadata.create_all(bind=engine)
@@ -39,25 +40,22 @@ app.add_middleware(
 )
 
 
+
+
 class TranslateRequest(BaseModel):
     val: str
-
 
 class RealEstateRequest(BaseModel):
     ubication: str
 
-
-
-
 class FetchImageRequest(BaseModel):  # Added request model for fetch_image
     url: str
-
+    
 
 
 @app.get('/')
 def index():
     return {"Choo Choo": "Welcome to the API realEstates 🚅"}
-
 
 @app.get('/api/seed')
 async def seed(db: Session = Depends(get_db)):
@@ -102,7 +100,6 @@ def fetch_image(request: FetchImageRequest):  # Changed to use request body
         # Maneja errores si la solicitud falla
         raise HTTPException(status_code=400, detail=str(e))
     
-
 
 
 # Run the application

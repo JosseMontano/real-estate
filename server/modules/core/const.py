@@ -13,6 +13,7 @@ class AuthMsg:
     PASSWORD_WRONG = "Contraseña incorrecta"
     USER_EXIST = "Bienvenido de nuevo"
     USER_CREATED = "Usuario creado con exito"
+    CODE_NOT_MATCH= "El codigo no coincide"
     
 class TranslateResponse(BaseModel):
     es: str

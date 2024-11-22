@@ -1,10 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session, joinedload
-from typing import List
 from modules.core.database import get_db  # Import the get_db dependency
 import modules.core.models as models
 from pydantic import BaseModel
-from typing import List
 from modules.core.const import Messages
 from modules.core.utils.translate import translate_es_en_pt
 from modules.core.const import TranslateResponse
