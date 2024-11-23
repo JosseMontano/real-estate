@@ -17,5 +17,6 @@ export type Comment = {
   amountStars: number
   realEstateId: string
   commentatorId: string
+  active: boolean
 }
 

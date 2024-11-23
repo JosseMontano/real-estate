@@ -8,9 +8,10 @@ type ParamsType = {};
 export const Sidebar = ({}: ParamsType) => {
   const { texts, language } = useLanguageStore();
   const links = [
-    { path: "/dashboard/realEstates", label:texts.properties },
+    { path: "/dashboard/realEstates", label: texts.properties },
     { path: "/dashboard/typeRe", label: texts.propertyType },
-    { path: "/dashboard/questions", label: texts.questions},
+    { path: "/dashboard/questions", label: texts.questions },
+    { path: "/dashboard/comments", label: "Comentarios" },
   ];
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const toggleSidebar = () => {

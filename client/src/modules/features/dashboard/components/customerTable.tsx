@@ -119,7 +119,7 @@ export const CustomerTable = ({
                       if (setCurrentSelected) setCurrentSelected(val);
                     }}
                     options={selectData?.map((v) => ({
-                      name: v.name,
+                      name: v.name ? v.name : v.title,
                       id: v.id,
                     }))}
                     className="border-none shadow-none bg-opacity-0 rounded-none "

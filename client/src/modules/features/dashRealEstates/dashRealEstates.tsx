@@ -1,5 +1,4 @@
 import useGet from "@/core/hooks/useGet";
-import { useModal } from "@/core/hooks/useModal";
 import {
   deleteRealEstates,
   fetchRealEstates,
@@ -82,6 +81,7 @@ export const DashRealEstates = ({}: ParamsType) => {
   useEffect(() => {
     setFilteredRealEstate(filteredRealEstate);
   }, [setFilteredRealEstate]);
+  console.log(TypeRE);
   return (
     <div>
       <SumaryCard

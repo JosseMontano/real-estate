@@ -10,7 +10,6 @@ export const getStadisticsRealEstates = async (): Promise<Res<Statistic>> => {
     return await handleGet<Statistic>('real_estates/statistics')
 }
 export const getREByType = async (id: number): Promise<Res<RealEstate[]>> => {
-    console.log(handleGet<RealEstate[]>(`real_estates/${id}`))
     return await handleGet<RealEstate[]>(`real_estates/${id}`)
 }
 export const postRealEstates = async (data: RealEstateDTO) => {
