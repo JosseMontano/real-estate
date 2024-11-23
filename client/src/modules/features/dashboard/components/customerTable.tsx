@@ -37,7 +37,7 @@ export const CustomerTable = ({
   setCurrentSelected,
   tableTitle,
   handleGetReByType,
-  propSelectData
+  propSelectData,
 }: ParamsType) => {
   const { language } = useLanguageStore();
   const [searchText, setSearchText] = useState("");
@@ -68,11 +68,12 @@ export const CustomerTable = ({
   return (
     <>
       {!isloading && (
-        <div className="bg-white p-3 md:p-7 shadow overflow-auto">
-          <div className="flex justify-between mb-4 md:flex-row sm:flex-row flex-col gap-2">
+        <div className="bg-white p-3 md:p-7 shadow h-full flex flex-col">
+          {/* Cabecera fija */}
+          <div className="flex justify-between mb-4 md:flex-row sm:flex-row flex-col gap-2 sticky top-0 z-8 bg-white">
             <div className="flex items-start gap-8">
               <div className="flex flex-col">
-                <h2 className="text-lg md:text-xl font-bold ">{tableTitle}</h2>
+                <h2 className="text-lg md:text-xl font-bold">{tableTitle}</h2>
                 <button className="text-[#ace9c7] font-bold text-sm md:text-base text-start">
                   {language === "es"
                     ? "Disponibles"
@@ -82,7 +83,7 @@ export const CustomerTable = ({
                 </button>
               </div>
               {setIsOpenModal && (
-                <div className="">
+                <div>
                   <Btn
                     isPending={false}
                     text="Agregar"
@@ -111,7 +112,6 @@ export const CustomerTable = ({
                   <p className="text-[#b8b8b8] md:text-base text-xm leading-none md:leading-none whitespace-nowrap">
                     {language === "en" ? "Filter by:" : "Filtrar por:"}
                   </p>
-
                   <Select
                     value={
                       currentSelected.name != undefined
@@ -120,22 +120,23 @@ export const CustomerTable = ({
                     }
                     onChange={(val) => {
                       if (setCurrentSelected) {
-                        setCurrentSelected(val)
-                      };
+                        setCurrentSelected(val);
+                      }
                     }}
                     options={selectData?.map((v) => ({
                       name: v[propSelectData as keyof typeof v],
                       id: v.id, // Siempre incluir el ID
                     }))}
-                    className="border-none shadow-none bg-opacity-0 rounded-none "
+                    className="border-none shadow-none bg-opacity-0 rounded-none"
                   />
                 </div>
               )}
             </div>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="min-w-full text-left">
+          {/* Contenedor con overflow para la tabla */}
+          <div className="overflow-auto flex-grow">
+            <table className="min-w-full text-left border-collapse">
               <thead>
                 <tr>
                   {header.map((v) => (
@@ -168,7 +169,6 @@ export const CustomerTable = ({
                                 : String(v[col as keyof typeof v])}
                             </td>
                           )}
-
                           {col == "active" && (
                             <td className="pl-10 md:pl-0 max-w-[130px] min-w-[130px] md:max-w-[90px] md:min-w-[90px] break-words py-2 text-center">
                               <span
@@ -193,7 +193,6 @@ export const CustomerTable = ({
                   ))}
               </tbody>
             </table>
-
             <Pagination
               amountOfPages={amountOfPages}
               currentPage={currentPage}

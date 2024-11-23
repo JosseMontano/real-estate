@@ -29,7 +29,7 @@ const CustomSelect: React.FC<SelectProps> = ({
   const { language, texts } = useLanguageStore();
 
   return (
-    <div className="relative inline-block w-full">
+    <div className="md:relative inline-block w-full">
       <div
         className={`block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm cursor-pointer ${className}`}
         onClick={() => setIsOpen(!isOpen)}
@@ -37,7 +37,7 @@ const CustomSelect: React.FC<SelectProps> = ({
         {value || texts.select}
       </div>
       {isOpen && (
-        <ul className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg">
+        <ul className="realative md:absolute  z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg">
           {options.map((option) => (
             <li
               key={option.id}

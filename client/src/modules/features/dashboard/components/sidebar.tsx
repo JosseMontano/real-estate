@@ -28,9 +28,15 @@ export const Sidebar = ({}: ParamsType) => {
         <MenuIcon size="20" />
       </div>
 
+      {isOpen && (
+        <div
+          onClick={toggleSidebar}
+          className="fixed inset-0 bg-black bg-opacity-50 z-5"
+        ></div>
+      )}
       <aside
-        className={`fixed bg-white h-screen p-6 transform transition-transform duration-300 ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
+        className={`fixed lg:static z-1 bg-white h-screen p-6 transform transition-transform duration-300 ${
+          isOpen ? "translate-x-0 " : "-translate-x-full"
         } lg:translate-x-0 lg:block `}
       >
         <div className="mb-14 mt-5 lg:mt-0">

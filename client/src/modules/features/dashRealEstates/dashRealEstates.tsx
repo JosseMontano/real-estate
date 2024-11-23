@@ -81,7 +81,6 @@ export const DashRealEstates = ({}: ParamsType) => {
   useEffect(() => {
     setFilteredRealEstate(filteredRealEstate);
   }, [setFilteredRealEstate]);
-  console.log(TypeRE);
   return (
     <div>
       <SumaryCard
