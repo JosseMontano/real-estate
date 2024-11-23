@@ -9,6 +9,7 @@ import { RealEstate } from "@/shared/types/realEstate";
 import { User } from "@/core/types/user";
 import { Res } from "@/core/types/res";
 import { handleGet, handlePost } from "@/core/utils/fetch";
+import { Zone } from "../types/zones";
 
 
 export async function addQuestionToDB(
@@ -36,3 +37,8 @@ export async function addCommentToDB(commentData:CommentDTO, realEstate:RealEsta
 export const fetchRealEstates = async (): Promise<Res<RealEstate[]>> => {
   return await handleGet<RealEstate[]>("real_estates");
   }
+
+  export const fetchZones = async (): Promise<Res<Zone[]>> => {
+    return await handleGet<Zone[]>("real_estates/zones");
+    }
+  

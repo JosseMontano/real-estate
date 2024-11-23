@@ -62,7 +62,8 @@ async def get_real_estates(db: Session = Depends(get_db)):
     query = db.query(models.RealEstate).options(
         joinedload(models.RealEstate.photos),
         joinedload(models.RealEstate.title),
-        joinedload(models.RealEstate.description)
+        joinedload(models.RealEstate.description),
+        joinedload(models.RealEstate.zone)
     )
     real_estates = query.all()
     
@@ -91,6 +92,15 @@ async def get_statistics(db: Session = Depends(get_db)):
         
     return {"status": 200, "message": Messages.DATA_FOUND, "val": val }
 
+@app.get('/zones')
+async def get_zones(db: Session = Depends(get_db)):
+    zones = db.query(models.Zone).all()
+    
+    if not zones:
+        return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": []}
+    
+    return {"status": 200, "message": Messages.DATA_FOUND, "val": zones}
+
 
 
 @app.get('/{type_real_estate_id}')
@@ -112,7 +122,24 @@ async def create_real_estate(real_estate: RealEstateDTO, db: Session = Depends(g
         # Get address from coordinates
         geo_location = Nominatim(user_agent="GetLoc")
         loc_name = geo_location.reverse(real_estate.latLong)
-        address = loc_name.address if loc_name else "Not Found"
+
+        if loc_name:
+            address = loc_name.address
+
+            raw_data = loc_name.raw.get("address", {})
+            city = raw_data.get("city", "Not Found") 
+            state = raw_data.get("state", "Not Found")  
+            suburb = raw_data.get("suburb", "Not Found") 
+            zone = raw_data.get("neighbourhood", "Not Found") 
+            
+            found_zone = db.query(models.Zone).filter(models.Zone.name == zone).first()
+            if not found_zone:
+                zone = models.Zone(name=zone)
+                db.add(zone)
+                db.commit()
+            
+        else:
+            print("No se encontró información de la ubicación")
 
         # Generate translations for title and description
         result_title = translate_es_en_pt(real_estate.title)
@@ -141,7 +168,8 @@ async def create_real_estate(real_estate: RealEstateDTO, db: Session = Depends(g
             square_meter=real_estate_data["squareMeter"],
             title_id=title_translate.id,
             type_real_estate_id=real_estate_data["typeRealEstateId"],
-            user_id=real_estate_data["userId"]
+            user_id=real_estate_data["userId"],
+            zone_id=zone.id
         )
 
         # Save RealEstate entry
@@ -162,7 +190,8 @@ async def create_real_estate(real_estate: RealEstateDTO, db: Session = Depends(g
         result = db.query(models.RealEstate).options(
             joinedload(models.RealEstate.title), 
             joinedload(models.RealEstate.description),
-            joinedload(models.RealEstate.photos) 
+            joinedload(models.RealEstate.photos),
+            joinedload(models.RealEstate.zone)
         ).filter(models.RealEstate.id == db_real_estate.id).first()
 
         return {"status": 201, "message": Messages.DATA_CREATED, "val": result}

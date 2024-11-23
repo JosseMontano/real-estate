@@ -96,6 +96,7 @@ export const DashTypeRe = ({}: ParamsType) => {
         setIsOpenModal={handleStateModal}
         
         tableTitle={texts.propertyType}
+        
       />
     </div>
   );

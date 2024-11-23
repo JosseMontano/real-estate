@@ -1,6 +1,7 @@
 import { primaryColor } from "@/core/const/colors";
 import { useState } from "react";
 import { SearchFormComponent } from "./searchFormComponent";
+import { Zone } from "../types/zones";
 
 type ParamsType={
 tipeProperty:string,
@@ -9,20 +10,25 @@ ubication:string,
 selectUbi:string,
 limitPrice:string,
 selecPrice:string
+zones: Zone[]
 }
 export type Field = {
   label: string;
   type: "text" | "select";
   placeholder?: string;
   options?: string[];
+
 };
 
-export const SearchPropierties = ({limitPrice, selectProperty, selecPrice, selectUbi, tipeProperty, ubication}:ParamsType) => {
+export const SearchPropierties = ({zones,limitPrice, selectProperty, selecPrice, selectUbi, tipeProperty, ubication}:ParamsType) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleForm = () => {
     setIsOpen(!isOpen);
   };
+
+  const zonesOptions = zones.map((zone) => zone.name);
+
   const fields: Field[] = [
     {
       label: tipeProperty,
@@ -32,7 +38,7 @@ export const SearchPropierties = ({limitPrice, selectProperty, selecPrice, selec
     {
       label: ubication,
       type: "select",
-      options: [selectUbi,"Queru queru", "Cala cala", "Prado", "Bulevar"],
+      options: [selectUbi,...zonesOptions],
     },
     {
       label: limitPrice,
@@ -40,6 +46,8 @@ export const SearchPropierties = ({limitPrice, selectProperty, selecPrice, selec
       options: [selecPrice,"1000Bs", "1500Bs", "2000Bs", "2500Bs"],
     },
   ];
+  
+
   return (
     <>
       {/* Versión computer */}

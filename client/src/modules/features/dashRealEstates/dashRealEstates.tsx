@@ -3,6 +3,7 @@ import { useModal } from "@/core/hooks/useModal";
 import {
   deleteRealEstates,
   fetchRealEstates,
+  getREByType,
   getStadisticsRealEstates,
 } from "./api/endpoints";
 import { useMutation } from "@tanstack/react-query";
@@ -10,8 +11,8 @@ import { queryClient } from "../../../App";
 import { SumaryCard } from "../dashboard/components/sumaryCards";
 import { CustomerTable } from "../dashboard/components/customerTable";
 import { fetchTypesRE } from "../profile/api/endpoints";
-import { useState } from "react";
-import { TypeRE } from "@/shared/types/realEstate";
+import { useEffect, useState } from "react";
+import { RealEstate, TypeRE } from "@/shared/types/realEstate";
 import { useLanguageStore } from "@/core/store/language";
 
 type ParamsType = {};
@@ -33,17 +34,32 @@ export const DashRealEstates = ({}: ParamsType) => {
     queryKey: ["RealEstate", RealEstate],
   });
 
-
-  const header = ["title", "amount_bathroom","price","active"];
+  const header = [
+    "title",
+    "amount_bathroom",
+    "amount_bedroom",
+    "square_meter",
+    "address",
+    "price",
+    "available",
+    "active",
+  ];
 
   const { mutate: mutateToState } = useMutation({
     mutationFn: deleteRealEstates,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["RealEstate"] });
+    onSuccess: async (data) => {
+    setFilteredRealEstate((prevFiltered) =>
+      prevFiltered.map((item) =>
+        item.id === data.val.id ? { ...item, active: !item.active } : item
+      ).filter((item) => prevFiltered.some((prev) => prev.id === item.id))
+    );
+
+    // Invalida la query global para sincronizar
+    queryClient.invalidateQueries({ queryKey: ["RealEstate"] });
     },
   });
 
-  const { data:TypeRE } = useGet({
+  const { data: TypeRE } = useGet({
     itemsPerPage: 10,
     queryKey: ["type-realEstates"],
     services: fetchTypesRE,
@@ -51,8 +67,21 @@ export const DashRealEstates = ({}: ParamsType) => {
 
   const [typeRE, setTypeRE] = useState({} as TypeRE);
 
-  const {texts}=useLanguageStore()
+  const { texts } = useLanguageStore();
+  const [filteredRealEstate, setFilteredRealEstate] = useState<RealEstate[]>(
+    []
+  );
 
+  const { mutate: dataReByType } = useMutation({
+    mutationFn: getREByType,
+    onSuccess: (data) => {
+      setFilteredRealEstate(data.val);
+    },
+  });
+
+  useEffect(() => {
+    setFilteredRealEstate(filteredRealEstate);
+  }, [setFilteredRealEstate]);
   return (
     <div>
       <SumaryCard
@@ -61,11 +90,12 @@ export const DashRealEstates = ({}: ParamsType) => {
         amountTotal={statistics?.total}
         isloading={isLoadingStatistics}
       />
-
       <CustomerTable
         amountOfPages={amountOfPages}
         currentPage={currentPage}
-        data={RealEstate}
+        data={
+          Object.keys(typeRE).length === 0 ? RealEstate : filteredRealEstate
+        }
         handlePagination={handlePagination}
         handleState={mutateToState}
         header={header}
@@ -73,7 +103,8 @@ export const DashRealEstates = ({}: ParamsType) => {
         selectData={TypeRE}
         currentSelected={typeRE}
         setCurrentSelected={setTypeRE}
-      tableTitle={texts.tableTile}
+        tableTitle={texts.tableTile}
+        handleGetReByType={dataReByType}
       />
     </div>
   );

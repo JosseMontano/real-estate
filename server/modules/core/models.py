@@ -42,6 +42,16 @@ class TypeRealEstate(Base):
     name = relationship("Translate", foreign_keys=[name_id])
     # relationships
     real_estates = relationship("RealEstate", back_populates="type_real_estate")
+    
+class Zone(Base):
+    __tablename__ = 'zones'
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String)
+    active = Column(Boolean, default=True)
+
+    # relationships
+    real_estates = relationship("RealEstate", back_populates="zone")
 
 class RealEstate(Base):
     __tablename__ = 'real_estates'
@@ -63,6 +73,9 @@ class RealEstate(Base):
     user_id = Column(Integer, ForeignKey('users.id'))
     user = relationship("User", back_populates="real_estates")
     
+    zone_id = Column(Integer, ForeignKey('zones.id'))
+    zone = relationship("Zone", back_populates="real_estates")
+    
     title = relationship("Translate", foreign_keys=[title_id])
     description = relationship("Translate", foreign_keys=[description_id])
     
@@ -72,6 +85,7 @@ class RealEstate(Base):
     favorites = relationship("FavoriteRealEstate", back_populates="real_estate")
     photos = relationship("PhotosRealEstate", back_populates="real_estate")
     responses = relationship("Response", back_populates="real_estate")
+    
 
 class FavoriteRealEstate(Base):
     __tablename__ = 'favorite_real_estates'

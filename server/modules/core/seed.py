@@ -5,14 +5,15 @@ import bcrypt
 
 async def seed_users(db: Session):
     user = User(
-            email="eljosema505@gmail.com",
+            email="eljosema501@gmail.com",
             password=bcrypt.hashpw("123456".encode('utf-8'), bcrypt.gensalt()).decode('utf-8'),
             available=True,
             cellphone=0,
             code_recuperation="",
             qualification=0,
             role=2,
-            username="eljosema505"
+            username="eljosema505",
+            photo=""
     )
     db.add(user)
     db.commit()

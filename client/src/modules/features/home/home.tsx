@@ -4,7 +4,7 @@ import { TitleCenter } from "./components/titleCenter";
 import { SectionRealStates } from "./components/sectionRealEstates";
 import { Footer } from "./components/footer";
 import { Questions } from "./components/question";
-import { fetchRealEstates } from "./api/endpoints";
+import { fetchRealEstates, fetchZones } from "./api/endpoints";
 import useGet from "@/core/hooks/useGet";
 import { useEffect } from "react";
 import { SearchPropierties } from "./components/searchPropierties";
@@ -31,6 +31,12 @@ export const HomePage = () => {
       if (sceneEl) sceneEl.remove();
     };
   }, []);
+
+  const { data: zones, isLoading: isLoadingZones } = useGet({
+    services: fetchZones,
+    queryKey: ["zones"],
+    itemsPerPage: 1000,
+  });
 
   //Home translate
   const { texts } = useLanguageStore();
@@ -61,6 +67,7 @@ export const HomePage = () => {
           selectProperty={texts.propertyTypeInput}
           selectUbi={texts.locationInput}
           selecPrice={texts.priceRangeInput}
+          zones={zones ?? []}
         />
       </div>
       <SectionRealStates
@@ -83,7 +90,7 @@ export const HomePage = () => {
         placeHolder={texts.questionPlaceholder}
         question={texts.question}
       />
-      <Footer textFooter={texts.copyright}/>
+      <Footer textFooter={texts.copyright} />
     </>
   );
 };
