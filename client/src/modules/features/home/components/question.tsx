@@ -4,8 +4,6 @@ import { Input } from "@/core/components/form/input";
 import { questionSchema } from "../validations/question.schema";
 import { addQuestionToDB } from "../api/endpoints";
 import { useForm } from "@/core/hooks/useForm";
-import { handlePost } from "@/core/utils/fetch";
-import { primaryColor } from "@/core/const/colors";
 
 export const Questions = () => {
   const {
@@ -13,14 +11,19 @@ export const Questions = () => {
     handleOnSubmit,
     errors,
     isPending: isPendingQuestion,
+    setSuccessMsg,
+    setErrorMsg,
+    reset
   } = useForm({
     schema: questionSchema,
     form: async (data) => {
-      const res = await handlePost("translate", { val: data.questionEs });
-      console.log(res);
-      data.questionEn = res.val.valEn;
-      data.questionPt = res.val.valPt;
-      await addQuestionToDB(data);
+      const res = await addQuestionToDB(data);
+      if (res.status == 200 || res.status == 201) {
+        setSuccessMsg(res.message);
+        reset();
+      } else {
+        setErrorMsg(res.message);
+      }
     },
   });
 
@@ -47,8 +50,8 @@ export const Questions = () => {
               <>
                 <Input
                   text="¿Qué te gustaría saber?"
-                  error={errors.questionEs}
-                  register={register("questionEs")}
+                  error={errors.question}
+                  register={register("question")}
                   className="bg-white "
                 />
               </>

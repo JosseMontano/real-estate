@@ -44,18 +44,19 @@ async def get_comments_by_real_estate(real_estate_id: int, db: Session = Depends
         return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": []}
     return {"status": 200, "message": Messages.DATA_FOUND, "val": comments}
 
-@app.get('/top-comments/{real_estate_id}')
-async def get_top_comments_by_real_estate(real_estate_id: int, db: Session = Depends(get_db)):
+@app.get('/top-comments-by-user/{user_id}')
+async def get_top_comments_by_user(user_id: int, db: Session = Depends(get_db)):
     query = (
         db.query(models.Comment)
-        .filter(models.Comment.real_estate_id == real_estate_id, models.Comment.active == True)
+        .join(models.RealEstate, models.Comment.real_estate_id == models.RealEstate.id)  
+        .filter(models.RealEstate.user_id == user_id, models.Comment.active == True)  
         .order_by(desc(models.Comment.amount_star))
         .options(
             joinedload(models.Comment.comment),
             joinedload(models.Comment.commentator),
             joinedload(models.Comment.real_estate)
         )
-        .limit(5)  # Limitar a los 5 mejores comentarios
+        .limit(5)  
     )
     comments = query.all()
     if not comments:

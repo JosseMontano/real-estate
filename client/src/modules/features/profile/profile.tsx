@@ -22,6 +22,7 @@ import {
 } from "@/core/libs/firebase";
 import { RealEstate, TypeRE } from "@/shared/types/realEstate";
 import { Location } from "@/core/components/map/maps";
+import useGet from "@/core/hooks/useGet";
 
 export type FileSelectedType = {
   name: string;
@@ -80,10 +81,17 @@ const DashboardPage = () => {
     setProfileImageUrl(url);
   };
 
-  const { isLoading: loadingComments, data: comments } = useQuery({
-    queryKey: ["comments"],
-    queryFn: () => fetchCommentsForUser(user?.id || ""),
+
+  const {
+    data: comments,
+    isLoading: loadingComments,
+  } = useGet({
+    services: ()=>fetchCommentsForUser(user?.id || 0),
+    queryKey: ["comments-top-comments-by-user", user?.id],
+    itemsPerPage: 10,
+    valueToService: user?.id,
   });
+  console.log(comments);
   const [isUploaded, setIsUploaded] = useState<boolean>(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<FileUpType[]>([]);

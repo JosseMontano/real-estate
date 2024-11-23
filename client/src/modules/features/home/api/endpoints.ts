@@ -8,21 +8,13 @@ import {
 import { RealEstate } from "@/shared/types/realEstate";
 import { User } from "@/core/types/user";
 import { Res } from "@/core/types/res";
-import { handleGet } from "@/core/utils/fetch";
+import { handleGet, handlePost } from "@/core/utils/fetch";
 
 
 export async function addQuestionToDB(
   userData: QuestionDTO
 ) {
-  const question: Question = {
-    question: {
-      es: userData.questionEs,
-      en: userData.questionEn ?? "",
-      pt: userData.questionPt ?? "",
-    },
-  };
-
-  await addDoc(collection(db, "questions"), question);
+  return handlePost('questions', userData)
 }
 
 export async function addCommentToDB(commentData:CommentDTO, realEstate:RealEstate, user:User) {

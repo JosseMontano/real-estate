@@ -22,24 +22,25 @@ export const AuthPage = () => {
     errors,
     isPending: isSignUpPending,
     setSuccessMsg,
-    setErrorMsg
+    setErrorMsg,
   } = useForm({
     schema: userSchema,
     form: async (userData) => {
       const { val: userObject, message, status } = await saveUser(userData);
       if (status === 200 || status === 201) {
         setSuccessMsg(message);
-        console.log(userObject, status);
         login({
           email: userObject.email,
           role: 2,
+          id: userObject.id,
+          available: userObject.available,
         });
         handleNavigate("/profile");
-        return
+        return;
       }
       console.log(message);
       setErrorMsg(message);
-    }
+    },
   });
 
   const handleLoginGoogle = async () => {
@@ -60,9 +61,11 @@ export const AuthPage = () => {
           login({
             email: userObject.email,
             role: 2,
+            id: userObject.id,
+            available: userObject.available,
           });
           handleNavigate("/profile");
-          return
+          return;
         }
         setErrorMsg(message);
       }

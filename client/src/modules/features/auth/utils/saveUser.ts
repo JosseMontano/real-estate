@@ -19,6 +19,6 @@ const createUserObject = (
   
 
 export const saveUser =async(user:UserDTO)=>{
-  return await handlePost<UserDTO>('auth/signup',user)
+  return await handlePost<User>('auth/signup',user)
   
 }

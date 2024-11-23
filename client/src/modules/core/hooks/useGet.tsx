@@ -3,9 +3,10 @@ import { useEffect, useRef, useState } from "react";
 import { Res } from "../types/res";
 
 type Props<T> = {
-  services: () => Promise<Res<T>>;
+  services: (val?:number) => Promise<Res<T>>;
   queryKey: any[];
   itemsPerPage?: number;
+  valueToService?: number;
 };
 
 const defaultItemsPerPage = 100;
@@ -13,11 +14,17 @@ const defaultItemsPerPage = 100;
 const useGet = <T,>({
   services,
   queryKey,
+  valueToService,
   itemsPerPage = defaultItemsPerPage,
 }: Props<T>) => {
   const { isLoading, data, isError, error } = useQuery({
     queryKey: queryKey,
     queryFn: async () => {
+      if(valueToService){
+        console.log("valueToService", valueToService);
+      const res = await services(valueToService);
+      return res.val;
+      }
       const res = await services();
       return res.val;
     },
@@ -42,6 +49,7 @@ const useGet = <T,>({
   const dataPaginated: T = Array.isArray(data)
     ? (data.slice(startPagination, endPagination) as unknown as T)
     : ([] as unknown as T);
+
 
   return {
     isLoading,

@@ -14,6 +14,7 @@ import { User } from "@/core/types/user";
 import { Commentator, Comments, CommentT } from "@/core/types/commets";
 import { handleGet, handlePost } from "@/core/utils/fetch";
 import { Res } from "@/core/types/res";
+import { ResComment } from "../interface/comments";
 
 
 export async function addREToDB(
@@ -44,13 +45,8 @@ export const editUser = async (userId: string, updatedData: Partial<User>): Prom
   }
 };
 
-export const fetchCommentsForUser = async (userId: string): Promise<Comments[]> => {
-  const q = query(collection(db, "comments"), where("realEstate.userId", "==", userId));
-  const querySnapshot = await getDocs(q);
-  return querySnapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...(doc.data() as Comments)
-  }));
+export const fetchCommentsForUser =  async (id:number): Promise<Res<ResComment[]>> => {
+  return await handleGet<ResComment[]>('comments/top-comments-by-user/'+id);
 }
 
 interface MinimalCommentData {

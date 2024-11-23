@@ -92,6 +92,7 @@ export const DashTypeRe = ({}: ParamsType) => {
         header={header}
         isloading={isLoading}
         setIsOpenModal={handleStateModal}
+        
       />
     </div>
   );
