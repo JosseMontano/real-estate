@@ -1,5 +1,5 @@
 import { getDocs } from "firebase/firestore";
-import { TypeRE } from "../../../shared/types/realEstate";
+import { RealEstate, TypeRE } from "../../../shared/types/realEstate";
 import { RealEstateDTO } from "./dtos"
 import {
   db,
@@ -11,10 +11,9 @@ import {
   where
 } from "@/core/libs/firebase";
 import { User } from "@/core/types/user";
-import { Commentator, Comments, CommentT } from "@/core/types/commets";
+import { Commentator, CommentT } from "@/core/types/commets";
 import { handleGet, handlePost } from "@/core/utils/fetch";
 import { Res } from "@/core/types/res";
-import { ResComment } from "../interface/comments";
 
 
 export async function addREToDB(
@@ -45,8 +44,8 @@ export const editUser = async (userId: string, updatedData: Partial<User>): Prom
   }
 };
 
-export const fetchCommentsForUser =  async (id:number): Promise<Res<ResComment[]>> => {
-  return await handleGet<ResComment[]>('comments/top-comments-by-user/'+id);
+export const fetchCommentsForUser = async (id: number): Promise<Res<Comment[]>> => {
+  return await handleGet<Comment[]>('comments/top-comments-by-user/' + id);
 }
 
 interface MinimalCommentData {
@@ -136,3 +135,6 @@ export async function updateUserInDB() {
   }
 }
 
+export const fetchRealEstatesByUserId = async (): Promise<Res<RealEstate[]>> => {
+  return await handleGet<RealEstate[]>("real_estates");
+}

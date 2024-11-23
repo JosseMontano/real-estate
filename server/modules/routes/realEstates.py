@@ -101,6 +101,19 @@ async def get_zones(db: Session = Depends(get_db)):
     
     return {"status": 200, "message": Messages.DATA_FOUND, "val": zones}
 
+@app.get('/{user_id}')
+async def get_real_estates_by_user(user_id:int ,db: Session = Depends(get_db)):
+    query = db.query(models.RealEstate).options(
+        joinedload(models.RealEstate.photos),
+        joinedload(models.RealEstate.title),
+        joinedload(models.RealEstate.description)
+    ).filter(models.RealEstate.user_id == user_id)
+    real_estates = query.all()
+    
+    if not real_estates:
+        return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": []}
+    
+    return {"status": 200, "message": Messages.DATA_FOUND, "val": real_estates}
 
 
 @app.get('/{type_real_estate_id}')

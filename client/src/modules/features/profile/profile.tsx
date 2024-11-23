@@ -4,7 +4,7 @@ import useNavigation from "@/core/hooks/useNavigate";
 import useAuthStore from "@/core/store/auth";
 import { ChangeEvent, useEffect, useState } from "react";
 import { realEstateSchema } from "./validations/realEstates.schema";
-import { addREToDB, fetchCommentsForUser } from "./api/endpoints";
+import { addREToDB, fetchCommentsForUser, fetchRealEstatesByUserId } from "./api/endpoints";
 import { ModalCreatePropierty } from "./components/modalCreatePropierty";
 import { ProfileHeader } from "./components/profileHeader";
 import { ContactInfo } from "./components/contactInfo";
@@ -72,9 +72,11 @@ const DashboardPage = () => {
   });
 
   const { isLoading, data: realEstate } = useQuery({
-    queryKey: ["realEstate"],
-    queryFn: () => fetchRealEstates(),
+    queryKey: ["realEstate-by-user", user?.id],
+    queryFn: () => fetchRealEstatesByUserId(),
   });
+
+  console.log(realEstate);
 
   const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
 

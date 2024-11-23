@@ -1,21 +1,20 @@
 import { StarFill } from "@/shared/assets/icons/starFill";
 import imgDefault from "@/shared/assets/profile.jpeg";
-import { Comments } from "@/core/types/commets";
 import { User } from "@/core/types/user";
 type ParamasType = {
   profileImageUrl: string | null;
   isModalOpen: boolean;
   handleShowModal: () => void;
-  commets: Comments[];
+  commets: Comment[];
   loading: boolean;
   user: User;
-  commentsLanguage:string;
+  commentsLanguage: string;
 };
 export const ProfileHeader = ({
   profileImageUrl,
   commets,
   loading,
-  commentsLanguage
+  commentsLanguage,
 }: ParamasType) => {
   return (
     <div className="flex flex-col gap-4 w-full md:pr-5">
@@ -37,31 +36,6 @@ export const ProfileHeader = ({
           </div>
         </div>
         <div className="overflow-y-scroll w-full">
-          {commets?.map((comment) => (
-            <div className="w-full flex">
-              <div className="basis-7/12 flex-wrap text-sm">
-                <p className="font-semibold">{comment.commentator.email}</p>
-                <p className="text-[#888787]">{comment.comment.es}</p>
-              </div>
-              <div className="basis-5/12 flex items-center">
-                <p className=" text-base md:text-xl font-semibold mx-1">
-                  {comment.commentator.qualification}
-                </p>
-                <div className="flex space-x-1">
-                  {/* Estrellas de calificación */}
-                  {[...Array(comment.amountStars)].map((_, i) => (
-                    <span
-                      key={i}
-                      className="text-yellow-400 text-base md:text-2xl"
-                    >
-                      <StarFill size="20" />
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ))}
-
           {commets.length == 0 && (
             <>
               <div className="w-full flex gap-3">

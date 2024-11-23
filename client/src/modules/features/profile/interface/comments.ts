@@ -3,7 +3,7 @@ import { LanguageDB } from "@/shared/types/language"
 import { RealEstate } from "@/shared/types/realEstate"
 
 
-export interface ResComment {
+export interface Comment {
     commentator_id: number
     real_estate_id: number
     active: boolean

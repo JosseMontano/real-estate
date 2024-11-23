@@ -60,11 +60,3 @@ interface User {
     userId: string;
 }
 
-export type Comments = {
-    id?: string;
-    amountStars: number;
-    comment: CommentT;
-    commentator: Commentator;
-    realEstate?: RealEstate;
-    realEstateId: string;
-}

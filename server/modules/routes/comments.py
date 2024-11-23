@@ -63,10 +63,10 @@ async def get_top_comments_by_user(user_id: int, db: Session = Depends(get_db)):
         return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": []}
     return {"status": 200, "message": Messages.DATA_FOUND, "val": comments}
 
-@app.get('/statistics')
+@app.get('/statistics/general')
 async def get_comment_statistics(db: Session = Depends(get_db)):
     comments = db.query(models.Comment).all()
-    
+
     val = {
         "total": len(comments),
         "active": len([comment for comment in comments if comment.active]),
