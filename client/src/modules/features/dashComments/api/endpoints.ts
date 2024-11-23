@@ -8,7 +8,7 @@ export const fetchComments = async (): Promise<Res<Comment[]>> => {
 }
 
 export const getStatisticsComments = async (): Promise<Res<Statistic>> => {
-    return await handleGet<Statistic>('comments/statistics')
+    return await handleGet<Statistic>('comments/statistics/general')
 
 }
 export const getCommentsByRe = async (id:number):Promise<Res<Comment[]>>=>{
