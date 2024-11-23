@@ -11,21 +11,27 @@ interface SelectProps {
   value: any;
   onChange: (value: Option) => void;
   options: Option[];
+  className?: string;
 }
 
-const CustomSelect: React.FC<SelectProps> = ({ value, onChange, options }) => {
+const CustomSelect: React.FC<SelectProps> = ({
+  value,
+  onChange,
+  options,
+  className,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOptionClick = (option: Option) => {
     onChange(option);
     setIsOpen(false);
   };
-  const { language,texts } = useLanguageStore();
+  const { language, texts } = useLanguageStore();
 
   return (
     <div className="relative inline-block w-full">
       <div
-        className="block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm cursor-pointer"
+        className={`block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm cursor-pointer ${className}`}
         onClick={() => setIsOpen(!isOpen)}
       >
         {value || texts.select}

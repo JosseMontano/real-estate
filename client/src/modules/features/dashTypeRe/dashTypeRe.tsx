@@ -15,6 +15,7 @@ import FormComponent from "@/core/components/form/form";
 import { useForm } from "@/core/hooks/useForm";
 import { typeReSchema } from "./interface/typeRe.schema";
 import { Input } from "@/core/components/form/input";
+import { useLanguageStore } from "@/core/store/language";
 
 type ParamsType = {};
 export const DashTypeRe = ({}: ParamsType) => {
@@ -54,6 +55,7 @@ export const DashTypeRe = ({}: ParamsType) => {
       }
     },
   });
+  const {texts} = useLanguageStore()
   return (
     <div>
       <SumaryCard
@@ -92,6 +94,7 @@ export const DashTypeRe = ({}: ParamsType) => {
         header={header}
         isloading={isLoading}
         setIsOpenModal={handleStateModal}
+        tableTitle={texts.propertyType}
       />
     </div>
   );

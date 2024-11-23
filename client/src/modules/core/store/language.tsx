@@ -78,6 +78,14 @@ interface Translations {
   select: string;
   searchImage: string;
   filesUplodesLanguage:string;
+  //dasboard sidebar
+  properties: string;
+  propertyType: string;
+  questions: string;
+   //status statistics
+   total: string;
+   active: string;
+   inactive: string;
 }
 
 const translations: { [key in Language]: Translations } = {
@@ -151,7 +159,15 @@ const translations: { [key in Language]: Translations } = {
     squareMeters: "Square meters",
     select: "Select...",
     searchImage:"Search image",
-    filesUplodesLanguage:"files uploaded"
+    filesUplodesLanguage:"files uploaded",
+    //dashboard sidebar
+    properties: "Properties",
+    propertyType: "Property type",
+    questions: "Questions",
+     //status statistics
+     total: "Total",
+     active: "Active",
+     inactive: "Inactive",
   },
   es: {
     //auth
@@ -223,7 +239,15 @@ const translations: { [key in Language]: Translations } = {
     squareMeters: "Metros cuadrados",
     select: "Seleccionar...",
     searchImage:"Buscar imagen",
-    filesUplodesLanguage:"archivos subidos"
+    filesUplodesLanguage:"archivos subidos",
+    //dasboard sidebar
+    properties: "Inmuebles",
+    propertyType: "Tipo de inmuebles",
+    questions: "Preguntas",
+     //status statistics
+     total: "Total",
+     active: "Activos",
+     inactive: "Inactivos",
   },
   pt: {
     //auth
@@ -296,7 +320,15 @@ const translations: { [key in Language]: Translations } = {
     squareMeters: "Metros quadrados",
     select: "Selecionar...",
     searchImage:"Buscar imagem",
-    filesUplodesLanguage:"arquivos enviados"
+    filesUplodesLanguage:"arquivos enviados",
+    //dasboard sidebar
+    properties: "Imóveis",
+    propertyType: "Tipo de imóveis",
+    questions: "Perguntas",
+    //status statistics
+    total: "Total",
+    active: "Ativos",
+    inactive: "Inativos",
   },
 };
 

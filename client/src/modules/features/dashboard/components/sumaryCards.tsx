@@ -1,3 +1,4 @@
+import { useLanguageStore } from "@/core/store/language";
 import { UsersIcon } from "@/shared/assets/icons/users";
 
 type ParamsType = {
@@ -12,6 +13,7 @@ export const SumaryCard = ({
   amountTotal,
   isloading,
 }: ParamsType) => {
+  const { texts } = useLanguageStore();
   return (
     <>
       {isloading && <p>cargando</p>}
@@ -23,7 +25,9 @@ export const SumaryCard = ({
               <UsersIcon size="20" />
             </div>
             <div>
-              <h2 className="text-lg text-[#b8b8b8] text-center">Total</h2>
+              <h2 className="text-lg text-[#b8b8b8] text-center">
+                {texts.total}
+              </h2>
               <p className="text-2xl font-semibold text-center md:text-start">
                 {amountTotal}
               </p>
@@ -35,7 +39,9 @@ export const SumaryCard = ({
               <UsersIcon size="20" />
             </div>
             <div>
-              <h2 className="text-lg text-[#b8b8b8] text-center">Activos</h2>
+              <h2 className="text-lg text-[#b8b8b8] text-center">
+                {texts.active}
+              </h2>
               <p className="text-2xl font-semibold md:text-start text-center">
                 {amountActive}
               </p>
@@ -48,7 +54,9 @@ export const SumaryCard = ({
             </div>
 
             <div>
-              <h2 className="text-lg text-[#b8b8b8] text-center">Inactivos</h2>
+              <h2 className="text-lg text-[#b8b8b8] text-center">
+                {texts.inactive}
+              </h2>
               <p className="text-2xl font-semibold md:text-start text-center">
                 {amountInactive}
               </p>
