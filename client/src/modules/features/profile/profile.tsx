@@ -23,6 +23,7 @@ import {
 import { RealEstate, TypeRE } from "@/shared/types/realEstate";
 import { Location } from "@/core/components/map/maps";
 import useGet from "@/core/hooks/useGet";
+import { useLanguageStore } from "@/core/store/language";
 
 export type FileSelectedType = {
   name: string;
@@ -149,7 +150,7 @@ const DashboardPage = () => {
     const fileToDeleteFirebase = uploadedFiles[index];
     const storageRef = ref(storage, fileToDeleteFirebase.firebasePath);
 
-    const fileToDeleteLocal= filesSelected[index]
+    const fileToDeleteLocal = filesSelected[index];
 
     try {
       setFilesSelected((prev) => prev.filter((_, i) => i !== index));
@@ -181,6 +182,7 @@ const DashboardPage = () => {
   if (user.email == undefined) {
     handleNavigate("/auth");
   }
+  const { texts } = useLanguageStore();
   return (
     <div className="flex h-screen w-auto  mx-2 mt-2 gap-4 flex-wrap md:flex-nowrap overflow-y-hidden">
       <div className="md:basis-3/12 grow-0 w-full md:pr-16">
@@ -191,6 +193,7 @@ const DashboardPage = () => {
           commets={comments ?? []}
           loading={loadingComments}
           user={user}
+          commentsLanguage={texts.commentsTitle}
         />
       </div>
       <div className="md:basis-9/12 grow w-full">
@@ -201,6 +204,11 @@ const DashboardPage = () => {
             handleImageUpload={handleImageUpload}
             handleShowModalUpImage={handleShowUploadImage}
             isModalUpImageOpen={isOpenUpImage}
+            btnEditUserLanguage={texts.btnEditUser}
+            btnSaveLanguage={texts.saveButton}
+            email={texts.email}
+            phoneNumber={texts.phoneNumber}
+            username={texts.username}
           />
           <ModalCreatePropierty
             errors={errors}
@@ -220,6 +228,8 @@ const DashboardPage = () => {
             handleDeleteFile={handleDeleteFile}
             uploadFiles={uploadedFiles}
             filesSelected={filesSelected}
+            btnAddReLanguage={texts.btnAddRe}
+            btnSaveLanguage={texts.saveButton}
           />
         </div>
 
@@ -227,10 +237,19 @@ const DashboardPage = () => {
           user={user ? user : ({} as User)}
           isModalOpen={isAddCommentOpen}
           HandleSetIsModalOpen={handleShowAddComment}
+          addComment={texts.addComment}
+          calification={texts.rating}
+          favorites={texts.favorites}
+          follow={texts.follow}
+          placeholderComment={texts.commentPlaceholder}
+          publications={texts.posts}
+          reportUser={texts.reportUser}
+          sendMsg={texts.sendMessage}
         />
         <PublicationsAndFavorites
           handleShowModal={handleShowFav}
           isModalOpen={isFavOpen}
+          viewMore={texts.viewMoreButton}
         />
         {isLoading && <p>Loading...</p>}
       </div>

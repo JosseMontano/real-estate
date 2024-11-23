@@ -16,6 +16,9 @@ type Params = {
   amountOfPages: number;
   handlePagination: (page: number) => void;
   currentPage: number;
+  infoTextLanguage:string,
+  placeTextLanguage:string,
+  seeMoreBtn:string
 };
 
 export interface NearbyPlace {
@@ -26,7 +29,7 @@ export interface NearbyPlace {
   };
   types: string[];
 }
-export type State = "info" | "places";
+
 
 export const SectionRealStates = ({
   realEstates,
@@ -34,12 +37,16 @@ export const SectionRealStates = ({
   amountOfPages,
   handlePagination,
   currentPage,
+  infoTextLanguage,
+  placeTextLanguage,
+  seeMoreBtn
 }: Params) => {
   const { language } = useLanguageStore();
   const [places, setPlaces] = useState<{ [key: number]: NearbyPlace[] }>({});
   const [states, setStates] = useState<State[]>(
     Array(realEstates.length).fill("info")
   );
+  type State = "info" | "places";
 
   const handleStateChange = async (
     index: number,
@@ -91,6 +98,8 @@ export const SectionRealStates = ({
               states={states}
               index={index}
               item={item}
+              info={infoTextLanguage}
+              places={placeTextLanguage}
             />
 
             <Info
@@ -101,7 +110,7 @@ export const SectionRealStates = ({
             />
 
             <div className="w-[170px]">
-              <Btn text="Ver mas" className="w-[150px]" isPending={false} />
+              <Btn text={seeMoreBtn} className="w-[150px]" isPending={false} />
             </div>
 
             <ExtraInfo

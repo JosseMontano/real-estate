@@ -60,11 +60,13 @@ export const CustomerTable = ({
           <div className="flex justify-between mb-4 md:flex-row sm:flex-row flex-col gap-2">
             <div className="flex items-start gap-8">
               <div className="flex flex-col">
-                <h2 className="text-lg md:text-xl font-bold ">
-      {tableTitle}
-                </h2>
+                <h2 className="text-lg md:text-xl font-bold ">{tableTitle}</h2>
                 <button className="text-[#ace9c7] font-bold text-sm md:text-base text-start">
-                  Clientes activos
+                  {language === "es"
+                    ? "Disponibles"
+                    : language === "en"
+                    ? "Available"
+                    : "Disponíveis"}
                 </button>
               </div>
               {setIsOpenModal && (
@@ -84,16 +86,18 @@ export const CustomerTable = ({
                 <SearchIcon size="20" />
                 <input
                   type="text"
-                  placeholder="Buscar"
-                  value={searchText} 
+                  placeholder={
+                    language === "es" || language === "pt" ? "Buscar" : "Search"
+                  }
+                  value={searchText}
                   onChange={(e) => setSearchText(e.target.value)}
                   className="bg-transparent focus:outline-none w-full"
                 />
               </div>
               {selectData && (
-                <div className="flex md:items-center bg-[#dddee241] rounded-lg gap-2 px-2 md:px-3 py-1 md:w-[200px] w-[200px] md:flex-row flex-col md:h-10 h-auto">
+                <div className="flex md:items-center bg-[#dddee241] rounded-lg gap-2 px-2 md:px-3 py-1 md:w-[230px] w-[230px] md:flex-row flex-col md:h-10 h-auto">
                   <p className="text-[#b8b8b8] md:text-base text-xm leading-none md:leading-none whitespace-nowrap">
-                    Filtrar por:
+                    {language === "en" ? "Filter by:" : "Filtrar por:"}
                   </p>
 
                   <Select
@@ -109,6 +113,7 @@ export const CustomerTable = ({
                       name: v.name,
                       id: v.id,
                     }))}
+                    className="border-none shadow-none bg-opacity-0 rounded-none "
                   />
                 </div>
               )}

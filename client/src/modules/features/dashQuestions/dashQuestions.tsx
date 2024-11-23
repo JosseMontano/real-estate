@@ -10,6 +10,7 @@ import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "../../../App";
 import { useModal } from "@/core/hooks/useModal";
 import { ShowModal } from "@/core/components/form/modal";
+import { useLanguageStore } from "@/core/store/language";
 
 export const DashQuestions = () => {
   const {
@@ -38,8 +39,8 @@ export const DashQuestions = () => {
     },
   });
 
-  const {isModalOpen, handleStateModal} = useModal()
-  
+  const { texts } = useLanguageStore();
+
   return (
     <div>
       <SumaryCard
@@ -47,12 +48,6 @@ export const DashQuestions = () => {
         amountActive={statistics?.active}
         amountInactive={statistics?.inactive}
         isloading={isLoadingStatistics}
-      />
-       <ShowModal
-        title="Agregar pregunta"
-        isModalOpen={isModalOpen}
-        setIsModalOpen={handleStateModal}
-        children={<></>}
       />
       <CustomerTable
         header={header}
@@ -62,7 +57,7 @@ export const DashQuestions = () => {
         currentPage={currentPage}
         handlePagination={handlePagination}
         isloading={isLoading}
-        setIsOpenModal={handleStateModal}
+        tableTitle={texts.questions}
       />
     </div>
   );

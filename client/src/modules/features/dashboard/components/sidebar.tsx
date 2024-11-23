@@ -1,3 +1,4 @@
+import { useLanguageStore } from "@/core/store/language";
 import { DashboardIcon } from "@/shared/assets/icons/dasboard";
 import { MenuIcon } from "@/shared/assets/icons/menu";
 import { useState } from "react";
@@ -5,10 +6,11 @@ import { Link } from "react-router-dom";
 
 type ParamsType = {};
 export const Sidebar = ({}: ParamsType) => {
+  const { texts, language } = useLanguageStore();
   const links = [
-    { path: "/dashboard/realEstates", label: "Inmuebles" },
-    { path: "/dashboard/typeRe", label: "Tipo de Inmuebles" },
-    { path: "/dashboard/questions", label: "Preguntas" },
+    { path: "/dashboard/realEstates", label:texts.properties },
+    { path: "/dashboard/typeRe", label: texts.propertyType },
+    { path: "/dashboard/questions", label: texts.questions},
   ];
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const toggleSidebar = () => {
@@ -31,7 +33,7 @@ export const Sidebar = ({}: ParamsType) => {
       >
         <div className="mb-14 mt-5 lg:mt-0">
           <Link to="" className="text-3xl font-semibold">
-            Dashboard
+            {language === "es" || language === "en" ? "Dashboard" : "Painel"}
           </Link>
         </div>
 
@@ -48,8 +50,6 @@ export const Sidebar = ({}: ParamsType) => {
             </div>
           ))}
         </nav>
-
-        
       </aside>
     </>
   );

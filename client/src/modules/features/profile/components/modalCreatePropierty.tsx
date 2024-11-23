@@ -30,11 +30,12 @@ type ParamsType = {
   setLocation: (val: Location | null) => void;
   toggleExpand: () => void;
   isExpanded: boolean;
-  fileUrl?: string[];
   countFilesUp: number;
   handleDeleteFile: (index: number) => void;
   uploadFiles: FileUpType[];
   filesSelected: FileSelectedType[];
+  btnAddReLanguage: string;
+  btnSaveLanguage: string;
 };
 export const ModalCreatePropierty = ({
   errors,
@@ -54,6 +55,8 @@ export const ModalCreatePropierty = ({
   handleDeleteFile,
   uploadFiles,
   filesSelected,
+  btnAddReLanguage,
+  btnSaveLanguage,
 }: ParamsType) => {
   const { data } = useGet({
     itemsPerPage: 10,
@@ -61,54 +64,55 @@ export const ModalCreatePropierty = ({
     services: fetchTypesRE,
   });
 
-  const { language } = useLanguageStore();
+  const { language, texts } = useLanguageStore();
+  console.log(language);
   return (
     <>
       <Btn
-        text="Crear inmueble"
+        text={btnAddReLanguage}
         onClick={handleStateModal}
         isPending={false}
         className="max-w-max px-2"
       />
       <ShowModal
-        title="Crear inmueble"
+        title={btnAddReLanguage}
         isModalOpen={isModalOpen}
         setIsModalOpen={handleStateModal}
         children={
           <FormComponent
             handleOnSubmit={handleOnSubmit}
             isPending={isPendingRE}
-            btnText="Guardar"
+            btnText={btnSaveLanguage}
             children={
               <>
                 <div className="grid grid-cols-2 gap-3">
                   <Input
-                    text="Titulo"
+                    text={texts.title}
                     error={errors.title}
                     register={register("title")}
                   />
                   <Input
-                    text="Descripcion"
+                    text={texts.description}
                     error={errors.description}
                     register={register("description")}
                   />
                   <Input
-                    text="Precio"
+                    text={texts.price}
                     error={errors.price}
                     register={register("price")}
                   />
                   <Input
-                    text="Habitaciones"
+                    text={texts.bedrooms}
                     error={errors.amountBedroom}
                     register={register("amountBedroom")}
                   />
                   <Input
-                    text="Baños"
+                    text={texts.bathrooms}
                     error={errors.amountBathroom}
                     register={register("amountBathroom")}
                   />
                   <Input
-                    text="Metros cuadrados"
+                    text={texts.squareMeters}
                     error={errors.squareMeter}
                     register={register("squareMeter")}
                   />
@@ -146,7 +150,7 @@ export const ModalCreatePropierty = ({
                       htmlFor="fileInput"
                       className="text-white cursor-pointer"
                     >
-                      Buscar imagen
+                      {texts.searchImage}
                     </label>
                   </div>
                 </div>
@@ -160,8 +164,11 @@ export const ModalCreatePropierty = ({
                         >
                           <ArrowDownIcon size="15" />
                           <span>
-                            {countFilesUp} de {filesSelected.length} archivos
-                            subidos
+                            {countFilesUp}{" "}
+                            {language === "es" || language === "pt"
+                              ? "de"
+                              : "of"}{" "}
+                            {filesSelected.length} {texts.filesUplodesLanguage}
                           </span>
                         </button>
 

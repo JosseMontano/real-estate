@@ -5,7 +5,14 @@ import { questionSchema } from "../validations/question.schema";
 import { addQuestionToDB } from "../api/endpoints";
 import { useForm } from "@/core/hooks/useForm";
 
-export const Questions = () => {
+type ParamsType={
+  ask:string,
+  question:string,
+  description:string,
+  btn:string,
+  placeHolder:string
+}
+export const Questions = ({ask, description, placeHolder, btn, question}:ParamsType) => {
   const {
     register,
     handleOnSubmit,
@@ -32,11 +39,10 @@ export const Questions = () => {
       <div className="flex flex-row gap-5">
         <div className="w-[400px] flex flex-col gap-5">
           <h3 className="text-4xl">
-            Haz una <b className="text-4xl font-semibold secondary">pregunta</b>
+            {ask} <b className="text-4xl font-semibold secondary">{question}</b>
           </h3>
           <p className="text-sm">
-            Tus preguntas se visualizarán en las publicaciones para que los
-            propietarios puedan responder de forma automática.
+            {description}
           </p>
         </div>
 
@@ -44,15 +50,14 @@ export const Questions = () => {
           <FormComponent
             isPending={isPendingQuestion}
             handleOnSubmit={handleOnSubmit}
-            btnText="Guardar"
+            btnText={btn}
             spaceBtn={false}
             children={
               <>
                 <Input
-                  text="¿Qué te gustaría saber?"
                   error={errors.question}
                   register={register("question")}
-                  className="bg-white "
+                  text={placeHolder}
                 />
               </>
             }

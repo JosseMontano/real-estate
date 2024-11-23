@@ -14,6 +14,11 @@ type ParamsType = {
   handleImageUpload: (url: string) => void;
   handleShowModalUpImage: () => void;
   isModalUpImageOpen: boolean;
+  btnEditUserLanguage:string;
+  btnSaveLanguage:string;
+  username: string;
+  phoneNumber: string;
+  email: string;
 };
 export const ModalEditUser = ({
   isModaEditUserOpen,
@@ -21,6 +26,11 @@ export const ModalEditUser = ({
   handleImageUpload,
   handleShowModalUpImage,
   isModalUpImageOpen,
+  btnEditUserLanguage,
+  btnSaveLanguage,
+  email,
+  phoneNumber,
+  username
 }: ParamsType) => {
   const { user } = useAuthStore();
 
@@ -43,34 +53,34 @@ export const ModalEditUser = ({
     <div className="">
       <Btn
         isPending={false}
-        text="Editar usuario"
-        className="max-w-max"
+        text={btnEditUserLanguage}
+        className="max-w-max px-2"
         onClick={handleShowModalEditUser}
       />
 
       <ShowModal
         setIsModalOpen={handleShowModalEditUser}
         isModalOpen={isModaEditUserOpen}
-        title="Editar usuario"
+        title={btnEditUserLanguage}
         children={
           <FormComponent
             handleOnSubmit={handleOnSubmit}
             isPending={isPendingUser}
-            btnText="Guardar"
+            btnText={btnSaveLanguage}
             children={
               <>
                 <Input
-                  text="Nombre de usuario"
+                  text={username}
                   error={errors?.userName}
                   register={register("userName")}
                 />
                 <Input
-                  text="Numero de celular"
+                  text={phoneNumber}
                   error={errors?.cellphoneNumber}
                   register={register("cellphoneNumber")}
                 />
                 <Input
-                  text="Correo"
+                  text={email}
                   error={errors?.email}
                   register={register("email")}
                 />
