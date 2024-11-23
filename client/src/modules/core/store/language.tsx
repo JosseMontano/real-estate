@@ -77,15 +77,18 @@ interface Translations {
   squareMeters: string;
   select: string;
   searchImage: string;
-  filesUplodesLanguage:string;
+  filesUplodesLanguage: string;
   //dasboard sidebar
   properties: string;
   propertyType: string;
   questions: string;
-   //status statistics
-   total: string;
-   active: string;
-   inactive: string;
+  comments: string;
+  responses: string;
+  //status statistics
+  total: string;
+  active: string;
+  inactive: string;
+  //dashboard comments
 }
 
 const translations: { [key in Language]: Translations } = {
@@ -158,16 +161,18 @@ const translations: { [key in Language]: Translations } = {
     bathrooms: "Bathrooms",
     squareMeters: "Square meters",
     select: "Select...",
-    searchImage:"Search image",
-    filesUplodesLanguage:"files uploaded",
+    searchImage: "Search image",
+    filesUplodesLanguage: "files uploaded",
     //dashboard sidebar
     properties: "Properties",
     propertyType: "Property type",
     questions: "Questions",
-     //status statistics
-     total: "Total",
-     active: "Active",
-     inactive: "Inactive",
+    comments: "Comments",
+    responses: "Response",
+    //status statistics
+    total: "Total",
+    active: "Active",
+    inactive: "Inactive",
   },
   es: {
     //auth
@@ -238,16 +243,18 @@ const translations: { [key in Language]: Translations } = {
     bathrooms: "Baños",
     squareMeters: "Metros cuadrados",
     select: "Seleccionar...",
-    searchImage:"Buscar imagen",
-    filesUplodesLanguage:"archivos subidos",
+    searchImage: "Buscar imagen",
+    filesUplodesLanguage: "archivos subidos",
     //dasboard sidebar
     properties: "Inmuebles",
     propertyType: "Tipo de inmuebles",
     questions: "Preguntas",
-     //status statistics
-     total: "Total",
-     active: "Activos",
-     inactive: "Inactivos",
+    comments: "Comentarios",
+    responses: "Respuestas",
+    //status statistics
+    total: "Total",
+    active: "Activos",
+    inactive: "Inactivos",
   },
   pt: {
     //auth
@@ -319,12 +326,14 @@ const translations: { [key in Language]: Translations } = {
     bathrooms: "Banheiros",
     squareMeters: "Metros quadrados",
     select: "Selecionar...",
-    searchImage:"Buscar imagem",
-    filesUplodesLanguage:"arquivos enviados",
+    searchImage: "Buscar imagem",
+    filesUplodesLanguage: "arquivos enviados",
     //dasboard sidebar
     properties: "Imóveis",
     propertyType: "Tipo de imóveis",
     questions: "Perguntas",
+    comments: "Comentários",
+    responses: "Respostas",
     //status statistics
     total: "Total",
     active: "Ativos",

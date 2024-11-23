@@ -12,6 +12,7 @@ import { queryClient } from "../../../App";
 import { fetchQuestions } from "../dashQuestions/api/endpoints";
 import { SumaryCard } from "../dashboard/components/sumaryCards";
 import { CustomerTable } from "../dashboard/components/customerTable";
+import { useLanguageStore } from "@/core/store/language";
 
 type ParamsType = {};
 export const DashResponses = ({}: ParamsType) => {
@@ -48,7 +49,7 @@ export const DashResponses = ({}: ParamsType) => {
     },
   });
 
-  const { data: DataQuestion} = useGet({
+  const { data: DataQuestion } = useGet({
     services: fetchQuestions,
     queryKey: ["Questions"],
   });
@@ -60,6 +61,7 @@ export const DashResponses = ({}: ParamsType) => {
   });
   const [currentSelectedRE, setCurrentSelectedRE] = useState({} as Response);
 
+  const { texts } = useLanguageStore();
   return (
     <div>
       <SumaryCard
@@ -83,7 +85,7 @@ export const DashResponses = ({}: ParamsType) => {
         selectData={DataQuestion}
         currentSelected={currentSelectedRE}
         setCurrentSelected={setCurrentSelectedRE}
-        tableTitle="Comentarios"
+        tableTitle={texts.responses}
         handleGetReByType={dataCommByRe}
         propSelectData="question"
       />

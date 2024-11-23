@@ -13,6 +13,7 @@ import { SumaryCard } from "../dashboard/components/sumaryCards";
 import { CustomerTable } from "../dashboard/components/customerTable";
 import { RealEstate } from "@/shared/types/realEstate";
 import { fetchRealEstates } from "@/shared/api/endpoints";
+import { useLanguageStore } from "@/core/store/language";
 
 type ParamsType = {};
 export const DashComments = ({}: ParamsType) => {
@@ -61,7 +62,7 @@ export const DashComments = ({}: ParamsType) => {
   });
 
   const [currentSelectedRE, setCurrentSelectedRE] = useState({} as RealEstate);
-
+  const { texts } = useLanguageStore();
   return (
     <div>
       <SumaryCard
@@ -85,7 +86,7 @@ export const DashComments = ({}: ParamsType) => {
         selectData={DataRealEstate}
         currentSelected={currentSelectedRE}
         setCurrentSelected={setCurrentSelectedRE}
-        tableTitle="Comentarios"
+        tableTitle={texts.comments}
         handleGetReByType={dataCommByRe}
         propSelectData="title"
       />
