@@ -31,6 +31,7 @@ export type RealEstateDTO = {
   images?: string[]
 }
 export type RealEstate = {
+  id?: number;
   amountBathroom: number
   amountBedroom: number
   description: LanguageDB
@@ -41,6 +42,7 @@ export type RealEstate = {
   typeRealEstateId: number
   userId: number
   images: PhotoRes[]
+  active?:boolean
 }
 export interface TypeRE {
   id: number;

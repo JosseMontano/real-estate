@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { primaryColor } from "@/core/const/colors";
 import Btn from "@/core/components/form/button";
 import Pagination from "@/core/components/form/pagination";
@@ -19,6 +19,7 @@ type ParamsType = {
   setIsOpenModal?: () => void;
   setCurrentSelected?: (val: any) => void;
   tableTitle: string;
+  handleGetReByType?: (id: number) => void;
 };
 
 export const CustomerTable = ({
@@ -34,6 +35,7 @@ export const CustomerTable = ({
   currentSelected,
   setCurrentSelected,
   tableTitle,
+  handleGetReByType,
 }: ParamsType) => {
   const { language } = useLanguageStore();
   const [searchText, setSearchText] = useState("");
@@ -52,9 +54,16 @@ export const CustomerTable = ({
     })
   );
 
+  useEffect(() => {
+    if (handleGetReByType) {
+      if (currentSelected.id) {
+        handleGetReByType(currentSelected.id);
+        console.log(currentSelected.id);
+      }
+    }
+  }, [currentSelected]);
   return (
     <>
-      {isloading && <p>cargando</p>}
       {!isloading && (
         <div className="bg-white p-3 md:p-7 shadow overflow-auto">
           <div className="flex justify-between mb-4 md:flex-row sm:flex-row flex-col gap-2">
@@ -127,7 +136,7 @@ export const CustomerTable = ({
                   {header.map((v) => (
                     <th
                       key={v}
-                      className="pl-10 md:pl-0 max-w-xs break-words text-gray-300"
+                      className="pl-10 md:pl-10 px-10 w-auto break-words text-gray-300 text-center"
                     >
                       {v}
                     </th>
@@ -135,42 +144,48 @@ export const CustomerTable = ({
                 </tr>
               </thead>
               <tbody>
-                {filteredData.map((v, index) => (
-                  <tr key={index} className="border-t">
-                    {header.map((col) => (
-                      <>
-                        {col != "active" && (
-                          <td
-                            key={col}
-                            className="pl-10 md:pl-0 max-w-[130px] min-w-[130px] md:max-w-[90px] md:min-w-[90px] break-words pt-10"
-                          >
-                            {typeof v[col as keyof typeof v] === "object" &&
-                            v[col as keyof typeof v] !== null
-                              ? v[col as keyof typeof v]?.[language] // Access "language" if it's an object
-                              : String(v[col as keyof typeof v])}
-                          </td>
-                        )}
-
-                        {col == "active" && (
-                          <td className="pl-10 md:pl-0 max-w-[130px] min-w-[130px] md:max-w-[90px] md:min-w-[90px] break-words">
-                            <span
-                              onClick={() => {
-                                handleState(v.id);
-                              }}
-                              className={`px-2 py-1 rounded-lg ${
-                                v[col as keyof typeof v]
-                                  ? "bg-green-100 text-green-700"
-                                  : "bg-red-100 text-red-700"
-                              } cursor-pointer`}
+                {filteredData.length === 0 && (
+                  <p>No properties available for the selected type</p>
+                )}
+                {filteredData.length > 0 &&
+                  filteredData.map((v, index) => (
+                    <tr key={index} className="border-t">
+                      {header.map((col) => (
+                        <>
+                          {col != "active" && (
+                            <td
+                              key={col}
+                              className="pl-10 md:pl-0 max-w-[130px] min-w-[130px] md:max-w-max  break-words py-2 text-balance text-center"
                             >
-                              {v[col as keyof typeof v] ? "active" : "Inactive"}
-                            </span>
-                          </td>
-                        )}
-                      </>
-                    ))}
-                  </tr>
-                ))}
+                              {typeof v[col as keyof typeof v] === "object" &&
+                              v[col as keyof typeof v] !== null
+                                ? v[col as keyof typeof v]?.[language] // Access "language" if it's an object
+                                : String(v[col as keyof typeof v])}
+                            </td>
+                          )}
+
+                          {col == "active" && (
+                            <td className="pl-10 md:pl-0 max-w-[130px] min-w-[130px] md:max-w-[90px] md:min-w-[90px] break-words py-2 text-center">
+                              <span
+                                onClick={() => {
+                                  handleState(v.id);
+                                }}
+                                className={`px-2 py-1 rounded-lg ${
+                                  v[col as keyof typeof v]
+                                    ? "bg-green-100 text-green-700"
+                                    : "bg-red-100 text-red-700"
+                                } cursor-pointer`}
+                              >
+                                {v[col as keyof typeof v]
+                                  ? "active"
+                                  : "Inactive"}
+                              </span>
+                            </td>
+                          )}
+                        </>
+                      ))}
+                    </tr>
+                  ))}
               </tbody>
             </table>
 
