@@ -3,14 +3,10 @@ import { Statistic } from "@/core/types/statistic"
 import { Delete, handleGet, handlePost } from "@/core/utils/fetch"
 import { RealEstate, RealEstateDTO } from "@/shared/types/realEstate"
 
-export const fetchRealEstates = async (): Promise<Res<RealEstate[]>> => {
-    return await handleGet<RealEstate[]>('real_estates')
-}
 export const getStadisticsRealEstates = async (): Promise<Res<Statistic>> => {
     return await handleGet<Statistic>('real_estates/statistics')
 }
 export const getREByType = async (id: number): Promise<Res<RealEstate[]>> => {
-    console.log(handleGet<RealEstate[]>(`real_estates/${id}`))
     return await handleGet<RealEstate[]>(`real_estates/${id}`)
 }
 export const postRealEstates = async (data: RealEstateDTO) => {

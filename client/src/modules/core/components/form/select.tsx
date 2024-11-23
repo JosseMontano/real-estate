@@ -44,7 +44,7 @@ const CustomSelect: React.FC<SelectProps> = ({
               className="px-3 py-2 cursor-pointer hover:bg-gray-200"
               onClick={() => handleOptionClick(option)}
             >
-              {option.name[language]}
+              {option.name && option.name[language]}
             </li>
           ))}
         </ul>

@@ -9,6 +9,7 @@ import Select from "@/core/components/form/select";
 type ParamsType = {
   data: any[];
   selectData?: any[];
+  propSelectData?: string;
   currentSelected?: any;
   header: string[];
   handleState: (id: number) => void;
@@ -36,6 +37,7 @@ export const CustomerTable = ({
   setCurrentSelected,
   tableTitle,
   handleGetReByType,
+  propSelectData
 }: ParamsType) => {
   const { language } = useLanguageStore();
   const [searchText, setSearchText] = useState("");
@@ -62,6 +64,7 @@ export const CustomerTable = ({
       }
     }
   }, [currentSelected]);
+
   return (
     <>
       {!isloading && (
@@ -116,11 +119,13 @@ export const CustomerTable = ({
                         : undefined
                     }
                     onChange={(val) => {
-                      if (setCurrentSelected) setCurrentSelected(val);
+                      if (setCurrentSelected) {
+                        setCurrentSelected(val)
+                      };
                     }}
                     options={selectData?.map((v) => ({
-                      name: v.name,
-                      id: v.id,
+                      name: v[propSelectData as keyof typeof v],
+                      id: v.id, // Siempre incluir el ID
                     }))}
                     className="border-none shadow-none bg-opacity-0 rounded-none "
                   />

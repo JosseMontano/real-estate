@@ -17,5 +17,16 @@ export type Comment = {
   amountStars: number
   realEstateId: string
   commentatorId: string
+  active: boolean
+}
+
+export type Response ={
+  id?:number;
+  realEstateId:number;
+  response:LanguageDB;
+  active:boolean;
+  question:Question
+  realEstate:RealEstate
+  
 }
 

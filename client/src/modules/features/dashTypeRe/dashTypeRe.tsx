@@ -46,16 +46,27 @@ export const DashTypeRe = ({}: ParamsType) => {
     },
   });
 
-  const { errors, handleOnSubmit, register, isPending } = useForm({
+  const {
+    errors,
+    handleOnSubmit,
+    register,
+    isPending,
+    setErrorMsg,
+    setSuccessMsg,
+  } = useForm({
     schema: typeReSchema,
     form: async (data) => {
-      if (await postTypeRe(data)) {
+      const res = await postTypeRe(data);
+      if (res.status == 200 || res.status == 201) {
         queryClient.invalidateQueries({ queryKey: ["TypeRe"] });
         handleStateModal();
+        setSuccessMsg(res.message);
+        return;
       }
+      setErrorMsg(res.message);
     },
   });
-  const {texts} = useLanguageStore()
+  const { texts } = useLanguageStore();
   return (
     <div>
       <SumaryCard
@@ -94,9 +105,7 @@ export const DashTypeRe = ({}: ParamsType) => {
         header={header}
         isloading={isLoading}
         setIsOpenModal={handleStateModal}
-        
         tableTitle={texts.propertyType}
-        
       />
     </div>
   );

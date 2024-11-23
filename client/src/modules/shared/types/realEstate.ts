@@ -2,15 +2,15 @@ import { LanguageDB } from "./language";
 import { Zone } from "@/features/home/types/zones";
 
 export type RealEstateDTO = {
-  amountBathroom: number//5
-  amountBedroom: number//4
-  description: string//2
-  latLong?: string//7
-  price: number//3
-  squareMeter: number//6
-  title: string//1
-  typeRealEstateId?: number//
-  userId?: number//
+  amountBathroom: number
+  amountBedroom: number
+  description: string
+  latLong?: string
+  price: number
+  squareMeter: number
+  title: string
+  typeRealEstateId?: number
+  userId?: number
   images?: string[]
 }
 export type RealEstate = {
