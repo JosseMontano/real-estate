@@ -42,12 +42,42 @@ interface Translations {
   viewMoreButton: string;
   //home questions
   ask: string;
-  question:string
+  question: string;
   questionSubtitle: string;
   questionPlaceholder: string;
   saveButton: string;
   //home footer
   copyright: string;
+
+  //profile user actions
+  rating: string;
+  sendMessage: string;
+  follow: string;
+  reportUser: string;
+  posts: string;
+  favorites: string;
+  addComment: string;
+  commentPlaceholder: string;
+  //profile comments
+  commentsTitle: string;
+  //btn edit user
+  btnEditUser: string;
+  //btn add RE
+  btnAddRe: string;
+  //user information
+  username: string;
+  phoneNumber: string;
+  email: string;
+  //property details
+  title: string;
+  description: string;
+  price: string;
+  bedrooms: string;
+  bathrooms: string;
+  squareMeters: string;
+  select: string;
+  searchImage: string;
+  filesUplodesLanguage:string;
 }
 
 const translations: { [key in Language]: Translations } = {
@@ -85,14 +115,43 @@ const translations: { [key in Language]: Translations } = {
     placesButton: "Places",
     viewMoreButton: "View more",
     //home questions
-    ask:"Ask a",
-    question:"question",
+    ask: "Ask a",
+    question: "question",
     questionSubtitle:
       "Your questions will appear in the listings so owners can respond automatically.",
     questionPlaceholder: "What would you like to know?",
     saveButton: "Save",
     //home footer
     copyright: "Copyright © INMUEBLES EN LA NUBE - All rights reserved",
+    //profile user actions
+    rating: "Rating",
+    sendMessage: "Send message",
+    follow: "Follow",
+    reportUser: "Report user",
+    posts: "Posts",
+    favorites: "Favorites",
+    addComment: "Add comment",
+    commentPlaceholder: "Comment...",
+    //comments
+    commentsTitle: "Comments",
+    //btn edit user
+    btnEditUser: "Edit user",
+    //btn create Re
+    btnAddRe: "Create property",
+    //user information
+    username: "Username",
+    phoneNumber: "Phone number",
+    email: "Email",
+    //property details
+    title: "Title",
+    description: "Description",
+    price: "Price",
+    bedrooms: "Bedrooms",
+    bathrooms: "Bathrooms",
+    squareMeters: "Square meters",
+    select: "Select...",
+    searchImage:"Search image",
+    filesUplodesLanguage:"files uploaded"
   },
   es: {
     //auth
@@ -128,8 +187,8 @@ const translations: { [key in Language]: Translations } = {
     placesButton: "Lugares",
     viewMoreButton: "Ver más",
     //home questions
-    ask:"Haz una",
-    question:"preguna",
+    ask: "Haz una",
+    question: "preguna",
     questionSubtitle:
       "Tus preguntas se visualizarán en las publicaciones para que los propietarios puedan responder de forma automática.",
     questionPlaceholder: "¿Qué te gustaría saber?",
@@ -137,6 +196,34 @@ const translations: { [key in Language]: Translations } = {
     //home footer
     copyright:
       "Copyright © INMUEBLES EN LA NUBE - Todos los derechos reservados",
+    //profile user actions
+    rating: "Calificación",
+    sendMessage: "Enviar mensaje",
+    follow: "Seguir",
+    reportUser: "Reportar usuario",
+    posts: "Publicaciones",
+    favorites: "Favoritos",
+    addComment: "Agregar comentario",
+    commentPlaceholder: "Comentario...",
+    //comments
+    commentsTitle: "Comentarios",
+    //btn edit user
+    btnEditUser: "Editar usuario",
+    btnAddRe: "Crear inmueble",
+    //user information
+    username: "Nombre de usuario",
+    phoneNumber: "Número de celular",
+    email: "Correo",
+    //property details
+    title: "Título",
+    description: "Descripción",
+    price: "Precio",
+    bedrooms: "Habitaciones",
+    bathrooms: "Baños",
+    squareMeters: "Metros cuadrados",
+    select: "Seleccionar...",
+    searchImage:"Buscar imagen",
+    filesUplodesLanguage:"archivos subidos"
   },
   pt: {
     //auth
@@ -172,8 +259,8 @@ const translations: { [key in Language]: Translations } = {
     placesButton: "Lugares",
     viewMoreButton: "Ver mais",
     //home questions
-    ask:"Faça uma",
-    question:"pergunta",
+    ask: "Faça uma",
+    question: "pergunta",
     questionSubtitle:
       "Suas perguntas aparecerão nas postagens para que os proprietários possam responder automaticamente.",
     questionPlaceholder: "O que você gostaria de saber?",
@@ -181,6 +268,35 @@ const translations: { [key in Language]: Translations } = {
     //home footer
     copyright:
       "Copyright © INMUEBLES EN LA NUBE - Todos os direitos reservados",
+    //profile user actions
+    rating: "Classificação",
+    sendMessage: "Enviar mensagem",
+    follow: "Seguir",
+    reportUser: "Denunciar usuário",
+    posts: "Publicações",
+    favorites: "Favoritos",
+    addComment: "Adicionar comentário",
+    commentPlaceholder: "Comentário...",
+    //comments
+    commentsTitle: "Comentários",
+    //btn edit user
+    btnEditUser: "Editar usuário",
+    //btn create Re
+    btnAddRe: "Criar imóvel",
+    //user information
+    username: "Nome de usuário",
+    phoneNumber: "Número de celular",
+    email: "Email",
+    //property details
+    title: "Título",
+    description: "Descrição",
+    price: "Preço",
+    bedrooms: "Quartos",
+    bathrooms: "Banheiros",
+    squareMeters: "Metros quadrados",
+    select: "Selecionar...",
+    searchImage:"Buscar imagem",
+    filesUplodesLanguage:"arquivos enviados"
   },
 };
 

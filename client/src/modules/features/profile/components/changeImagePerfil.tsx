@@ -9,6 +9,7 @@ import Btn from "@/core/components/form/button";
 
 import { UploadImageIcon } from "@/shared/assets/icons//uploadImage";
 import { ShowModal } from "@/core/components/form/modal";
+import { useLanguageStore } from "@/core/store/language";
 type ParamasType = {
   onImageUpload: (url: string) => void;
   isModalOpen: boolean;
@@ -48,17 +49,30 @@ export const ProfileImageUploader: React.FC<ParamasType> = ({
   const handleChangeUrl = (url: string) => {
     setURL(url);
   };
+  const { language, texts } = useLanguageStore();
   return (
     <div className="flex flex-col gap-4">
       <Btn
         isPending={false}
-        text="Editar imagen"
+        text={
+          language == "es"
+            ? "Editar imagen"
+            : language == "en"
+            ? "Edit image"
+            : "Editar imagem"
+        }
         className="max-w-max px-2"
         onClick={handleShowModal}
       />
 
       <ShowModal
-        title="Cambiar foto de perfil"
+        title={
+          language === "es"
+            ? "Cambiar foto de perfil"
+            : language === "en"
+            ? "Change profile photo"
+            : "Modificar foto de perfil"
+        }
         isModalOpen={isModalOpen}
         setIsModalOpen={handleShowModal}
         children={
@@ -80,7 +94,7 @@ export const ProfileImageUploader: React.FC<ParamasType> = ({
             >
               <UploadImageIcon size="20" />
               <label htmlFor="fileInput" className="text-white cursor-pointer">
-                Buscar imagen
+                {texts.searchImage}
               </label>
             </div>
             <p>{fileName || ""}</p>

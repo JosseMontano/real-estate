@@ -5,10 +5,12 @@ import { useState } from "react";
 type ParamsType = {
   isModalOpen: boolean;
   handleShowModal: () => void;
+  viewMore:string
 };
 export const PublicationsAndFavorites = ({
   handleShowModal,
   isModalOpen,
+  viewMore
 }: ParamsType) => {
   type publication = {
     id: string;
@@ -116,14 +118,14 @@ export const PublicationsAndFavorites = ({
               key={publication.id}
               className="w-[calc(80%-8px)] md:w-[calc(30%-8px)]  pl-0 flex-shrink-0 "
             >
-              <div className="flex flex-col justify-center gap-3">
+              <div className="flex flex-col justify-center gap-1">
                 <img
                   src={img1}
                   alt="Imagen"
                   className="w-full rounded-lg shadow-lg"
                 />
                 <Btn
-                  text="Ver más"
+                  text={viewMore}
                   isPending={false}
                   onClick={() => {
                     setCurrentRE(publication);
