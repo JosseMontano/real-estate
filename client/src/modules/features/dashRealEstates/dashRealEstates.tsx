@@ -1,7 +1,6 @@
 import useGet from "@/core/hooks/useGet";
 import {
   deleteRealEstates,
-  fetchRealEstates,
   getREByType,
   getStadisticsRealEstates,
 } from "./api/endpoints";
@@ -13,6 +12,7 @@ import { fetchTypesRE } from "../profile/api/endpoints";
 import { useEffect, useState } from "react";
 import { RealEstate, TypeRE } from "@/shared/types/realEstate";
 import { useLanguageStore } from "@/core/store/language";
+import { fetchRealEstates } from "@/shared/api/endpoints";
 
 type ParamsType = {};
 export const DashRealEstates = ({}: ParamsType) => {

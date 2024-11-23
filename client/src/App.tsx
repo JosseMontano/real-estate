@@ -12,6 +12,7 @@ import { DashTypeRe } from "@/features/dashTypeRe/dashTypeRe";
 import { DashRealEstates } from "@/features/dashRealEstates/dashRealEstates";
 import { DashGraphics } from "@/features/dashGraphics/dashGraphics";
 import { DashComments } from "@/features/dashComments/dashComments";
+import { DashResponses } from "@/features/dashResponses/dashResponses";
 
 export const queryClient = new QueryClient();
 export type Routes = "/" | "/profile" | "/auth" | "/img360";
@@ -32,7 +33,8 @@ function App() {
               <Route path="realEstates" element={<DashRealEstates />} />
               <Route path="typeRe" element={<DashTypeRe />} />
               <Route path="questions" element={<DashQuestions />} />
-              <Route path="comments" element={<DashComments/>}/>
+              <Route path="comments" element={<DashComments />} />
+              <Route path="responses" element={<DashResponses />} />
             </Route>
           </Routes>
           <Config />

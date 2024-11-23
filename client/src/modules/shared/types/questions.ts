@@ -20,3 +20,13 @@ export type Comment = {
   active: boolean
 }
 
+export type Response ={
+  id?:number;
+  realEstateId:number;
+  response:LanguageDB;
+  active:boolean;
+  question:Question
+  realEstate:RealEstate
+  
+}
+

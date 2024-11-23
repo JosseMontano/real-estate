@@ -10,7 +10,6 @@ import { ProfileHeader } from "./components/profileHeader";
 import { ContactInfo } from "./components/contactInfo";
 import { PublicationsAndFavorites } from "./components/publicationsAndFavorites";
 import { useQuery } from "@tanstack/react-query";
-import { fetchRealEstates } from "../home/api/endpoints";
 import { User } from "@/core/types/user";
 import { ModalEditUser } from "./components/modalEditUser";
 import {
@@ -23,6 +22,7 @@ import {
 import { RealEstate, TypeRE } from "@/shared/types/realEstate";
 import { Location } from "@/core/components/map/maps";
 import { useLanguageStore } from "@/core/store/language";
+import { fetchRealEstates } from "@/shared/api/endpoints";
 
 export type FileSelectedType = {
   name: string;

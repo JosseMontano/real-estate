@@ -62,6 +62,8 @@ export const CustomerTable = ({
       }
     }
   }, [currentSelected]);
+  console.log(selectData?.map((v) => v));
+  console.log(currentSelected.name);
   return (
     <>
       {!isloading && (
@@ -119,8 +121,14 @@ export const CustomerTable = ({
                       if (setCurrentSelected) setCurrentSelected(val);
                     }}
                     options={selectData?.map((v) => ({
-                      name: v.name ? v.name : v.title,
-                      id: v.id,
+                      name: v.name // Prioridad 1: Usar `name` si existe
+                        ? v.name
+                        : v.title // Prioridad 2: Usar `title` si no existe `name`
+                        ? v.title
+                        : typeof v.question === "object" && v.question !== null // Prioridad 3: Verificar si `question` es un objeto válido
+                        ? v.question[language] // Mostrar el valor en el idioma deseado
+                        : undefined, // Si ninguno existe, no hacer nada
+                      id: v.id, // Siempre incluir el ID
                     }))}
                     className="border-none shadow-none bg-opacity-0 rounded-none "
                   />

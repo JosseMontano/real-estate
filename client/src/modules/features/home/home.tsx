@@ -4,11 +4,11 @@ import { TitleCenter } from "./components/titleCenter";
 import { SectionRealStates } from "./components/sectionRealEstates";
 import { Footer } from "./components/footer";
 import { Questions } from "./components/question";
-import { fetchRealEstates } from "./api/endpoints";
 import useGet from "@/core/hooks/useGet";
 import { useEffect } from "react";
 import { SearchPropierties } from "./components/searchPropierties";
 import { useLanguageStore } from "@/core/store/language";
+import { fetchRealEstates } from "@/shared/api/endpoints";
 
 export const HomePage = () => {
   const {

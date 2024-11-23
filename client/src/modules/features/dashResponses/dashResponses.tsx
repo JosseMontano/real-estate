@@ -1,43 +1,42 @@
 import useGet from "@/core/hooks/useGet";
 import {
-  deleteComment,
-  fetchComments,
-  getCommentsByRe,
-  getStatisticsComments,
+  deleteReponse,
+  fetchReponses,
+  getResponsesByQuestion,
+  getStatiticsResponses,
 } from "./api/endpoints";
-import { useMutation } from "@tanstack/react-query";
-import { Comment } from "@/shared/types/questions";
 import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { Response } from "@/shared/types/questions";
 import { queryClient } from "../../../App";
+import { fetchQuestions } from "../dashQuestions/api/endpoints";
 import { SumaryCard } from "../dashboard/components/sumaryCards";
 import { CustomerTable } from "../dashboard/components/customerTable";
-import { RealEstate } from "@/shared/types/realEstate";
-import { fetchRealEstates } from "@/shared/api/endpoints";
 
 type ParamsType = {};
-export const DashComments = ({}: ParamsType) => {
+export const DashResponses = ({}: ParamsType) => {
   const {
-    data: Comments,
+    data: Responses,
     isLoading,
     amountOfPages,
     handlePagination,
     currentPage,
   } = useGet({
-    services: fetchComments,
-    queryKey: ["Comments"],
+    services: fetchReponses,
+    queryKey: ["Responses"],
     itemsPerPage: 10,
   });
 
   const { data: statistics, isLoading: isLoadingStatistics } = useGet({
-    services: getStatisticsComments,
-    queryKey: ["Comments", Comments],
+    services: getStatiticsResponses,
+    queryKey: ["statistics-reponses", Responses],
   });
-  const header = ["comment", "amount_star", "active"];
-  const [filteredComments, setFilteredComments] = useState<Comment[]>([]);
+  const header = ["response", "active"];
+  const [filteredResponses, setFilteredResponses] = useState<Response[]>([]);
   const { mutate: mutateToState } = useMutation({
-    mutationFn: deleteComment,
+    mutationFn: deleteReponse,
     onSuccess: async (data) => {
-      setFilteredComments((prevFiltered) =>
+      setFilteredResponses((prevFiltered) =>
         prevFiltered
           .map((item) =>
             item.id === data.val.id ? { ...item, active: !item.active } : item
@@ -45,23 +44,23 @@ export const DashComments = ({}: ParamsType) => {
           .filter((item) => prevFiltered.some((prev) => prev.id === item.id))
       );
 
-      queryClient.invalidateQueries({ queryKey: ["Comments"] });
+      queryClient.invalidateQueries({ queryKey: ["Responses"] });
     },
   });
-  const { data: DataRealEstate } = useGet({
-    services: fetchRealEstates,
-    queryKey: ["RealEstate"],
-  });
 
+  const { data: DataQuestion} = useGet({
+    services: fetchQuestions,
+    queryKey: ["Questions"],
+  });
   const { mutate: dataCommByRe } = useMutation({
-    mutationFn: getCommentsByRe,
+    mutationFn: getResponsesByQuestion,
     onSuccess: (data) => {
-      setFilteredComments(data.val);
+      setFilteredResponses(data.val);
     },
   });
+  const [currentSelectedRE, setCurrentSelectedRE] = useState({} as Response);
 
-  const [currentSelectedRE, setCurrentSelectedRE] = useState({} as RealEstate);
-
+  console.log(DataQuestion);
   return (
     <div>
       <SumaryCard
@@ -75,14 +74,14 @@ export const DashComments = ({}: ParamsType) => {
         currentPage={currentPage}
         data={
           Object.keys(currentSelectedRE).length === 0
-            ? Comments
-            : filteredComments
+            ? Responses
+            : filteredResponses
         }
         handlePagination={handlePagination}
         handleState={mutateToState}
         header={header}
         isloading={isLoading}
-        selectData={DataRealEstate}
+        selectData={DataQuestion}
         currentSelected={currentSelectedRE}
         setCurrentSelected={setCurrentSelectedRE}
         tableTitle="Comentarios"

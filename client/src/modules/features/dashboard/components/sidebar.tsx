@@ -12,6 +12,7 @@ export const Sidebar = ({}: ParamsType) => {
     { path: "/dashboard/typeRe", label: texts.propertyType },
     { path: "/dashboard/questions", label: texts.questions },
     { path: "/dashboard/comments", label: "Comentarios" },
+    { path: "/dashboard/responses", label: "Respuestas" },
   ];
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const toggleSidebar = () => {
