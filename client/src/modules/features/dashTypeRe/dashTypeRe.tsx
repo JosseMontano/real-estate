@@ -29,7 +29,7 @@ export const DashTypeRe = ({}: ParamsType) => {
   } = useGet({
     services: fetchTypeRe,
     queryKey: ["TypeRe"],
-    itemsPerPage: 10,
+    itemsPerPage: 1,
   });
 
   const { data: statistics, isLoading: isLoadingStatistics } = useGet({

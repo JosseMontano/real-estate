@@ -32,7 +32,7 @@ export const HomePage = () => {
     };
   }, []);
 
-  const { data: zones, isLoading: isLoadingZones } = useGet({
+  const { data: zones} = useGet({
     services: fetchZones,
     queryKey: ["zones"],
     itemsPerPage: 1000,

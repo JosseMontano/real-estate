@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Res } from "../types/res";
 
 type Props<T> = {
@@ -37,8 +37,9 @@ const useGet = <T,>({
   const handlePagination = (page: number) => {
     setStartPagination((page - 1) * itemsPerPage);
     setEndPagination(page * itemsPerPage);
+    setCurrentPage(page);
     if (firstElementRef.current) {
-      setCurrentPage(page);
+    
       firstElementRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };

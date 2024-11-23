@@ -1,23 +1,6 @@
-import { Language, TranslateRes } from "@/core/store/language";
 import { LanguageDB } from "./language";
+import { Zone } from "@/features/home/types/zones";
 
-// export interface RealEstate {
-//   amount_bathroom:     number;
-//   square_meter:        number;
-//   description_id:      number;
-//   type_real_estate_id: number;
-//   amount_bedroom:      number;
-//   available:           boolean;
-//   image:               string;
-//   address:             string;
-//   lat_long:            string;
-//   title_id:            number;
-//   id:                  number;
-//   price:               number;
-//   title:               TranslateRes;
-//   description:         TranslateRes;
-//   photos:              PhotoRes[];
-// }
 export type RealEstateDTO = {
   amountBathroom: number//5
   amountBedroom: number//4
@@ -42,6 +25,7 @@ export type RealEstate = {
   typeRealEstateId: number
   userId: number
   images: PhotoRes[]
+  zone: Zone
   active?:boolean
 }
 export interface TypeRE {
