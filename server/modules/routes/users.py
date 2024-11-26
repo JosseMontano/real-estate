@@ -132,7 +132,7 @@ def change_password(request: ChangePassDTO, db: Session = Depends(get_db)):
         found_user.password = hashed_password.decode('utf-8')
         db.commit()
         db.refresh(found_user)
-        return {"status": 200, "message": AuthMsg.DATA_UPDATED, "val": found_user}
+        return {"status": 200, "message": Messages.DATA_UPDATED, "val": found_user}
     except Exception as e:
         db.rollback()
         return {"status": 500, "message": str(e), "val": []}

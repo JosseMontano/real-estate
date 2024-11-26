@@ -8,14 +8,19 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "@/core/libs/firebase";
-import { saveUser } from "./utils/saveUser";
+import { changePassword, saveUser } from "./utils/saveUser";
 import { UserDTO } from "./api/dtos";
 import useNavigation from "@/core/hooks/useNavigate";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { User } from "@/core/types/user";
 
 export const AuthPage = () => {
   const { texts } = useLanguageStore();
   const { login } = useAuthStore();
   const { handleNavigate } = useNavigation();
+  const { code, email } = useParams<{ code?: string; email?: string }>();
+
   const {
     register,
     handleOnSubmit,
@@ -26,9 +31,25 @@ export const AuthPage = () => {
   } = useForm({
     schema: userSchema,
     form: async (userData) => {
-      const { val: userObject, message, status } = await saveUser(userData);
-      if (status === 200 || status === 201) {
-        setSuccessMsg(message);
+      let userObject={} as User;
+      let finalmessage="";
+      let finalStatus;
+      if(code){
+        userData.code = Number(code);
+        console.log(userData);
+        const { val, message, status } = await changePassword(userData);
+        userObject = val;
+        finalmessage = message;
+        finalStatus = status;
+      }else{
+        const { val, message, status } = await saveUser(userData);
+        userObject = val;
+        finalmessage = message;
+        finalStatus = status;
+      }
+    
+      if (finalStatus === 200 || finalStatus === 201) {
+        setSuccessMsg(finalmessage);
         login({
           email: userObject.email,
           role: 2,
@@ -40,9 +61,11 @@ export const AuthPage = () => {
         handleNavigate("/profile");
         return;
       }
-      console.log(message);
-      setErrorMsg(message);
+      setErrorMsg(finalmessage);
     },
+    defaultVales:{
+      email: email ?? "",
+    }
   });
 
   const handleLoginGoogle = async () => {
@@ -75,6 +98,15 @@ export const AuthPage = () => {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    // Check if parameters exist and log them
+    if (code && email) {
+      console.log(`ID: ${code}, Email: ${email}`);
+    } else {
+      console.log('No reset password parameters provided');
+    }
+  }, [code, email]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
