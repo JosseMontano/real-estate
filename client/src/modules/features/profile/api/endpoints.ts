@@ -2,7 +2,7 @@
 import { RealEstate, TypeRE } from "../../../shared/types/realEstate";
 import { RealEstateDTO, ResponseDTO } from "./dtos"
 import { User } from "@/core/types/user";
-import { handleGet, handlePost, handlePut } from "@/core/utils/fetch";
+import { Delete, handleGet, handlePost, handlePut } from "@/core/utils/fetch";
 import { Res } from "@/core/types/res";
 import { Question } from "@/shared/types/questions";
 import { FavRealEstate } from "../interface/favRE";
@@ -43,4 +43,8 @@ export const postResponse = async (name: ResponseDTO) => {
 
 export const fetchGetFavsRE = async (id: number): Promise<Res<FavRealEstate[]>> => {
   return handleGet<FavRealEstate[]>(`favorite_real_estates/?user_id=${id}`);
+}
+
+export const deleteFavRe = async (id: number) => {
+  return await Delete('favorite_real_estates', id)
 }

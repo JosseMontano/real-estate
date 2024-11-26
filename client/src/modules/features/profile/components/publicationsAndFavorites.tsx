@@ -9,8 +9,10 @@ import { InfoRE } from "./infoRE";
 import { Questions } from "./questions";
 import { options } from "../profile";
 import useGet from "@/core/hooks/useGet";
-import { fetchGetFavsRE } from "../api/endpoints";
+import { deleteFavRe, fetchGetFavsRE } from "../api/endpoints";
 import useAuthStore from "@/core/store/auth";
+import { useMutation } from "@tanstack/react-query";
+import { queryClient } from "../../../../App";
 
 type ParamsType = {
   isModalOpen: boolean;
@@ -56,14 +58,21 @@ export const PublicationsAndFavorites = ({
     },
   ];
   const { user } = useAuthStore();
-  const { isLoading, data: realEstateFavs } = useGet({
+  const { data: realEstateFavs } = useGet({
     services: () => fetchGetFavsRE(user?.id || 0),
     queryKey: ["favs-real-estates", user?.id],
     itemsPerPage: 10,
     valueToService: user?.id,
   });
 
-  console.log(realEstateFavs);
+  const { mutate: deleteFav } = useMutation({
+    mutationFn: deleteFavRe,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["favs-real-estates", user?.id],
+      });
+    },
+  });
 
   return (
     <div>
@@ -77,16 +86,17 @@ export const PublicationsAndFavorites = ({
                 setSelectedRE={setSelectedRE}
               />
             ))}
-            {
-              stateBtn == "Favorites" &&
-              realEstateFavs?.map((publication) => (
-                <RealEstateComp
-                  publication={publication.real_estate}
-                  handleShowModal={handleShowModal}
-                  setSelectedRE={setSelectedRE}
-                />
-              ))
-            }
+          {stateBtn == "Favorites" &&
+            realEstateFavs?.map((publication) => (
+              <RealEstateComp
+                publication={publication.real_estate}
+                handleShowModal={handleShowModal}
+                setSelectedRE={setSelectedRE}
+                showIcon={true}
+                deleteFav={deleteFav}
+                favREiD={publication.id}
+              />
+            ))}
         </div>
       </div>
 
