@@ -1,4 +1,4 @@
-import { primaryColor } from "@/core/const/colors";
+import { primaryColor } from "@/core/constants/colors";
 import Pagination from "@/core/components/form/pagination";
 import { useLanguageStore } from "@/core/store/language";
 import { RealEstate } from "@/shared/types/realEstate";

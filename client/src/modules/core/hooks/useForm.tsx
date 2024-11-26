@@ -39,7 +39,6 @@ export const useForm = <T extends z.ZodType<any, any>>({
   useEffect(() => {
     if (errorMsg !="") toast.success(errorMsg || "Error");
     if (successMsg !="") toast.success(successMsg);
-    console.log('hi');
     console.log(errors);
   }, [errorMsg, successMsg, successMsg, errors]);
 

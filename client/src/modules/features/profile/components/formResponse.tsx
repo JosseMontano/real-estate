@@ -39,12 +39,15 @@ export const FormResponse = ({ questionId, realEstateId }: ParamsType) => {
       handleOnSubmit={handleOnSubmit}
       btnText={"Responder"}
       spaceBtn={false}
+      smallBtn={true}
+      centerBtn={true}
       children={
         <>
           <Input
             error={errors.response_text}
             register={register("response_text")}
             text={"Respuesta"}
+            smallInput={true}
           />
         </>
       }

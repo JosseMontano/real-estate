@@ -1,4 +1,4 @@
-import { primaryColor } from "@/core/const/colors";
+import { primaryColor } from "@/core/constants/colors";
 import WrenchIcon from "../assets/icons/wrench";
 import { useModal } from "@/core/hooks/useModal";
 import { ShowModal } from "@/core/components/form/modal";

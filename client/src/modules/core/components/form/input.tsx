@@ -1,4 +1,4 @@
-import { primaryColor } from "@/core/const/colors";
+import { primaryColor } from "@/core/constants/colors";
 import { FieldError } from "react-hook-form";
 import { useState } from "react";
 import WarningIcon from "@/shared/assets/icons/warning";
@@ -10,6 +10,7 @@ type ParamsType = {
   type?: string;
   Icon?: React.FC<{ size: string; color: string }>;
   className?: string;
+  smallInput?: boolean;
 };
 
 export const Input = ({
@@ -18,7 +19,8 @@ export const Input = ({
   register,
   type = "text",
   Icon,
-  className
+  className,
+  smallInput=false,
 }: ParamsType) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
@@ -27,9 +29,10 @@ export const Input = ({
       <div
         className={`bg-gray-100 border border-gray-300 rounded-lg  ${
           isFocused ? "border" : ""
-        } ${className}`}
+        } ${className} ${smallInput ? 'h-7' : ''}`}
         style={{
           borderColor: error ? "red" : isFocused ? primaryColor : "transparent",
+
         }}
       >
         <div className="flex items-center w-full relative">
@@ -41,7 +44,7 @@ export const Input = ({
           <input
             type={type}
             placeholder={text}
-            className="flex-1 bg-transparent w-full focus:outline-none px-2 py-2"
+            className={`flex-1 bg-transparent w-full focus:outline-none px-2 py-2 ${smallInput ? 'h-7' : ''}`}
             {...register}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}

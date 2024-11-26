@@ -1,28 +1,22 @@
-import Btn from "@/core/components/form/button";
 import { ShowModal } from "@/core/components/form/modal";
 import { RealEstate } from "@/shared/types/realEstate";
 import { useLanguageStore } from "@/core/store/language";
 import PhotoNOAvailable from "@/shared/assets//photo-no-available.jpg";
 import { useCallback, useEffect, useState } from "react";
-import { primaryColor } from "@/core/const/colors";
+import { primaryColor } from "@/core/constants/colors";
 import { LanguageDB } from "@/shared/types/language";
 import Ball from "@/core/components/form/ball";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { UserIcon } from "@/shared/assets/icons/user";
-import { fetchUnasweredQuestions, postResponse } from "../api/endpoints";
-import { useQuery } from "@tanstack/react-query";
-import FormComponent from "@/core/components/form/form";
-import { useForm } from "@/core/hooks/useForm";
-import { responseSchema } from "../validations/response.schema";
-import { Input } from "@/core/components/form/input";
+import { fetchUnasweredQuestions } from "../api/endpoints";
 import { FormResponse } from "./formResponse";
 import useGet from "@/core/hooks/useGet";
+import { HeadingIcon } from "@/shared/assets/icons/heading";
 
 type ParamsType = {
   isModalOpen: boolean;
   handleShowModal: () => void;
-  viewMore: string;
   realEstate: RealEstate[];
   selectedRE: RealEstate | null;
   setSelectedRE: (re: RealEstate) => void;
@@ -37,7 +31,6 @@ enum Options {
 export const PublicationsAndFavorites = ({
   handleShowModal,
   isModalOpen,
-  viewMore,
   realEstate,
   selectedRE,
   setSelectedRE,
@@ -71,7 +64,7 @@ export const PublicationsAndFavorites = ({
     setCurrentImageVisible(emblaApi.selectedScrollSnap());
   }, [emblaApi]);
 
-  const { data: unasweredQuestions  } = useGet({
+  const { data: unasweredQuestions } = useGet({
     queryKey: ["realEstate-by-user", selectedRE?.id],
     services: () => fetchUnasweredQuestions(selectedRE?.id ?? 0),
     valueToService: selectedRE?.id,
@@ -195,7 +188,7 @@ export const PublicationsAndFavorites = ({
             </div>
 
             {currentOption === Options.General && (
-              <div className="h-[200px] overflow-y-auto -m-5 py-2 px-5 flex flex-col gap-2">
+              <div className="h-[250px] overflow-y-auto -m-5 py-2 px-5 flex flex-col gap-2">
                 <p className="text-justify text-base font-bold text-gray-900">
                   {selectedRE?.title[language]}
                 </p>
@@ -237,14 +230,25 @@ export const PublicationsAndFavorites = ({
             )}
 
             {currentOption === Options.Questions && (
-              <div className="h-[200px] -m-5 py-2 px-5 overflow-y-auto flex flex-wrap">
+              <div className="h-[250px] -m-5 py-2 px-5 overflow-y-auto flex flex-wrap gap-[7px]">
                 {unasweredQuestions?.map((question) => (
-                  <div className="w-[50%]">
-                    <h4>Pregunta 1</h4>
-                    <p>Aceptan mascotas?</p>
-                    <UserIcon size="22" />
-                    <span>Anonimo</span>
+                  <div
+                    className={`w-[49%] rounded-md h-[180px] shadow-2xl p-3 border-t-4 border-t-primary flex flex-col gap-1`}
+                  >
+                    <div className="flex justify-between items-center">
+                      <h4 className="text-sm font-[550]">Pregunta 1</h4>
+                      <HeadingIcon size={16} />
+                    </div>
 
+                    <p className="text-[13px]">Aceptan mascotas?</p>
+
+                    <div className="flex gap-1 items-center  ">
+                    <div className="bg-gray-200 p-[2px] rounded-full">
+                      <UserIcon size="16" />
+                      </div>
+                   
+                     <span className="text-[13px]">Anonimo</span>
+                    </div>
                     <FormResponse
                       questionId={question.id}
                       realEstateId={selectedRE?.id ?? 0}

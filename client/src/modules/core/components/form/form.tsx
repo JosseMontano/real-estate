@@ -9,6 +9,8 @@ type Props = {
   handleOnSubmit: () => void;
   btnText?: string;
   spaceBtn?: boolean;
+  smallBtn?: boolean;
+  centerBtn?: boolean;
 };
 const FormComponent = ({
   children,
@@ -16,12 +18,17 @@ const FormComponent = ({
   handleOnSubmit,
   isPending,
   btnText = "",
-  spaceBtn=true
+  spaceBtn = true,
+  smallBtn,
+  centerBtn = false,
 }: Props) => {
   const [currentVisible, setCurrentVisible] = useState(1);
 
   return (
-    <form onSubmit={handleOnSubmit} className={`flex flex-col ${spaceBtn ? "gap-2" : ""}`}>
+    <form
+      onSubmit={handleOnSubmit}
+      className={`flex flex-col ${spaceBtn ? "gap-2" : ""}`}
+    >
       {currentVisible == 1 && children}
       {currentVisible == 2 && children2}
 
@@ -40,12 +47,14 @@ const FormComponent = ({
             />
           </div>
         )}
-
-        <Btn
-          isPending={isPending}
-          text={btnText}
-          disabled={children2 ? currentVisible != 2 : false}
-        />
+        <div className={`${centerBtn ? "flex justify-center" : ""}`}>
+          <Btn
+            isPending={isPending}
+            text={btnText}
+            disabled={children2 ? currentVisible != 2 : false}
+            smallBtn={smallBtn}
+          />
+        </div>
       </div>
     </form>
   );
