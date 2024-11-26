@@ -3,7 +3,7 @@ import { primaryColor } from "@/core/const/colors";
 type Props = {
   currentVisible: number;
   value: number;
-  setCurrentVisible: (value: number) => void;
+  setCurrentVisible?: (value: number) => void;
 };
 const Ball = ({ currentVisible, value, setCurrentVisible }: Props) => {
   return (
@@ -12,7 +12,7 @@ const Ball = ({ currentVisible, value, setCurrentVisible }: Props) => {
       style={{
         background: currentVisible == value ? "#5dff9d" : primaryColor,
       }}
-      onClick={() => setCurrentVisible(value)}
+      onClick={() => setCurrentVisible && setCurrentVisible(value)}
     ></span>
   );
 };

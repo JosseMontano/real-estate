@@ -1,6 +1,6 @@
 import { getDocs } from "firebase/firestore";
 import { RealEstate, TypeRE } from "../../../shared/types/realEstate";
-import { RealEstateDTO } from "./dtos"
+import { RealEstateDTO, ResponseDTO } from "./dtos"
 import {
   db,
   addDoc,
@@ -14,6 +14,7 @@ import { User } from "@/core/types/user";
 import { Commentator, CommentT } from "@/core/types/commets";
 import { handleGet, handlePost } from "@/core/utils/fetch";
 import { Res } from "@/core/types/res";
+import { Question } from "@/shared/types/questions";
 
 
 export async function addREToDB(
@@ -137,4 +138,13 @@ export async function updateUserInDB() {
 
 export const fetchRealEstatesByUserId = async (): Promise<Res<RealEstate[]>> => {
   return await handleGet<RealEstate[]>("real_estates");
+}
+ 
+export const fetchUnasweredQuestions = async (id:Number): Promise<Res<Question[]>> => {
+  return await handleGet<Question[]>("questions/unanswered/"+id);
+}
+
+
+export const postResponse = async (name: ResponseDTO) => {
+  return handlePost('responses', name)
 }

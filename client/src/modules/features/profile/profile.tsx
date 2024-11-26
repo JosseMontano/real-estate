@@ -76,8 +76,6 @@ const DashboardPage = () => {
     queryFn: () => fetchRealEstatesByUserId(),
   });
 
-  console.log(realEstate);
-
   const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
 
   const handleImageUpload = (url: string) => {
@@ -94,7 +92,7 @@ const DashboardPage = () => {
     itemsPerPage: 10,
     valueToService: user?.id,
   });
-  console.log(comments);
+
   const [isUploaded, setIsUploaded] = useState<boolean>(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<FileUpType[]>([]);
@@ -185,6 +183,7 @@ const DashboardPage = () => {
     handleNavigate("/auth");
   }
   const { texts } = useLanguageStore();
+  const [currentRE, setCurrentRE] = useState<RealEstate | null>(null);
   return (
     <div className="flex h-screen w-auto  mx-2 mt-2 gap-4 flex-wrap md:flex-nowrap overflow-y-hidden">
       <div className="md:basis-3/12 grow-0 w-full md:pr-16">
@@ -252,6 +251,9 @@ const DashboardPage = () => {
           handleShowModal={handleShowFav}
           isModalOpen={isFavOpen}
           viewMore={texts.viewMoreButton}
+          realEstate={realEstate?.val ?? []}
+          setSelectedRE={setCurrentRE} 
+        selectedRE={currentRE}
         />
         {isLoading && <p>Loading...</p>}
       </div>

@@ -15,16 +15,17 @@ export type RealEstateDTO = {
 }
 export type RealEstate = {
   id?: number;
-  amountBathroom: number
-  amountBedroom: number
+  amount_bathroom: number
+  amount_bedroom: number
   description: LanguageDB
   latLong: string
   price: number
   squareMeter: number
   title: LanguageDB
+  address: string
   typeRealEstateId: number
   userId: number
-  images: PhotoRes[]
+  photos: PhotoRes[]
   zone: Zone
   active?:boolean
 }
