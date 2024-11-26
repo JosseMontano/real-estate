@@ -7,6 +7,10 @@ import { RealEstateComp } from "./realEstate";
 import { PhotosRE } from "./photosRE";
 import { InfoRE } from "./infoRE";
 import { Questions } from "./questions";
+import { options } from "../profile";
+import useGet from "@/core/hooks/useGet";
+import { fetchGetFavsRE } from "../api/endpoints";
+import useAuthStore from "@/core/store/auth";
 
 type ParamsType = {
   isModalOpen: boolean;
@@ -14,6 +18,7 @@ type ParamsType = {
   realEstate: RealEstate[];
   selectedRE: RealEstate | null;
   setSelectedRE: (re: RealEstate) => void;
+  stateBtn: options;
 };
 
 export enum Options {
@@ -28,6 +33,7 @@ export const PublicationsAndFavorites = ({
   realEstate,
   selectedRE,
   setSelectedRE,
+  stateBtn,
 }: ParamsType) => {
   const [currentOption, setCurrentOption] = useState<Options>(1);
   const { language } = useLanguageStore();
@@ -49,20 +55,38 @@ export const PublicationsAndFavorites = ({
       pt: "Feedback",
     },
   ];
+  const { user } = useAuthStore();
+  const { isLoading, data: realEstateFavs } = useGet({
+    services: () => fetchGetFavsRE(user?.id || 0),
+    queryKey: ["favs-real-estates", user?.id],
+    itemsPerPage: 10,
+    valueToService: user?.id,
+  });
 
-
+  console.log(realEstateFavs);
 
   return (
     <div>
       <div className="w-full my-1">
         <div className="flex flex-wrap gap-4 w-full max-w-none items-center overflow-y-auto max-h-[670px]">
-          {realEstate.map((publication) => (
-            <RealEstateComp
-              publication={publication}
-              handleShowModal={handleShowModal}
-              setSelectedRE={setSelectedRE}
-            />
-          ))}
+          {stateBtn == "Publications" &&
+            realEstate.map((publication) => (
+              <RealEstateComp
+                publication={publication}
+                handleShowModal={handleShowModal}
+                setSelectedRE={setSelectedRE}
+              />
+            ))}
+            {
+              stateBtn == "Favorites" &&
+              realEstateFavs?.map((publication) => (
+                <RealEstateComp
+                  publication={publication.real_estate}
+                  handleShowModal={handleShowModal}
+                  setSelectedRE={setSelectedRE}
+                />
+              ))
+            }
         </div>
       </div>
 
@@ -83,7 +107,7 @@ export const PublicationsAndFavorites = ({
             )}
 
             {currentOption === Options.Questions && (
-              <Questions selectedRE={selectedRE}/>
+              <Questions selectedRE={selectedRE} />
             )}
 
             {currentOption === Options.Feedback && (

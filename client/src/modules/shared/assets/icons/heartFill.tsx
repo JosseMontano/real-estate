@@ -1,12 +1,12 @@
-type ParamsType = { size: string };
-export const HeartFill = ({ size }: ParamsType) => {
+type ParamsType = { size: string, className?: string };
+export const HeartFill = ({ size, className }: ParamsType) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={size}
       height={size}
       fill="currentColor"
-      className="bi bi-heart-fill mt-2"
+      className={`bi bi-heart-fill mt-2 ${className}`}
       viewBox="0 0 16 16"
     >
       <path

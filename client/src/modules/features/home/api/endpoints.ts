@@ -1,5 +1,5 @@
 
-import {QuestionDTO} from "./dtos"
+import {FavREDTO, QuestionDTO} from "./dtos"
 
 import { Res } from "@/core/types/res";
 import { handleGet, handlePost } from "@/core/utils/fetch";
@@ -10,6 +10,11 @@ export async function addQuestionToDB(
   userData: QuestionDTO
 ) {
   return handlePost('questions', userData)
+}
+
+export async function addFavRE(data: FavREDTO) {
+  return handlePost('favorite_real_estates', data)
+  
 }
 
 

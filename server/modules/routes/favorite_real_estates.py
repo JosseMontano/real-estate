@@ -23,17 +23,27 @@ class FavoriteRealEstateDTO(BaseModel):
     real_estate_id: int
     user_id: int
 
-@app.get('/')
-async def get_favorites(user_id: int = Query(..., description="ID of the user to filter favorites by"), db: Session = Depends(get_db)):
-    query = db.query(models.FavoriteRealEstate).options(joinedload(models.FavoriteRealEstate.real_estate))
+@app.get("/")
+async def get_favorites(
+    user_id: int = Query(..., description="ID of the user to filter favorites by"),
+    db: Session = Depends(get_db),
+):
+    query = (
+        db.query(models.FavoriteRealEstate)
+        .options(
+            joinedload(models.FavoriteRealEstate.real_estate).joinedload(models.RealEstate.photos),
+            joinedload(models.FavoriteRealEstate.real_estate).joinedload(models.RealEstate.title),
+            joinedload(models.FavoriteRealEstate.real_estate).joinedload(models.RealEstate.description),
+        )
+    )
     if user_id:
         query = query.filter(models.FavoriteRealEstate.user_id == user_id)
-    
+
     favorites = query.all()
-    
+
     if not favorites:
         return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": []}
-    
+
     return {"status": 200, "message": Messages.DATA_FOUND, "val": favorites}
 
 @app.post('/')

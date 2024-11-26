@@ -3,13 +3,12 @@ import Btn from "@/core/components/form/button";
 import { Input } from "@/core/components/form/input";
 import { ShowModal } from "@/core/components/form/modal";
 import { User } from "@/core/types/user";
-
 import { ChatLeftTextFill } from "@/shared/assets/icons/chatLeftTextFill";
 import { Check } from "@/shared/assets/icons/check";
 import { HeartFill } from "@/shared/assets/icons/heartFill";
 import { HousesFills } from "@/shared/assets/icons/housesFills";
 import { StarFill } from "@/shared/assets/icons/starFill";
-import { useState } from "react";
+import { options } from "../profile";
 
 type ParamsType = {
   isModalOpen: boolean;
@@ -23,6 +22,8 @@ type ParamsType = {
   favorites: string;
   addComment: string;
   placeholderComment: string;
+  stateBtn: options
+  setStateBtn: (state: options) => void;
 };
 export const ContactInfo = ({
   user,
@@ -36,15 +37,16 @@ export const ContactInfo = ({
   favorites,
   addComment,
   placeholderComment,
+  stateBtn,
+  setStateBtn,
 }: ParamsType) => {
-  type options = "Publications" | "Favorites";
-  const [stateBtn, setStateBtn] = useState<options>("Publications");
+
   return (
     <div className="flex flex-col gap-10">
       <div className="mt-6 flex flex-col gap-5">
         <div>
           <p className="font-semibold text-xl ">{user.email}</p>
-          <p className="text-[#209bfb] font-semibold">{user.userName}</p>
+          <p className="text-[#209bfb] font-semibold">{user.username}</p>
         </div>
         <div>
           <label className="text-[#929191]">{calification}</label>

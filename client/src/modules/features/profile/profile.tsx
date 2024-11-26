@@ -34,6 +34,9 @@ export type FileUpType = {
   firebasePath: string;
   error?: string;
 };
+
+export type options = "Publications" | "Favorites";
+
 const DashboardPage = () => {
   const { user } = useAuthStore();
   const { handleNavigate } = useNavigation();
@@ -70,6 +73,7 @@ const DashboardPage = () => {
     queryFn: () => fetchRealEstatesByUserId(),
   });
 
+  
 
   const {
     data: comments,
@@ -172,6 +176,10 @@ const DashboardPage = () => {
   }
   const { texts } = useLanguageStore();
   const [currentRE, setCurrentRE] = useState<RealEstate | null>(null);
+
+
+  const [stateBtn, setStateBtn] = useState<options>("Publications");
+
   return (
     <div className="flex h-screen w-auto  mx-2 mt-2 gap-4 flex-wrap md:flex-nowrap overflow-y-hidden">
       <div className="md:basis-3/12 grow-0 w-full md:pr-16">
@@ -228,6 +236,8 @@ const DashboardPage = () => {
           publications={texts.posts}
           reportUser={texts.reportUser}
           sendMsg={texts.sendMessage}
+          stateBtn={stateBtn}
+          setStateBtn={setStateBtn}
         />
         <PublicationsAndFavorites
           handleShowModal={handleShowFav}
@@ -235,6 +245,7 @@ const DashboardPage = () => {
           realEstate={realEstate?.val ?? []}
           setSelectedRE={setCurrentRE} 
         selectedRE={currentRE}
+        stateBtn={stateBtn}
         />
         {isLoading && <p>Loading...</p>}
       </div>

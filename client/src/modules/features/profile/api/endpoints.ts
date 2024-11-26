@@ -5,6 +5,7 @@ import { User } from "@/core/types/user";
 import { handleGet, handlePost, handlePut } from "@/core/utils/fetch";
 import { Res } from "@/core/types/res";
 import { Question } from "@/shared/types/questions";
+import { FavRealEstate } from "../interface/favRE";
 
 
 export async function addREToDB(
@@ -38,4 +39,8 @@ export const fetchUnasweredQuestions = async (id:Number): Promise<Res<Question[]
 
 export const postResponse = async (name: ResponseDTO) => {
   return handlePost('responses', name)
+}
+
+export const fetchGetFavsRE = async (id: number): Promise<Res<FavRealEstate[]>> => {
+  return handleGet<FavRealEstate[]>(`favorite_real_estates/?user_id=${id}`);
 }
