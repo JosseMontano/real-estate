@@ -1,52 +1,24 @@
 import { primaryColor } from "@/core/constants/colors";
 import { useState } from "react";
 import { SearchFormComponent } from "./searchFormComponent";
-import { Zone } from "../types/zones";
+import { Field, OptionsType } from "../home";
 
-type ParamsType={
-tipeProperty:string,
-selectProperty:string,
-ubication:string,
-selectUbi:string,
-limitPrice:string,
-selecPrice:string
-zones: Zone[]
+interface Params {
+  handleSelectChange: (value: OptionsType, index: number) => void;
+  fields: Field[];
+  handleSearch: () => void;
 }
-export type Field = {
-  label: string;
-  type: "text" | "select";
-  placeholder?: string;
-  options?: string[];
 
-};
-
-export const SearchPropierties = ({zones,limitPrice, selectProperty, selecPrice, selectUbi, tipeProperty, ubication}:ParamsType) => {
+export const SearchPropierties = ({
+  fields,
+  handleSelectChange,
+  handleSearch,
+}: Params) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleForm = () => {
     setIsOpen(!isOpen);
   };
-
-  const zonesOptions = zones.map((zone) => zone.name);
-
-  const fields: Field[] = [
-    {
-      label: tipeProperty,
-      type: "select",
-      options: [selectProperty,"Residencial", "Soltero", "Commercial", "Casado", "Viudo"],
-    },
-    {
-      label: ubication,
-      type: "select",
-      options: [selectUbi,...zonesOptions],
-    },
-    {
-      label: limitPrice,
-      type: "select",
-      options: [selecPrice,"1000Bs", "1500Bs", "2000Bs", "2500Bs"],
-    },
-  ];
-  
 
   return (
     <>
@@ -57,6 +29,8 @@ export const SearchPropierties = ({zones,limitPrice, selectProperty, selecPrice,
           isMobile={false}
           primaryColor={primaryColor}
           isOpen={false}
+          handleSelectChange={handleSelectChange}
+          handleSearch={handleSearch}
         />
       </div>
 
@@ -75,6 +49,8 @@ export const SearchPropierties = ({zones,limitPrice, selectProperty, selecPrice,
             isMobile={true}
             isOpen={isOpen}
             primaryColor={primaryColor}
+            handleSelectChange={handleSelectChange}
+            handleSearch={handleSearch}
           />
         )}
       </div>

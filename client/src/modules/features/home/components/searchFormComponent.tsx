@@ -1,17 +1,22 @@
-import { Field } from "./searchPropierties";
+
 import { SearchIcon } from "@/shared/assets/icons/search";
+import { Field, OptionsType } from "../home";
 
 type ParamsType = {
   fields: Field[];
   isMobile: boolean;
   isOpen: Boolean;
   primaryColor: string;
+  handleSelectChange: (value: OptionsType, index: number) => void;
+  handleSearch: () => void;
 };
 export const SearchFormComponent = ({
   fields,
   isMobile,
   isOpen,
   primaryColor,
+  handleSelectChange,
+  handleSearch
 }: ParamsType) => {
   return (
     <section
@@ -50,7 +55,12 @@ export const SearchFormComponent = ({
               }
             >
               {options?.map((option) => (
-                <option key={option}>{option}</option>
+                <option
+                  onClick={() => handleSelectChange(option, index)}
+                  key={option.id}
+                >
+                  {option.name}
+                </option>
               ))}
             </select>
           </div>
@@ -58,6 +68,7 @@ export const SearchFormComponent = ({
         <div
           style={{ background: primaryColor }}
           className="w-[70px] rounded-r-lg flex items-center justify-center text-white"
+          onClick={handleSearch}
         >
           <SearchIcon size="24" />
         </div>

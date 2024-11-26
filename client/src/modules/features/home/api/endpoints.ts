@@ -4,6 +4,8 @@ import {FavREDTO, QuestionDTO} from "./dtos"
 import { Res } from "@/core/types/res";
 import { handleGet, handlePost } from "@/core/utils/fetch";
 import { Zone } from "../types/zones";
+import { OptionsType } from "../home";
+import { RealEstate } from "@/shared/types/realEstate";
 
 
 export async function addQuestionToDB(
@@ -15,6 +17,10 @@ export async function addQuestionToDB(
 export async function addFavRE(data: FavREDTO) {
   return handlePost('favorite_real_estates', data)
   
+}
+
+export async function filterRE(data: OptionsType[]) {
+  return handlePost<RealEstate[]>(`real_estates/filter-real-estates`, data)
 }
 
 

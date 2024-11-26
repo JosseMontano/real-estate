@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session, joinedload
-from typing import List
+from typing import List, Optional
 from pydantic import BaseModel
 from modules.core.database import get_db 
 import modules.core.models as models
@@ -12,6 +12,7 @@ from pathlib import Path
 from modules.core.utils.translate import translate_es_en_pt
 from modules.core.const import TranslateResponse
 from modules.core.const import Messages
+
 
 app = APIRouter(
     prefix="/api/real_estates",
@@ -114,6 +115,48 @@ async def get_real_estates_by_user(user_id:int ,db: Session = Depends(get_db)):
         return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": []}
     
     return {"status": 200, "message": Messages.DATA_FOUND, "val": real_estates}
+
+
+@app.post("/filter-real-estates")
+async def filter_real_estates(
+    filters: List[dict],  # Filters like [{id: 2, name: "Apartamento", type: "type"}, ...]
+    db: Session = Depends(get_db)
+):
+    # Initialize query
+    query = db.query(models.RealEstate).options(
+        joinedload(models.RealEstate.photos),
+        joinedload(models.RealEstate.title),
+        joinedload(models.RealEstate.description),
+        joinedload(models.RealEstate.zone)
+    )
+    # Process filters
+    for filter_obj in filters:
+        filter_type = filter_obj.get("type")
+        filter_id = filter_obj.get("id")
+        filter_name = filter_obj.get("name")
+
+        if filter_type == "type" and filter_id:  # Filter by type_real_estate_id
+            query = query.filter(models.RealEstate.type_real_estate_id == filter_id)
+
+        elif filter_type == "zone" and filter_id:  # Filter by zone_id
+            query = query.filter(models.RealEstate.zone_id == filter_id)
+
+        elif filter_type == "price" and filter_name:  # Filter by price range
+            if "-" in filter_name:  # Ensure it's a valid range
+                try:
+                    # Parse min and max price from the range
+                    min_price, max_price = map(float, filter_name.split("-"))
+                    query = query.filter(models.RealEstate.price >= min_price, models.RealEstate.price <= max_price)
+                except ValueError:
+                    raise HTTPException(status_code=400, detail=f"Invalid price range: {filter_name}")
+
+    # Fetch results
+    real_estates = query.all()
+
+    if not real_estates:
+        raise HTTPException(status_code=404, detail="No real estates found with the given filters")
+
+    return {"status": 200, "message": "Real estates found", "val": real_estates}
 
 
 @app.get('/{type_real_estate_id}')
