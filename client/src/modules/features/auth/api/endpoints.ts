@@ -1,20 +1,16 @@
 
 import {
   auth,
-  collection,
   createUserWithEmailAndPassword,
-  db,
-  getDocs,
-  query,
-  where,
 } from "@/core/libs/firebase";
+import { ForgotPassDTO } from "./dtos";
+import { handlePost } from "@/core/utils/fetch";
 
 
-export async function findUser(email: string) {
-  const usersRef = collection(db, "users");
-  const q = query(usersRef, where("email", "==", email));
-  return await getDocs(q);
-  
+export async function forgotPass(
+  data: ForgotPassDTO
+) {
+  return handlePost('auth/forgot_password', data)
 }
 
 
