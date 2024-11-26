@@ -1,7 +1,12 @@
 import { z } from "zod";
 
 export const userEditSchema = z.object({
-    userName: z.string().min(1, "El nombre de usuario es obligatorio"),
-    cellphoneNumber: z.string().optional(),
+    username: z.string().optional(),
+    cellphone: z
+        .string()
+        .optional()
+        .transform((val) => (val ? Number(val) : undefined)),
     email: z.string().email("El correo electrónico no es válido"),
+    password: z.string().optional(),
+    photo: z.string().optional(),
 });

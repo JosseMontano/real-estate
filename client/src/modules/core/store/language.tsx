@@ -68,6 +68,7 @@ interface Translations {
   username: string;
   phoneNumber: string;
   email: string;
+  password: string;
   //property details
   title: string;
   description: string;
@@ -153,6 +154,7 @@ const translations: { [key in Language]: Translations } = {
     username: "Username",
     phoneNumber: "Phone number",
     email: "Email",
+    password: "Password",
     //property details
     title: "Title",
     description: "Description",
@@ -235,6 +237,7 @@ const translations: { [key in Language]: Translations } = {
     username: "Nombre de usuario",
     phoneNumber: "Número de celular",
     email: "Correo",
+    password: "Contraseña",
     //property details
     title: "Título",
     description: "Descripción",
@@ -318,6 +321,7 @@ const translations: { [key in Language]: Translations } = {
     username: "Nome de usuário",
     phoneNumber: "Número de celular",
     email: "Email",
+    password: "Senha",
     //property details
     title: "Título",
     description: "Descrição",

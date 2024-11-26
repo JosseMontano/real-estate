@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from modules.core.database import get_db 
 import modules.core.models as models
 from modules.core.const import AuthMsg,Messages
+from typing import Optional
 import bcrypt
 from email.message import EmailMessage
 import ssl
@@ -38,11 +39,10 @@ class ChangePassDTO(BaseModel):
     code: int
     
 class UpdateUserDTO(BaseModel):
-    username: str
-    cellphone: int
-    photo: str
-    password: str
-    
+    username: Optional[str] = None
+    cellphone: Optional[int] = None
+    photo: Optional[str] = None
+    password: Optional[str] = None
     
 
 @app.post('/signup')
@@ -145,11 +145,19 @@ def edit_profile(email: str, request: UpdateUserDTO, db: Session = Depends(get_d
         if not found_user:
             return {"status": 400, "message": Messages.DATA_NOT_FOUND, "val": []}
         
-        hashed_password = bcrypt.hashpw(request.password.encode('utf-8'), bcrypt.gensalt())
-        found_user.password = hashed_password.decode('utf-8')
-        found_user.cellphone = request.cellphone
-        found_user.username = request.username
-        found_user.photo = request.photo
+        if request.password:
+            hashed_password = bcrypt.hashpw(request.password.encode('utf-8'), bcrypt.gensalt())
+            found_user.password = hashed_password.decode('utf-8')
+        if request.cellphone:
+            found_user.cellphone = request.cellphone
+        if request.username:
+            found_user.username = request.username
+        if request.photo:
+            found_user.photo = request.photo
+
+        # Commit the changes to the database
+        db.commit()
+        db.refresh(found_user)
         
         db.commit()
         db.refresh(found_user)

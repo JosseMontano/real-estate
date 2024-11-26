@@ -34,6 +34,8 @@ export const AuthPage = () => {
           role: 2,
           id: userObject.id,
           available: userObject.available,
+          cellphone: userObject.cellphone,
+          username: userObject.username,
         });
         handleNavigate("/profile");
         return;

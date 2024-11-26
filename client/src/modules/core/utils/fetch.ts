@@ -105,3 +105,40 @@ export const handleGet = async <T,>(url: string): Promise<Res<T>> => {
   return data;
 
 }
+
+export const handlePut = async <T>(
+  url: string,
+  payload: any,
+): Promise<{ message: string; val: T | T[]; status: number }> => {
+  let errorMg = "";
+  try {
+    const response = await fetch(urls.endpoint + url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const data = (await response.json()) as Res<T>;
+
+    return {
+      message: data.message,
+      val: data.val,
+      status: response.status,
+    };
+  } catch (error) {
+    if (error instanceof Error) {
+      errorMg = error.message;
+    }
+    return {
+      message: errorMg,
+      val: [] as T,
+      status: 500,
+    };
+  }
+};

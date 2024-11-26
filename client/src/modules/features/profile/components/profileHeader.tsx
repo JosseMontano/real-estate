@@ -1,8 +1,8 @@
 import { StarFill } from "@/shared/assets/icons/starFill";
 import imgDefault from "@/shared/assets/profile.jpeg";
 import { User } from "@/core/types/user";
+import useAuthStore from "@/core/store/auth";
 type ParamasType = {
-  profileImageUrl: string | null;
   isModalOpen: boolean;
   handleShowModal: () => void;
   commets: Comment[];
@@ -11,16 +11,18 @@ type ParamasType = {
   commentsLanguage: string;
 };
 export const ProfileHeader = ({
-  profileImageUrl,
   commets,
   commentsLanguage,
 }: ParamasType) => {
+  const {user} = useAuthStore()
+
+
   return (
     <div className="flex flex-col gap-4 w-full md:pr-5">
       <div className=" flex flex-col gap-3 ">
         <div>
-          {profileImageUrl ? (
-            <img className="w-full " src={profileImageUrl} alt="Profile" />
+          {user.photo != "" ? (
+            <img className="w-full " src={user.photo} alt="Profile" />
           ) : (
             <img className="w-full " src={imgDefault} alt="Profile" />
           )}

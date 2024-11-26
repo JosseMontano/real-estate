@@ -52,11 +52,6 @@ const DashboardPage = () => {
     useModal();
 
   const {
-    handleStateModal: handleShowUploadImage,
-    isModalOpen: isOpenUpImage,
-  } = useModal();
-
-  const {
     register,
     handleOnSubmit,
     errors,
@@ -74,12 +69,6 @@ const DashboardPage = () => {
     queryKey: ["realEstate-by-user", user?.id],
     queryFn: () => fetchRealEstatesByUserId(),
   });
-
-  const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
-
-  const handleImageUpload = (url: string) => {
-    setProfileImageUrl(url);
-  };
 
 
   const {
@@ -187,7 +176,7 @@ const DashboardPage = () => {
     <div className="flex h-screen w-auto  mx-2 mt-2 gap-4 flex-wrap md:flex-nowrap overflow-y-hidden">
       <div className="md:basis-3/12 grow-0 w-full md:pr-16">
         <ProfileHeader
-          profileImageUrl={profileImageUrl}
+
           handleShowModal={handleShowAddComment}
           isModalOpen={isAddCommentOpen}
           commets={comments ?? []}
@@ -201,14 +190,8 @@ const DashboardPage = () => {
           <ModalEditUser
             isModaEditUserOpen={isEditUserOpen}
             handleShowModalEditUser={handleShowEditUser}
-            handleImageUpload={handleImageUpload}
-            handleShowModalUpImage={handleShowUploadImage}
-            isModalUpImageOpen={isOpenUpImage}
             btnEditUserLanguage={texts.btnEditUser}
             btnSaveLanguage={texts.saveButton}
-            email={texts.email}
-            phoneNumber={texts.phoneNumber}
-            username={texts.username}
           />
           <ModalCreatePropierty
             errors={errors}
