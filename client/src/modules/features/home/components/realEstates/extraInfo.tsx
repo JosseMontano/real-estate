@@ -1,11 +1,12 @@
 import { RealEstate } from "@/shared/types/realEstate";
-import { NearbyPlace, State } from "../sectionRealEstates";
+import { NearbyPlace } from "../sectionRealEstates";
 import { MapLocations } from "@/core/components/map/mapLocations";
+import { StateBtnType } from "./buttons";
 
 type ParamsType = {
   index: number;
   item: RealEstate;
-  states: State[];
+  states: StateBtnType[];
   places: { [key: number]: NearbyPlace[] };
 };
 export const ExtraInfo = ({ index, item, states, places }: ParamsType) => {
@@ -14,7 +15,7 @@ export const ExtraInfo = ({ index, item, states, places }: ParamsType) => {
       {states[index] === "places" && (
         <MapLocations
           locations={places[index] || []}
-          location={item.latLong}
+          location={item.lat_long}
           setLocation={() => {}}
         />
       )}

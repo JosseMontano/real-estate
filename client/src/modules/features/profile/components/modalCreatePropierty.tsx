@@ -122,8 +122,8 @@ export const ModalCreatePropierty = ({
                         ? typeRE.name[language]
                         : undefined
                     }
-                    onChange={(val: TypeRE) => {
-                      setTypeRE(val);
+                    onChange={(val) => {
+                      setTypeRE(val as TypeRE);
                     }}
                     options={data?.map((v) => ({
                       name: v.name,

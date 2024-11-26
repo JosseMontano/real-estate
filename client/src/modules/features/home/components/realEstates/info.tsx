@@ -1,11 +1,12 @@
 import { RealEstate } from "@/shared/types/realEstate";
-import { State } from "../sectionRealEstates";
+
 import { Language } from "@/core/store/language";
+import { StateBtnType } from "./buttons";
 
 type ParamsType = {
   index: number;
   item: RealEstate;
-  states: State[];
+  states: StateBtnType[];
   language: Language;
 };
 export const Info = ({ index, item, language, states }: ParamsType) => {

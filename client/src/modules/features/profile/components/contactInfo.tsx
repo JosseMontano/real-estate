@@ -1,6 +1,5 @@
 import { primaryColor } from "@/core/constants/colors";
 import Btn from "@/core/components/form/button";
-import FormComponent from "@/core/components/form/form";
 import { Input } from "@/core/components/form/input";
 import { ShowModal } from "@/core/components/form/modal";
 import { User } from "@/core/types/user";

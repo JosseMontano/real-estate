@@ -43,7 +43,7 @@ export const ModalEditUser = ({
     schema: userEditSchema,
     form: async (data) => {
       if (user?.id) {
-        await editUser(user.id, data);
+        await editUser(user.id.toString(), data);
       }
     },
     defaultVales: user ? user : ({} as User),

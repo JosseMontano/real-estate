@@ -1,13 +1,14 @@
 import { RealEstate } from "@/shared/types/realEstate";
-import { State } from "../sectionRealEstates";
+
+export type StateBtnType = "info" | "places";
 
 type ParamsType = {
   handleStateChange: (
     index: number,
-    newState: State,
+    newState: any,
     item: RealEstate
   ) => Promise<void>;
-  states: State[];
+  states: StateBtnType[];
   index: number;
   item: RealEstate;
   info:string;

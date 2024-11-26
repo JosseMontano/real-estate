@@ -13,7 +13,6 @@ type ParamasType = {
 export const ProfileHeader = ({
   profileImageUrl,
   commets,
-  loading,
   commentsLanguage,
 }: ParamasType) => {
   return (

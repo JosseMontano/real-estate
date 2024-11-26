@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { primaryColor } from "@/core/constants/colors";
 import Btn from "@/core/components/form/button";
 import Pagination from "@/core/components/form/pagination";

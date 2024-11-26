@@ -8,8 +8,6 @@ import {
 } from "./api/endpoints";
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "../../../App";
-import { useModal } from "@/core/hooks/useModal";
-import { ShowModal } from "@/core/components/form/modal";
 import { useLanguageStore } from "@/core/store/language";
 
 export const DashQuestions = () => {

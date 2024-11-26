@@ -18,7 +18,7 @@ export type RealEstate = {
   amount_bathroom: number
   amount_bedroom: number
   description: LanguageDB
-  latLong: string
+  lat_long: string
   price: number
   squareMeter: number
   title: LanguageDB

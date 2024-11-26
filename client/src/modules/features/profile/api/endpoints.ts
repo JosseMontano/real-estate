@@ -3,7 +3,6 @@ import { RealEstate, TypeRE } from "../../../shared/types/realEstate";
 import { RealEstateDTO, ResponseDTO } from "./dtos"
 import {
   db,
-  addDoc,
   collection,
   doc,
   updateDoc,
@@ -11,7 +10,6 @@ import {
   where
 } from "@/core/libs/firebase";
 import { User } from "@/core/types/user";
-import { Commentator, CommentT } from "@/core/types/commets";
 import { handleGet, handlePost } from "@/core/utils/fetch";
 import { Res } from "@/core/types/res";
 import { Question } from "@/shared/types/questions";
@@ -28,14 +26,6 @@ export async function fetchTypesRE(): Promise<Res<TypeRE[]>> {
   return handleGet<TypeRE[]>("type-real-estates");
 }
 
-export const fetchUser = async (): Promise<User[]> => {
-  const querySnapshot = await getDocs(collection(db, "users"));
-  return querySnapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data()
-  })) as User[]
-}
-
 export const editUser = async (userId: string, updatedData: Partial<User>): Promise<void> => {
   const userRef = doc(db, "users", userId);
   try {
@@ -48,56 +38,6 @@ export const editUser = async (userId: string, updatedData: Partial<User>): Prom
 export const fetchCommentsForUser = async (id: number): Promise<Res<Comment[]>> => {
   return await handleGet<Comment[]>('comments/top-comments-by-user/' + id);
 }
-
-interface MinimalCommentData {
-  comment: CommentT;
-  commentator: Commentator;
-  user: User
-  userId: string
-}
-
-export const addCommentToDB = async (data: MinimalCommentData): Promise<void> => {
-  try {
-    const commentsCollection = collection(db, 'comments');
-    const newComment: Comments = {
-      amountStars: 1,
-      comment: { en: "", es: data.comment.es, pt: "" },
-      commentator: data.commentator,
-      realEstate: {
-        address: "",
-        amountBathroom: 0,
-        amountBedroom: 0,
-        available: false,
-        description: { en: "", es: "", pt: "" },
-        id: "",
-        images: [],
-        latLong: "",
-        price: 0,
-        squareMeter: 0,
-        title: { en: "", es: "", pt: "" },
-        typeRE: { id: "", value: "" },
-        typeREId: "",
-        user: {
-          available: data?.user?.available,
-          id: data.user.id ?? "",
-          cellphoneNumber: data.user.cellphoneNumber ?? "",
-          email: data.user.email,
-          role: data.user.role,
-          userId: data.userId,
-          userName: data.user.userName ?? ""
-        },
-        userId: data.userId
-      },
-      realEstateId: "",
-    };
-    await addDoc(commentsCollection, newComment);
-
-    console.log('Comentario añadido correctamente');
-  } catch (error) {
-    console.error('Error al añadir el comentario:', error);
-  }
-};
-
 
 export async function updateUserInDB() {
   const docRef = doc(db, "users", "UBdwtIm1iyoM1klyNZDV");

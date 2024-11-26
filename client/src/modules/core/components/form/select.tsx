@@ -4,7 +4,7 @@ import React, { useState } from "react";
 
 export interface Option {
   name: LanguageDB;
-  id: number;
+  id: number | string;
 }
 
 interface SelectProps {
