@@ -43,6 +43,7 @@ export const AuthPage = () => {
         finalStatus = status;
       }else{
         const { val, message, status } = await saveUser(userData);
+        console.log(status);
         userObject = val;
         finalmessage = message;
         finalStatus = status;
@@ -58,6 +59,7 @@ export const AuthPage = () => {
           cellphone: userObject.cellphone,
           username: userObject.username,
         });
+        console.log('User logged in');
         handleNavigate("/profile");
         return;
       }
@@ -106,7 +108,7 @@ export const AuthPage = () => {
     } else {
       console.log('No reset password parameters provided');
     }
-  }, [code, email]);
+  }, [code, email]); 
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">

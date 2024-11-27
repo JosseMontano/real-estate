@@ -25,7 +25,7 @@ export const handlePost = async <T>(
     return {
       message: data.message,
       val: data.val,
-      status: response.status,
+      status: data.status,
     } 
   } catch (error) {
     if (error instanceof Error) {
@@ -129,7 +129,7 @@ export const handlePut = async <T>(
     return {
       message: data.message,
       val: data.val,
-      status: response.status,
+      status: data.status,
     };
   } catch (error) {
     if (error instanceof Error) {
