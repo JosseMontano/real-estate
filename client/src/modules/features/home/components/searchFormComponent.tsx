@@ -1,58 +1,35 @@
-
 import { SearchIcon } from "@/shared/assets/icons/search";
 import { Field, OptionsType } from "../home";
 
 type ParamsType = {
   fields: Field[];
-  isMobile: boolean;
-  isOpen: Boolean;
   primaryColor: string;
   handleSelectChange: (value: OptionsType, index: number) => void;
   handleSearch: () => void;
 };
 export const SearchFormComponent = ({
   fields,
-  isMobile,
-  isOpen,
   primaryColor,
   handleSelectChange,
-  handleSearch
+  handleSearch,
 }: ParamsType) => {
   return (
     <section
-      className={`container rounded-lg ${
-        isMobile
-          ? "bg-white shadow-md p-4 flex flex-col space-y-4"
-          : "absolute bottom-4 left-1/2 transform -translate-x-1/2 max-w-3xl mx-auto bg-white shadow-md flex"
-      } ${
-        isMobile && isOpen
-          ? "transition-all duration-500 ease-in-out overflow-hidden max-h-[1000px]"
-          : ""
-      } `}
+      className={`container rounded-lg 
+           absolute bottom-4 left-1/2 transform -translate-x-1/2  max-w-2xl lg:max-w-3xl bg-white shadow-md flex
+     `}
     >
-      <div
-        className={` ${
-          isMobile
-            ? ""
-            : "flex flex-col md:flex-row space-y-5 md:space-y-0 w-full "
-        }`}
-      >
+      <div className={`flex flex-row items-center md:space-y-0 w-full `}>
         {fields.map(({ label, options }, index) => (
           <div
             key={index}
-            className={`flex-1 p-[10px] ${
-              !isMobile ? "border-r-[1px] border-r-gray-400" : ""
-            }`}
+            className={`flex-1 p-[10px] text-left`}
           >
             <label className="font-bold">{label}</label>
             <select
               className="w-[100%] text-sm  px-2 py-[4px] border rounded-lg focus:outline-none"
-              onFocus={(e) =>
-                !isMobile && (e.target.style.borderColor = primaryColor)
-              }
-              onBlur={(e) =>
-                !isMobile && (e.target.style.borderColor = "transparent")
-              }
+              onFocus={(e) => (e.target.style.borderColor = primaryColor)}
+              onBlur={(e) => (e.target.style.borderColor = "transparent")}
             >
               {options?.map((option) => (
                 <option
@@ -67,7 +44,7 @@ export const SearchFormComponent = ({
         ))}
         <div
           style={{ background: primaryColor }}
-          className="w-[70px] rounded-r-lg flex items-center justify-center text-white"
+          className="w-[70px] h-full rounded-r-lg flex items-center justify-center text-white"
           onClick={handleSearch}
         >
           <SearchIcon size="24" />

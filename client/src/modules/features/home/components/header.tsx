@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useLanguageStore } from "@/core/store/language";
 import { Link } from "react-scroll";
 
-interface Links{
+interface Links {
   href: string;
   name: string;
 }
@@ -37,35 +37,14 @@ export const Header = ({ links }: ParamsType) => {
 
   return (
     <header
-      className={`fixed w-full top-0 z-[999]  transition-colors duration-300 ${
+      className={`fixed flex justify-center w-full left-0 top-0 z-[999] transition-colors duration-300 ${
         isScrolled ? "bg-black text-white" : "bg-transparent text-white "
       }`}
     >
-      <div className=" container mx-auto px-4 py-4 flex justify-between md:items-center items-start">
-        <div className="text-2xl font-bold hidden md:block">InmoApp</div>
-        <button
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="md:hidden"
-        >
-          {/* Icono de hamburguesa */}
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M4 6h16M4 12h16m-7 6h7"
-            />
-          </svg>
-        </button>
+      <div className="container py-4 lg:p-4 flex justify-evenly md:items-center items-start">
+        <div className="text-2xl font-bold">InmoApp</div>
         <nav
-          className={`md:space-x-6 ${
-            isMenuOpen ? "flex flex-col md:hidden" : "hidden md:block"
-          } `}
+          className={`md:space-x-6 hidden flex-row md:flex`}
         >
           {links.map((linkText, index) => (
             <Link to={linkText.href} smooth={true} duration={500}>
@@ -75,11 +54,11 @@ export const Header = ({ links }: ParamsType) => {
             </Link>
           ))}
         </nav>
-        <div className="max-w-max">
+        <div className="w-[180px]">
           <Btn
             text={texts.languageHeadeBtn}
             isPending={false}
-            className="w-auto px-3 cursor-pointer"
+            className="  cursor-pointer"
             onClick={() => handleNavigate("/profile")}
           />
         </div>

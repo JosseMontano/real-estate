@@ -110,7 +110,7 @@ export const AuthPage = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
+      <div className="bg-white shadow-lg rounded-lg m-[3%] p-8 max-w-md w-full">
         <h2 className="text-2xl font-bold text-center mb-6">
           {texts.titleAuth}
         </h2>

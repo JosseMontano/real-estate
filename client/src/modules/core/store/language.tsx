@@ -116,11 +116,11 @@ const translations: { [key in Language]: Translations } = {
       "Discover how to improve your quality of life with a house tailored to you.",
     centralButton: "Explore our properties",
     //home search
-    propertyTypeLabel: "Property Type",
+    propertyTypeLabel: "Property",
     propertyTypeInput: "Select property",
     locationLabel: "Location",
     locationInput: "Select location",
-    priceRangeLabel: "Price Range",
+    priceRangeLabel: "Range",
     priceRangeInput: "Select price",
     //home house buttons
     infoButton: "Information",
@@ -199,11 +199,11 @@ const translations: { [key in Language]: Translations } = {
       "Descubre cómo mejorar tu calidad de vida con una casa a tu medida.",
     centralButton: "Explora nuestras propiedades",
     //home search
-    propertyTypeLabel: "Tipo de propiedad",
+    propertyTypeLabel: "Propiedad",
     propertyTypeInput: "Seleccione la propiedad",
     locationLabel: "Ubicación",
     locationInput: "Seleccione la ubicación",
-    priceRangeLabel: "Límites de precio",
+    priceRangeLabel: "Precio",
     priceRangeInput: "Seleccione el precio",
     //home house buttons
     infoButton: "Información",
@@ -282,11 +282,11 @@ const translations: { [key in Language]: Translations } = {
       "Descubra como melhorar sua qualidade de vida com uma casa feita para você.",
     centralButton: "Explore nossas propriedades",
     //home search
-    propertyTypeLabel: "Tipo de propriedade",
+    propertyTypeLabel: "Propriedade",
     propertyTypeInput: "Selecione a propriedade",
     locationLabel: "Localização",
     locationInput: "Selecione a localização",
-    priceRangeLabel: "Limites de preço",
+    priceRangeLabel: "Preço",
     priceRangeInput: "Selecione o preço",
     //home house buttons
     infoButton: "Informação",
