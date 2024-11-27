@@ -16,7 +16,7 @@ export const Footer = ({ textFooter }: ParamsType) => {
         <YoutubeIcon />
         <InstagramIcon />
       </div>
-      <span className="text-sm">{textFooter}</span>
+      <span className="text-sm text-center">{textFooter}</span>
     </div>
   );
 };

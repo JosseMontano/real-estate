@@ -37,7 +37,7 @@ export const Header = ({ links }: ParamsType) => {
 
   return (
     <header
-      className={`fixed w-full top-0 z-10  transition-colors duration-300 ${
+      className={`fixed w-full top-0 z-[999]  transition-colors duration-300 ${
         isScrolled ? "bg-black text-white" : "bg-transparent text-white "
       }`}
     >

@@ -35,9 +35,9 @@ export const Questions = ({ask, description, placeHolder, btn, question}:ParamsT
   });
 
   return (
-    <div id="questions" className="flex justify-center border-gray-200 border-t-[1px] py-7">
-      <div className="flex flex-row gap-5">
-        <div className="w-[400px] flex flex-col gap-5">
+    <div id="questions" className="flex flex-row justify-center border-gray-200 border-t-[1px] py-7">
+      <div className="flex flex-col md:flex-row gap-5">
+        <div className="w-[300px] sm:w-[400px] flex flex-col gap-5">
           <h3 className="text-4xl">
             {ask} <b className="text-4xl font-semibold secondary">{question}</b>
           </h3>

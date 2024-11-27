@@ -16,9 +16,9 @@ type Params = {
   amountOfPages: number;
   handlePagination: (page: number) => void;
   currentPage: number;
-  infoTextLanguage:string,
-  placeTextLanguage:string,
-  seeMoreBtn:string
+  infoTextLanguage: string;
+  placeTextLanguage: string;
+  seeMoreBtn: string;
 };
 
 export interface NearbyPlace {
@@ -30,7 +30,6 @@ export interface NearbyPlace {
   types: string[];
 }
 
-
 export const SectionRealStates = ({
   realEstates,
   firstElementRef,
@@ -39,7 +38,7 @@ export const SectionRealStates = ({
   currentPage,
   infoTextLanguage,
   placeTextLanguage,
-  seeMoreBtn
+  seeMoreBtn,
 }: Params) => {
   const { language } = useLanguageStore();
   const [places, setPlaces] = useState<{ [key: number]: NearbyPlace[] }>({});
@@ -77,7 +76,10 @@ export const SectionRealStates = ({
   }, [realEstates]);
 
   return (
-    <div className="space-y-12 py-10 flex flex-col items-center" id="realEstates">
+    <div
+      className="space-y-12 py-10 flex flex-col items-center"
+      id="realEstates"
+    >
       {realEstates.map((item, index) => (
         <div
           key={index}
@@ -89,8 +91,8 @@ export const SectionRealStates = ({
           <Photo img={item.photos} />
 
           <div
-            className={`flex flex-col gap-3 ${
-              index % 2 === 1 ? "items-end" : "items-start"
+            className={`flex flex-col gap-3 items-center ${
+              index % 2 === 1 ? "md:items-end" : "md:items-start"
             } text-center w-full md:w-1/2`}
           >
             <Buttons
@@ -108,10 +110,15 @@ export const SectionRealStates = ({
               language={language}
               states={states}
             />
-
-            <div className="w-[170px]">
-              <Btn text={seeMoreBtn} className="w-[150px]" isPending={false} />
-            </div>
+            {states[index] === "info" && (
+              <div className="w-[170px]">
+                <Btn
+                  text={seeMoreBtn}
+                  className="w-[150px]"
+                  isPending={false}
+                />
+              </div>
+            )}
 
             <ExtraInfo
               index={index}

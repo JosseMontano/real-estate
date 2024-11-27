@@ -63,3 +63,7 @@
 .bg-gray-900{
   background-color: #0e0e0e;
 }
+
+.leaflet-control{
+  display: none;
+}
