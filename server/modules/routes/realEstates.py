@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session, joinedload
+from sqlalchemy import or_
 from typing import List, Optional
 from pydantic import BaseModel
 from modules.core.database import get_db 
@@ -73,6 +74,85 @@ async def get_real_estates(db: Session = Depends(get_db)):
     
     return {"status": 200, "message": Messages.DATA_FOUND, "val": real_estates}
 
+
+@app.get('/intelligent-filter')
+async def intelligent_filter(user_id: int, db: Session = Depends(get_db)):
+    # Obtener los inmuebles favoritos del usuario
+    favorite_properties = db.query(models.FavoriteRealEstate).filter(
+        models.FavoriteRealEstate.user_id == user_id
+    ).all()
+    
+    if not favorite_properties:
+        return {"status": 404, "message": "No se encontraron inmuebles favoritos.", "val": []}
+
+    # Extraer IDs de inmuebles favoritos
+    favorite_property_ids = [fav.real_estate_id for fav in favorite_properties]
+
+    # Obtener detalles de las propiedades favoritas
+    favorite_real_estates = db.query(models.RealEstate).filter(
+        models.RealEstate.id.in_(favorite_property_ids)
+    ).all()
+
+    if not favorite_real_estates:
+        return {"status": 404, "message": "No se encontraron detalles de los inmuebles favoritos.", "val": []}
+    
+    # Construir condiciones para buscar similitudes
+    conditions = []
+    for favorite in favorite_real_estates:
+        conditions.append(or_(
+            models.RealEstate.price.between(favorite.price * 0.9, favorite.price * 1.1),
+            models.RealEstate.zone_id == favorite.zone_id,
+            models.RealEstate.type_real_estate_id == favorite.type_real_estate_id,
+            models.RealEstate.amount_bathroom == favorite.amount_bathroom,
+            models.RealEstate.amount_bedroom == favorite.amount_bedroom,
+        ))
+
+    # Filtrar propiedades similares
+    similar_properties = db.query(models.RealEstate).filter(
+        or_(*conditions),  # Al menos una condición debe cumplirse
+        ~models.RealEstate.id.in_(favorite_property_ids),  # Excluir favoritos actuales
+    ).options(
+        joinedload(models.RealEstate.photos),
+        joinedload(models.RealEstate.title),
+        joinedload(models.RealEstate.description),
+        joinedload(models.RealEstate.zone),
+    ).all()
+
+    if not similar_properties:
+        return {"status": 404, "message": "No se encontraron inmuebles similares.", "val": []}
+
+    # Calcular similitud y ordenar
+    def calculate_similarity_score(property_, favorites):
+        score = 0
+        for favorite in favorites:
+            if property_.price and favorite.price and favorite.price * 0.9 <= property_.price <= favorite.price * 1.1:
+                score += 1
+            if property_.zone_id == favorite.zone_id:
+                score += 1
+            if property_.type_real_estate_id == favorite.type_real_estate_id:
+                score += 1
+            if property_.amount_bathroom == favorite.amount_bathroom:
+                score += 1
+            if property_.amount_bedroom == favorite.amount_bedroom:
+                score += 1
+        return score
+
+    # Añadir puntaje de similitud a las propiedades
+    properties_with_score = [
+        {"property": prop, "similarity_score": calculate_similarity_score(prop, favorite_real_estates)}
+        for prop in similar_properties
+    ]
+
+    # Ordenar por puntaje de similitud de mayor a menor
+    properties_with_score.sort(key=lambda x: x["similarity_score"], reverse=True)
+
+    # Convertir la respuesta a un formato deseado
+    result = [
+        {"property": prop["property"], "similarity_score": prop["similarity_score"]}
+        for prop in properties_with_score
+    ]
+
+    return {"status": 200, "message": "Inmuebles similares encontrados.", "val": result}
 
 @app.get('/statistics')
 async def get_statistics(db: Session = Depends(get_db)):
