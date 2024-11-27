@@ -4,8 +4,14 @@ import useNavigation from "@/core/hooks/useNavigate";
 import { NavLink } from "@/features/home/components/navLink";
 import { useEffect, useState } from "react";
 import { useLanguageStore } from "@/core/store/language";
+import { Link } from "react-scroll";
 
-type ParamsType = { links: string[] };
+interface Links{
+  href: string;
+  name: string;
+}
+
+type ParamsType = { links: Links[] };
 export const Header = ({ links }: ParamsType) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { texts } = useLanguageStore();
@@ -62,9 +68,11 @@ export const Header = ({ links }: ParamsType) => {
           } `}
         >
           {links.map((linkText, index) => (
-            <NavLink key={index} href="#" primaryColor={primaryColor}>
-              {linkText}
-            </NavLink>
+            <Link to={linkText.href} smooth={true} duration={500}>
+              <NavLink key={index} href="#" primaryColor={primaryColor}>
+                {linkText.name}
+              </NavLink>
+            </Link>
           ))}
         </nav>
         <div className="max-w-max">

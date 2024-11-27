@@ -2,20 +2,21 @@ import { FacebookIcon } from "@/shared/assets/icons/facebook";
 import { InstagramIcon } from "@/shared/assets/icons/instagram";
 import { YoutubeIcon } from "@/shared/assets/icons/youtube";
 
-type ParamsType={
-  textFooter:string
-}
-export const Footer = ({textFooter}:ParamsType) => {
+type ParamsType = {
+  textFooter: string;
+};
+export const Footer = ({ textFooter }: ParamsType) => {
   return (
-    <div className=" flex flex-col gap-3 items-center justify-center py-3 bg-gray-900 text-white">
+    <div
+      id="socialMedia"
+      className=" flex flex-col gap-3 items-center justify-center py-3 bg-gray-900 text-white"
+    >
       <div className="flex gap-3">
         <FacebookIcon />
         <YoutubeIcon />
         <InstagramIcon />
       </div>
-      <span className="text-sm">
-        {textFooter}
-      </span>
+      <span className="text-sm">{textFooter}</span>
     </div>
   );
 };

@@ -64,10 +64,22 @@ export const HomePage = () => {
   //Home translate
   const { texts } = useLanguageStore();
   const links = [
-    texts.languageHeader1,
-    texts.languageHeader2,
-    texts.languageHeader3,
-    texts.languageHeader4,
+    {
+      href: "home",
+      name: texts.languageHeader1,
+    },
+    {
+      href: "realEstates",
+      name: texts.languageHeader2,
+    },
+    {
+      href: "questions",
+      name: texts.languageHeader3,
+    },
+    {
+      href: "socialMedia",
+      name: texts.languageHeader4,
+    },
   ];
 
   const { language } = useLanguageStore();
@@ -166,7 +178,7 @@ export const HomePage = () => {
         className="absolute top-0 w-full h-screen object-cover"
       />
       <Header links={links} />
-      <div className="h-screen relative top-0 bg-black bg-opacity-60 ">
+      <div id="home" className="h-screen relative top-0 bg-black bg-opacity-60 ">
         <TitleCenter
           titleCenter={texts.centralTitle}
           subtitleCenter={texts.centralSubtitle}

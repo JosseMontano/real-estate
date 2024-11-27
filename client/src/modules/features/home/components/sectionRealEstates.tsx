@@ -77,7 +77,7 @@ export const SectionRealStates = ({
   }, [realEstates]);
 
   return (
-    <div className="space-y-12 py-10 flex flex-col items-center">
+    <div className="space-y-12 py-10 flex flex-col items-center" id="realEstates">
       {realEstates.map((item, index) => (
         <div
           key={index}
