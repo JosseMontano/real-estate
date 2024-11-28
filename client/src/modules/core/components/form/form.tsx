@@ -11,6 +11,7 @@ type Props = {
   spaceBtn?: boolean;
   smallBtn?: boolean;
   centerBtn?: boolean;
+  showBtn?: boolean;
 };
 const FormComponent = ({
   children,
@@ -21,6 +22,7 @@ const FormComponent = ({
   spaceBtn = true,
   smallBtn,
   centerBtn = false,
+  showBtn = true,
 }: Props) => {
   const [currentVisible, setCurrentVisible] = useState(1);
 
@@ -47,14 +49,16 @@ const FormComponent = ({
             />
           </div>
         )}
-        <div className={`${centerBtn ? "flex justify-center" : ""}`}>
-          <Btn
-            isPending={isPending}
-            text={btnText}
-            disabled={children2 ? currentVisible != 2 : false}
-            smallBtn={smallBtn}
-          />
-        </div>
+        {showBtn && (
+          <div className={`${centerBtn ? "flex justify-center" : ""}`}>
+            <Btn
+              isPending={isPending}
+              text={btnText}
+              disabled={children2 ? currentVisible != 2 : false}
+              smallBtn={smallBtn}
+            />
+          </div>
+        )}
       </div>
     </form>
   );

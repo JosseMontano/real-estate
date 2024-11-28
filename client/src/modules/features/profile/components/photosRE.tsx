@@ -3,7 +3,7 @@ import { RealEstate } from "@/shared/types/realEstate";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useEffect, useState } from "react";
-import PhotoNOAvailable from "@/shared/assets//photo-no-available.jpg";
+import PhotoNOAvailable from "@/shared/assets/photo-no-available.jpg";
 import { primaryColor } from "@/core/constants/colors";
 import { Options } from "./publicationsAndFavorites";
 

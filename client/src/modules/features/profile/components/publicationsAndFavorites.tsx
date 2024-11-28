@@ -13,6 +13,7 @@ import { deleteFavRe, fetchGetFavsRE } from "../api/endpoints";
 import useAuthStore from "@/core/store/auth";
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "../../../../App";
+import { ListComments } from "./listComments";
 
 type ParamsType = {
   isModalOpen: boolean;
@@ -121,9 +122,7 @@ export const PublicationsAndFavorites = ({
             )}
 
             {currentOption === Options.Feedback && (
-              <div className="h-[250px] -m-5 py-2 px-5 overflow-y-auto">
-                <h1 className="text-justify font-bold text-gray-900 ">xd23</h1>
-              </div>
+             <ListComments user={user} selectedRE={selectedRE}/>
             )}
           </div>
         }

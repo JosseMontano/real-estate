@@ -56,7 +56,7 @@ async def get_top_comments_by_user(user_id: int, db: Session = Depends(get_db)):
             joinedload(models.Comment.commentator),
             joinedload(models.Comment.real_estate)
         )
-        .limit(5)  
+        .limit(1)  
     )
     comments = query.all()
     if not comments:
