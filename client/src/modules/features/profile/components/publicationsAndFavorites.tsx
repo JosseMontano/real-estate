@@ -76,7 +76,7 @@ export const PublicationsAndFavorites = ({
 
   return (
     <div>
-      <div className="w-full my-1">
+      <div className="w-full mt-5">
         <div className="flex flex-wrap gap-4 w-full max-w-none items-center overflow-y-auto max-h-[670px]">
           {stateBtn == "Publications" &&
             realEstate.map((publication) => (

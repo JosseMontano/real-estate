@@ -68,12 +68,12 @@ export const ModalEditUser = ({
 
   return (
     <div className="">
-      <Btn
+     {/*  <Btn
         isPending={false}
         text={btnEditUserLanguage}
         className="max-w-max px-2"
         onClick={handleShowModalEditUser}
-      />
+      /> */}
 
       <ShowModal
         setIsModalOpen={handleShowModalEditUser}

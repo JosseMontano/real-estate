@@ -4,7 +4,11 @@ import useNavigation from "@/core/hooks/useNavigate";
 import useAuthStore from "@/core/store/auth";
 import { ChangeEvent, useEffect, useState } from "react";
 import { realEstateSchema } from "./validations/realEstates.schema";
-import { addREToDB, fetchCommentsForUser, fetchRealEstatesByUserId } from "./api/endpoints";
+import {
+  addREToDB,
+  fetchCommentsForUser,
+  fetchRealEstatesByUserId,
+} from "./api/endpoints";
 import { ModalCreatePropierty } from "./components/modalCreatePropierty";
 import { ProfileHeader } from "./components/profileHeader";
 import { ContactInfo } from "./components/contactInfo";
@@ -23,6 +27,7 @@ import { RealEstate, TypeRE } from "@/shared/types/realEstate";
 import { Location } from "@/core/components/map/maps";
 import useGet from "@/core/hooks/useGet";
 import { useLanguageStore } from "@/core/store/language";
+import imgDefault from "@/shared/assets/noPhoto.jpg";
 
 export type FileSelectedType = {
   name: string;
@@ -73,13 +78,8 @@ const DashboardPage = () => {
     queryFn: () => fetchRealEstatesByUserId(),
   });
 
-  
-
-  const {
-    data: comments,
-    isLoading: loadingComments,
-  } = useGet({
-    services: ()=>fetchCommentsForUser(user?.id || 0),
+  const { data: comments, isLoading: loadingComments } = useGet({
+    services: () => fetchCommentsForUser(user?.id || 0),
     queryKey: ["comments-top-comments-by-user", user?.id],
     itemsPerPage: 10,
     valueToService: user?.id,
@@ -177,79 +177,90 @@ const DashboardPage = () => {
   const { texts } = useLanguageStore();
   const [currentRE, setCurrentRE] = useState<RealEstate | null>(null);
 
-
   const [stateBtn, setStateBtn] = useState<options>("Publications");
 
   return (
-    <div className="flex h-screen w-auto  mx-2 mt-2 gap-4 flex-wrap md:flex-nowrap overflow-y-hidden">
-      <div className="md:basis-3/12 grow-0 w-full md:pr-16">
-        <ProfileHeader
-
-          handleShowModal={handleShowAddComment}
-          isModalOpen={isAddCommentOpen}
-          commets={comments ?? []}
-          loading={loadingComments}
-          user={user}
-          commentsLanguage={texts.commentsTitle}
-        />
-      </div>
-      <div className="md:basis-9/12 grow w-full">
-        <div className="flex gap-5 md:justify-end justify-center">
-          <ModalEditUser
-            isModaEditUserOpen={isEditUserOpen}
-            handleShowModalEditUser={handleShowEditUser}
-            btnEditUserLanguage={texts.btnEditUser}
-            btnSaveLanguage={texts.saveButton}
-          />
-          <ModalCreatePropierty
-            errors={errors}
-            handleOnSubmit={handleOnSubmit}
-            handleStateModal={handleShowCreateRE}
-            isModalOpen={isCreateREOpen}
-            handleImageSelection={handleImageSelection}
-            isPendingRE={isPendingRealEstate}
-            setTypeRE={setTypeRE}
-            typeRE={typeRE}
-            location={location}
-            setLocation={setLocation}
-            register={register}
-            isExpanded={isExpanded}
-            toggleExpand={toggleExpand}
-            countFilesUp={countFilesUp}
-            handleDeleteFile={handleDeleteFile}
-            uploadFiles={uploadedFiles}
-            filesSelected={filesSelected}
-            btnAddReLanguage={texts.btnAddRe}
-            btnSaveLanguage={texts.saveButton}
+    <>
+      <div className="absolute top-0 w-full bg-white flex justify-between px-7 py-4 shadow-2xl h-[72px]">
+        <div className="text-2xl font-bold">InmoApp</div>
+        <div>
+          <img
+            className="rounded-full h-10 w-10"
+            src={user.photo ?? imgDefault}
+            alt="User"
           />
         </div>
-
-        <ContactInfo
-          user={user ? user : ({} as User)}
-          isModalOpen={isAddCommentOpen}
-          HandleSetIsModalOpen={handleShowAddComment}
-          addComment={texts.addComment}
-          calification={texts.rating}
-          favorites={texts.favorites}
-          follow={texts.follow}
-          placeholderComment={texts.commentPlaceholder}
-          publications={texts.posts}
-          reportUser={texts.reportUser}
-          sendMsg={texts.sendMessage}
-          stateBtn={stateBtn}
-          setStateBtn={setStateBtn}
-        />
-        <PublicationsAndFavorites
-          handleShowModal={handleShowFav}
-          isModalOpen={isFavOpen}
-          realEstate={realEstate?.val ?? []}
-          setSelectedRE={setCurrentRE} 
-        selectedRE={currentRE}
-        stateBtn={stateBtn}
-        />
-        {isLoading && <p>Loading...</p>}
       </div>
-    </div>
+
+      <div className="flex h-screen w-auto bg-gray-50  mx-2 mt-2 gap-4 flex-wrap md:flex-nowrap overflow-y-hidden">
+        <div className="md:basis-3/12 grow-0 w-full md:pr-16">
+          <ProfileHeader
+            handleShowModal={handleShowAddComment}
+            isModalOpen={isAddCommentOpen}
+            commets={comments ?? []}
+            loading={loadingComments}
+            user={user}
+            commentsLanguage={texts.commentsTitle}
+          />
+        </div>
+        <div className="md:basis-9/12 grow w-full flex flex-col justify-center">
+          <div className="flex gap-5 md:justify-end justify-center">
+            <ModalEditUser
+              isModaEditUserOpen={isEditUserOpen}
+              handleShowModalEditUser={handleShowEditUser}
+              btnEditUserLanguage={texts.btnEditUser}
+              btnSaveLanguage={texts.saveButton}
+            />
+            <ModalCreatePropierty
+              errors={errors}
+              handleOnSubmit={handleOnSubmit}
+              handleStateModal={handleShowCreateRE}
+              isModalOpen={isCreateREOpen}
+              handleImageSelection={handleImageSelection}
+              isPendingRE={isPendingRealEstate}
+              setTypeRE={setTypeRE}
+              typeRE={typeRE}
+              location={location}
+              setLocation={setLocation}
+              register={register}
+              isExpanded={isExpanded}
+              toggleExpand={toggleExpand}
+              countFilesUp={countFilesUp}
+              handleDeleteFile={handleDeleteFile}
+              uploadFiles={uploadedFiles}
+              filesSelected={filesSelected}
+              btnAddReLanguage={texts.btnAddRe}
+              btnSaveLanguage={texts.saveButton}
+            />
+          </div>
+
+          <ContactInfo
+            user={user ? user : ({} as User)}
+            isModalOpen={isAddCommentOpen}
+            HandleSetIsModalOpen={handleShowAddComment}
+            addComment={texts.addComment}
+            calification={texts.rating}
+            favorites={texts.favorites}
+            follow={texts.follow}
+            placeholderComment={texts.commentPlaceholder}
+            publications={texts.posts}
+            reportUser={texts.reportUser}
+            sendMsg={texts.sendMessage}
+            stateBtn={stateBtn}
+            setStateBtn={setStateBtn}
+          />
+          <PublicationsAndFavorites
+            handleShowModal={handleShowFav}
+            isModalOpen={isFavOpen}
+            realEstate={realEstate?.val ?? []}
+            setSelectedRE={setCurrentRE}
+            selectedRE={currentRE}
+            stateBtn={stateBtn}
+          />
+          {isLoading && <p>Loading...</p>}
+        </div>
+      </div>
+    </>
   );
 };
 

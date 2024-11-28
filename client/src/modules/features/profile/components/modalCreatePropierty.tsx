@@ -68,12 +68,12 @@ export const ModalCreatePropierty = ({
   console.log(language);
   return (
     <>
-      <Btn
+      {/*   <Btn
         text={btnAddReLanguage}
         onClick={handleStateModal}
         isPending={false}
         className="max-w-max px-2"
-      />
+      /> */}
       <ShowModal
         title={btnAddReLanguage}
         isModalOpen={isModalOpen}

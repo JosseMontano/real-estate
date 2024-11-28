@@ -1,5 +1,5 @@
 import { StarFill } from "@/shared/assets/icons/starFill";
-import imgDefault from "@/shared/assets/profile.jpeg";
+import imgDefault from "@/shared/assets/noPhoto.jpg";
 import { User } from "@/core/types/user";
 import useAuthStore from "@/core/store/auth";
 type ParamasType = {
@@ -10,22 +10,18 @@ type ParamasType = {
   user: User;
   commentsLanguage: string;
 };
-export const ProfileHeader = ({
-  commets,
-  commentsLanguage,
-}: ParamasType) => {
-  const {user} = useAuthStore()
-
+export const ProfileHeader = ({ commets, commentsLanguage }: ParamasType) => {
+  const { user } = useAuthStore();
 
   return (
-    <div className="flex flex-col gap-4 w-full md:pr-5">
+    <div className="flex flex-col gap-4 w-full md:pr-5 h-screen justify-center">
       <div className=" flex flex-col gap-3 ">
-        <div>
-          {user.photo != "" ? (
-            <img className="w-full " src={user.photo} alt="Profile" />
-          ) : (
-            <img className="w-full " src={imgDefault} alt="Profile" />
-          )}
+        <div className="">
+          <img
+            className="w-full rounded-full"
+            src={user.photo ?? imgDefault}
+            alt="Profile"
+          />
         </div>
       </div>
 
