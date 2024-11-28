@@ -134,8 +134,7 @@ export const CustomerTable = ({
             </div>
           </div>
 
-          {/* Contenedor con overflow para la tabla */}
-          <div className="overflow-auto flex-grow max-h-[640px] ">
+          <div className="overflow-x-auto overflow-y-hidden flex-grow max-h-[640px] ">
             <table className="min-w-full text-left border-collapse">
               <thead>
                 <tr>

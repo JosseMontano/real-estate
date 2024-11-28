@@ -15,7 +15,12 @@ import { DashComments } from "@/features/dashComments/dashComments";
 import { DashResponses } from "@/features/dashResponses/dashResponses";
 
 export const queryClient = new QueryClient();
-export type Routes = "/" | "/profile" | "/auth" | "/img360";
+export type Routes =
+  | "/"
+  | "/profile"
+  | "/auth"
+  | "/img360"
+  | "/dashboard/realEstates";
 
 function App() {
   return (
