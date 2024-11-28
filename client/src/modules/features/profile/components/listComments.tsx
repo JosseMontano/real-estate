@@ -12,7 +12,11 @@ import { ShowModal } from "@/core/components/form/modal";
 import { useState } from "react";
 import { RowIcon } from "@/shared/assets/icons/rowIcon";
 import Btn from "@/core/components/form/button";
-import { postComment } from "../api/endpoints";
+import { fetchCommentsByRE, postComment } from "../api/endpoints";
+import useGet from "@/core/hooks/useGet";
+import { useLanguageStore } from "@/core/store/language";
+import { QueryClient } from "@tanstack/react-query";
+import { queryClient } from "../../../../App";
 
 type ParamsType = {
   user: User;
@@ -22,7 +26,7 @@ export const ListComments = ({ user, selectedRE }: ParamsType) => {
   const { handleStateModal, isModalOpen } = useModal();
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
-
+  const { language } = useLanguageStore();
   const {
     register,
     handleOnSubmit,
@@ -38,14 +42,23 @@ export const ListComments = ({ user, selectedRE }: ParamsType) => {
       data.commentator_id = user.id;
       data.amount_star = selectedIndex;
       const res = await postComment(data);
-      console.log(res);
       if (res.status == 200 || res.status == 201) {
         setSuccessMsg(res.message);
         reset();
+        queryClient.invalidateQueries({
+          queryKey: ["comments-by-readl-estate", user?.id],
+        });
       } else {
         setErrorMsg(res.message);
       }
     },
+  });
+
+  const { data: comments } = useGet({
+    services: () => fetchCommentsByRE(selectedRE?.id || 0),
+    queryKey: ["comments-by-readl-estate", user?.id],
+    itemsPerPage: 100,
+    valueToService: user?.id,
   });
 
   return (
@@ -61,6 +74,7 @@ export const ListComments = ({ user, selectedRE }: ParamsType) => {
             smallBtn={true}
             centerBtn={true}
             showBtn={false}
+            useMargin={false}
             children={
               <div className="flex items-center gap-2">
                 <img
@@ -88,7 +102,26 @@ export const ListComments = ({ user, selectedRE }: ParamsType) => {
           />
         </div>
 
-        <div></div>
+        <div>
+          {comments?.map((v) => (
+            <div className="flex items-center gap-3">
+              <img
+                src={v.commentator.photo ?? imgDefault}
+                alt="user-image"
+                className="w-10 h-10 rounded-full"
+              />
+              <div className="flex flex-col">
+                <p className="text-[17px] font-semibold">
+                  {v.commentator.email}
+                </p>
+                <span className="text-[13px] text-gray-800">
+                  {v.comment[language]}
+                </span>
+                <span className="text-[10px]">Reportar</span>
+              </div>
+            </div>
+          ))}
+        </div>
 
         <ShowModal
           isModalOpen={isModalOpen}

@@ -4,7 +4,7 @@ import { CommentDTO, RealEstateDTO, ResponseDTO } from "./dtos"
 import { User } from "@/core/types/user";
 import { Delete, handleGet, handlePost, handlePut } from "@/core/utils/fetch";
 import { Res } from "@/core/types/res";
-import { Question } from "@/shared/types/questions";
+import { Comment, Question } from "@/shared/types/questions";
 import { FavRealEstate } from "../interface/favRE";
 
 
@@ -51,4 +51,8 @@ export const deleteFavRe = async (id: number) => {
 
 export const postComment = async (comment: CommentDTO) => {
   return handlePost('comments', comment)
+}
+
+export async function fetchCommentsByRE(id:number): Promise<Res<Comment[]>> {
+  return handleGet<Comment[]>("comments/"+id);
 }

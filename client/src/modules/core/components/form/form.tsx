@@ -12,6 +12,7 @@ type Props = {
   smallBtn?: boolean;
   centerBtn?: boolean;
   showBtn?: boolean;
+  useMargin?: boolean;
 };
 const FormComponent = ({
   children,
@@ -23,6 +24,7 @@ const FormComponent = ({
   smallBtn,
   centerBtn = false,
   showBtn = true,
+  useMargin = true,
 }: Props) => {
   const [currentVisible, setCurrentVisible] = useState(1);
 
@@ -34,7 +36,7 @@ const FormComponent = ({
       {currentVisible == 1 && children}
       {currentVisible == 2 && children2}
 
-      <div className="mt-4">
+      <div className={`${useMargin ? "mt-4" : ""}`}>
         {children2 && (
           <div className="flex justify-center gap-[2px] my-1">
             <Ball
