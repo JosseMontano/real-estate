@@ -7,7 +7,7 @@ import requests
 from pydantic import BaseModel
 from modules.core.database import engine
 import modules.core.models as models
-from modules.core.seed import seed_users, seed_types_real_estates
+from modules.core.seed import seed_users, seed_types_real_estates, seed_questions, seed_real_estates
 from modules.routes import questions
 from modules.routes import typeRE
 from modules.routes import realEstates
@@ -39,9 +39,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-
-
 class TranslateRequest(BaseModel):
     val: str
 
@@ -60,8 +57,10 @@ def index():
 @app.get('/api/seed')
 async def seed(db: Session = Depends(get_db)):
     try:
-        await seed_users(db)
-        await seed_types_real_estates(db)
+        #await seed_users(db)
+        #await seed_types_real_estates(db)
+        #await seed_questions(db)
+        await seed_real_estates(db)
         return {"status": 200, "message": "Seed successful"}
     except Exception as e:
         return {"status": 500, "message": str(e)}
