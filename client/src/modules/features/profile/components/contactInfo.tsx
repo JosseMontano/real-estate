@@ -42,7 +42,7 @@ export const ContactInfo = ({
   setStateBtn,
 }: ParamsType) => {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 ">
       <div className="mt-6 flex flex-col gap-2">
         <div>
           <p className=" flex gap-4 ">

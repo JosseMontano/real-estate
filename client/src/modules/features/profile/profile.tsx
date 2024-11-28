@@ -180,7 +180,7 @@ const DashboardPage = () => {
   const [stateBtn, setStateBtn] = useState<options>("Publications");
 
   return (
-    <>
+    <div className="h-screen hide_scroll flex items-center w-full">
       <div className="absolute top-0 w-full bg-white flex justify-between px-7 py-4 shadow-2xl h-[72px]">
         <div className="text-2xl font-bold">InmoApp</div>
         <div>
@@ -192,8 +192,13 @@ const DashboardPage = () => {
         </div>
       </div>
 
-      <div className="flex h-screen w-auto bg-gray-50  mx-2 mt-2 gap-4 flex-wrap md:flex-nowrap overflow-y-hidden">
-        <div className="md:basis-3/12 grow-0 w-full md:pr-16">
+      <div
+        className="grid bg-gray-50 mx-2 mt-2 gap-4 flex-wrap md:flex-nowrap overflow-y-hidden w-full h-full"
+        style={{
+          gridTemplateColumns: "1fr 3fr",
+        }}
+      >
+        <div className=" grow-0 w-full md:pr-16">
           <ProfileHeader
             handleShowModal={handleShowAddComment}
             isModalOpen={isAddCommentOpen}
@@ -203,7 +208,7 @@ const DashboardPage = () => {
             commentsLanguage={texts.commentsTitle}
           />
         </div>
-        <div className="md:basis-9/12 grow w-full flex flex-col justify-center">
+        <div className=" grow w-full flex flex-col justify-center ">
           <div className="flex gap-5 md:justify-end justify-center">
             <ModalEditUser
               isModaEditUserOpen={isEditUserOpen}
@@ -260,7 +265,7 @@ const DashboardPage = () => {
           {isLoading && <p>Loading...</p>}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

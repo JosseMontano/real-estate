@@ -145,7 +145,7 @@ const translations: { [key in Language]: Translations } = {
     addComment: "Add comment",
     commentPlaceholder: "Comment...",
     //comments
-    commentsTitle: "Comments",
+    commentsTitle: "Featured comment",
     //btn edit user
     btnEditUser: "Edit user",
     //btn create Re
@@ -229,7 +229,7 @@ const translations: { [key in Language]: Translations } = {
     addComment: "Agregar comentario",
     commentPlaceholder: "Comentario...",
     //comments
-    commentsTitle: "Comentarios",
+    commentsTitle: "Comentario destacado",
     //btn edit user
     btnEditUser: "Editar usuario",
     btnAddRe: "Crear inmueble",
@@ -312,7 +312,7 @@ const translations: { [key in Language]: Translations } = {
     addComment: "Adicionar comentário",
     commentPlaceholder: "Comentário...",
     //comments
-    commentsTitle: "Comentários",
+    commentsTitle: "Comentário em destaque",
     //btn edit user
     btnEditUser: "Editar usuário",
     //btn create Re

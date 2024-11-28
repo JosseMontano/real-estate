@@ -75,9 +75,9 @@ export const PublicationsAndFavorites = ({
   });
 
   return (
-    <div>
+    <div className="max-h-[240px] overflow-y-auto ">
       <div className="w-full mt-5">
-        <div className="flex flex-wrap gap-4 w-full max-w-none items-center overflow-y-auto max-h-[670px]">
+        <div className="flex flex-wrap gap-4 w-full max-w-none items-center ">
           {stateBtn == "Publications" &&
             realEstate.map((publication) => (
               <RealEstateComp

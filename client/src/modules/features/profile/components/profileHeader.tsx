@@ -14,11 +14,11 @@ export const ProfileHeader = ({ commets, commentsLanguage }: ParamasType) => {
   const { user } = useAuthStore();
 
   return (
-    <div className="flex flex-col gap-4 w-full md:pr-5 h-screen justify-center">
-      <div className=" flex flex-col gap-3 ">
+    <div className="flex flex-col gap-4 w-full h-full md:pr-5 justify-center ">
+      <div className=" flex flex-col items-center gap-3 ">
         <div className="">
           <img
-            className="w-full rounded-full"
+            className=" rounded-full h-64 w-64"
             src={user.photo ?? imgDefault}
             alt="Profile"
           />
@@ -26,7 +26,7 @@ export const ProfileHeader = ({ commets, commentsLanguage }: ParamasType) => {
       </div>
 
       <div className="flex flex-col gap-2 w-full max-h-[450px] md:items-start items-center">
-        <div className="flex items-end w-full">
+        <div className="flex flex-col items-center w-full">
           <p className="text-[#929191] text-xl">{commentsLanguage}</p>
           <div className="w-full h-px bg-gray-300 mb-[6px] text-transparent">
             line
@@ -35,24 +35,24 @@ export const ProfileHeader = ({ commets, commentsLanguage }: ParamasType) => {
         <div className="overflow-y-scroll w-full">
           {commets.length == 0 && (
             <>
-              <div className="w-full flex gap-3">
-                <div className="basis-2/12">
+              <div className="w-full flex gap-3 items-center">
+
                   <img
                     src={imgDefault}
                     alt="imagen por defecto"
-                    className="rounded-full "
+                    className="rounded-full w-9 h-9"
                   />
-                </div>
-                <div className="basis-9/12 flex-wrap text-sm">
+           
+                <div className=" flex-wrap text-sm w-[175px]">
                   <p className="font-semibold">email@example.com</p>
                   <p className="text-[#888787]">
                     Comentario example: La casa esta bonita
                   </p>
                 </div>
-                <div className="basis-1/12 flex items-center justify-center">
-                  <p className=" text-base md:text-xl font-semibold mx-1">3</p>
-                  <div className="flex space-x-1">
-                    {/* Estrellas de calificación */}
+
+                <div className="flex items-center gap-1">
+                  <p className=" text-base md:text-xl font-semibold">3</p>
+                  <div className="flex ">
                     <span className="text-yellow-400 text-base md:text-2xl">
                       <StarFill size="20" />
                     </span>
