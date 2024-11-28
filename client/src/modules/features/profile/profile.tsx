@@ -43,7 +43,7 @@ export type FileUpType = {
 export type options = "Publications" | "Favorites";
 
 const DashboardPage = () => {
-  const { user } = useAuthStore();
+  const { user, logout } = useAuthStore();
   const { handleNavigate } = useNavigation();
   const {
     handleStateModal: handleShowAddComment,
@@ -184,6 +184,7 @@ const DashboardPage = () => {
       <div className="absolute top-0 w-full bg-white flex justify-between px-7 py-4 shadow-2xl h-[72px]">
         <div className="text-2xl font-bold">InmoApp</div>
         <div>
+          <button onClick={logout}>Cerrar sesion</button>
           <img
             className="rounded-full h-10 w-10"
             src={user.photo ?? imgDefault}

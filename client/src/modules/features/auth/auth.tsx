@@ -53,7 +53,7 @@ export const AuthPage = () => {
         setSuccessMsg(finalmessage);
         login({
           email: userObject.email,
-          role: 2,
+          role: userObject.role,
           id: userObject.id,
           available: userObject.available,
           cellphone: userObject.cellphone,
