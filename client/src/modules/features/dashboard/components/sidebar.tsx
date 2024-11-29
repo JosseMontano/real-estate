@@ -42,9 +42,9 @@ export const Sidebar = ({}: ParamsType) => {
           isOpen ? "translate-x-0 " : "-translate-x-full"
         } lg:translate-x-0 lg:block `}
       >
-        <div className="mb-14 mt-5 lg:mt-0">
+        <div className="mb-7 mt-5 lg:mt-0 px-3">
           <Link to="" className="text-3xl font-semibold">
-            {language === "es" || language === "en" ? "Dashboard" : "Painel"}
+            {"InmoApp"}
           </Link>
         </div>
 
