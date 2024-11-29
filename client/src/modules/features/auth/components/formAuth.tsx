@@ -8,12 +8,14 @@ import { GoogleIcon } from "@/shared/assets/icons/google";
 import { useModal } from "@/core/hooks/useModal";
 import { ShowModal } from "@/core/components/form/modal";
 import { ForgotPass } from "./forgotPass";
+import { Translations } from "@/core/store/language";
 
 type ParamsType = {
   register: UseFormRegister<{
     email: string;
     password: string;
     confirmPassword: string;
+
   }>;
   handleLoginGoogle: () => void;
   handleOnSubmit: (e?: React.BaseSyntheticEvent) => Promise<void>;
@@ -23,6 +25,7 @@ type ParamsType = {
     confirmPassword: string;
   }>;
   isSignUpPending: boolean;
+  texts: Translations
 };
 export const FormAuth = ({
   errors,
@@ -30,6 +33,7 @@ export const FormAuth = ({
   isSignUpPending,
   register,
   handleLoginGoogle,
+  texts
 }: ParamsType) => {
   const { isModalOpen, handleStateModal } = useModal();
 
@@ -38,7 +42,7 @@ export const FormAuth = ({
       <FormComponent
         isPending={isSignUpPending}
         handleOnSubmit={handleOnSubmit}
-        btnText="Iniciar"
+        btnText={texts.btnAuth}
         children={
           <div className="flex flex-col gap-4">
             <div className="">
@@ -74,7 +78,7 @@ export const FormAuth = ({
                 className="text-xs text-gray-700 cursor-pointer"
                 onClick={handleStateModal}
               >
-                Olvidaste tu contraseña?
+                {texts.forgotPasswordAuth}
               </p>
             </div>
           </div>
@@ -82,12 +86,12 @@ export const FormAuth = ({
       />
       <div className="flex flex-col gap-3">
         <p className="text-center text-sm text-gray-500 mt-3">
-          ¿Sin cuenta? <span>Ingresa tus datos y listo</span>
+          {texts.withoutAccountAuth}
         </p>
 
         <p className="flex flex-col gap-3 text-center text-sm text-gray-500">
-          <span>O</span>
-          <span>inicia con</span>
+          <span>{texts.orAuth}</span>
+          <span>{texts.signInGoogleAuth}</span>
         </p>
         <div className="flex justify-center space-x-4">
           <button className="p-[10px] border  border-gray-200 rounded-lg">

@@ -1,4 +1,4 @@
-import { userSchema } from "./validations/signUp";
+import { useUserSchema } from "./validations/signUp";
 import { useForm } from "@/core/hooks/useForm";
 import useAuthStore from "@/core/store/auth";
 import { FormAuth } from "./components/formAuth";
@@ -20,8 +20,9 @@ export const AuthPage = () => {
   const { login } = useAuthStore();
   const { handleNavigate } = useNavigation();
   const { code, email } = useParams<{ code?: string; email?: string }>();
+  const userSchema = useUserSchema();
 
-  const {
+    const {
     register,
     handleOnSubmit,
     errors,
@@ -31,24 +32,24 @@ export const AuthPage = () => {
   } = useForm({
     schema: userSchema,
     form: async (userData) => {
-      let userObject={} as User;
-      let finalmessage="";
+      let userObject = {} as User;
+      let finalmessage = "";
       let finalStatus;
-      if(code){
+      if (code) {
         userData.code = Number(code);
         console.log(userData);
         const { val, message, status } = await changePassword(userData);
         userObject = val;
         finalmessage = message;
         finalStatus = status;
-      }else{
+      } else {
         const { val, message, status } = await saveUser(userData);
         console.log(status);
         userObject = val;
         finalmessage = message;
         finalStatus = status;
       }
-    
+
       if (finalStatus === 200 || finalStatus === 201) {
         setSuccessMsg(finalmessage);
         login({
@@ -59,16 +60,18 @@ export const AuthPage = () => {
           cellphone: userObject.cellphone,
           username: userObject.username,
         });
-        console.log('User logged in');
+        console.log("User logged in");
         handleNavigate("/profile");
         return;
       }
       setErrorMsg(finalmessage);
     },
-    defaultVales:{
+    defaultVales: {
       email: email ?? "",
-    }
+    },
   });
+
+
 
   const handleLoginGoogle = async () => {
     const provider = new GoogleAuthProvider();
@@ -106,9 +109,9 @@ export const AuthPage = () => {
     if (code && email) {
       console.log(`ID: ${code}, Email: ${email}`);
     } else {
-      console.log('No reset password parameters provided');
+      console.log("No reset password parameters provided");
     }
-  }, [code, email]); 
+  }, [code, email]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -122,6 +125,7 @@ export const AuthPage = () => {
           isSignUpPending={isSignUpPending}
           register={register}
           handleLoginGoogle={handleLoginGoogle}
+          texts={texts}
         />
       </div>
     </div>

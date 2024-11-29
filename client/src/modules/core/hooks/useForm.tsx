@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { DefaultValues, useForm as useFormHook } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 type ParamsType<T extends z.ZodType<any, any>> = {
   schema: T;
   form: (data: z.infer<T>) => Promise<any>;
@@ -18,12 +18,15 @@ export const useForm = <T extends z.ZodType<any, any>>({
   type FormType = z.infer<T>;
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const isMounted = useRef(false);
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitted, touchedFields },
     reset,
+    trigger,
+    setError,
   } = useFormHook<FormType>({
     resolver: zodResolver(schema),
     defaultValues: defaultVales,
@@ -37,10 +40,30 @@ export const useForm = <T extends z.ZodType<any, any>>({
   const handleOnSubmit = handleSubmit(onSubmit);
 
   useEffect(() => {
-    if (errorMsg !="") toast.success(errorMsg || "Error");
-    if (successMsg !="") toast.success(successMsg);
-    console.log(errors);
+    if (errorMsg != "") toast.success(errorMsg || "Error");
+    if (successMsg != "") toast.success(successMsg);
   }, [errorMsg, successMsg, successMsg, errors]);
+
+  useEffect(() => {
+    if (isMounted.current) {
+      if (isSubmitted || Object.keys(touchedFields).length > 0) {
+        trigger().then((isValid) => {
+          if (!isValid) {
+            Object.entries(errors).forEach(([field, error]) => {
+              // @ts-ignore
+              setError(field as keyof typeof errors, {
+                type: error?.type,
+                // @ts-ignore
+                message: schema.shape[field].message,
+              });
+            });
+          }
+        });
+      }
+    } else {
+      isMounted.current = true;
+    }
+  }, [schema, reset, trigger, setError, isSubmitted, touchedFields]);
 
   return {
     reset,
@@ -52,5 +75,6 @@ export const useForm = <T extends z.ZodType<any, any>>({
     setErrorMsg,
     onSubmit,
     setSuccessMsg,
+    trigger,
   };
 };

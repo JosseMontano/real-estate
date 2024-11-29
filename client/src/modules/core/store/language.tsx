@@ -8,11 +8,21 @@ export type TranslateRes = {
   pt: string;
 };
 
-interface Translations {
+export interface Translations {
   //global
-  empty:string
+  empty: string;
   //auth
   titleAuth: string;
+  invalidEmailAuth: string;
+  invalidPasswordAuth: string;
+  invalidConfirmPasswordAuth: string;
+  invalidMatchPasswordAuth: string;
+  forgotPasswordAuth: string;
+  btnAuth: string;
+  withoutAccountAuth: string;
+  orAuth: string;
+  signInGoogleAuth: string;
+
   //config
   titleConfig: string;
   languageConfig: string;
@@ -96,9 +106,18 @@ interface Translations {
 
 const translations: { [key in Language]: Translations } = {
   en: {
-    empty:"No data found",
+    empty: "No data found",
     //auth
     titleAuth: "Sign In",
+    invalidEmailAuth: "Invalid email",
+    invalidPasswordAuth: "Must be at least 6 characters",
+    invalidConfirmPasswordAuth: "Must be at least 6 characters",
+    invalidMatchPasswordAuth: "Passwords do not match",
+    forgotPasswordAuth: "Forgot password?",
+    btnAuth: "Sign In",
+    withoutAccountAuth: "Don't have an account?",
+    orAuth: "Or",
+    signInGoogleAuth: "Sign in with Google",
     //config
     titleConfig: "Configurations",
     languageConfig: "Language",
@@ -180,9 +199,18 @@ const translations: { [key in Language]: Translations } = {
     inactive: "Inactive",
   },
   es: {
-    empty:"No se encontraron datos",
+    empty: "No se encontraron datos",
     //auth
     titleAuth: "Iniciar sesión",
+    invalidEmailAuth: "Correo inválido",
+    invalidPasswordAuth: "Debe tener al menos 6 caracteres",
+    invalidConfirmPasswordAuth: "Debe tener al menos 6 caracteres",
+    invalidMatchPasswordAuth: "Las contraseñas no coinciden",
+    forgotPasswordAuth: "¿Olvidaste tu contraseña?",
+    btnAuth: "Iniciar",
+    withoutAccountAuth: "¿No tienes una cuenta?",
+    orAuth: "O",
+    signInGoogleAuth: "Iniciar con Google",
     //config
     titleConfig: "Configuraciones",
     languageConfig: "Idioma",
@@ -264,9 +292,18 @@ const translations: { [key in Language]: Translations } = {
     inactive: "Inactivos",
   },
   pt: {
-    empty:"Nenhum dado encontrado",
+    empty: "Nenhum dado encontrado",
     //auth
     titleAuth: "Entrar",
+    invalidEmailAuth: "Email inválido",
+    invalidPasswordAuth: "Deve ter pelo menos 6 caracteres",
+    invalidConfirmPasswordAuth: "Deve ter pelo menos 6 caracteres",
+    invalidMatchPasswordAuth: "As senhas não coincidem",
+    forgotPasswordAuth: "Esqueceu a senha?",
+    btnAuth: "Entrar",
+    withoutAccountAuth: "Não tem uma conta?",
+    orAuth: "Ou",
+    signInGoogleAuth: "Entrar com Google",
     //config
     titleConfig: "Configurações",
     languageConfig: "Idioma",
