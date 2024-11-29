@@ -1,3 +1,4 @@
+import useNavigation from "@/core/hooks/useNavigate";
 import { useLanguageStore } from "@/core/store/language";
 import { DashboardIcon } from "@/shared/assets/icons/dasboard";
 import { MenuIcon } from "@/shared/assets/icons/menu";
@@ -7,6 +8,8 @@ import { Link } from "react-router-dom";
 type ParamsType = {};
 export const Sidebar = ({}: ParamsType) => {
   const { texts, language } = useLanguageStore();
+  const { location } = useNavigation();
+
   const links = [
     { path: "/dashboard/realEstates", label: texts.properties },
     { path: "/dashboard/typeRe", label: texts.propertyType },
@@ -18,7 +21,7 @@ export const Sidebar = ({}: ParamsType) => {
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
-
+  console.log(location);
   return (
     <>
       <div
@@ -45,13 +48,22 @@ export const Sidebar = ({}: ParamsType) => {
           </Link>
         </div>
 
-        <nav className="space-y-4 flex flex-col gap-3">
+        <nav className="flex flex-col gap-3">
           {links.map((link, index) => (
-            <div key={index} className="flex items-center gap-2">
+            <div
+              key={index}
+              className={`flex items-center gap-2 px-3 py-2 ${
+                location == link.path
+                  ? "bg-[#5932ea] text-white font-semibold"
+                  : ""
+              }`}
+            >
               <DashboardIcon size="18" />
               <Link
                 to={link.path}
-                className="text-gray-600 hover:text-purple-500 text-xl"
+                className={`text-gray-600 text-xl ${
+                  location == link.path ? "text-white" : ""
+                }`}
               >
                 {link.label}
               </Link>

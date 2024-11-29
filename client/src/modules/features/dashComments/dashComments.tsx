@@ -19,6 +19,7 @@ type ParamsType = {};
 export const DashComments = ({}: ParamsType) => {
   const {
     data: Comments,
+    fullData,
     isLoading,
     amountOfPages,
     handlePagination,
@@ -72,6 +73,7 @@ export const DashComments = ({}: ParamsType) => {
         isloading={isLoadingStatistics}
       />
       <CustomerTable
+      fullData={fullData}
         amountOfPages={amountOfPages}
         currentPage={currentPage}
         data={

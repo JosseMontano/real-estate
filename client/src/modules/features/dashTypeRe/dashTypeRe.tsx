@@ -22,6 +22,7 @@ export const DashTypeRe = ({}: ParamsType) => {
   const { isModalOpen, handleStateModal } = useModal();
   const {
     data: TypeRe,
+    fullData,
     isLoading,
     amountOfPages,
     handlePagination,
@@ -29,7 +30,7 @@ export const DashTypeRe = ({}: ParamsType) => {
   } = useGet({
     services: fetchTypeRe,
     queryKey: ["TypeRe"],
-    itemsPerPage: 1,
+    itemsPerPage: 5,
   });
 
   const { data: statistics, isLoading: isLoadingStatistics } = useGet({
@@ -97,6 +98,7 @@ export const DashTypeRe = ({}: ParamsType) => {
         }
       />
       <CustomerTable
+        fullData={fullData}
         amountOfPages={amountOfPages}
         currentPage={currentPage}
         data={TypeRe}

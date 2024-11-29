@@ -1,8 +1,9 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Routes } from "../../../App";
 
 const useNavigation = () => {
   const navigate = useNavigate();
+  const location = useLocation(); 
 
   const handleNavigate = (path: Routes) => {
     navigate(path);
@@ -10,6 +11,7 @@ const useNavigation = () => {
 
   return {
     handleNavigate,
+    location: location.pathname as Routes,
   };
 };
 

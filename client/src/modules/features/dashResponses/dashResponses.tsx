@@ -18,6 +18,7 @@ type ParamsType = {};
 export const DashResponses = ({}: ParamsType) => {
   const {
     data: Responses,
+    fullData,
     isLoading,
     amountOfPages,
     handlePagination,
@@ -71,6 +72,7 @@ export const DashResponses = ({}: ParamsType) => {
         isloading={isLoadingStatistics}
       />
       <CustomerTable
+        fullData={fullData}
         amountOfPages={amountOfPages}
         currentPage={currentPage}
         data={

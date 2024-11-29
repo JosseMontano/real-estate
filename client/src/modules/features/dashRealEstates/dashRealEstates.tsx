@@ -18,6 +18,7 @@ type ParamsType = {};
 export const DashRealEstates = ({}: ParamsType) => {
   const {
     data: RealEstate,
+    fullData,
     isLoading,
     amountOfPages,
     handlePagination,
@@ -27,6 +28,8 @@ export const DashRealEstates = ({}: ParamsType) => {
     queryKey: ["RealEstate"],
     itemsPerPage: 5,
   });
+
+  console.log(fullData);
 
   const { data: statistics, isLoading: isLoadingStatistics } = useGet({
     services: getStadisticsRealEstates,
@@ -91,6 +94,8 @@ export const DashRealEstates = ({}: ParamsType) => {
         isloading={isLoadingStatistics}
       />
       <CustomerTable
+      fullData={fullData
+      }
         amountOfPages={amountOfPages}
         currentPage={currentPage}
         data={

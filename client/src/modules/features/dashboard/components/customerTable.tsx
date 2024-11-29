@@ -5,9 +5,11 @@ import Pagination from "@/core/components/form/pagination";
 import { useLanguageStore } from "@/core/store/language";
 import { SearchIcon } from "@/shared/assets/icons/search";
 import Select from "@/core/components/form/select";
+import EmptyImg from "@/shared/assets/empty.png";
 
 type ParamsType = {
   data: any[];
+  fullData: any[];
   selectData?: any[];
   propSelectData?: string;
   currentSelected?: any;
@@ -38,11 +40,12 @@ export const CustomerTable = ({
   tableTitle,
   handleGetReByType,
   propSelectData,
+  fullData,
 }: ParamsType) => {
-  const { language } = useLanguageStore();
+  const { language, texts } = useLanguageStore();
   const [searchText, setSearchText] = useState("");
 
-  const filteredData = data.filter((row) =>
+  const filteredData = (searchText != "" ? fullData : data).filter((row) =>
     header.some((col) => {
       const cellValue = row[col as keyof typeof row];
       if (typeof cellValue === "object" && cellValue !== null) {
@@ -70,28 +73,34 @@ export const CustomerTable = ({
       {!isloading && (
         <div className="bg-white p-3 md:p-7 shadow h-full flex flex-col">
           {/* Cabecera fija */}
-          <div className="flex justify-between mb-4 md:flex-row sm:flex-row flex-col gap-2 sticky top-0 z-8 bg-white">
+          <div className="flex justify-between mb-4 md:flex-row sm:flex-row flex-col gap-2  top-0 z-8 ">
             <div className="flex items-start gap-8">
               <div className="flex flex-col">
                 <h2 className="text-lg md:text-xl font-bold">{tableTitle}</h2>
-                <button className="text-[#ace9c7] font-bold text-sm md:text-base text-start">
-                  {language === "es"
-                    ? "Disponibles"
-                    : language === "en"
-                    ? "Available"
-                    : "Disponíveis"}
-                </button>
-              </div>
-              {setIsOpenModal && (
-                <div>
-                  <Btn
-                    isPending={false}
-                    text="Agregar"
-                    className="max-w-max p-2"
-                    onClick={setIsOpenModal}
-                  />
+                <div className="flex gap-3">
+                  <button className="text-[#ace9c7] font-bold text-sm md:text-base text-start">
+                    {language === "es"
+                      ? "Disponibles"
+                      : language === "en"
+                      ? "Available"
+                      : "Disponíveis"}
+                  </button>
+                  {setIsOpenModal && (
+                    <div>
+                      <button
+                        onClick={setIsOpenModal}
+                        className="text-[#ace9c7] font-bold text-sm md:text-base text-start"
+                      >
+                        {language === "es"
+                          ? "Agregar"
+                          : language === "en"
+                          ? "Add"
+                          : "Adicionar"}
+                      </button>
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
             </div>
 
             <div className="flex gap-2 md:gap-5 md:items-center md:flex-row flex-col">
@@ -135,25 +144,29 @@ export const CustomerTable = ({
           </div>
 
           <div className="overflow-x-auto overflow-y-hidden flex-grow max-h-[640px] ">
-            <table className="min-w-full text-left border-collapse">
-              <thead>
-                <tr>
-                  {header.map((v) => (
-                    <th
-                      key={v}
-                      className="pl-10 md:pl-10 px-10 w-auto break-words text-gray-300 text-center"
-                    >
-                      {v}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {filteredData.length === 0 && (
-                  <p>No properties available for the selected type</p>
-                )}
-                {filteredData.length > 0 &&
-                  filteredData.map((v, index) => (
+            {filteredData.length === 0 && (
+              <div className="flex flex-col items-center">
+                <img src={EmptyImg} alt="vacio" />
+                <p>{texts.empty}</p>
+              </div>
+            )}
+
+            {filteredData.length > 0 && (
+              <table className="min-w-full text-left border-collapse">
+                <thead>
+                  <tr>
+                    {header.map((v) => (
+                      <th
+                        key={v}
+                        className="pl-10 md:pl-10 px-10 w-auto break-words text-gray-300 text-center"
+                      >
+                        {v}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredData.map((v, index) => (
                     <tr key={index} className="border-t">
                       {header.map((col) => (
                         <>
@@ -190,19 +203,20 @@ export const CustomerTable = ({
                       ))}
                     </tr>
                   ))}
-              </tbody>
-            </table>
+                </tbody>
+              </table>
+            )}
           </div>
-          <Pagination
-
+          {searchText == "" && filteredData.length > 0 && (
+            <Pagination
               currentPage={currentPage}
               primaryColor={primaryColor}
               handlePagination={handlePagination}
               lastPage={amountOfPages}
             />
+          )}
         </div>
       )}
-         
     </>
   );
 };

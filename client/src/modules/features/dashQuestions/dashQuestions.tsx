@@ -13,6 +13,7 @@ import { useLanguageStore } from "@/core/store/language";
 export const DashQuestions = () => {
   const {
     data: questions,
+    fullData,
     isLoading,
     amountOfPages,
     handlePagination,
@@ -48,6 +49,7 @@ export const DashQuestions = () => {
         isloading={isLoadingStatistics}
       />
       <CustomerTable
+      fullData={fullData}
         header={header}
         data={questions}
         handleState={mutateToState}

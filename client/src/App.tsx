@@ -20,7 +20,15 @@ export type Routes =
   | "/profile"
   | "/auth"
   | "/img360"
-  | "/dashboard/realEstates";
+  | "/dashboard/realEstates"
+  | "/dashboard/typeRe"
+  | "/dashboard/questions"
+  | "/dashboard/comments"
+  | "/dashboard/responses"
+  
+  
+  
+  ;
 
 function App() {
   return (

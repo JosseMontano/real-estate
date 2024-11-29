@@ -9,6 +9,8 @@ export type TranslateRes = {
 };
 
 interface Translations {
+  //global
+  empty:string
   //auth
   titleAuth: string;
   //config
@@ -94,6 +96,7 @@ interface Translations {
 
 const translations: { [key in Language]: Translations } = {
   en: {
+    empty:"No data found",
     //auth
     titleAuth: "Sign In",
     //config
@@ -177,6 +180,7 @@ const translations: { [key in Language]: Translations } = {
     inactive: "Inactive",
   },
   es: {
+    empty:"No se encontraron datos",
     //auth
     titleAuth: "Iniciar sesión",
     //config
@@ -260,6 +264,7 @@ const translations: { [key in Language]: Translations } = {
     inactive: "Inactivos",
   },
   pt: {
+    empty:"Nenhum dado encontrado",
     //auth
     titleAuth: "Entrar",
     //config

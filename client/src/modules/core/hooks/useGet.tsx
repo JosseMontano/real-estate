@@ -55,6 +55,7 @@ const useGet = <T,>({
   return {
     isLoading,
     data: itemsPerPage != defaultItemsPerPage ? dataPaginated : (data as T),
+    fullData: data as T,
     isError,
     error,
     handlePagination,
