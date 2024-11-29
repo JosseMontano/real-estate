@@ -25,7 +25,7 @@ export const DashRealEstates = ({}: ParamsType) => {
   } = useGet({
     services: fetchRealEstates,
     queryKey: ["RealEstate"],
-    itemsPerPage: 10,
+    itemsPerPage: 5,
   });
 
   const { data: statistics, isLoading: isLoadingStatistics } = useGet({
@@ -38,23 +38,23 @@ export const DashRealEstates = ({}: ParamsType) => {
     "amount_bathroom",
     "amount_bedroom",
     "square_meter",
-    "address",
     "price",
-    "available",
     "active",
   ];
 
   const { mutate: mutateToState } = useMutation({
     mutationFn: deleteRealEstates,
     onSuccess: async (data) => {
-    setFilteredRealEstate((prevFiltered) =>
-      prevFiltered.map((item) =>
-        item.id === data.val.id ? { ...item, active: !item.active } : item
-      ).filter((item) => prevFiltered.some((prev) => prev.id === item.id))
-    );
+      setFilteredRealEstate((prevFiltered) =>
+        prevFiltered
+          .map((item) =>
+            item.id === data.val.id ? { ...item, active: !item.active } : item
+          )
+          .filter((item) => prevFiltered.some((prev) => prev.id === item.id))
+      );
 
-    // Invalida la query global para sincronizar
-    queryClient.invalidateQueries({ queryKey: ["RealEstate"] });
+      // Invalida la query global para sincronizar
+      queryClient.invalidateQueries({ queryKey: ["RealEstate"] });
     },
   });
 
@@ -81,6 +81,7 @@ export const DashRealEstates = ({}: ParamsType) => {
   useEffect(() => {
     setFilteredRealEstate(filteredRealEstate);
   }, [setFilteredRealEstate]);
+  
   return (
     <div>
       <SumaryCard

@@ -192,16 +192,17 @@ export const CustomerTable = ({
                   ))}
               </tbody>
             </table>
-            <Pagination
-              amountOfPages={amountOfPages}
+          </div>
+          <Pagination
+
               currentPage={currentPage}
               primaryColor={primaryColor}
               handlePagination={handlePagination}
               lastPage={amountOfPages}
             />
-          </div>
         </div>
       )}
+         
     </>
   );
 };

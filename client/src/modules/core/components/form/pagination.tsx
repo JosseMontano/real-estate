@@ -1,5 +1,4 @@
 type Props = {
-  amountOfPages: number;
   currentPage: number;
   primaryColor: string;
   handlePagination: (page: number) => void;
@@ -8,12 +7,17 @@ type Props = {
 
 const Pagination = (props: Props) => {
   const {
-    amountOfPages,
     currentPage,
     primaryColor,
     handlePagination,
     lastPage,
   } = props;
+
+  const getVisiblePages = () => {
+    const startPage = Math.max(1, currentPage - 1); 
+    const endPage = Math.min(lastPage, currentPage + 1); 
+    return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
+  };
 
   return (
     <div className="flex justify-center">
@@ -30,20 +34,20 @@ const Pagination = (props: Props) => {
         </button>
 
         {/* Botones de Páginas */}
-        {Array.from({ length: amountOfPages }, (_, i) => (
+        {getVisiblePages().map((page) => (
           <button
-            key={i}
+            key={page}
             className={`w-8 h-8 flex items-center justify-center border rounded-md ${
-              i + 1 === currentPage
+              page === currentPage
                 ? "text-white"
                 : "text-black border-gray-300"
             }`}
             style={{
-              backgroundColor: i + 1 === currentPage ? primaryColor : "white",
+              backgroundColor: page === currentPage ? primaryColor : "white",
             }}
-            onClick={() => handlePagination(i + 1)}
+            onClick={() => handlePagination(page)}
           >
-            {i + 1}
+            {page}
           </button>
         ))}
 

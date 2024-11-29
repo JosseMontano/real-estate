@@ -23,9 +23,9 @@ export const Dashboard = ({}: ParamsType) => {
       <div className="lg:basis-2/12  max-h-screen ">
         <Sidebar />
       </div>
-      <div className="flex-1 flex flex-col bg-gray-100 lg:basis-10/12 overflow-x-auto ">
+      <div className="flex-1 flex flex-col px-6 bg-gray-100 lg:basis-10/12 overflow-x-auto gap-3">
         <HeaderDashboard />
-        <main className="flex-1 px-5 md:px-16 pt-6 md:pt-9 overflow-y-auto ">
+        <main className="flex-1">
           <Outlet />
         </main>
       </div>
