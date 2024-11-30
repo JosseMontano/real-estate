@@ -22,7 +22,7 @@ const useGet = <T,>({
 }: Props<T>) => {
   const {language}= useLanguageStore()
   const [msg, setMsg] = useState("");
-
+  const [isFirstRun, setIsFirstRun] = useState(true);
 
   const { isLoading, data, isError, error,refetch, dataUpdatedAt  } = useQuery({
     queryKey: queryKey,
@@ -59,10 +59,15 @@ const useGet = <T,>({
     ? (data.slice(startPagination, endPagination) as unknown as T)
     : ([] as unknown as T);
 
-    useEffect(() => {
-      if (msg != "") toast.success(msg);
-    }, [data, dataUpdatedAt])
-
+  useEffect(() => {
+    if (msg !== "") {
+      if (isFirstRun) {
+        setIsFirstRun(false);
+      } else {
+        toast.success(msg);
+      }
+    }
+  }, [dataUpdatedAt]);
 
   return {
     isLoading,
