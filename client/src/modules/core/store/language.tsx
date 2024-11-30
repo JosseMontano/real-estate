@@ -22,7 +22,8 @@ export interface Translations {
   withoutAccountAuth: string;
   orAuth: string;
   signInGoogleAuth: string;
-
+  titleForgotPassword: string;
+  recuperateAccountBtn: string;
   //config
   titleConfig: string;
   languageConfig: string;
@@ -118,6 +119,8 @@ const translations: { [key in Language]: Translations } = {
     withoutAccountAuth: "Don't have an account?",
     orAuth: "Or",
     signInGoogleAuth: "Sign in with Google",
+    titleForgotPassword: "Forgot my password",
+    recuperateAccountBtn: "Recover account",
     //config
     titleConfig: "Configurations",
     languageConfig: "Language",
@@ -211,6 +214,8 @@ const translations: { [key in Language]: Translations } = {
     withoutAccountAuth: "¿No tienes una cuenta?",
     orAuth: "O",
     signInGoogleAuth: "Iniciar con Google",
+    titleForgotPassword: "Olvidé mi contraseña",
+    recuperateAccountBtn: "Recuperar cuenta",
     //config
     titleConfig: "Configuraciones",
     languageConfig: "Idioma",
@@ -304,6 +309,8 @@ const translations: { [key in Language]: Translations } = {
     withoutAccountAuth: "Não tem uma conta?",
     orAuth: "Ou",
     signInGoogleAuth: "Entrar com Google",
+    titleForgotPassword: "Esqueci minha senha",
+    recuperateAccountBtn: "Recuperar conta",
     //config
     titleConfig: "Configurações",
     languageConfig: "Idioma",

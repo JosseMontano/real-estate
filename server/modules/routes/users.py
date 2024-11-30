@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from modules.core.database import get_db 
 import modules.core.models as models
-from modules.core.const import AuthMsg,Messages
+from modules.core.const import AuthMsg,Messages,TranslateResponse
 from typing import Optional
 import bcrypt
 from email.message import EmailMessage
@@ -82,67 +82,69 @@ async def sign_up(user: signUpDTO, db: Session = Depends(get_db)):
         return {"status": 500, "message": Messages.SERVER_ERROR.dict(), "val": []}
     
     
-
 @app.post('/forgot_password')
 def forgot_password(request: EmailRequestDTO, db: Session = Depends(get_db)):
 
     email_receiver = request.email_receiver
     user = db.query(models.User).filter(models.User.email == email_receiver).first()
     if user is None:
-        return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": []}
+        return {"status": 404, "message": Messages.DATA_NOT_FOUND.dict(), "val": []}
     
     random_number = random.randint(100000, 999999)
     
- 
     em = EmailMessage()
     em["From"] = EMAIL_SENDER
     em["To"] = email_receiver
     em["Subject"] = "Recuperar contraseña"
-    em.set_content("No olvides tu contraseña la proxima 😉, entra a este link para recuperarla: "+WEB_URL+"reset_password/"+str(random_number)+"/"+email_receiver )
+    em.set_content("No olvides tu contraseña la próxima 😉, entra a este link para recuperarla: "
+                   + WEB_URL + "reset_password/" + str(random_number) + "/" + email_receiver)
 
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
         server.login(EMAIL_SENDER, PASSWORD_EMAIL)
         server.sendmail(EMAIL_SENDER, email_receiver, em.as_string())
         
-
-
     user.code_recuperation = random_number
     db.commit()
     db.refresh(user)
     
-    return {"status": 200, "message": "Email sent successfully", "val": {}}
+    return {"status": 200, "message": TranslateResponse(es="Correo enviado con éxito", 
+                                                        en="Email sent successfully", 
+                                                        pt="Email enviado com sucesso").dict(), 
+            "val": {}}
+
 
 @app.post('/change_password')
 def change_password(request: ChangePassDTO, db: Session = Depends(get_db)):
     try:
         if request.password != request.confirmPassword:
-            return {"status": 400, "message": AuthMsg.PASSWORD_NOT_MATCH, "val": []}
+            return {"status": 400, "message": AuthMsg.PASSWORD_NOT_MATCH.dict(), "val": []}
         
         found_user = db.query(models.User).filter(models.User.email == request.email).first()
         
         if not found_user:
-            return {"status": 400, "message": AuthMsg.USER_NOT_EXIST, "val": []}
-        print(found_user.code_recuperation, request.code)
-        if int(found_user.code_recuperation )!= int(request.code):
-            return {"status": 400, "message": AuthMsg.CODE_NOT_MATCH, "val": []}
+            return {"status": 400, "message": Messages.DATA_NOT_FOUND.dict(), "val": []}
+        
+        if int(found_user.code_recuperation) != int(request.code):
+            return {"status": 400, "message": AuthMsg.CODE_NOT_MATCH.dict(), "val": []}
         
         hashed_password = bcrypt.hashpw(request.password.encode('utf-8'), bcrypt.gensalt())
         found_user.password = hashed_password.decode('utf-8')
         db.commit()
         db.refresh(found_user)
-        return {"status": 200, "message": Messages.DATA_UPDATED, "val": found_user}
+        return {"status": 200, "message": Messages.DATA_UPDATED.dict(), "val": found_user}
     except Exception as e:
         db.rollback()
-        return {"status": 500, "message": str(e), "val": []}
-    
+        return {"status": 500, "message": Messages.SERVER_ERROR.dict(), "val": []}
+
+
 @app.put('/edit_profile/{email}')
 def edit_profile(email: str, request: UpdateUserDTO, db: Session = Depends(get_db)):
     try:
         found_user = db.query(models.User).filter(models.User.email == email).first()
         
         if not found_user:
-            return {"status": 400, "message": Messages.DATA_NOT_FOUND, "val": []}
+            return {"status": 400, "message": Messages.DATA_NOT_FOUND.dict(), "val": []}
         
         if request.password:
             hashed_password = bcrypt.hashpw(request.password.encode('utf-8'), bcrypt.gensalt())
@@ -158,10 +160,7 @@ def edit_profile(email: str, request: UpdateUserDTO, db: Session = Depends(get_d
         db.commit()
         db.refresh(found_user)
         
-        db.commit()
-        db.refresh(found_user)
-        return {"status": 200, "message": Messages.DATA_UPDATED, "val": found_user}
+        return {"status": 200, "message": Messages.DATA_UPDATED.dict(), "val": found_user}
     except Exception as e:
         db.rollback()
-        return {"status": 500, "message": str(e), "val": []}
-
+        return {"status": 500, "message": Messages.SERVER_ERROR.dict(), "val": []}

@@ -4,11 +4,13 @@ import { Input } from "@/core/components/form/input";
 import { forgotPassSchema } from "../validations/forgotPass";
 import { useForm } from "@/core/hooks/useForm";
 import { forgotPass } from "../api/endpoints";
+import { useLanguageStore } from "@/core/store/language";
 
 type ParamsType = {
     handleStateModal: () => void
 };
 export const ForgotPass = ({handleStateModal}: ParamsType) => {
+  const {language,texts} = useLanguageStore()
   const {
     register,
     handleOnSubmit,
@@ -21,10 +23,12 @@ export const ForgotPass = ({handleStateModal}: ParamsType) => {
     form: async (data) => {
       const res = await forgotPass(data);
       if (res.status == 200 || res.status == 201) {
-        setSuccessMsg(res.message);
-        handleStateModal();
+        setSuccessMsg(res.message[language]);
+        setTimeout(() => {
+          handleStateModal();
+        }, 2000);
       } else {
-        setErrorMsg(res.message);
+        setErrorMsg(res.message[language]);
       }
     },
   });
@@ -32,7 +36,7 @@ export const ForgotPass = ({handleStateModal}: ParamsType) => {
   return (
     <>
       <FormComponent
-        btnText="Guardar"
+        btnText={texts.recuperateAccountBtn}
         handleOnSubmit={handleOnSubmit}
         isPending={isPending}
         children={

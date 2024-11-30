@@ -101,7 +101,7 @@ export const FormAuth = ({
       </div>
 
       <ShowModal
-        title="Olvide mi contraseña"
+        title={texts.signInGoogleAuth}
         isModalOpen={isModalOpen}
         setIsModalOpen={handleStateModal}
         children={<ForgotPass handleStateModal={handleStateModal}/>}

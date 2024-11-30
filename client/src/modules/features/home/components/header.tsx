@@ -13,7 +13,6 @@ interface Links {
 
 type ParamsType = { links: Links[] };
 export const Header = ({ links }: ParamsType) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { texts } = useLanguageStore();
 
   const { handleNavigate } = useNavigation();
@@ -42,10 +41,13 @@ export const Header = ({ links }: ParamsType) => {
       }`}
     >
       <div className="container py-4 lg:p-4 flex justify-evenly md:items-center items-start">
-        <div className="text-2xl font-bold">InmoApp</div>
-        <nav
-          className={`md:space-x-6 hidden flex-row md:flex`}
+        <div
+          className="text-2xl font-bold cursor-pointer"
+          onClick={() => handleNavigate("/")}
         >
+          InmoApp
+        </div>
+        <nav className={`md:space-x-6 hidden flex-row md:flex`}>
           {links.map((linkText, index) => (
             <Link to={linkText.href} smooth={true} duration={500}>
               <NavLink key={index} href="#" primaryColor={primaryColor}>
