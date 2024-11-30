@@ -1,5 +1,4 @@
 import { primaryColor } from "@/core/constants/colors";
-import { useState } from "react";
 import { SearchFormComponent } from "./searchFormComponent";
 import { Field, OptionsType } from "../home";
 

@@ -1,6 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Res } from "../types/res";
+import { ref } from "firebase/storage";
+import { useLanguageStore } from "../store/language";
+import { toast } from "sonner";
 
 type Props<T> = {
   services: (val?:number) => Promise<Res<T>>;
@@ -17,15 +20,20 @@ const useGet = <T,>({
   valueToService,
   itemsPerPage = defaultItemsPerPage,
 }: Props<T>) => {
-  const { isLoading, data, isError, error } = useQuery({
+  const {language}= useLanguageStore()
+  const [msg, setMsg] = useState("");
+
+
+  const { isLoading, data, isError, error,refetch, dataUpdatedAt  } = useQuery({
     queryKey: queryKey,
     queryFn: async () => {
       if(valueToService){
-        console.log("valueToService", valueToService);
       const res = await services(valueToService);
+      setMsg(res.message[language]);
       return res.val;
       }
       const res = await services();
+      setMsg(res.message[language]);
       return res.val;
     },
   });
@@ -51,6 +59,10 @@ const useGet = <T,>({
     ? (data.slice(startPagination, endPagination) as unknown as T)
     : ([] as unknown as T);
 
+    useEffect(() => {
+      if (msg != "") toast.success(msg);
+    }, [data, dataUpdatedAt])
+
 
   return {
     isLoading,
@@ -64,6 +76,7 @@ const useGet = <T,>({
     endPagination,
     firstElementRef,
     currentPage,
+    refetch 
   };
 };
 

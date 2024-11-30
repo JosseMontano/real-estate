@@ -44,7 +44,7 @@ export const SearchFormComponent = ({
         ))}
         <div
           style={{ background: primaryColor }}
-          className="w-[70px] h-full rounded-r-lg flex items-center justify-center text-white"
+          className="w-[70px] h-full rounded-r-lg flex items-center justify-center text-white cursor-pointer"
           onClick={handleSearch}
         >
           <SearchIcon size="24" />

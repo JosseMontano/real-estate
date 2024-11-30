@@ -202,41 +202,74 @@ async def filter_real_estates(
     filters: List[dict],  # Filters like [{id: 2, name: "Apartamento", type: "type"}, ...]
     db: Session = Depends(get_db)
 ):
-    # Initialize query
-    query = db.query(models.RealEstate).options(
-        joinedload(models.RealEstate.photos),
-        joinedload(models.RealEstate.title),
-        joinedload(models.RealEstate.description),
-        joinedload(models.RealEstate.zone)
-    )
-    # Process filters
-    for filter_obj in filters:
-        filter_type = filter_obj.get("type")
-        filter_id = filter_obj.get("id")
-        filter_name = filter_obj.get("name")
+    try:
+        # Initialize query
+        query = db.query(models.RealEstate).options(
+            joinedload(models.RealEstate.photos),
+            joinedload(models.RealEstate.title),
+            joinedload(models.RealEstate.description),
+            joinedload(models.RealEstate.zone)
+        )
+        # Process filters
+        for filter_obj in filters:
+            filter_type = filter_obj.get("type")
+            filter_id = filter_obj.get("id")
+            filter_name = filter_obj.get("name")
 
-        if filter_type == "type" and filter_id:  # Filter by type_real_estate_id
-            query = query.filter(models.RealEstate.type_real_estate_id == filter_id)
+            if filter_type == "type" and filter_id:  # Filter by type_real_estate_id
+                query = query.filter(models.RealEstate.type_real_estate_id == filter_id)
 
-        elif filter_type == "zone" and filter_id:  # Filter by zone_id
-            query = query.filter(models.RealEstate.zone_id == filter_id)
+            elif filter_type == "zone" and filter_id:  # Filter by zone_id
+                query = query.filter(models.RealEstate.zone_id == filter_id)
 
-        elif filter_type == "price" and filter_name:  # Filter by price range
-            if "-" in filter_name:  # Ensure it's a valid range
-                try:
-                    # Parse min and max price from the range
-                    min_price, max_price = map(float, filter_name.split("-"))
-                    query = query.filter(models.RealEstate.price >= min_price, models.RealEstate.price <= max_price)
-                except ValueError:
-                    raise HTTPException(status_code=400, detail=f"Invalid price range: {filter_name}")
+            elif filter_type == "price" and filter_name:  # Filter by price range
+                if "-" in filter_name:  # Ensure it's a valid range
+                    try:
+                        # Parse min and max price from the range
+                        min_price, max_price = map(float, filter_name.split("-"))
+                        query = query.filter(models.RealEstate.price >= min_price, models.RealEstate.price <= max_price)
+                    except ValueError:
+                        raise HTTPException(
+                            status_code=400,
+                            detail=TranslateResponse(
+                                es=f"Rango de precios inválido: {filter_name}",
+                                en=f"Invalid price range: {filter_name}",
+                                pt=f"Intervalo de preços inválido: {filter_name}"
+                            ).dict()
+                        )
 
-    # Fetch results
-    real_estates = query.all()
+        # Fetch results
+        real_estates = query.all()
 
-    if not real_estates:
-        raise HTTPException(status_code=404, detail="No real estates found with the given filters")
+        if not real_estates:
+            return {
+                "status":404,
+                "message":TranslateResponse(
+                    es="No se encontraron bienes raíces con los filtros dados, se mostraran los resultados sin filtros",
+                    en="No real estates found with the given filters provided, results will be shown without filters",
+                    pt="Nenhum imóvel encontrado com os filtros fornecidos dados, os resultados serão exibidos sem filtros"
+                ).dict(),
+                "val": real_estates
+            }
 
-    return {"status": 200, "message": "Real estates found", "val": real_estates}
+        return {
+            "status": 200,
+            "message": TranslateResponse(
+                es="Bienes raíces encontrados",
+                en="Real estates found",
+                pt="Imóveis encontrados"
+            ).dict(),
+            "val": real_estates
+        }
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        return {
+            "status": 500,
+            "message": Messages.SERVER_ERROR.dict(),
+            "val": []
+        }
+
 
 
 @app.get('/{type_real_estate_id}')

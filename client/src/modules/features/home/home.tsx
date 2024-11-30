@@ -168,7 +168,13 @@ export const HomePage = () => {
     setSelectedValues(updatedValues);
   };
 
-  const [searchRE, setSearchRE] = useState([] as RealEstate[]);
+  const { data: searchRE, refetch } = useGet({
+    services: () => filterRE(selectedValues),
+    queryKey: ["real-estates-search"],
+    itemsPerPage: 1000,
+    /* @ts-ignore */
+    valueToService: selectedValues,
+  });
 
   return (
     <>
@@ -178,7 +184,10 @@ export const HomePage = () => {
         className="absolute top-0 w-full h-screen object-cover"
       />
       <Header links={links} />
-      <div id="home" className="h-screen relative top-0 bg-black bg-opacity-60 ">
+      <div
+        id="home"
+        className="h-screen relative top-0 bg-black bg-opacity-60 "
+      >
         <TitleCenter
           titleCenter={texts.centralTitle}
           subtitleCenter={texts.centralSubtitle}
@@ -188,8 +197,7 @@ export const HomePage = () => {
           fields={fields}
           handleSelectChange={handleSelectChange}
           handleSearch={async () => {
-            const res = await filterRE(selectedValues);
-            setSearchRE(res.val);
+            await refetch();
           }}
         />
       </div>
