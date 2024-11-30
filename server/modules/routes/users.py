@@ -44,24 +44,22 @@ class UpdateUserDTO(BaseModel):
     photo: Optional[str] = None
     password: Optional[str] = None
     
-
 @app.post('/signup')
 async def sign_up(user: signUpDTO, db: Session = Depends(get_db)):
     try:
         if user.password != user.confirmPassword:
-            return {"status": 400, "message": AuthMsg.PASSWORD_NOT_MATCH, "val": []}
+            return {"status": 400, "message": AuthMsg.PASSWORD_NOT_MATCH.dict(), "val": []}
    
         found_user = db.query(models.User).filter(models.User.email == user.email).first()
             
         if found_user:      
             if not bcrypt.checkpw(user.password.encode('utf-8'), found_user.password.encode('utf-8')):
-                return {"status": 400, "message": AuthMsg.PASSWORD_WRONG, "val": []}
+                return {"status": 400, "message": AuthMsg.PASSWORD_WRONG.dict(), "val": []}
         
-            return {"status": 200, "message": AuthMsg.USER_EXIST, "val": found_user}
+            return {"status": 200, "message": AuthMsg.USER_EXIST.dict(), "val": found_user}
    
         hashed_password = bcrypt.hashpw(user.password.encode('utf-8'), bcrypt.gensalt())
 
-        
         db_user = models.User(
             email=user.email,
             password=hashed_password.decode('utf-8'),
@@ -78,11 +76,12 @@ async def sign_up(user: signUpDTO, db: Session = Depends(get_db)):
         db.commit()
         db.refresh(db_user)
 
-        return {"status": 201, "message": AuthMsg.USER_CREATED, "val": db_user}
+        return {"status": 201, "message": AuthMsg.USER_CREATED.dict(), "val": db_user}
     except Exception as e:
         db.rollback()
-        return {"status": 500, "message": str(e), "val": []}
-
+        return {"status": 500, "message": Messages.SERVER_ERROR.dict(), "val": []}
+    
+    
 
 @app.post('/forgot_password')
 def forgot_password(request: EmailRequestDTO, db: Session = Depends(get_db)):

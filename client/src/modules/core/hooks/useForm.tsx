@@ -40,9 +40,11 @@ export const useForm = <T extends z.ZodType<any, any>>({
   const handleOnSubmit = handleSubmit(onSubmit);
 
   useEffect(() => {
+    if (isSubmitted) {
     if (errorMsg != "") toast.success(errorMsg || "Error");
     if (successMsg != "") toast.success(successMsg);
-  }, [errorMsg, successMsg, successMsg, errors]);
+    }
+  }, [isSubmitted, errorMsg, successMsg]);
 
   useEffect(() => {
     if (isMounted.current) {

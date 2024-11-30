@@ -1,24 +1,27 @@
 from pydantic import BaseModel
-class Messages:
-    DATA_FOUND = "Datos encontradas"
-    DATA_CREATED = "Se creo el dato con exito"
-    DATA_DELETED = "Se elimino el dato exitosamente"
-    DATA_UPDATED = "Se actualizo el dato con exito"
-    DATA_NOT_FOUND = "No se encontraron datos"
-    SERVER_ERROR = "Error en el servidor"
 
-    
-class AuthMsg:
-    PASSWORD_NOT_MATCH= "Las contraseñas no coinciden"
-    PASSWORD_WRONG = "Contraseña incorrecta"
-    USER_EXIST = "Bienvenido de nuevo"
-    USER_CREATED = "Usuario creado con exito"
-    CODE_NOT_MATCH= "El codigo no coincide"
-    
 class TranslateResponse(BaseModel):
     es: str
     en: str
     pt: str
+
+class Messages:
+    DATA_FOUND = TranslateResponse(es="Datos encontradas", en="Data found", pt="Dados encontrados")
+    DATA_CREATED = TranslateResponse(es="Se creó el dato con éxito", en="Data created successfully", pt="Dado criado com sucesso")
+    DATA_DELETED = TranslateResponse(es="Se eliminó el dato exitosamente", en="Data deleted successfully", pt="Dado excluído com sucesso")
+    DATA_UPDATED = TranslateResponse(es="Se actualizó el dato con éxito", en="Data updated successfully", pt="Dado atualizado com sucesso")
+    DATA_NOT_FOUND = TranslateResponse(es="No se encontraron datos", en="No data found", pt="Nenhum dado encontrado")
+    SERVER_ERROR = TranslateResponse(es="Error en el servidor", en="Server error", pt="Erro no servidor")
+
+
+class AuthMsg:
+    PASSWORD_NOT_MATCH = TranslateResponse(es="Las contraseñas no coinciden", en="Passwords do not match", pt="As senhas não coincidem")
+    PASSWORD_WRONG = TranslateResponse(es="Contraseña incorrecta", en="Incorrect password", pt="Senha incorreta")
+    USER_EXIST = TranslateResponse(es="Bienvenido de nuevo", en="Welcome back", pt="Bem-vindo de volta")
+    USER_CREATED = TranslateResponse(es="Usuario creado con éxito", en="User created successfully", pt="Usuário criado com sucesso")
+    CODE_NOT_MATCH = TranslateResponse(es="El código no coincide", en="Code does not match", pt="O código não corresponde")
+
+    
 
     class Config:
         orm_mode = True

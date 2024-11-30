@@ -14,15 +14,16 @@ import useNavigation from "@/core/hooks/useNavigate";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { User } from "@/core/types/user";
+import { LanguageDB } from "@/shared/types/language";
 
 export const AuthPage = () => {
-  const { texts } = useLanguageStore();
+  const { texts, language } = useLanguageStore();
   const { login } = useAuthStore();
   const { handleNavigate } = useNavigation();
   const { code, email } = useParams<{ code?: string; email?: string }>();
   const userSchema = useUserSchema();
 
-    const {
+  const {
     register,
     handleOnSubmit,
     errors,
@@ -33,25 +34,22 @@ export const AuthPage = () => {
     schema: userSchema,
     form: async (userData) => {
       let userObject = {} as User;
-      let finalmessage = "";
+      let finalmessage:LanguageDB;
       let finalStatus;
       if (code) {
         userData.code = Number(code);
-        console.log(userData);
         const { val, message, status } = await changePassword(userData);
         userObject = val;
         finalmessage = message;
         finalStatus = status;
       } else {
         const { val, message, status } = await saveUser(userData);
-        console.log(status);
         userObject = val;
         finalmessage = message;
         finalStatus = status;
       }
-
       if (finalStatus === 200 || finalStatus === 201) {
-        setSuccessMsg(finalmessage);
+        setSuccessMsg(finalmessage[language]);
         login({
           email: userObject.email,
           role: userObject.role,
@@ -60,18 +58,15 @@ export const AuthPage = () => {
           cellphone: userObject.cellphone,
           username: userObject.username,
         });
-        console.log("User logged in");
         handleNavigate("/profile");
         return;
       }
-      setErrorMsg(finalmessage);
+      setErrorMsg(finalmessage[language]);
     },
     defaultVales: {
       email: email ?? "",
     },
   });
-
-
 
   const handleLoginGoogle = async () => {
     const provider = new GoogleAuthProvider();
@@ -87,7 +82,7 @@ export const AuthPage = () => {
 
         const { val: userObject, status, message } = await saveUser(userDto);
         if (status === 200 || status === 201) {
-          setSuccessMsg(message);
+          setSuccessMsg(message[language]);
           login({
             email: userObject.email,
             role: 2,
@@ -97,7 +92,7 @@ export const AuthPage = () => {
           handleNavigate("/profile");
           return;
         }
-        setErrorMsg(message);
+        setErrorMsg(message[language]);
       }
     } catch (error) {
       console.error(error);
