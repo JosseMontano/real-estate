@@ -6,6 +6,7 @@ import { Delete, handleGet, handlePost, handlePut } from "@/core/utils/fetch";
 import { Res } from "@/core/types/res";
 import { Comment, Question } from "@/shared/types/questions";
 import { FavRealEstate } from "../interface/favRE";
+import { Response } from "../interface/response";
 
 
 export async function addREToDB(
@@ -34,6 +35,10 @@ export const fetchRealEstatesByUserId = async (userId:number): Promise<Res<RealE
  
 export const fetchUnasweredQuestions = async (id:Number): Promise<Res<Question[]>> => {
   return await handleGet<Question[]>("questions/unanswered/"+id);
+}
+
+export const fetchGetAllResponsesByREId = async (id:Number): Promise<Res<Response[]>> => {
+  return await handleGet<Response[]>("responses/"+id);
 }
 
 

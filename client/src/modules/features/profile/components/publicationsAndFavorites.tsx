@@ -134,7 +134,7 @@ const {user: userLogged} = useAuthStore()
             )}
 
             {currentOption === Options.Questions && (
-              <Questions selectedRE={selectedRE} />
+              <Questions selectedRE={selectedRE} texts={texts} language={language} user={user} userLogged={userLogged}/>
             )}
 
             {currentOption === Options.Feedback && (

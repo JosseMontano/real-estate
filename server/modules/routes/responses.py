@@ -47,17 +47,30 @@ async def get_response_statistics(db: Session = Depends(get_db)):
     return {"status": 200, "message": Messages.DATA_FOUND, "val": val}
 
 
-@app.get('/{question_id}')
-async def get_responses_by_question(question_id: int, db: Session = Depends(get_db)):
-    query = db.query(models.Response).filter(models.Response.question_id == question_id).options(
+@app.get('/{real_estate_id}')
+async def get_all_responses(real_estate_id: int, db: Session = Depends(get_db)):
+    responses_query = db.query(models.Response).filter(
+        models.Response.real_estate_id == real_estate_id,
+        models.Response.active == True  
+    ).options(
+        joinedload(models.Response.question).options(joinedload(models.Question.question)), 
         joinedload(models.Response.response),
-        joinedload(models.Response.question),
-        joinedload(models.Response.real_estate)
     )
-    responses = query.all()
+
+    responses = responses_query.all()
+
     if not responses:
-        return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": []}
-    return {"status": 200, "message": Messages.DATA_FOUND, "val": responses}
+        return {
+            "status": 404,
+            "message": Messages.DATA_NOT_FOUND.dict(),
+            "val": []
+        }
+
+    return {
+        "status": 200,
+       "message": Messages.DATA_FOUND.dict(),
+        "val": responses
+    }
 
 
 @app.post('/')
@@ -79,7 +92,7 @@ async def create_response(response: ResponseDTO, db: Session = Depends(get_db)):
         db.add(new_response)
         db.commit()
         db.refresh(new_response)
-        return {"status": 201, "message": Messages.DATA_CREATED, "val": new_response}
+        return {"status": 201, "message": Messages.DATA_CREATED.dict(), "val": new_response}
     except Exception as e:
         db.rollback()
         return {"status": 500, "message": str(e), "val": []}

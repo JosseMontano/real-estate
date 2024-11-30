@@ -1,15 +1,26 @@
 import FormComponent from "@/core/components/form/form";
 import { Input } from "@/core/components/form/input";
 
-import { responseSchema } from "../validations/response.schema";
+import { useResponseSchema } from "../validations/response.schema";
 import { useForm } from "@/core/hooks/useForm";
 import { postResponse } from "../api/endpoints";
+import { Language } from "@/core/store/language";
+import { queryClient } from "../../../../App";
+import { RealEstate } from "@/shared/types/realEstate";
 
 type ParamsType = {
   questionId: number;
   realEstateId: number;
+  language: Language;
+  selectedRE: RealEstate | null;
 };
-export const FormResponse = ({ questionId, realEstateId }: ParamsType) => {
+export const FormResponse = ({
+  questionId,
+  realEstateId,
+  language,
+  selectedRE,
+}: ParamsType) => {
+  const responseSchema = useResponseSchema();
   const {
     register,
     handleOnSubmit,
@@ -25,10 +36,15 @@ export const FormResponse = ({ questionId, realEstateId }: ParamsType) => {
       data.question_id = questionId;
       const res = await postResponse(data);
       if (res.status == 200 || res.status == 201) {
-        setSuccessMsg(res.message);
-        reset();
+        setSuccessMsg(res.message[language]);
+        setTimeout(() => {
+          queryClient.invalidateQueries({
+            queryKey: ["questions-by-re", selectedRE?.id],
+          });
+        }, 500);
+        /*         reset(); */
       } else {
-        setErrorMsg(res.message);
+        setErrorMsg(res.message[language]);
       }
     },
   });

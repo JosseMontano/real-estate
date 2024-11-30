@@ -82,6 +82,8 @@ export interface Translations {
   amountBedroomsVisitUser: string;
   commentsTitlteVisitUser: string;
   inputCommentVisitUser: string;
+  questionTitlteVisitUser:string
+  anonymousVisitUser: string;
   //profile comments
   commentsTitle: string;
   //btn edit user
@@ -191,6 +193,8 @@ const translations: { [key in Language]: Translations } = {
     amountBedroomsVisitUser: "Bedrooms",
     commentsTitlteVisitUser:"Comments",
     inputCommentVisitUser:"Write comment",
+    questionTitlteVisitUser:"Question",
+    anonymousVisitUser: "Anonymous",
     //comments
     commentsTitle: "Featured comment",
     //btn edit user
@@ -298,7 +302,8 @@ const translations: { [key in Language]: Translations } = {
     amountBedroomsVisitUser: "Cuartos",
     commentsTitlteVisitUser:"Comentarios",
     inputCommentVisitUser:"Escriba un comentario",
-    
+    questionTitlteVisitUser:"Pregunta",
+    anonymousVisitUser: "Anónimo",
     //comments
     commentsTitle: "Comentário em destaque",
     //btn edit user
@@ -406,6 +411,8 @@ const translations: { [key in Language]: Translations } = {
     amountBedroomsVisitUser: "Quartos",
     commentsTitlteVisitUser:"Comentários",
     inputCommentVisitUser:"Escreva um comentário",
+    questionTitlteVisitUser:"Pergunta",
+    anonymousVisitUser: "Anônimo",
     //comments
     commentsTitle: "Comentário em destaque",
     //btn edit user
