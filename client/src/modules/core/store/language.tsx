@@ -11,6 +11,7 @@ export type TranslateRes = {
 export interface Translations {
   //global
   empty: string;
+  fieldRequired:string;
   //auth
   titleAuth: string;
   invalidEmailAuth: string;
@@ -108,6 +109,7 @@ export interface Translations {
 const translations: { [key in Language]: Translations } = {
   en: {
     empty: "No data found",
+    fieldRequired:"This field is required",
     //auth
     titleAuth: "Sign In",
     invalidEmailAuth: "Invalid email",
@@ -156,7 +158,7 @@ const translations: { [key in Language]: Translations } = {
     question: "question",
     questionSubtitle:
       "Your questions will appear in the listings so owners can respond automatically.",
-    questionPlaceholder: "What would you like to know?",
+    questionPlaceholder: "What'd you like to know?",
     saveButton: "Save",
     //home footer
     copyright: "Copyright © INMUEBLES EN LA NUBE - All rights reserved",
@@ -203,6 +205,7 @@ const translations: { [key in Language]: Translations } = {
   },
   es: {
     empty: "No se encontraron datos",
+    fieldRequired:"Este campo es requerido",
     //auth
     titleAuth: "Iniciar sesión",
     invalidEmailAuth: "Correo inválido",
@@ -248,7 +251,7 @@ const translations: { [key in Language]: Translations } = {
     viewMoreButton: "Ver más",
     //home questions
     ask: "Haz una",
-    question: "preguna",
+    question: "pregunta",
     questionSubtitle:
       "Tus preguntas se visualizarán en las publicaciones para que los propietarios puedan responder de forma automática.",
     questionPlaceholder: "¿Qué te gustaría saber?",
@@ -298,6 +301,7 @@ const translations: { [key in Language]: Translations } = {
   },
   pt: {
     empty: "Nenhum dado encontrado",
+    fieldRequired:"Este campo é obrigatório",
     //auth
     titleAuth: "Entrar",
     invalidEmailAuth: "Email inválido",

@@ -39,7 +39,7 @@ export const HomePage = () => {
   } = useGet({
     services: fetchRealEstates,
     queryKey: ["realEstates"],
-    itemsPerPage: 3,
+    itemsPerPage: 4,
   });
 
   useEffect(() => {

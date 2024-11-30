@@ -25,7 +25,7 @@ export type Routes =
   | "/dashboard/questions"
   | "/dashboard/comments"
   | "/dashboard/responses"
-  
+  | "/visit_user"
   
   
   ;
@@ -39,6 +39,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/profile" element={<DashboardPage />} />
+            <Route path="/visit_user" element={<DashboardPage />} />
             <Route path="/auth" element={<AuthPage />} />
             <Route path="/reset_password/:code/:email" element={<AuthPage />} />
             <Route path="/img360" element={<Img360 />} />

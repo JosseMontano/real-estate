@@ -8,6 +8,7 @@ import {
   addREToDB,
   fetchCommentsForUser,
   fetchRealEstatesByUserId,
+  fetchUserById,
 } from "./api/endpoints";
 import { ModalCreatePropierty } from "./components/modalCreatePropierty";
 import { ProfileHeader } from "./components/profileHeader";
@@ -28,6 +29,7 @@ import { Location } from "@/core/components/map/maps";
 import useGet from "@/core/hooks/useGet";
 import { useLanguageStore } from "@/core/store/language";
 import imgDefault from "@/shared/assets/noPhoto.jpg";
+import useUserStore from "@/core/store/user";
 
 export type FileSelectedType = {
   name: string;
@@ -43,7 +45,10 @@ export type FileUpType = {
 export type options = "Publications" | "Favorites";
 
 const DashboardPage = () => {
-  const { user, logout } = useAuthStore();
+  const { user: userLogged, logout } = useAuthStore();
+  const { userSelected } = useUserStore();
+  const user = userSelected ?? userLogged;
+
   const { handleNavigate } = useNavigation();
   const {
     handleStateModal: handleShowAddComment,
@@ -73,10 +78,12 @@ const DashboardPage = () => {
     },
   });
 
-  const { isLoading, data: realEstate } = useQuery({
+  const { isLoading, data: realEstates } = useGet({
     queryKey: ["realEstate-by-user", user?.id],
-    queryFn: () => fetchRealEstatesByUserId(),
+    services: () => fetchRealEstatesByUserId(user?.id ?? 0),
+    valueToService: user?.id,
   });
+
 
   const { data: comments, isLoading: loadingComments } = useGet({
     services: () => fetchCommentsForUser(user?.id || 0),
@@ -183,11 +190,11 @@ const DashboardPage = () => {
     <div className="h-screen hide_scroll flex items-center w-full">
       <div className="absolute top-0 w-full bg-white flex justify-between px-7 py-4 shadow-2xl h-[72px]">
         <div className="text-2xl font-bold">InmoApp</div>
-        <div>
+        <div className="flex gap-3 ">
           <button onClick={logout}>Cerrar sesion</button>
           <img
             className="rounded-full h-10 w-10"
-            src={user.photo ?? imgDefault}
+            src={userLogged.photo ?? imgDefault}
             alt="User"
           />
         </div>
@@ -258,10 +265,11 @@ const DashboardPage = () => {
           <PublicationsAndFavorites
             handleShowModal={handleShowFav}
             isModalOpen={isFavOpen}
-            realEstate={realEstate?.val ?? []}
+            realEstate={realEstates ?? []}
             setSelectedRE={setCurrentRE}
             selectedRE={currentRE}
             stateBtn={stateBtn}
+            user={user}
           />
           {isLoading && <p>Loading...</p>}
         </div>

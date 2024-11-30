@@ -5,6 +5,8 @@ import { NavLink } from "@/features/home/components/navLink";
 import { useEffect, useState } from "react";
 import { useLanguageStore } from "@/core/store/language";
 import { Link } from "react-scroll";
+import useUserStore from "@/core/store/user";
+import { User } from "@/core/types/user";
 
 interface Links {
   href: string;
@@ -14,6 +16,7 @@ interface Links {
 type ParamsType = { links: Links[] };
 export const Header = ({ links }: ParamsType) => {
   const { texts } = useLanguageStore();
+  const { selectUser } = useUserStore();
 
   const { handleNavigate } = useNavigation();
 
@@ -61,7 +64,10 @@ export const Header = ({ links }: ParamsType) => {
             text={texts.languageHeadeBtn}
             isPending={false}
             className="  cursor-pointer"
-            onClick={() => handleNavigate("/profile")}
+            onClick={() => {
+              selectUser(null);
+              handleNavigate("/profile");
+            }}
           />
         </div>
       </div>

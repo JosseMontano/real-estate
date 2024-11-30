@@ -164,3 +164,11 @@ def edit_profile(email: str, request: UpdateUserDTO, db: Session = Depends(get_d
     except Exception as e:
         db.rollback()
         return {"status": 500, "message": Messages.SERVER_ERROR.dict(), "val": []}
+
+@app.get('/user/{user_id}')
+async def get_user(user_id:int, db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    if user:
+        return {"status": 200, "message": Messages.DATA_FOUND.dict(), "val": user}
+    else:
+        return {"status": 404, "message": Messages.DATA_NOT_FOUND.dict(), "val": []}

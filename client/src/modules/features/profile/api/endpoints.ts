@@ -28,8 +28,8 @@ export const fetchCommentsForUser = async (id: number): Promise<Res<Comment[]>> 
 }
 
 
-export const fetchRealEstatesByUserId = async (): Promise<Res<RealEstate[]>> => {
-  return await handleGet<RealEstate[]>("real_estates");
+export const fetchRealEstatesByUserId = async (userId:number): Promise<Res<RealEstate[]>> => {
+  return await handleGet<RealEstate[]>("real_estates/"+userId);
 }
  
 export const fetchUnasweredQuestions = async (id:Number): Promise<Res<Question[]>> => {
@@ -55,4 +55,8 @@ export const postComment = async (comment: CommentDTO) => {
 
 export async function fetchCommentsByRE(id:number): Promise<Res<Comment[]>> {
   return handleGet<Comment[]>("comments/"+id);
+}
+
+export async function fetchUserById(id:number): Promise<Res<User>>{
+  return handleGet<User>("user/auth/"+id)
 }

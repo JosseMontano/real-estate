@@ -9,6 +9,8 @@ import { Buttons } from "./realEstates/buttons";
 import { Info } from "./realEstates/info";
 import { ExtraInfo } from "./realEstates/extraInfo";
 import Btn from "@/core/components/form/button";
+import useNavigation from "@/core/hooks/useNavigate";
+import useUserStore from "@/core/store/user";
 
 type Params = {
   realEstates: RealEstate[];
@@ -42,11 +44,12 @@ export const SectionRealStates = ({
 }: Params) => {
   const { language } = useLanguageStore();
   const [places, setPlaces] = useState<{ [key: number]: NearbyPlace[] }>({});
+  const { selectUser}= useUserStore()
   const [states, setStates] = useState<State[]>(
     Array(realEstates.length).fill("info")
   );
   type State = "info" | "places";
-
+  const {handleNavigate} = useNavigation()
   const handleStateChange = async (
     index: number,
     newState: State,
@@ -88,7 +91,7 @@ export const SectionRealStates = ({
             index % 2 === 1 ? "md:flex-row-reverse" : ""
           }`}
         >
-          <Photo img={item.photos} />
+          <Photo img={item.photos} index={index} />
 
           <div
             className={`flex flex-col gap-3 items-center ${
@@ -116,6 +119,10 @@ export const SectionRealStates = ({
                   text={seeMoreBtn}
                   className="w-[150px]"
                   isPending={false}
+                  onClick={()=>{
+                      selectUser(item.user)
+                    handleNavigate("/visit_user")
+                  }}
                 />
               </div>
             )}
@@ -130,7 +137,6 @@ export const SectionRealStates = ({
         </div>
       ))}
       <Pagination
-        amountOfPages={amountOfPages}
         currentPage={currentPage}
         primaryColor={primaryColor}
         handlePagination={handlePagination}

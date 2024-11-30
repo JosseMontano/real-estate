@@ -4,6 +4,7 @@ import { DefaultValues, useForm as useFormHook } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
 import { useEffect, useRef, useState } from "react";
+
 type ParamsType<T extends z.ZodType<any, any>> = {
   schema: T;
   form: (data: z.infer<T>) => Promise<any>;

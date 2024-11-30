@@ -10,8 +10,8 @@ type ParamasType = {
   user: User;
   commentsLanguage: string;
 };
-export const ProfileHeader = ({ commets, commentsLanguage }: ParamasType) => {
-  const { user } = useAuthStore();
+export const ProfileHeader = ({ commets, commentsLanguage, user }: ParamasType) => {
+
 
   return (
     <div className="flex flex-col gap-4 w-full h-full md:pr-5 justify-center ">

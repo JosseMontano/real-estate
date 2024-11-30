@@ -65,7 +65,8 @@ async def get_real_estates(db: Session = Depends(get_db)):
         joinedload(models.RealEstate.photos),
         joinedload(models.RealEstate.title),
         joinedload(models.RealEstate.description),
-        joinedload(models.RealEstate.zone)
+        joinedload(models.RealEstate.zone),
+        joinedload(models.RealEstate.user)
     )
     real_estates = query.all()
     
@@ -270,8 +271,6 @@ async def filter_real_estates(
             "val": []
         }
 
-
-
 @app.get('/{type_real_estate_id}')
 async def get_real_estates_by_type(type_real_estate_id:int ,db: Session = Depends(get_db)):
     query = db.query(models.RealEstate).options(
@@ -285,6 +284,7 @@ async def get_real_estates_by_type(type_real_estate_id:int ,db: Session = Depend
         return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": []}
     
     return {"status": 200, "message": Messages.DATA_FOUND, "val": real_estates}
+
 @app.post('/')
 async def create_real_estate(real_estate: RealEstateDTO, db: Session = Depends(get_db)):
     try:

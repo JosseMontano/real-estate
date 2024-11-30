@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { primaryColor } from "@/core/constants/colors";
-import Btn from "@/core/components/form/button";
+
 import Pagination from "@/core/components/form/pagination";
 import { useLanguageStore } from "@/core/store/language";
 import { SearchIcon } from "@/shared/assets/icons/search";
 import Select from "@/core/components/form/select";
-import EmptyImg from "@/shared/assets/empty.png";
+import { Empty } from "@/core/components/map/empty";
 
 type ParamsType = {
   data: any[];
@@ -144,12 +144,8 @@ export const CustomerTable = ({
           </div>
 
           <div className="overflow-x-auto overflow-y-hidden flex-grow max-h-[640px] ">
-            {filteredData.length === 0 && (
-              <div className="flex flex-col items-center">
-                <img src={EmptyImg} alt="vacio" />
-                <p>{texts.empty}</p>
-              </div>
-            )}
+
+            <Empty data={filteredData} />
 
             {filteredData.length > 0 && (
               <table className="min-w-full text-left border-collapse">

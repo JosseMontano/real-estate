@@ -1,3 +1,4 @@
+import { User } from "@/core/types/user";
 import { LanguageDB } from "./language";
 import { Zone } from "@/features/home/types/zones";
 
@@ -28,6 +29,7 @@ export type RealEstate = {
   photos: PhotoRes[]
   zone: Zone
   active?:boolean
+  user:User
 }
 export interface TypeRE {
   id: number;

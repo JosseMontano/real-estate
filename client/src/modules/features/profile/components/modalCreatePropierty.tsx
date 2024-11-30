@@ -65,7 +65,6 @@ export const ModalCreatePropierty = ({
   });
 
   const { language, texts } = useLanguageStore();
-  console.log(language);
   return (
     <>
       {/*   <Btn

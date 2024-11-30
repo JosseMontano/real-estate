@@ -14,6 +14,8 @@ import useAuthStore from "@/core/store/auth";
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "../../../../App";
 import { ListComments } from "./listComments";
+import { Empty } from "@/core/components/map/empty";
+import { User } from "@/core/types/user";
 
 type ParamsType = {
   isModalOpen: boolean;
@@ -22,6 +24,7 @@ type ParamsType = {
   selectedRE: RealEstate | null;
   setSelectedRE: (re: RealEstate) => void;
   stateBtn: options;
+  user:User
 };
 
 export enum Options {
@@ -37,9 +40,11 @@ export const PublicationsAndFavorites = ({
   selectedRE,
   setSelectedRE,
   stateBtn,
+  user
 }: ParamsType) => {
   const [currentOption, setCurrentOption] = useState<Options>(1);
   const { language } = useLanguageStore();
+
 
   const options: LanguageDB[] = [
     {
@@ -58,7 +63,7 @@ export const PublicationsAndFavorites = ({
       pt: "Feedback",
     },
   ];
-  const { user } = useAuthStore();
+
   const { data: realEstateFavs } = useGet({
     services: () => fetchGetFavsRE(user?.id || 0),
     queryKey: ["favs-real-estates", user?.id],
@@ -79,25 +84,41 @@ export const PublicationsAndFavorites = ({
     <div className="max-h-[240px] overflow-y-auto ">
       <div className="w-full mt-5">
         <div className="flex flex-wrap gap-4 w-full max-w-none items-center ">
-          {stateBtn == "Publications" &&
-            realEstate.map((publication) => (
-              <RealEstateComp
-                publication={publication}
-                handleShowModal={handleShowModal}
-                setSelectedRE={setSelectedRE}
-              />
-            ))}
-          {stateBtn == "Favorites" &&
-            realEstateFavs?.map((publication) => (
-              <RealEstateComp
-                publication={publication.real_estate}
-                handleShowModal={handleShowModal}
-                setSelectedRE={setSelectedRE}
-                showIcon={true}
-                deleteFav={deleteFav}
-                favREiD={publication.id}
-              />
-            ))}
+          {stateBtn == "Publications" && (
+            <>
+              {realEstate.map((publication) => (
+                <RealEstateComp
+                  publication={publication}
+                  handleShowModal={handleShowModal}
+                  setSelectedRE={setSelectedRE}
+                />
+              ))}
+              {realEstate.length == 0 && (
+                <div className="w-full">
+                  <Empty data={realEstate} />
+                </div>
+              )}
+            </>
+          )}
+          {stateBtn == "Favorites" && (
+            <>
+              {realEstateFavs?.map((publication) => (
+                <RealEstateComp
+                  publication={publication.real_estate}
+                  handleShowModal={handleShowModal}
+                  setSelectedRE={setSelectedRE}
+                  showIcon={true}
+                  deleteFav={deleteFav}
+                  favREiD={publication.id}
+                />
+              ))}
+              {realEstateFavs.length == 0} && (
+              <div className="w-full">
+                <Empty data={realEstateFavs} />
+              </div>
+              )
+            </>
+          )}
         </div>
       </div>
 
@@ -122,7 +143,7 @@ export const PublicationsAndFavorites = ({
             )}
 
             {currentOption === Options.Feedback && (
-             <ListComments user={user} selectedRE={selectedRE}/>
+              <ListComments user={user} selectedRE={selectedRE} />
             )}
           </div>
         }

@@ -8,31 +8,28 @@ import { favsRESchema } from "../../validations/favRE.shema";
 import { addFavRE } from "../../api/endpoints";
 import { useForm } from "@/core/hooks/useForm";
 import useAuthStore from "@/core/store/auth";
+import { useLanguageStore } from "@/core/store/language";
 
 type ParamsType = {
   img: PhotoRes[];
+  index:number
 };
-export const Photo = ({ img }: ParamsType) => {
-  const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay()]);
+export const Photo = ({ img, index }: ParamsType) => {
+  const [emblaRef] = useEmblaCarousel({ loop: true },   [Autoplay({ delay: 3000 + (index*600) })] );
   const { handleNavigate } = useNavigation();
   const { loadUrl } = use360photo();
-  const {user} = useAuthStore()
-  const {
-    handleOnSubmit,
-    setSuccessMsg,
-    setErrorMsg,
-    reset
-  } = useForm({
+  const { user } = useAuthStore();
+  const { language } = useLanguageStore();
+  const { handleOnSubmit, setSuccessMsg, setErrorMsg } = useForm({
     schema: favsRESchema,
     form: async (data) => {
       data.user_id = user.id;
       data.real_estate_id = img[0].real_estate_id;
       const res = await addFavRE(data);
       if (res.status == 200 || res.status == 201) {
-        setSuccessMsg(res.message);
-        reset();
+        setSuccessMsg(res.message[language]);
       } else {
-        setErrorMsg(res.message);
+        setErrorMsg(res.message[language]);
       }
     },
   });
@@ -47,7 +44,7 @@ export const Photo = ({ img }: ParamsType) => {
               className="embla__slide flex justify-center relative "
             >
               <div
-                className="absolute right-6 cursor-pointer"
+                className="absolute right-6 top-2 cursor-pointer"
                 onClick={handleOnSubmit}
               >
                 <HeartFill size={"22"} className="text-gray-200" />

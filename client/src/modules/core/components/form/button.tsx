@@ -19,7 +19,6 @@ const Btn = ({
 }: Props) => {
   //guardar... - gurdando  //iniciar iniciando... //publicar publicando...
   const textPending = text.slice(0, -1) + "ndo...";
-
   return (
     <button
       type="submit"

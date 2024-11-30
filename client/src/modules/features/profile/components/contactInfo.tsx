@@ -10,6 +10,7 @@ import { HousesFills } from "@/shared/assets/icons/housesFills";
 import { StarFill } from "@/shared/assets/icons/starFill";
 import { options } from "../profile";
 import { GeoIcon } from "@/shared/assets/icons/geo";
+import useAuthStore from "@/core/store/auth";
 
 type ParamsType = {
   isModalOpen: boolean;
@@ -41,6 +42,7 @@ export const ContactInfo = ({
   stateBtn,
   setStateBtn,
 }: ParamsType) => {
+  const { user: userLogged } = useAuthStore();
   return (
     <div className="flex flex-col gap-2 ">
       <div className="mt-6 flex flex-col gap-2">
@@ -107,21 +109,22 @@ export const ContactInfo = ({
             <button className="mt-1">{publications}</button>
           </div>
 
-          <div
-            onClick={() => setStateBtn("Favorites")}
-            className={`flex relative gap-2 pb-4 border-b-[3px]  items-end ${
-              stateBtn === "Favorites"
-                ? "border-[#209bfb]"
-                : "border-transparent"
-            }`}
-          >
-            <span className="absolute left-[14px] top-[4px] bg-[#209bfb] rounded-full text-[13px] h-4 w-4 flex items-center justify-center text-white">
-              2
-            </span>
-            <HeartFill size="20" />
-            <button className="mt-1">{favorites}</button>
-          </div>
-          
+          {user == userLogged && (
+            <div
+              onClick={() => setStateBtn("Favorites")}
+              className={`flex relative gap-2 pb-4 border-b-[3px]  items-end ${
+                stateBtn === "Favorites"
+                  ? "border-[#209bfb]"
+                  : "border-transparent"
+              }`}
+            >
+              <span className="absolute left-[14px] top-[4px] bg-[#209bfb] rounded-full text-[13px] h-4 w-4 flex items-center justify-center text-white">
+                2
+              </span>
+              <HeartFill size="20" />
+              <button className="mt-1">{favorites}</button>
+            </div>
+          )}
         </div>
         <div className="w-full h-px bg-gray-300"></div>
       </div>

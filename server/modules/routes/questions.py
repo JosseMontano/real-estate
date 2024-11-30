@@ -82,7 +82,7 @@ async def create_question(question: QuestionDTO, db: Session = Depends(get_db)):
     db.add(db_question)
     db.commit()
     db.refresh(db_question)
-    return {"status": 201, "message": Messages.DATA_CREATED, "val": db_question}
+    return {"status": 201, "message": Messages.DATA_CREATED.dict(), "val": db_question}
 
 @app.delete('/{question_id}')
 async def delete_question(question_id: int, db: Session = Depends(get_db)):
