@@ -26,6 +26,8 @@ type ParamsType = {
   placeholderComment: string;
   stateBtn: options;
   setStateBtn: (state: options) => void;
+  amountRE:number
+  amountREFavs: number
 };
 export const ContactInfo = ({
   user,
@@ -41,6 +43,8 @@ export const ContactInfo = ({
   placeholderComment,
   stateBtn,
   setStateBtn,
+  amountRE,
+  amountREFavs
 }: ParamsType) => {
   const { user: userLogged } = useAuthStore();
   return (
@@ -103,7 +107,7 @@ export const ContactInfo = ({
             } `}
           >
             <span className="absolute left-[14px] bg-[#209bfb] rounded-full text-[13px] h-4 w-4 flex items-center justify-center text-white">
-              5
+              {amountRE}
             </span>
             <HousesFills size="23" />
             <button className="mt-1">{publications}</button>
@@ -119,7 +123,7 @@ export const ContactInfo = ({
               }`}
             >
               <span className="absolute left-[14px] top-[4px] bg-[#209bfb] rounded-full text-[13px] h-4 w-4 flex items-center justify-center text-white">
-                2
+                {amountREFavs}
               </span>
               <HeartFill size="20" />
               <button className="mt-1">{favorites}</button>

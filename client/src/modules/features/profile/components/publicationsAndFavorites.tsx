@@ -8,23 +8,23 @@ import { PhotosRE } from "./photosRE";
 import { InfoRE } from "./infoRE";
 import { Questions } from "./questions";
 import { options } from "../profile";
-import useGet from "@/core/hooks/useGet";
-import { deleteFavRe, fetchGetFavsRE } from "../api/endpoints";
-import useAuthStore from "@/core/store/auth";
+import { deleteFavRe } from "../api/endpoints";
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "../../../../App";
 import { ListComments } from "./listComments";
 import { Empty } from "@/core/components/map/empty";
 import { User } from "@/core/types/user";
+import { FavRealEstate } from "../interface/favRE";
 
 type ParamsType = {
   isModalOpen: boolean;
   handleShowModal: () => void;
   realEstate: RealEstate[];
+  realEstateFavs: FavRealEstate[];
   selectedRE: RealEstate | null;
   setSelectedRE: (re: RealEstate) => void;
   stateBtn: options;
-  user:User
+  user: User;
 };
 
 export enum Options {
@@ -40,11 +40,11 @@ export const PublicationsAndFavorites = ({
   selectedRE,
   setSelectedRE,
   stateBtn,
-  user
+  user,
+  realEstateFavs,
 }: ParamsType) => {
   const [currentOption, setCurrentOption] = useState<Options>(1);
-  const { language } = useLanguageStore();
-
+  const { language, texts } = useLanguageStore();
 
   const options: LanguageDB[] = [
     {
@@ -63,13 +63,6 @@ export const PublicationsAndFavorites = ({
       pt: "Feedback",
     },
   ];
-
-  const { data: realEstateFavs } = useGet({
-    services: () => fetchGetFavsRE(user?.id || 0),
-    queryKey: ["favs-real-estates", user?.id],
-    itemsPerPage: 10,
-    valueToService: user?.id,
-  });
 
   const { mutate: deleteFav } = useMutation({
     mutationFn: deleteFavRe,
@@ -132,10 +125,11 @@ export const PublicationsAndFavorites = ({
               selectedRE={selectedRE}
               currentOption={currentOption}
               setCurrentOption={setCurrentOption}
+              texts={texts}
             />
 
             {currentOption === Options.General && (
-              <InfoRE selectedRE={selectedRE} language={language} />
+              <InfoRE selectedRE={selectedRE} language={language} texts={texts}/>
             )}
 
             {currentOption === Options.Questions && (

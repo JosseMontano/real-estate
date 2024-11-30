@@ -72,6 +72,14 @@ export interface Translations {
   favorites: string;
   addComment: string;
   commentPlaceholder: string;
+  signout: string;
+  //profile RE info
+  generalVisitUser: string;
+  questionsVisitUer: string;
+  feedbackVisitUser: string;
+  addresVisitUser: string;
+  amountBathroomsVisitUser: string;
+  amountBedroomsVisitUser: string;
   //profile comments
   commentsTitle: string;
   //btn edit user
@@ -171,6 +179,14 @@ const translations: { [key in Language]: Translations } = {
     favorites: "Favorites",
     addComment: "Add comment",
     commentPlaceholder: "Comment...",
+    signout: "Sign out",
+    //profile RE INF
+    generalVisitUser: "General",
+    questionsVisitUer: "Questions",
+    feedbackVisitUser: "Feedback",
+    addresVisitUser: "Addres",
+    amountBathroomsVisitUser: "Habitaciones",
+    amountBedroomsVisitUser: "Dormitorios",
     //comments
     commentsTitle: "Featured comment",
     //btn edit user
@@ -268,26 +284,36 @@ const translations: { [key in Language]: Translations } = {
     favorites: "Favoritos",
     addComment: "Agregar comentario",
     commentPlaceholder: "Comentario...",
+    signout: "Cerrar sesión",
+    //PROFILE RE INFO 
+    generalVisitUser: "General",
+    questionsVisitUer: "Perguntas",
+    feedbackVisitUser: "Reseñas",
+    addresVisitUser: "Direccion",
+    amountBathroomsVisitUser: "Baños",
+    amountBedroomsVisitUser: "Cuartos",
+    
     //comments
-    commentsTitle: "Comentario destacado",
+    commentsTitle: "Comentário em destaque",
     //btn edit user
-    btnEditUser: "Editar usuario",
-    btnAddRe: "Crear inmueble",
+    btnEditUser: "Editar usuário",
+    //btn create Re
+    btnAddRe: "Criar imóvel",
     //user information
-    username: "Nombre de usuario",
+    username: "Nome de usuário",
     phoneNumber: "Número de celular",
-    email: "Correo",
-    password: "Contraseña",
+    email: "Email",
+    password: "Senha",
     //property details
     title: "Título",
-    description: "Descripción",
-    price: "Precio",
-    bedrooms: "Habitaciones",
-    bathrooms: "Baños",
-    squareMeters: "Metros cuadrados",
-    select: "Seleccionar...",
-    searchImage: "Buscar imagen",
-    filesUplodesLanguage: "archivos subidos",
+    description: "Descrição",
+    price: "Preço",
+    bedrooms: "Quartos",
+    bathrooms: "Banheiros",
+    squareMeters: "Metros quadrados",
+    select: "Selecionar...",
+    searchImage: "Procurar imagem",
+    filesUplodesLanguage: "arquivos carregados",
     //dasboard sidebar
     properties: "Inmuebles",
     propertyType: "Tipo de inmuebles",
@@ -364,6 +390,14 @@ const translations: { [key in Language]: Translations } = {
     favorites: "Favoritos",
     addComment: "Adicionar comentário",
     commentPlaceholder: "Comentário...",
+    signout: "Sair",
+    // profile RE
+    generalVisitUser: "Geral",
+    questionsVisitUer: "Perguntas",
+    feedbackVisitUser: "Feedback",
+    addresVisitUser: "Endereço",
+    amountBathroomsVisitUser: "Banheiros",
+    amountBedroomsVisitUser: "Quartos",
     //comments
     commentsTitle: "Comentário em destaque",
     //btn edit user

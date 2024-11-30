@@ -6,13 +6,15 @@ import { useCallback, useEffect, useState } from "react";
 import PhotoNOAvailable from "@/shared/assets/photo-no-available.jpg";
 import { primaryColor } from "@/core/constants/colors";
 import { Options } from "./publicationsAndFavorites";
+import {  Translations } from "@/core/store/language";
 
 type ParamsType = {
     selectedRE: RealEstate | null;
     currentOption: Options
     setCurrentOption: (option: Options) => void;
+    texts: Translations
 };
-export const PhotosRE = ({selectedRE, currentOption, setCurrentOption}: ParamsType) => {
+export const PhotosRE = ({selectedRE, currentOption, setCurrentOption, texts}: ParamsType) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay()]);
   const [currentImageVisible, setCurrentImageVisible] = useState(0);
 
@@ -80,7 +82,7 @@ export const PhotosRE = ({selectedRE, currentOption, setCurrentOption}: ParamsTy
               borderColor: currentOption === 1 ? primaryColor : "",
             }}
           >
-            General
+            {texts.generalVisitUser}
           </span>
           <span
             onClick={() => setCurrentOption(2)}
@@ -92,7 +94,7 @@ export const PhotosRE = ({selectedRE, currentOption, setCurrentOption}: ParamsTy
                   : "border-b-transparent"
               }`}
           >
-            Preguntas
+            {texts.questionsVisitUer}
           </span>
           <span
             onClick={() => setCurrentOption(3)}
@@ -101,7 +103,7 @@ export const PhotosRE = ({selectedRE, currentOption, setCurrentOption}: ParamsTy
               borderColor: currentOption === 3 ? primaryColor : "",
             }}
           >
-            Reseñas
+            {texts.feedbackVisitUser}
           </span>
         </div>
       </div>

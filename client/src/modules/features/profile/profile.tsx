@@ -7,14 +7,13 @@ import { realEstateSchema } from "./validations/realEstates.schema";
 import {
   addREToDB,
   fetchCommentsForUser,
+  fetchGetFavsRE,
   fetchRealEstatesByUserId,
-  fetchUserById,
 } from "./api/endpoints";
 import { ModalCreatePropierty } from "./components/modalCreatePropierty";
 import { ProfileHeader } from "./components/profileHeader";
 import { ContactInfo } from "./components/contactInfo";
 import { PublicationsAndFavorites } from "./components/publicationsAndFavorites";
-import { useQuery } from "@tanstack/react-query";
 import { User } from "@/core/types/user";
 import { ModalEditUser } from "./components/modalEditUser";
 import {
@@ -186,12 +185,20 @@ const DashboardPage = () => {
 
   const [stateBtn, setStateBtn] = useState<options>("Publications");
 
+  const { data: realEstateFavs } = useGet({
+    services: () => fetchGetFavsRE(user?.id || 0),
+    queryKey: ["favs-real-estates", user?.id],
+    itemsPerPage: 10,
+    valueToService: user?.id,
+  });
+
+
   return (
     <div className="h-screen hide_scroll flex items-center w-full">
       <div className="absolute top-0 w-full bg-white flex justify-between px-7 py-4 shadow-2xl h-[72px]">
-        <div className="text-2xl font-bold">InmoApp</div>
+        <div className="text-2xl font-bold cursor-pointer" onClick={()=>handleNavigate("/")}>InmoApp</div>
         <div className="flex gap-3 ">
-          <button onClick={logout}>Cerrar sesion</button>
+          <button onClick={logout}>{texts.signout}</button>
           <img
             className="rounded-full h-10 w-10"
             src={userLogged.photo ?? imgDefault}
@@ -261,6 +268,8 @@ const DashboardPage = () => {
             sendMsg={texts.sendMessage}
             stateBtn={stateBtn}
             setStateBtn={setStateBtn}
+            amountRE={realEstates?.length ?? 0}
+            amountREFavs={realEstateFavs?.length ?? 0}
           />
           <PublicationsAndFavorites
             handleShowModal={handleShowFav}
@@ -270,6 +279,7 @@ const DashboardPage = () => {
             selectedRE={currentRE}
             stateBtn={stateBtn}
             user={user}
+            realEstateFavs={realEstateFavs}
           />
           {isLoading && <p>Loading...</p>}
         </div>
