@@ -35,7 +35,7 @@ export const RealEstateComp = ({
       )}
       <img
         src={
-          publication.photos.length > 0
+          publication.photos !=undefined 
             ? publication.photos[0].image
             : PhotoNOAvailable
         }

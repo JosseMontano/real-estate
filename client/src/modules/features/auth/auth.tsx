@@ -57,6 +57,7 @@ export const AuthPage = () => {
           available: userObject.available,
           cellphone: userObject.cellphone,
           username: userObject.username,
+          photo: userObject.photo,
         });
         handleNavigate("/profile");
         return;

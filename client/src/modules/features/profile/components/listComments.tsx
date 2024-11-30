@@ -11,22 +11,22 @@ import { useModal } from "@/core/hooks/useModal";
 import { ShowModal } from "@/core/components/form/modal";
 import { useState } from "react";
 import { RowIcon } from "@/shared/assets/icons/rowIcon";
-import Btn from "@/core/components/form/button";
 import { fetchCommentsByRE, postComment } from "../api/endpoints";
 import useGet from "@/core/hooks/useGet";
-import { useLanguageStore } from "@/core/store/language";
-import { QueryClient } from "@tanstack/react-query";
+import { Language, Translations } from "@/core/store/language";
 import { queryClient } from "../../../../App";
 
 type ParamsType = {
   user: User;
   selectedRE: RealEstate | null;
+  language: Language
+  texts: Translations
 };
-export const ListComments = ({ user, selectedRE }: ParamsType) => {
+export const ListComments = ({ user, selectedRE, language, texts }: ParamsType) => {
   const { handleStateModal, isModalOpen } = useModal();
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
-  const { language } = useLanguageStore();
+
   const {
     register,
     handleOnSubmit,
@@ -43,13 +43,13 @@ export const ListComments = ({ user, selectedRE }: ParamsType) => {
       data.amount_star = selectedIndex;
       const res = await postComment(data);
       if (res.status == 200 || res.status == 201) {
-        setSuccessMsg(res.message);
+        setSuccessMsg(res.message[language]);
         reset();
         queryClient.invalidateQueries({
           queryKey: ["comments-by-readl-estate", user?.id],
         });
       } else {
-        setErrorMsg(res.message);
+        setErrorMsg(res.message[language]);
       }
     },
   });
@@ -64,7 +64,7 @@ export const ListComments = ({ user, selectedRE }: ParamsType) => {
   return (
     <>
       <div className="h-[250px] -m-5 py-2 px-5 overflow-y-auto flex flex-col gap-3">
-        <h1 className="text-justify font-bold text-gray-900 ">Comentarios</h1>
+        <h1 className="text-justify font-bold text-gray-900 ">{texts.commentsTitlteVisitUser}</h1>
         <div>
           <FormComponent
             isPending={isPendingQuestion}
@@ -85,7 +85,7 @@ export const ListComments = ({ user, selectedRE }: ParamsType) => {
                 <Input
                   error={errors.comment_text}
                   register={register("comment_text")}
-                  text={"Comentario"}
+                  text={texts.inputCommentVisitUser}
                   /* @ts-ignore */
                   Icon={SendIcon}
                   positionIcon="right"

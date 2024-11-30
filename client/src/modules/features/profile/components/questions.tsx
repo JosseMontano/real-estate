@@ -10,7 +10,7 @@ type ParamsType = {
 };
 export const Questions = ({ selectedRE }: ParamsType) => {
   const { data: unasweredQuestions } = useGet({
-    queryKey: ["realEstate-by-user", selectedRE?.id],
+    queryKey: ["questions-by-re", selectedRE?.id],
     services: () => fetchUnasweredQuestions(selectedRE?.id ?? 0),
     valueToService: selectedRE?.id,
   });

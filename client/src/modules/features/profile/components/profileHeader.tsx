@@ -1,7 +1,9 @@
 import { StarFill } from "@/shared/assets/icons/starFill";
 import imgDefault from "@/shared/assets/noPhoto.jpg";
 import { User } from "@/core/types/user";
-import useAuthStore from "@/core/store/auth";
+import { Comment } from "@/shared/types/questions";
+import { useLanguageStore } from "@/core/store/language";
+
 type ParamasType = {
   isModalOpen: boolean;
   handleShowModal: () => void;
@@ -10,9 +12,12 @@ type ParamasType = {
   user: User;
   commentsLanguage: string;
 };
-export const ProfileHeader = ({ commets, commentsLanguage, user }: ParamasType) => {
-
-
+export const ProfileHeader = ({
+  commets,
+  commentsLanguage,
+  user,
+}: ParamasType) => {
+  const {language} = useLanguageStore()
   return (
     <div className="flex flex-col gap-4 w-full h-full md:pr-5 justify-center ">
       <div className=" flex flex-col items-center gap-3 ">
@@ -33,34 +38,31 @@ export const ProfileHeader = ({ commets, commentsLanguage, user }: ParamasType) 
           </div>
         </div>
         <div className="overflow-y-scroll w-full">
-          {commets.length == 0 && (
-            <>
-              <div className="w-full flex gap-3 items-center">
+          {commets.map((v) => (
+            <div className="w-full flex gap-3 items-center">
+              <img
+                src={v.commentator.photo ?? imgDefault}
+                alt="imagen por defecto"
+                className="rounded-full w-9 h-9"
+              />
 
-                  <img
-                    src={imgDefault}
-                    alt="imagen por defecto"
-                    className="rounded-full w-9 h-9"
-                  />
-           
-                <div className=" flex-wrap text-sm w-[175px]">
-                  <p className="font-semibold">email@example.com</p>
-                  <p className="text-[#888787]">
-                    Comentario example: La casa esta bonita
-                  </p>
-                </div>
+              <div className=" flex-wrap text-sm w-[175px]">
+                <p className="font-semibold">{v.commentator.email}</p>
+                <p className="text-[#888787]">
+                  {v.comment[language]}
+                </p>
+              </div>
 
-                <div className="flex items-center gap-1">
-                  <p className=" text-base md:text-xl font-semibold">3</p>
-                  <div className="flex ">
-                    <span className="text-yellow-400 text-base md:text-2xl">
-                      <StarFill size="20" />
-                    </span>
-                  </div>
+              <div className="flex items-center gap-1">
+                <p className=" text-base md:text-xl font-semibold">3</p>
+                <div className="flex ">
+                  <span className="text-yellow-400 text-base md:text-2xl">
+                    <StarFill size="20" />
+                  </span>
                 </div>
               </div>
-            </>
-          )}
+            </div>
+          ))}
         </div>
       </div>
     </div>

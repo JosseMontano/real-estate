@@ -99,7 +99,7 @@ async def create_comment(comment: CommentDTO, db: Session = Depends(get_db)):
         db.add(new_comment)
         db.commit()
         db.refresh(new_comment)
-        return {"status": 201, "message": Messages.DATA_CREATED, "val": new_comment}
+        return {"status": 201, "message": Messages.DATA_CREATED.dict(), "val": new_comment}
     except Exception as e:
         db.rollback()
         return {"status": 500, "message": str(e), "val": []}

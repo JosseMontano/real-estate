@@ -80,6 +80,8 @@ export interface Translations {
   addresVisitUser: string;
   amountBathroomsVisitUser: string;
   amountBedroomsVisitUser: string;
+  commentsTitlteVisitUser: string;
+  inputCommentVisitUser: string;
   //profile comments
   commentsTitle: string;
   //btn edit user
@@ -185,8 +187,10 @@ const translations: { [key in Language]: Translations } = {
     questionsVisitUer: "Questions",
     feedbackVisitUser: "Feedback",
     addresVisitUser: "Addres",
-    amountBathroomsVisitUser: "Habitaciones",
-    amountBedroomsVisitUser: "Dormitorios",
+    amountBathroomsVisitUser: "Bathrooms",
+    amountBedroomsVisitUser: "Bedrooms",
+    commentsTitlteVisitUser:"Comments",
+    inputCommentVisitUser:"Write comment",
     //comments
     commentsTitle: "Featured comment",
     //btn edit user
@@ -287,11 +291,13 @@ const translations: { [key in Language]: Translations } = {
     signout: "Cerrar sesión",
     //PROFILE RE INFO 
     generalVisitUser: "General",
-    questionsVisitUer: "Perguntas",
+    questionsVisitUer: "Preguntas",
     feedbackVisitUser: "Reseñas",
     addresVisitUser: "Direccion",
     amountBathroomsVisitUser: "Baños",
     amountBedroomsVisitUser: "Cuartos",
+    commentsTitlteVisitUser:"Comentarios",
+    inputCommentVisitUser:"Escriba un comentario",
     
     //comments
     commentsTitle: "Comentário em destaque",
@@ -398,6 +404,8 @@ const translations: { [key in Language]: Translations } = {
     addresVisitUser: "Endereço",
     amountBathroomsVisitUser: "Banheiros",
     amountBedroomsVisitUser: "Quartos",
+    commentsTitlteVisitUser:"Comentários",
+    inputCommentVisitUser:"Escreva um comentário",
     //comments
     commentsTitle: "Comentário em destaque",
     //btn edit user

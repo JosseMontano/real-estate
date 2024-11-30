@@ -15,6 +15,7 @@ import { ListComments } from "./listComments";
 import { Empty } from "@/core/components/map/empty";
 import { User } from "@/core/types/user";
 import { FavRealEstate } from "../interface/favRE";
+import useAuthStore from "@/core/store/auth";
 
 type ParamsType = {
   isModalOpen: boolean;
@@ -45,7 +46,7 @@ export const PublicationsAndFavorites = ({
 }: ParamsType) => {
   const [currentOption, setCurrentOption] = useState<Options>(1);
   const { language, texts } = useLanguageStore();
-
+const {user: userLogged} = useAuthStore()
   const options: LanguageDB[] = [
     {
       es: "General",
@@ -137,7 +138,7 @@ export const PublicationsAndFavorites = ({
             )}
 
             {currentOption === Options.Feedback && (
-              <ListComments user={user} selectedRE={selectedRE} />
+              <ListComments user={userLogged} selectedRE={selectedRE} language={language} texts={texts}/>
             )}
           </div>
         }

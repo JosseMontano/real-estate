@@ -192,13 +192,15 @@ const DashboardPage = () => {
     valueToService: user?.id,
   });
 
-
   return (
     <div className="h-screen hide_scroll flex items-center w-full">
       <div className="absolute top-0 w-full bg-white flex justify-between px-7 py-4 shadow-2xl h-[72px]">
         <div className="text-2xl font-bold cursor-pointer" onClick={()=>handleNavigate("/")}>InmoApp</div>
         <div className="flex gap-3 ">
-          <button onClick={logout}>{texts.signout}</button>
+          <button onClick={()=>{
+            logout()
+            handleNavigate("/auth")
+          }}>{texts.signout}</button>
           <img
             className="rounded-full h-10 w-10"
             src={userLogged.photo ?? imgDefault}
@@ -279,7 +281,7 @@ const DashboardPage = () => {
             selectedRE={currentRE}
             stateBtn={stateBtn}
             user={user}
-            realEstateFavs={realEstateFavs}
+            realEstateFavs={realEstateFavs ?? []}
           />
           {isLoading && <p>Loading...</p>}
         </div>
