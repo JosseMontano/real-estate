@@ -46,7 +46,7 @@ export const PublicationsAndFavorites = ({
 }: ParamsType) => {
   const [currentOption, setCurrentOption] = useState<Options>(1);
   const { language, texts } = useLanguageStore();
-const {user: userLogged} = useAuthStore()
+  const { user: userLogged } = useAuthStore();
   const options: LanguageDB[] = [
     {
       es: "General",
@@ -77,7 +77,7 @@ const {user: userLogged} = useAuthStore()
   return (
     <div className="max-h-[240px] overflow-y-auto ">
       <div className="w-full mt-5">
-        <div className="flex flex-wrap gap-4 w-full max-w-none items-center ">
+        <div className="flex flex-wrap gap-4 w-full max-w-none items-center">
           {stateBtn == "Publications" && (
             <>
               {realEstate.map((publication) => (
@@ -130,15 +130,30 @@ const {user: userLogged} = useAuthStore()
             />
 
             {currentOption === Options.General && (
-              <InfoRE selectedRE={selectedRE} language={language} texts={texts}/>
+              <InfoRE
+                selectedRE={selectedRE}
+                language={language}
+                texts={texts}
+              />
             )}
 
             {currentOption === Options.Questions && (
-              <Questions selectedRE={selectedRE} texts={texts} language={language} user={user} userLogged={userLogged}/>
+              <Questions
+                selectedRE={selectedRE}
+                texts={texts}
+                language={language}
+                user={user}
+                userLogged={userLogged}
+              />
             )}
 
             {currentOption === Options.Feedback && (
-              <ListComments user={userLogged} selectedRE={selectedRE} language={language} texts={texts}/>
+              <ListComments
+                user={userLogged}
+                selectedRE={selectedRE}
+                language={language}
+                texts={texts}
+              />
             )}
           </div>
         }

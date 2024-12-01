@@ -191,7 +191,7 @@ const DashboardPage = () => {
     itemsPerPage: 10,
     valueToService: user?.id,
   });
-
+  console.log(userLogged);
   return (
     <div className="h-screen hide_scroll flex items-center w-full">
       <div className="absolute top-0 w-full bg-white flex justify-between px-7 py-4 shadow-2xl h-[72px]">
@@ -272,6 +272,9 @@ const DashboardPage = () => {
             setStateBtn={setStateBtn}
             amountRE={realEstates?.length ?? 0}
             amountREFavs={realEstateFavs?.length ?? 0}
+            userLogged={userLogged}
+            btnEditUserLanguage={texts.btnEditUser}
+            handleShowModalEditUser={handleShowEditUser}
           />
           <PublicationsAndFavorites
             handleShowModal={handleShowFav}

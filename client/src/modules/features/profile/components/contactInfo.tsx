@@ -26,8 +26,11 @@ type ParamsType = {
   placeholderComment: string;
   stateBtn: options;
   setStateBtn: (state: options) => void;
-  amountRE:number
-  amountREFavs: number
+  amountRE: number;
+  amountREFavs: number;
+  userLogged: User;
+  btnEditUserLanguage: string;
+  handleShowModalEditUser: () => void;
 };
 export const ContactInfo = ({
   user,
@@ -44,9 +47,11 @@ export const ContactInfo = ({
   stateBtn,
   setStateBtn,
   amountRE,
-  amountREFavs
+  amountREFavs,
+  userLogged,
+  btnEditUserLanguage,
+  handleShowModalEditUser,
 }: ParamsType) => {
-  const { user: userLogged } = useAuthStore();
   return (
     <div className="flex flex-col gap-2 ">
       <div className="mt-6 flex flex-col gap-2">
@@ -91,13 +96,24 @@ export const ContactInfo = ({
             <span>{follow}</span>
           </div>
 
-          <button className="hover:bg-gray-100 rounded-lg text-gray-400">
-            {reportUser}
-          </button>
+          {user == userLogged && (
+            <button
+              className="hover:bg-gray-100 rounded-lg text-gray-400"
+              onClick={handleShowModalEditUser}
+            >
+              {btnEditUserLanguage}
+            </button>
+          )}
+
+          {user != userLogged && (
+            <button className="hover:bg-gray-100 rounded-lg text-gray-400">
+              {reportUser}
+            </button>
+          )}
         </div>
       </div>
       <div className="flex flex-col ">
-        <div className=" flex gap-7 items-center">
+        <div className="flex gap-7 items-center ">
           <div
             onClick={() => setStateBtn("Publications")}
             className={`flex relative pb-4 gap-2 border-b-[3px]  items-center ${
@@ -116,7 +132,7 @@ export const ContactInfo = ({
           {user == userLogged && (
             <div
               onClick={() => setStateBtn("Favorites")}
-              className={`flex relative gap-2 pb-4 border-b-[3px]  items-end ${
+              className={`flex relative gap-2 pb-4 border-b-[3px] z-10  items-end ${
                 stateBtn === "Favorites"
                   ? "border-[#209bfb]"
                   : "border-transparent"

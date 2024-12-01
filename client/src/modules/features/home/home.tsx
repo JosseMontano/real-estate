@@ -12,6 +12,7 @@ import { useLanguageStore } from "@/core/store/language";
 import { fetchRealEstates } from "@/shared/api/endpoints";
 import { fetchTypeRe } from "../dashTypeRe/api/endpoints";
 import { RealEstate } from "@/shared/types/realEstate";
+import { currentREType } from "./types/types";
 type Options = "price" | "type" | "zone";
 
 export type OptionsType = {
@@ -59,7 +60,7 @@ export const HomePage = () => {
   const { data: typeRe } = useGet({
     services: fetchTypeRe,
     queryKey: ["typeRe"],
-    itemsPerPage: 3,
+    itemsPerPage: 1000,
   });
   //Home translate
   const { texts } = useLanguageStore();
@@ -210,6 +211,7 @@ export const HomePage = () => {
         infoTextLanguage={texts.infoButton}
         placeTextLanguage={texts.placesButton}
         seeMoreBtn={texts.viewMoreButton}
+        currentRE={searchRE.length > 0 ? "real-estates-search" : "real-estates"}
       />
 
       {isLoading && <p>Loading...</p>}

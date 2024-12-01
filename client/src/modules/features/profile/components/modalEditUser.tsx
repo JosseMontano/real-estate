@@ -33,6 +33,7 @@ export const ModalEditUser = ({
   const { texts } = useLanguageStore();
   const [file, setFile] = useState<File>({} as File);
   const [urlImage, setUrlImage] = useState("");
+  const {language} = useLanguageStore()
   const {
     register,
     handleOnSubmit,
@@ -56,10 +57,10 @@ export const ModalEditUser = ({
         data.photo = url;
         const res = await editUser(user.email, data);
         if (res.status === 200) {
-          setSuccessMsg(res.message);
+          setSuccessMsg(res.message[language]);
           login(res.val as User);
         } else {
-          setErrorMsg(res.message);
+          setErrorMsg(res.message[language]);
         }
       }
     },
@@ -68,12 +69,7 @@ export const ModalEditUser = ({
 
   return (
     <div className="">
-     {/*  <Btn
-        isPending={false}
-        text={btnEditUserLanguage}
-        className="max-w-max px-2"
-        onClick={handleShowModalEditUser}
-      /> */}
+ 
 
       <ShowModal
         setIsModalOpen={handleShowModalEditUser}

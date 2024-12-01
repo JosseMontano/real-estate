@@ -11,6 +11,7 @@ import { ExtraInfo } from "./realEstates/extraInfo";
 import Btn from "@/core/components/form/button";
 import useNavigation from "@/core/hooks/useNavigate";
 import useUserStore from "@/core/store/user";
+import { currentREType } from "../types/types";
 
 type Params = {
   realEstates: RealEstate[];
@@ -21,6 +22,7 @@ type Params = {
   infoTextLanguage: string;
   placeTextLanguage: string;
   seeMoreBtn: string;
+  currentRE: currentREType;
 };
 
 export interface NearbyPlace {
@@ -41,15 +43,16 @@ export const SectionRealStates = ({
   infoTextLanguage,
   placeTextLanguage,
   seeMoreBtn,
+  currentRE,
 }: Params) => {
   const { language } = useLanguageStore();
   const [places, setPlaces] = useState<{ [key: number]: NearbyPlace[] }>({});
-  const { selectUser}= useUserStore()
+  const { selectUser } = useUserStore();
   const [states, setStates] = useState<State[]>(
     Array(realEstates.length).fill("info")
   );
   type State = "info" | "places";
-  const {handleNavigate} = useNavigation()
+  const { handleNavigate } = useNavigation();
   const handleStateChange = async (
     index: number,
     newState: State,
@@ -119,9 +122,9 @@ export const SectionRealStates = ({
                   text={seeMoreBtn}
                   className="w-[150px]"
                   isPending={false}
-                  onClick={()=>{
-                      selectUser(item.user)
-                    handleNavigate("/visit_user")
+                  onClick={() => {
+                    selectUser(item.user);
+                    handleNavigate("/visit_user");
                   }}
                 />
               </div>
@@ -136,12 +139,14 @@ export const SectionRealStates = ({
           </div>
         </div>
       ))}
-      <Pagination
-        currentPage={currentPage}
-        primaryColor={primaryColor}
-        handlePagination={handlePagination}
-        lastPage={amountOfPages}
-      />
+      {currentRE == "real-estates" && (
+        <Pagination
+          currentPage={currentPage}
+          primaryColor={primaryColor}
+          handlePagination={handlePagination}
+          lastPage={amountOfPages}
+        />
+      )}
     </div>
   );
 };

@@ -21,7 +21,7 @@ export const RealEstateComp = ({
   return (
     <div
       key={publication.id}
-      className="relative flex flex-col justify-center items-center gap-1"
+      className="flex flex-col justify-center items-center gap-1"
     >
       {showIcon && (
         <div
