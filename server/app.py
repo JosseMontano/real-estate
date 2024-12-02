@@ -57,9 +57,9 @@ def index():
 @app.get('/api/seed')
 async def seed(db: Session = Depends(get_db)):
     try:
-        #await seed_users(db)
-        #await seed_types_real_estates(db)
-        #await seed_questions(db)
+        await seed_users(db)
+        await seed_types_real_estates(db)
+        await seed_questions(db)
         await seed_real_estates(db)
         return {"status": 200, "message": "Seed successful"}
     except Exception as e:
@@ -99,8 +99,6 @@ def fetch_image(request: FetchImageRequest):  # Changed to use request body
         # Maneja errores si la solicitud falla
         raise HTTPException(status_code=400, detail=str(e))
     
-
-
 # Run the application
 if __name__ == '__main__':
     uvicorn.run(app, host="0.0.0.0", port=5000, debug=True)

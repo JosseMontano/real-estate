@@ -334,7 +334,6 @@ async def seed_real_estates(db: Session):
         db.add(description_translate)
         db.commit()
         db.refresh(description_translate)
-
         geo_location = Nominatim(user_agent="GetLoc")
         loc_name = geo_location.reverse(real_estate["lat_long"])
         address=""
@@ -342,12 +341,18 @@ async def seed_real_estates(db: Session):
             address = loc_name.address
             raw_data = loc_name.raw.get("address", {})
             zone = raw_data.get("neighbourhood", "Not Found") 
-        
             found_zone = db.query(Zone).filter(Zone.name == zone).first()
+
+            zone_id=0
             if not found_zone:
-                zone = Zone(name=zone)
-                db.add(zone)
+                new_zone = Zone(name=zone)
+                db.add(new_zone)
                 db.commit()
+                db.refresh(new_zone)
+                zone_id=new_zone.id
+            else:
+                zone_id = found_zone.id
+
         # Crear registro RealEstate
         new_real_estate = RealEstate(
             address=address, 
@@ -363,13 +368,12 @@ async def seed_real_estates(db: Session):
             title_id=title_translate.id,
             description_id=description_translate.id,
             user_id=real_estate["user_id"],
-            zone_id=zone.id
+            zone_id= zone_id
         )
 
         db.add(new_real_estate)
         db.commit()
         db.refresh(new_real_estate)
-        
         for image_url in real_estate["image_url"]:
             new_image = PhotosRealEstate(
                 image=image_url,
