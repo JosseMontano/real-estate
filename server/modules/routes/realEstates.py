@@ -291,6 +291,8 @@ async def create_real_estate(real_estate: RealEstateDTO, db: Session = Depends(g
         # Get address from coordinates
         geo_location = Nominatim(user_agent="GetLoc")
         loc_name = geo_location.reverse(real_estate.latLong)
+        
+        print(real_estate)
 
         if loc_name:
             address = loc_name.address
@@ -363,9 +365,10 @@ async def create_real_estate(real_estate: RealEstateDTO, db: Session = Depends(g
             joinedload(models.RealEstate.zone)
         ).filter(models.RealEstate.id == db_real_estate.id).first()
 
-        return {"status": 201, "message": Messages.DATA_CREATED, "val": result}
+        return {"status": 201, "message": Messages.DATA_CREATED.dict(), "val": result}
     except Exception as e:
         db.rollback()
+        
         return {"status": 500, "message": str(e), "val": []}
 
 @app.delete('/{real_estate_id}')

@@ -3,7 +3,7 @@ import { useModal } from "@/core/hooks/useModal";
 import useNavigation from "@/core/hooks/useNavigate";
 import useAuthStore from "@/core/store/auth";
 import { ChangeEvent, useEffect, useState } from "react";
-import { realEstateSchema } from "./validations/realEstates.schema";
+import { useRealEstateSchema } from "./validations/realEstates.schema";
 import {
   addREToDB,
   fetchCommentsForUser,
@@ -63,16 +63,36 @@ const DashboardPage = () => {
   const { handleStateModal: handleShowFav, isModalOpen: isFavOpen } =
     useModal();
 
+  const realEstateSchema = useRealEstateSchema();
   const {
     register,
     handleOnSubmit,
     errors,
     isPending: isPendingRealEstate,
+    setSuccessMsg,
+    setErrorMsg,
+    reset,
   } = useForm({
     schema: realEstateSchema,
     form: async (data) => {
       if (user) {
-        await addREToDB(data);
+        const images = uploadedFiles.map((v) => v.url);
+
+        data.userId = Number(userLogged.id);
+        data.typeRealEstateId = Number(typeRE.id);
+
+        //@ts-ignore
+        data.latLong = (location?.lat + ", " + location?.lng)?.toString();
+        data.images = images;
+
+        const res = await addREToDB(data);
+        console.log(res);
+       if (res.status == 200 || res.status == 201) {
+          setSuccessMsg(res.message[language]);
+          //reset();
+        } else {
+          setErrorMsg(res.message[language]);
+        } 
       }
     },
   });
@@ -82,7 +102,6 @@ const DashboardPage = () => {
     services: () => fetchRealEstatesByUserId(user?.id ?? 0),
     valueToService: user?.id,
   });
-
 
   const { data: comments, isLoading: loadingComments } = useGet({
     services: () => fetchCommentsForUser(user?.id || 0),
@@ -191,16 +210,27 @@ const DashboardPage = () => {
     itemsPerPage: 10,
     valueToService: user?.id,
   });
-  console.log(userLogged);
   return (
     <div className="h-screen hide_scroll flex items-center w-full">
       <div className="absolute top-0 w-full bg-white flex justify-between px-7 py-4 shadow-2xl h-[72px]">
-        <div className="text-2xl font-bold cursor-pointer" onClick={()=>handleNavigate("/")}>InmoApp</div>
+        <div
+          className="text-2xl font-bold cursor-pointer"
+          onClick={() => handleNavigate("/")}
+        >
+          InmoApp
+        </div>
         <div className="flex gap-3 ">
-          <button onClick={()=>{
-            logout()
-            handleNavigate("/auth")
-          }}>{texts.signout}</button>
+          <button
+            onClick={() => {
+              logout();
+              handleNavigate("/auth");
+            }}
+          >
+            {texts.signout}
+          </button>
+
+          <button onClick={handleShowCreateRE}>{texts.btnAddRe}</button>
+
           <img
             className="rounded-full h-10 w-10"
             src={userLogged.photo ?? imgDefault}

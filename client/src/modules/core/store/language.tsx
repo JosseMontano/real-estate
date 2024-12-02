@@ -12,6 +12,7 @@ export interface Translations {
   //global
   empty: string;
   fieldRequired:string;
+  emptyComments:string
   //auth
   titleAuth: string;
   invalidEmailAuth: string;
@@ -122,6 +123,7 @@ const translations: { [key in Language]: Translations } = {
   en: {
     empty: "No data found",
     fieldRequired:"This field is required",
+    emptyComments: "No comments found",
     //auth
     titleAuth: "Sign In",
     invalidEmailAuth: "Invalid email",
@@ -230,6 +232,7 @@ const translations: { [key in Language]: Translations } = {
   es: {
     empty: "No se encontraron datos",
     fieldRequired:"Este campo es requerido",
+    emptyComments: "No hay comentarios",
     //auth
     titleAuth: "Iniciar sesión",
     invalidEmailAuth: "Correo inválido",
@@ -309,22 +312,22 @@ const translations: { [key in Language]: Translations } = {
     //btn edit user
     btnEditUser: "Editar usuário",
     //btn create Re
-    btnAddRe: "Criar imóvel",
+    btnAddRe: "Crear inmueble",
     //user information
-    username: "Nome de usuário",
+    username: "Nombe de usuario",
     phoneNumber: "Número de celular",
     email: "Email",
-    password: "Senha",
+    password: "contraseña",
     //property details
     title: "Título",
-    description: "Descrição",
-    price: "Preço",
-    bedrooms: "Quartos",
-    bathrooms: "Banheiros",
-    squareMeters: "Metros quadrados",
-    select: "Selecionar...",
-    searchImage: "Procurar imagem",
-    filesUplodesLanguage: "arquivos carregados",
+    description: "Descripcion",
+    price: "Precio",
+    bedrooms: "Cuartos",
+    bathrooms: "Baños",
+    squareMeters: "Metros cuadrados",
+    select: "Seleccionar...",
+    searchImage: "Buscar imagen",
+    filesUplodesLanguage: "Archivos cargados",
     //dasboard sidebar
     properties: "Inmuebles",
     propertyType: "Tipo de inmuebles",
@@ -339,6 +342,7 @@ const translations: { [key in Language]: Translations } = {
   pt: {
     empty: "Nenhum dado encontrado",
     fieldRequired:"Este campo é obrigatório",
+    emptyComments: "Nenhum comentário",
     //auth
     titleAuth: "Entrar",
     invalidEmailAuth: "Email inválido",

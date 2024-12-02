@@ -17,7 +17,7 @@ export const ProfileHeader = ({
   commentsLanguage,
   user,
 }: ParamasType) => {
-  const {language} = useLanguageStore()
+  const { language, texts } = useLanguageStore();
   return (
     <div className="flex flex-col gap-4 w-full h-full md:pr-5 justify-center ">
       <div className=" flex flex-col items-center gap-3 ">
@@ -38,6 +38,7 @@ export const ProfileHeader = ({
           </div>
         </div>
         <div className="overflow-y-scroll w-full">
+          {commets.length == 0 && <p className="text-center text-[#424242]">{texts.emptyComments}</p>}
           {commets.map((v) => (
             <div className="w-full flex gap-3 items-center">
               <img
@@ -48,9 +49,7 @@ export const ProfileHeader = ({
 
               <div className=" flex-wrap text-sm w-[175px]">
                 <p className="font-semibold">{v.commentator.email}</p>
-                <p className="text-[#888787]">
-                  {v.comment[language]}
-                </p>
+                <p className="text-[#888787]">{v.comment[language]}</p>
               </div>
 
               <div className="flex items-center gap-1">
