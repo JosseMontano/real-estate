@@ -5,16 +5,12 @@ import {
   Image,
   TextInput,
   Pressable,
-  Alert,
-  Modal,
 } from "react-native";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useLanguageStore } from "../../core/store/language";
-import { PlusIcon } from "../../shared/icons/icons";
-import { ModalComp } from "../../core/components/modal";
+import { Config } from "../../shared/components/config";
 
 const userSchema = z
   .object({
@@ -44,14 +40,10 @@ export function AuthPage() {
   };
 
   const { texts } = useLanguageStore();
-  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <View style={styles.container}>
-      <ModalComp
-        visible={modalVisible}
-        setVisible={setModalVisible}
-        children={<Text>hi</Text>}
-      />
+
 
       <View>
         <Image
@@ -110,36 +102,13 @@ export function AuthPage() {
         </View>
       </View>
 
-      <View style={styles.lenguageContainer}>
-        <Pressable onPress={() => setModalVisible(true)}>
-          <PlusIcon />
-        </Pressable>{" "}
-      </View>
+     <Config />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  lenguageContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    position: "absolute",
-    bottom: 10,
-    right: 10,
-    backgroundColor: "#fff",
-    borderRadius: 20,
-    width: 40,
-    height: 40,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 3, //shadow androd
-    padding: 3,
-  },
+ 
   container: {
     flex: 1,
     gap: 13,

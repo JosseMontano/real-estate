@@ -26,8 +26,6 @@ export type Routes =
   | "/dashboard/comments"
   | "/dashboard/responses"
   | "/visit_user"
-  
-  
   ;
 
 function App() {
