@@ -6,11 +6,15 @@ import {
   TextInput,
   Pressable,
   Alert,
+  Modal,
 } from "react-native";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
+import { useLanguageStore } from "../../core/store/language";
+import { PlusIcon } from "../../shared/icons/icons";
+
 
 const userSchema = z
   .object({
@@ -39,8 +43,37 @@ export function AuthPage() {
     console.log("Form Data:", data);
   };
 
+  const { texts } = useLanguageStore();
+  const [modalVisible, setModalVisible] = useState(false);
   return (
     <View style={styles.container}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View
+          style={[
+            styles.centeredView,
+            modalVisible && { backgroundColor: "rgba(0, 0, 0, 0.5)" },
+          ]}
+        >
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Hello World!</Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={styles.textStyle}>Hide Modal</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
       <View>
         <Image
           style={styles.image}
@@ -49,8 +82,8 @@ export function AuthPage() {
       </View>
 
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>Welcome to InmoApp</Text>
-        <Text style={styles.subTitle}>Enjoy life in your dream home</Text>
+        <Text style={styles.title}>{texts.title}</Text>
+        <Text style={styles.subTitle}>{texts.subTitle}</Text>
       </View>
 
       <View style={styles.inputContainer}>
@@ -91,21 +124,89 @@ export function AuthPage() {
           )}
         />
         <View style={styles.btnContainer}>
-        <Pressable style={styles.btn} onPress={handleSubmit(onSubmit)}>
-          <Text style={styles.btnText}>I'm pressable!</Text>
-        </Pressable>
-        <Text style={styles.footerText}>¿Olvidaste tu contraseña?</Text>
+          <Pressable style={styles.btn} onPress={handleSubmit(onSubmit)}>
+            <Text style={styles.btnText}>I'm pressable!</Text>
+          </Pressable>
+          <Text style={styles.footerText}>¿Olvidaste tu contraseña?</Text>
         </View>
+      </View>
+
+      <View style={styles.lenguageContainer}>
+        <Pressable onPress={() => setModalVisible(true)}>
+          <PlusIcon />
+        </Pressable>{" "}
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  centeredView: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  },
+
+  lenguageContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    bottom: 10,
+    right: 10,
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    width: 40,
+    height: 40,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 3, //shadow androd
+    padding: 3,
+  },
   container: {
     flex: 1,
     gap: 13,
-    backgroundColor: "#fcfcfc",
+    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -129,10 +230,10 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     width: "90%",
-    display:"flex",
-    flexDirection:"column",
-    gap:15,
-    marginTop:13,
+    display: "flex",
+    flexDirection: "column",
+    gap: 15,
+    marginTop: 13,
   },
   input: {
     borderWidth: 1,
@@ -151,12 +252,12 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     marginLeft: 3,
   },
-  btnContainer:{
-    marginTop:10,
-    display:"flex",
-    flexDirection:"column",
-    gap:13,
-    alignItems:"center",
+  btnContainer: {
+    marginTop: 10,
+    display: "flex",
+    flexDirection: "column",
+    gap: 13,
+    alignItems: "center",
   },
   btn: {
     borderRadius: 20,
@@ -168,9 +269,9 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: 600,
   },
-  footerText:{
-    textAlign:"center",
-    color:"#6ca704",
-    fontWeight:400,
-  }
+  footerText: {
+    textAlign: "center",
+    color: "#6ca704",
+    fontWeight: 400,
+  },
 });
