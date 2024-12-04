@@ -11,6 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, Controller } from "react-hook-form";
 import { useLanguageStore } from "../../core/store/language";
 import { Config } from "../../shared/components/config";
+import { useLinkTo } from "@react-navigation/native";
 
 const userSchema = z
   .object({
@@ -34,17 +35,18 @@ export function AuthPage() {
     resolver: zodResolver(userSchema),
     defaultValues: { email: "", password: "" },
   });
-
+  
   const onSubmit = (data: { email: string; password: string }) => {
     console.log("Form Data:", data);
   };
 
   const { texts } = useLanguageStore();
 
+  const linkTo = useLinkTo();
+  linkTo("/MainTabs");
+
   return (
     <View style={styles.container}>
-
-
       <View>
         <Image
           style={styles.image}
@@ -102,13 +104,12 @@ export function AuthPage() {
         </View>
       </View>
 
-     <Config />
+      <Config />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
- 
   container: {
     flex: 1,
     gap: 13,
