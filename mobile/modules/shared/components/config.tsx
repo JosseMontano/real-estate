@@ -1,24 +1,12 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { useLanguageStore } from "../../core/store/language";
 import { PlusIcon } from "../icons/icons";
-import { Dropdown } from "react-native-element-dropdown";
-import { ModalComp } from "../../core/components/modal";
+import { ModalConfig } from "./modalConfig";
 
 export const Config = () => {
   const { texts, language, setLanguage } = useLanguageStore();
   const [mainModalVisible, setMainModalVisible] = useState(false);
-
-  const data = [
-    { label: texts.spanishConfig, value: "es" },
-    { label: texts.englishConfig, value: "en" },
-    { label: texts.portugueseConfig, value: "pt" },
-  ];
 
   return (
     <>
@@ -28,22 +16,9 @@ export const Config = () => {
         </TouchableOpacity>
       </View>
 
-      <ModalComp
-        setVisible={setMainModalVisible}
-        title={texts.titleModalConfig}
-        visible={mainModalVisible}
-        children={
-          <View>
-            <Text>{texts.titleConfig}:</Text>
-            <Dropdown
-              data={data}
-              labelField="label"
-              valueField="value"
-              value={language}
-              onChange={(val:any)=>setLanguage(val.value)}
-            />
-          </View>
-        }
+      <ModalConfig
+        mainModalVisible={mainModalVisible}
+        setMainModalVisible={setMainModalVisible}
       />
     </>
   );

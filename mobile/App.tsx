@@ -5,8 +5,10 @@ import Icon from "react-native-vector-icons/AntDesign";
 import { AuthPage } from "./modules/features/auth/auth";
 import { HomePage } from "./modules/features/home/home";
 import { ProfilePage } from "./modules/features/profile/profile";
-import { TouchableOpacity, StyleSheet, Alert, View } from "react-native";
+import { TouchableOpacity, StyleSheet, View } from "react-native";
 import { primaryColor } from "./modules/core/constants/colors";
+import { ModalConfig } from "./modules/shared/components/modalConfig";
+import { useState } from "react";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -17,8 +19,10 @@ const CustomButton = ({ onPress }: { onPress: () => void }) => (
   </TouchableOpacity>
 );
 
-const TabNavigator = () => (
-  <Tab.Navigator
+const TabNavigator = () => {
+    const [modalVisible, setModalVisible] = useState(false);
+return <>
+<Tab.Navigator
     screenOptions={({ route }) => ({
       tabBarStyle: styles.tabBar,
       tabBarIcon: ({ focused, color, size }) => {
@@ -39,43 +43,51 @@ const TabNavigator = () => (
     <Tab.Screen name="Home" component={HomePage} />
     <Tab.Screen
       name="Add"
-      component={() => <View />} // Empty component for custom button
+      component={() => <View />} 
       options={{
         tabBarButton: () => (
           <CustomButton
-            onPress={() => Alert.alert("Alert", "You clicked the + button!")}
+            onPress={() => {setModalVisible(true)}}
           />
         ),
       }}
     />
     <Tab.Screen name="Profile" component={ProfilePage} />
   </Tab.Navigator>
-);
+  <ModalConfig 
+    mainModalVisible={modalVisible}
+    setMainModalVisible={setModalVisible}
+  />
+</>
+};
 
 // Stack Navigator
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Auth"
-          component={AuthPage}
-          options={{
-            headerTitle: "Auth",
-            headerStyle: {
-              backgroundColor: primaryColor,
-            },
-            headerTintColor: "#fff",
-          }}
-        />
-        {/* Tab Navigator as the main screen */}
-        <Stack.Screen
-          name="MainTabs"
-          component={TabNavigator}
-          options={{ headerShown: false }} // Hide header for the tab navigator
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Auth"
+            component={AuthPage}
+            options={{
+              headerTitle: "Auth",
+              headerStyle: {
+                backgroundColor: primaryColor,
+              },
+              headerTintColor: "#fff",
+            }}
+          />
+          {/* Tab Navigator as the main screen */}
+          <Stack.Screen
+            name="MainTabs"
+            component={TabNavigator}
+            options={{ headerShown: false }} // Hide header for the tab navigator
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+  
+    
   );
 }
 
