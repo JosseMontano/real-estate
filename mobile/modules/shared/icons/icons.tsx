@@ -11,3 +11,4 @@ export const PlusIcon = () => <Icon name="plus" size={iconSize} color="#000" />;
 export const StarIcon = ({size}:Params) => (
   <IconFontAwesome name="star" color={"#ecda16"} size={size ?? iconSize} />
 );
+export const SearchIcon= () => <Icon name="search1" size={iconSize} color={"#000"}/>

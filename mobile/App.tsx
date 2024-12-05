@@ -63,7 +63,7 @@ export default function App() {
           options={{
             headerTitle: "Auth",
             headerStyle: {
-              backgroundColor: "purple",
+              backgroundColor: primaryColor,
             },
             headerTintColor: "#fff",
           }}

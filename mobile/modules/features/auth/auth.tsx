@@ -27,6 +27,7 @@ const userSchema = z
   });
 
 export function AuthPage() {
+  const linkTo = useLinkTo();
   const {
     control,
     handleSubmit,
@@ -42,8 +43,10 @@ export function AuthPage() {
 
   const { texts } = useLanguageStore();
 
-  const linkTo = useLinkTo();
-  linkTo("/MainTabs");
+  const hi =()=>{
+    linkTo("/MainTabs");
+
+  }
 
   return (
     <View style={styles.container}>
@@ -103,7 +106,7 @@ export function AuthPage() {
           <Text style={styles.footerText}>¿Olvidaste tu contraseña?</Text>
         </View>
       </View>
-
+          <Pressable onPress={hi}><Text>hi</Text></Pressable>
       <Config />
     </View>
   );

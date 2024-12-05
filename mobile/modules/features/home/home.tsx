@@ -1,34 +1,31 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  ScrollView,
-  Pressable,
-} from "react-native";
-import { primaryColor } from "../../core/constants/colors";
-import { StarIcon } from "../../shared/icons/icons";
+import { StyleSheet, Text, View, ScrollView, Image, Alert } from "react-native";
 import { Card } from "./components/card";
+import { Categories } from "./components/categories";
+import { SearchIcon } from "../../shared/icons/icons";
+import { Header } from "./components/header";
 
 export function HomePage() {
+  const handleSearch = () => {
+    Alert.alert("hi");
+  };
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Text>Descubre el sueño de tu aplicacion</Text>
+        <Header handleSearch={handleSearch}/>
+
+        <Text style={styles.title}>Encuentra la propiedad de tus sueños</Text>
 
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <View style={styles.btnContainer}>
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((v) => (
-              <Pressable style={styles.btn}>
-                <Text style={styles.btnText}>hi123</Text>
-              </Pressable>
+              <Categories key={v}/>
             ))}
           </View>
         </ScrollView>
 
         <View style={styles.cardContainer}>
           {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((v, i) => (
-            <Card i={i} />
+            <Card i={i} key={i}/>
           ))}
         </View>
       </View>
@@ -45,19 +42,13 @@ const styles = StyleSheet.create({
     padding: 25,
     marginBottom: 70,
   },
+
   btnContainer: {
     display: "flex",
     flexDirection: "row",
     gap: 10,
   },
-  btn: {
-    backgroundColor: primaryColor,
-    padding: 10,
-    borderRadius: 12,
-  },
-  btnText: {
-    color: "#fff",
-  },
+
   cardContainer: {
     display: "flex",
     flexDirection: "row",
@@ -65,4 +56,9 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     gap: 20,
   },
+
+  title:{
+    fontSize:32,
+    fontWeight:"500"
+  }
 });
