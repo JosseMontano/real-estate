@@ -6,6 +6,8 @@ import { Header } from "./components/header";
 import useGet from "../../core/hooks/useGet";
 import { fetchRealEstates } from "./api/endpoints";
 import { useLanguageStore } from "../../core/store/language";
+import { RealEstate } from "../../shared/types/realEstate";
+import { useNagigation } from "../../core/hooks/useNavigation";
 
 export function HomePage() {
   const {
@@ -21,9 +23,13 @@ export function HomePage() {
     itemsPerPage: 4,
   });
   const { language } = useLanguageStore();
-
+  const { handleRedirect } = useNagigation();
   const handleSearch = () => {
     Alert.alert("hi");
+  };
+
+  const showRealEstate = (v: RealEstate) => {
+    handleRedirect("RealEstate");
   };
   return (
     <ScrollView>
@@ -41,8 +47,8 @@ export function HomePage() {
         </ScrollView>
 
         <View style={styles.cardContainer}>
-          {realEstates?.map((v, i) => (
-            <Card v={v} language={language} />
+          {realEstates?.map((v) => (
+            <Card v={v} language={language} showRealEstate={showRealEstate} />
           ))}
         </View>
       </View>

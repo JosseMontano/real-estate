@@ -8,45 +8,75 @@ import {
 } from "react-native";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, Controller } from "react-hook-form";
+
 import { useLanguageStore } from "../../core/store/language";
 import { Config } from "../../shared/components/config";
-import { useLinkTo } from "@react-navigation/native";
+import { useNagigation } from "../../core/hooks/useNavigation";
+import useAuthStore from "../../core/store/auth";
+import { useForm } from "../../core/hooks/useForm";
+import { useMemo } from "react";
 
-const userSchema = z
-  .object({
-    email: z.string().email("Invalid email"),
-    password: z.string().min(6, "Password must be at least 6 characters"),
-    confirmPassword: z
-      .string()
-      .min(6, "Confirm password must be at least 6 characters"),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    path: ["confirmPassword"],
-    message: "Passwords must match",
-  });
+
+
+
+export const useUserShema = () => {
+  const { texts } = useLanguageStore();
+  return useMemo(() => {
+    return z
+      .object({
+        email: z.string().email("Invalid email"),
+        password: z.string().min(6, "Password must be at least 6 characters"),
+   /*      confirmPassword: z
+          .string()
+          .min(6, "Confirm password must be at least 6 characters"), */
+      })
+/*       .refine((data) => data.password === data.confirmPassword, {
+        path: ["confirmPassword"],
+        message: "Passwords must match",
+      }); */
+  }, [texts]);
+};
 
 export function AuthPage() {
-  const linkTo = useLinkTo();
-  const {
+  const { handleRedirect } = useNagigation();
+  const userSchema = useUserShema();
+  /*  const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitted, touchedFields },
+    reset,
+    trigger,
+    setError,
   } = useForm({
     resolver: zodResolver(userSchema),
     defaultValues: { email: "", password: "" },
+  }); */
+  const {
+    register,
+    handleOnSubmit,
+    errors,
+    isPending: isSignUpPending,
+    setSuccessMsg,
+    setErrorMsg,
+    Controller,
+    control,
+  } = useForm({
+    schema: userSchema,
+    form: async (data) => {
+      console.log(data);
+    },
   });
-  
+  const { login } = useAuthStore();
+
   const onSubmit = (data: { email: string; password: string }) => {
     console.log("Form Data:", data);
   };
 
   const { texts } = useLanguageStore();
 
-  const hi =()=>{
-    linkTo("/MainTabs");
-
-  }
+  const hi = () => {
+    handleRedirect("MainTabs");
+  };
 
   return (
     <View style={styles.container}>
@@ -100,13 +130,15 @@ export function AuthPage() {
           )}
         />
         <View style={styles.btnContainer}>
-          <Pressable style={styles.btn} onPress={handleSubmit(onSubmit)}>
+          <Pressable style={styles.btn} onPress={handleOnSubmit}>
             <Text style={styles.btnText}>I'm pressable!</Text>
           </Pressable>
           <Text style={styles.footerText}>¿Olvidaste tu contraseña?</Text>
         </View>
       </View>
-          <Pressable onPress={hi}><Text>hi</Text></Pressable>
+      <Pressable onPress={hi}>
+        <Text>hi</Text>
+      </Pressable>
       <Config />
     </View>
   );

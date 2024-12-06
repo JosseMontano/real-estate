@@ -1,10 +1,11 @@
 import { StyleSheet, Text, View, Image } from 'react-native';
 type ParamsType = {
+    
 }
-export const RealEstate = ({}:ParamsType) => {
+export const RealEstatePage = ({}:ParamsType) => {
     return (
         <View>
-            <Text></Text>
+            <Text>hello</Text>
         </View>
     );
 }

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import { StarIcon } from "../../../shared/icons/icons";
 import { truncateText } from "../../../core/helpers/truncateText";
 import { RealEstate } from "../../../shared/types/realEstate";
@@ -6,16 +6,19 @@ import { Language } from "../../../core/store/language";
 type ParamsType = {
   v: RealEstate;
   language: Language;
+  showRealEstate: (v: RealEstate) => void;
 };
-export const Card = ({ v, language }: ParamsType) => {
+export const Card = ({ v, language, showRealEstate }: ParamsType) => {
   return (
     <View style={styles.contaier} key={v.id}>
-      <Image
-        source={{
-          uri: v.photos[0].image,
-        }}
-        style={styles.image}
-      />
+      <Pressable onPress={()=>showRealEstate(v)}>
+        <Image
+          source={{
+            uri: v.photos[0].image,
+          }}
+          style={styles.image}
+        />
+      </Pressable>
       <Text>{truncateText(v.description[language], 37)}</Text>
       <View style={styles.infoContainer}>
         <Text>{v.price} BS</Text>

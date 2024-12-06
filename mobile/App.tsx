@@ -12,6 +12,7 @@ import { useState } from "react";
 import { Toaster } from "sonner-native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { RealEstatePage } from "./modules/features/realEstate/realEstate";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -80,6 +81,17 @@ export default function App() {
               component={AuthPage}
               options={{
                 headerTitle: "Auth",
+                headerStyle: {
+                  backgroundColor: primaryColor,
+                },
+                headerTintColor: "#fff",
+              }}
+            />
+            <Stack.Screen
+              name="RealEstate"
+              component={RealEstatePage}
+              options={{
+                headerTitle: "Inmueble",
                 headerStyle: {
                   backgroundColor: primaryColor,
                 },
