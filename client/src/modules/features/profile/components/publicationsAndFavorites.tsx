@@ -106,11 +106,11 @@ export const PublicationsAndFavorites = ({
                   favREiD={publication.id}
                 />
               ))}
-              {realEstateFavs.length == 0} && (
-              <div className="w-full">
+              {realEstateFavs.length == 0 && (
+              <div className="w-full ">
                 <Empty data={realEstateFavs} />
               </div>
-              )
+              )}
             </>
           )}
         </div>

@@ -23,6 +23,10 @@ export async function filterRE(data: OptionsType[]) {
   return handlePost<RealEstate[]>(`real_estates/filter-real-estates`, data)
 }
 
+export const fetchSmartRE = async (id:number): Promise<Res<RealEstate[]>> => {
+  return await handleGet<RealEstate[]>("real_estates/all_re/"+id);
+  }
+
 
 export const fetchZones = async (): Promise<Res<Zone[]>> => {
   return await handleGet<Zone[]>("real_estates/zones");

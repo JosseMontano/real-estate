@@ -1,6 +1,7 @@
 import { SearchIcon } from "@/shared/assets/icons/search";
 import { Field, OptionsType } from "../home";
 
+
 type ParamsType = {
   fields: Field[];
   primaryColor: string;

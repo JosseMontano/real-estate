@@ -19,7 +19,7 @@ export const ProfileHeader = ({
 }: ParamasType) => {
   const { language, texts } = useLanguageStore();
   return (
-    <div className="flex flex-col gap-4 w-full h-full md:pr-5 justify-center ">
+    <div className="flex flex-col gap-4 w-full h-full justify-center">
       <div className=" flex flex-col items-center gap-3 ">
         <div className="">
           <img

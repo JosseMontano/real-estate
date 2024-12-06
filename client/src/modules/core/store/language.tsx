@@ -13,6 +13,7 @@ export interface Translations {
   empty: string;
   fieldRequired:string;
   emptyComments:string
+  thereAre:string;
   //auth
   titleAuth: string;
   invalidEmailAuth: string;
@@ -55,6 +56,7 @@ export interface Translations {
   infoButton: string;
   placesButton: string;
   viewMoreButton: string;
+  similaritiesHome:string;
   //home questions
   ask: string;
   question: string;
@@ -124,6 +126,7 @@ const translations: { [key in Language]: Translations } = {
     empty: "No data found",
     fieldRequired:"This field is required",
     emptyComments: "No comments found",
+    thereAre:"There are",
     //auth
     titleAuth: "Sign In",
     invalidEmailAuth: "Invalid email",
@@ -167,6 +170,7 @@ const translations: { [key in Language]: Translations } = {
     infoButton: "Information",
     placesButton: "Places",
     viewMoreButton: "View more",
+    similaritiesHome:"similarities with your tastes",
     //home questions
     ask: "Ask a",
     question: "question",
@@ -233,6 +237,7 @@ const translations: { [key in Language]: Translations } = {
     empty: "No se encontraron datos",
     fieldRequired:"Este campo es requerido",
     emptyComments: "No hay comentarios",
+    thereAre:"Hay",
     //auth
     titleAuth: "Iniciar sesión",
     invalidEmailAuth: "Correo inválido",
@@ -276,6 +281,7 @@ const translations: { [key in Language]: Translations } = {
     infoButton: "Información",
     placesButton: "Lugares",
     viewMoreButton: "Ver más",
+    similaritiesHome:"similitudes con tus gustos",
     //home questions
     ask: "Haz una",
     question: "pregunta",
@@ -343,6 +349,7 @@ const translations: { [key in Language]: Translations } = {
     empty: "Nenhum dado encontrado",
     fieldRequired:"Este campo é obrigatório",
     emptyComments: "Nenhum comentário",
+    thereAre:"há",
     //auth
     titleAuth: "Entrar",
     invalidEmailAuth: "Email inválido",
@@ -386,6 +393,7 @@ const translations: { [key in Language]: Translations } = {
     infoButton: "Informação",
     placesButton: "Lugares",
     viewMoreButton: "Ver mais",
+    similaritiesHome:"semelhanças com seus gostos",
     //home questions
     ask: "Faça uma",
     question: "pergunta",

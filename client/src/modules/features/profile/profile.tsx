@@ -245,7 +245,7 @@ const DashboardPage = () => {
           gridTemplateColumns: "1fr 3fr",
         }}
       >
-        <div className=" grow-0 w-full md:pr-16">
+        <div className=" grow-0 w-full">
           <ProfileHeader
             handleShowModal={handleShowAddComment}
             isModalOpen={isAddCommentOpen}

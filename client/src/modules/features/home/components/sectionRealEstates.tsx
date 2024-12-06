@@ -45,7 +45,7 @@ export const SectionRealStates = ({
   seeMoreBtn,
   currentRE,
 }: Params) => {
-  const { language } = useLanguageStore();
+  const { language, texts } = useLanguageStore();
   const [places, setPlaces] = useState<{ [key: number]: NearbyPlace[] }>({});
   const { selectUser } = useUserStore();
   const [states, setStates] = useState<State[]>(
@@ -108,6 +108,7 @@ export const SectionRealStates = ({
               item={item}
               info={infoTextLanguage}
               places={placeTextLanguage}
+              texts={texts}
             />
 
             <Info

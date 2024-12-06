@@ -13,7 +13,7 @@ from pathlib import Path
 from modules.core.utils.translate import translate_es_en_pt
 from modules.core.const import TranslateResponse
 from modules.core.const import Messages
-
+from sqlalchemy.inspection import inspect
 
 app = APIRouter(
     prefix="/api/real_estates",
@@ -59,101 +59,118 @@ class NearbyPlacesRequest(BaseModel):
     location: str
 
 
-@app.get('/')
-async def get_real_estates(db: Session = Depends(get_db)):
-    query = db.query(models.RealEstate).options(
+
+def model_to_dict(obj, include_relationships=True):
+    """
+    Convert SQLAlchemy object to dictionary.
+    Optionally include relationships.
+    """
+    data = {c.key: getattr(obj, c.key) for c in inspect(obj).mapper.column_attrs}
+    if include_relationships:
+        for name, rel in inspect(obj).mapper.relationships.items():
+            related_obj = getattr(obj, name)
+            if related_obj is not None:
+                if rel.uselist:  # Handle one-to-many/many-to-many relationships
+                    data[name] = [model_to_dict(item, include_relationships=False) for item in related_obj]
+                else:  # Handle one-to-one relationships
+                    data[name] = model_to_dict(related_obj, include_relationships=False)
+    return data
+
+
+@app.get('/all_re/{user_id}')
+async def get_combined_real_estates(user_id: int, db: Session = Depends(get_db)):
+    # Step 1: Fetch all real estate data
+    all_real_estates = db.query(models.RealEstate).options(
         joinedload(models.RealEstate.photos),
         joinedload(models.RealEstate.title),
         joinedload(models.RealEstate.description),
         joinedload(models.RealEstate.zone),
         joinedload(models.RealEstate.user)
-    )
-    real_estates = query.all()
-    
-    if not real_estates:
-        return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": []}
-    
-    return {"status": 200, "message": Messages.DATA_FOUND, "val": real_estates}
+    ).all()
 
+    if not all_real_estates:
+        return {"status": 404, "message": Messages.DATA_NOT_FOUND.dict(), "val": []}
 
-@app.get('/intelligent-filter')
-async def intelligent_filter(user_id: int, db: Session = Depends(get_db)):
-    # Obtener los inmuebles favoritos del usuario
+    # Step 2: Fetch user's favorite properties
     favorite_properties = db.query(models.FavoriteRealEstate).filter(
         models.FavoriteRealEstate.user_id == user_id
     ).all()
-    
-    if not favorite_properties:
-        return {"status": 404, "message": "No se encontraron inmuebles favoritos.", "val": []}
 
-    # Extraer IDs de inmuebles favoritos
-    favorite_property_ids = [fav.real_estate_id for fav in favorite_properties]
+    if favorite_properties:
+        # Extract IDs of favorite properties
+        favorite_property_ids = [fav.real_estate_id for fav in favorite_properties]
 
-    # Obtener detalles de las propiedades favoritas
-    favorite_real_estates = db.query(models.RealEstate).filter(
-        models.RealEstate.id.in_(favorite_property_ids)
-    ).all()
+        # Get favorite property details
+        favorite_real_estates = db.query(models.RealEstate).filter(
+            models.RealEstate.id.in_(favorite_property_ids)
+        ).all()
 
-    if not favorite_real_estates:
-        return {"status": 404, "message": "No se encontraron detalles de los inmuebles favoritos.", "val": []}
-    
-    # Construir condiciones para buscar similitudes
-    conditions = []
-    for favorite in favorite_real_estates:
-        conditions.append(or_(
-            models.RealEstate.price.between(favorite.price * 0.9, favorite.price * 1.1),
-            models.RealEstate.zone_id == favorite.zone_id,
-            models.RealEstate.type_real_estate_id == favorite.type_real_estate_id,
-            models.RealEstate.amount_bathroom == favorite.amount_bathroom,
-            models.RealEstate.amount_bedroom == favorite.amount_bedroom,
-        ))
+        if favorite_real_estates:
+            # Build similarity conditions
+            conditions = []
+            for favorite in favorite_real_estates:
+                conditions.append(or_(
+                    models.RealEstate.price.between(favorite.price * 0.9, favorite.price * 1.1),
+                    models.RealEstate.zone_id == favorite.zone_id,
+                    models.RealEstate.type_real_estate_id == favorite.type_real_estate_id,
+                    models.RealEstate.amount_bathroom == favorite.amount_bathroom,
+                    models.RealEstate.amount_bedroom == favorite.amount_bedroom,
+                ))
 
-    # Filtrar propiedades similares
-    similar_properties = db.query(models.RealEstate).filter(
-        or_(*conditions),  # Al menos una condición debe cumplirse
-        ~models.RealEstate.id.in_(favorite_property_ids),  # Excluir favoritos actuales
-    ).options(
-        joinedload(models.RealEstate.photos),
-        joinedload(models.RealEstate.title),
-        joinedload(models.RealEstate.description),
-        joinedload(models.RealEstate.zone),
-    ).all()
+            # Fetch similar properties excluding current favorites
+            similar_properties = db.query(models.RealEstate).filter(
+                or_(*conditions),
+                ~models.RealEstate.id.in_(favorite_property_ids)
+            ).options(
+                joinedload(models.RealEstate.photos),
+                joinedload(models.RealEstate.title),
+                joinedload(models.RealEstate.description),
+                joinedload(models.RealEstate.zone),
+                joinedload(models.RealEstate.user)
+            ).all()
 
-    if not similar_properties:
-        return {"status": 404, "message": "No se encontraron inmuebles similares.", "val": []}
+            # Calculate similarity score
+            def calculate_similarity_score(property_, favorites):
+                score = 0
+                for favorite in favorites:
+                    if property_.price and favorite.price and favorite.price * 0.9 <= property_.price <= favorite.price * 1.1:
+                        score += 1
+                    if property_.zone_id == favorite.zone_id:
+                        score += 1
+                    if property_.type_real_estate_id == favorite.type_real_estate_id:
+                        score += 1
+                    if property_.amount_bathroom == favorite.amount_bathroom:
+                        score += 1
+                    if property_.amount_bedroom == favorite.amount_bedroom:
+                        score += 1
+                return score
 
-    # Calcular similitud y ordenar
-    def calculate_similarity_score(property_, favorites):
-        score = 0
-        for favorite in favorites:
-            if property_.price and favorite.price and favorite.price * 0.9 <= property_.price <= favorite.price * 1.1:
-                score += 1
-            if property_.zone_id == favorite.zone_id:
-                score += 1
-            if property_.type_real_estate_id == favorite.type_real_estate_id:
-                score += 1
-            if property_.amount_bathroom == favorite.amount_bathroom:
-                score += 1
-            if property_.amount_bedroom == favorite.amount_bedroom:
-                score += 1
-        return score
+            # Add similarity scores to similar properties
+            smart_filtered_data = [
+                {**model_to_dict(prop), "similarity_score": calculate_similarity_score(prop, favorite_real_estates)}
+                for prop in similar_properties
+            ]
 
-    # Añadir puntaje de similitud a las propiedades
-    properties_with_score = [
-        {"property": prop, "similarity_score": calculate_similarity_score(prop, favorite_real_estates)}
-        for prop in similar_properties
+            # Sort smart data by similarity_score descending
+            smart_filtered_data.sort(key=lambda x: x["similarity_score"], reverse=True)
+        else:
+            smart_filtered_data = []
+    else:
+        smart_filtered_data = []
+
+    # Step 3: Add similarity_score = 0 for normal data
+    normal_data = [
+        {**model_to_dict(prop), "similarity_score": 0}
+        for prop in all_real_estates
+        if prop not in [sf["id"] for sf in smart_filtered_data]
     ]
 
-    # Ordenar por puntaje de similitud de mayor a menor
-    properties_with_score.sort(key=lambda x: x["similarity_score"], reverse=True)
+    # Step 4: Concatenate results
+    combined_data = smart_filtered_data + normal_data
 
-    # Convertir la respuesta a un formato deseado
-    result = [
-        {"property": prop["property"], "similarity_score": prop["similarity_score"]}
-        for prop in properties_with_score
-    ]
+    return {"status": 200, "message": Messages.DATA_FOUND.dict(), "val": combined_data}
 
-    return {"status": 200, "message": "Inmuebles similares encontrados.", "val": result}
+
 
 @app.get('/statistics')
 async def get_statistics(db: Session = Depends(get_db)):

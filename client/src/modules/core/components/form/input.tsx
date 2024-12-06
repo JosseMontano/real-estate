@@ -29,7 +29,6 @@ export const Input = ({
 }: ParamsType) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
-  console.log(error);
   return (
     <>
       <div

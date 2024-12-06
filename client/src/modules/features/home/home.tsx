@@ -4,15 +4,14 @@ import { TitleCenter } from "./components/titleCenter";
 import { SectionRealStates } from "./components/sectionRealEstates";
 import { Footer } from "./components/footer";
 import { Questions } from "./components/question";
-import { fetchZones, filterRE } from "./api/endpoints";
+import { fetchSmartRE, fetchZones, filterRE } from "./api/endpoints";
 import useGet from "@/core/hooks/useGet";
 import { useEffect, useState } from "react";
 import { SearchPropierties } from "./components/searchPropierties";
 import { useLanguageStore } from "@/core/store/language";
-import { fetchRealEstates } from "@/shared/api/endpoints";
 import { fetchTypeRe } from "../dashTypeRe/api/endpoints";
-import { RealEstate } from "@/shared/types/realEstate";
-import { currentREType } from "./types/types";
+import useAuthStore from "@/core/store/auth";
+
 type Options = "price" | "type" | "zone";
 
 export type OptionsType = {
@@ -30,6 +29,7 @@ export type Field = {
 };
 
 export const HomePage = () => {
+  const { user } = useAuthStore();
   const {
     data: realEstates,
     isLoading,
@@ -38,10 +38,13 @@ export const HomePage = () => {
     handlePagination,
     currentPage,
   } = useGet({
-    services: fetchRealEstates,
-    queryKey: ["realEstates"],
+    services: () => fetchSmartRE(user.id ?? 0),
+    queryKey: ["real-estates-smart-filter"],
     itemsPerPage: 4,
+    valueToService: user.id,
   });
+
+  
 
   useEffect(() => {
     return () => {
@@ -176,6 +179,7 @@ export const HomePage = () => {
     /* @ts-ignore */
     valueToService: selectedValues,
   });
+
 
   return (
     <>
