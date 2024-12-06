@@ -6,7 +6,7 @@ export const UploadImageIcon = ({ size }: ParamsType) => {
       width={size}
       height={size}
       fill="currentColor"
-      className="bi bi-cloud-arrow-up mt-1"
+      className="bi bi-cloud-arrow-up"
       viewBox="0 0 16 16"
     >
       <path

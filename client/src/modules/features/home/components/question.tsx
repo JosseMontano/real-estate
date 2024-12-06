@@ -51,7 +51,7 @@ export const Questions = ({
       <div className="flex flex-col md:flex-row gap-5">
         <div className="w-[300px] sm:w-[400px] flex flex-col gap-5">
           <h3 className="text-4xl">
-            {ask} <b className="text-4xl font-semibold secondary">{question}</b>
+            {ask} <b className="text-4xl font-semibold text-secondary">{question}</b>
           </h3>
           <p className="text-sm">{description}</p>
         </div>

@@ -24,15 +24,7 @@ export const ProfileImageUploader: React.FC<ParamasType> = ({
   const { texts } = useLanguageStore();
 
   return (
-    <div className="flex flex-col gap-2">
-      {imgUrl != "" ? (
-        <img className="w-12 h-12" src={imgUrl} alt="" />
-      ) : oldPhoto != "" ? (
-        <img className="w-12 h-12" src={oldPhoto} alt="" />
-      ) : (
-        <p>No hay imagen de perfil</p>
-      )}
-
+    <div className="flex flex-row justify-between gap-2">
       <input
         type="file"
         id="fileInput"
@@ -40,15 +32,22 @@ export const ProfileImageUploader: React.FC<ParamasType> = ({
         className="hidden"
       />
       <div
-        className="flex max-w-max p-2 gap-2 rounded-lg"
+        className="flex items-center max-w-max h-[40px] px-2 py-1 gap-2 rounded-lg text-white"
         style={{ background: "#353535" }}
       >
         <UploadImageIcon size="20" />
-        <label htmlFor="fileInput" className="text-white cursor-pointer">
+        <label htmlFor="fileInput" className=" cursor-pointer text-[14px]">
           {texts.searchImage}
         </label>
       </div>
-      <p>{file.name}</p>
+{/*       <p>{file.name}</p>
+ */}      {imgUrl != "" ? (
+        <img className="w-[40px] h-[40px] rounded-full" src={imgUrl} alt="" />
+      ) : oldPhoto != "" ? (
+        <img className="w-[40px] h-[40px] rounded-full" src={oldPhoto} alt="" />
+      ) : (
+        <p>No hay imagen de perfil</p>
+      )}
     </div>
   );
 };

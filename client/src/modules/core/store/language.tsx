@@ -308,7 +308,7 @@ const translations: { [key in Language]: Translations } = {
     questionTitlteVisitUser:"Pregunta",
     anonymousVisitUser: "Anónimo",
     //comments
-    commentsTitle: "Comentário em destaque",
+    commentsTitle: "Comentario destacado",
     //btn edit user
     btnEditUser: "Editar usuário",
     //btn create Re

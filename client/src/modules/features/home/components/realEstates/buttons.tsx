@@ -28,7 +28,7 @@ export const Buttons = ({
         onClick={() => handleStateChange(index, "info", item)}
         className={`px-4 py-2 text-xs font-semibold ${
           states[index] === "info"
-            ? "secondary bg-white"
+            ? "text-secondary bg-white"
             : "text-gray-500 hover:bg-white"
         } rounded-full shadow-sm`}
       >
@@ -38,7 +38,7 @@ export const Buttons = ({
         onClick={() => handleStateChange(index, "places", item)}
         className={`px-4 py-2 text-sm font-medium ${
           states[index] === "places"
-            ? "secondary bg-white"
+            ? "text-secondary bg-white"
             : "text-gray-500 hover:bg-white"
         } rounded-full shadow-sm`}
       >

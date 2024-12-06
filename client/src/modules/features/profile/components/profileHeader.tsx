@@ -34,7 +34,7 @@ export const ProfileHeader = ({
         <div className="flex flex-col items-center w-full">
           <p className="text-[#929191] text-xl">{commentsLanguage}</p>
           <div className="w-full h-px bg-gray-300 mb-[6px] text-transparent">
-            line
+          
           </div>
         </div>
         <div className="overflow-y-scroll w-full">

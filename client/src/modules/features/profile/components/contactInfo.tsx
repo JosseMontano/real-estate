@@ -10,7 +10,7 @@ import { HousesFills } from "@/shared/assets/icons/housesFills";
 import { StarFill } from "@/shared/assets/icons/starFill";
 import { options } from "../profile";
 import { GeoIcon } from "@/shared/assets/icons/geo";
-import useAuthStore from "@/core/store/auth";
+
 
 type ParamsType = {
   isModalOpen: boolean;
@@ -63,7 +63,7 @@ export const ContactInfo = ({
               <span>Cochabamba</span>
             </span>
           </p>
-          <p className="text-[#209bfb] font-semibold">{user.username}</p>
+          <p className="text-secondary font-semibold">{user.username}</p>
         </div>
 
         <div>
@@ -118,11 +118,11 @@ export const ContactInfo = ({
             onClick={() => setStateBtn("Publications")}
             className={`flex relative pb-4 gap-2 border-b-[3px]  items-center ${
               stateBtn === "Publications"
-                ? " border-[#209bfb]"
+                ? " border-secondary"
                 : "border-transparent"
             } `}
           >
-            <span className="absolute left-[14px] bg-[#209bfb] rounded-full text-[13px] h-4 w-4 flex items-center justify-center text-white">
+            <span className="absolute left-[14px] bg-secondary rounded-full text-[13px] h-4 w-4 flex items-center justify-center text-white">
               {amountRE}
             </span>
             <HousesFills size="23" />
@@ -134,11 +134,11 @@ export const ContactInfo = ({
               onClick={() => setStateBtn("Favorites")}
               className={`flex relative gap-2 pb-4 border-b-[3px] z-10  items-end ${
                 stateBtn === "Favorites"
-                  ? "border-[#209bfb]"
+                  ? "border-secondary"
                   : "border-transparent"
               }`}
             >
-              <span className="absolute left-[14px] top-[4px] bg-[#209bfb] rounded-full text-[13px] h-4 w-4 flex items-center justify-center text-white">
+              <span className="absolute left-[14px] top-[4px] bg-secondary rounded-full text-[13px] h-4 w-4 flex items-center justify-center text-white">
                 {amountREFavs}
               </span>
               <HeartFill size="20" />
