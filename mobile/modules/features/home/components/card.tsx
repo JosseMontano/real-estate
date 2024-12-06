@@ -1,24 +1,24 @@
 import { StyleSheet, Text, View, Image } from "react-native";
 import { StarIcon } from "../../../shared/icons/icons";
 import { truncateText } from "../../../core/helpers/truncateText";
+import { RealEstate } from "../../../shared/types/realEstate";
+import { Language } from "../../../core/store/language";
 type ParamsType = {
-  i: number;
+  v: RealEstate;
+  language: Language;
 };
-export const Card = ({ i }: ParamsType) => {
-
-
-  const description = "Bonita casa prueba 1 prueba 2,abcdsssssssssss";
+export const Card = ({ v, language }: ParamsType) => {
   return (
-    <View style={styles.contaier} key={i}>
+    <View style={styles.contaier} key={v.id}>
       <Image
         source={{
-          uri: "https://firebasestorage.googleapis.com/v0/b/new-realestate-f4127.appspot.com/o/realEstates%2Feljosema505%2Fimage.png-af37eed9-2fab-4764-8ab8-9e5805ddee34?alt=media&token=cc1d4428-6c90-45d5-8e07-1a0ddf488017",
+          uri: v.photos[0].image,
         }}
         style={styles.image}
       />
-      <Text>{truncateText(description,37)}</Text>
+      <Text>{truncateText(v.description[language], 37)}</Text>
       <View style={styles.infoContainer}>
-        <Text>$570</Text>
+        <Text>{v.price} BS</Text>
         <Text>|</Text>
         <View style={styles.startContainer}>
           <StarIcon size={15} />
@@ -29,9 +29,9 @@ export const Card = ({ i }: ParamsType) => {
   );
 };
 const styles = StyleSheet.create({
-  contaier:{
-    width:"45%",
-    gap:5,
+  contaier: {
+    width: "45%",
+    gap: 5,
   },
   image: {
     width: 150,
@@ -45,11 +45,11 @@ const styles = StyleSheet.create({
 
     gap: 7,
   },
-  startContainer:{
+  startContainer: {
     display: "flex",
     flexDirection: "row",
-    alignItems:"center",
-    justifyContent:"center",
-    gap:3,
-  }
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 3,
+  },
 });

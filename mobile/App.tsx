@@ -9,6 +9,9 @@ import { TouchableOpacity, StyleSheet, View } from "react-native";
 import { primaryColor } from "./modules/core/constants/colors";
 import { ModalConfig } from "./modules/shared/components/modalConfig";
 import { useState } from "react";
+import { Toaster } from "sonner-native";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -20,74 +23,80 @@ const CustomButton = ({ onPress }: { onPress: () => void }) => (
 );
 
 const TabNavigator = () => {
-    const [modalVisible, setModalVisible] = useState(false);
-return <>
-<Tab.Navigator
-    screenOptions={({ route }) => ({
-      tabBarStyle: styles.tabBar,
-      tabBarIcon: ({ focused, color, size }) => {
-        let iconName = "";
+  const [modalVisible, setModalVisible] = useState(false);
+  return (
+    <>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarStyle: styles.tabBar,
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName = "";
 
-        if (route.name === "Home") {
-          iconName = "home";
-        } else if (route.name === "Profile") {
-          iconName = "user";
-        }
+            if (route.name === "Home") {
+              iconName = "home";
+            } else if (route.name === "Profile") {
+              iconName = "user";
+            }
 
-        return <Icon name={iconName} size={size} color={color} />;
-      },
-      tabBarActiveTintColor: primaryColor,
-      tabBarInactiveTintColor: "gray",
-    })}
-  >
-    <Tab.Screen name="Home" component={HomePage} />
-    <Tab.Screen
-      name="Add"
-      component={() => <View />} 
-      options={{
-        tabBarButton: () => (
-          <CustomButton
-            onPress={() => {setModalVisible(true)}}
-          />
-        ),
-      }}
-    />
-    <Tab.Screen name="Profile" component={ProfilePage} />
-  </Tab.Navigator>
-  <ModalConfig 
-    mainModalVisible={modalVisible}
-    setMainModalVisible={setModalVisible}
-  />
-</>
+            return <Icon name={iconName} size={size} color={color} />;
+          },
+          tabBarActiveTintColor: primaryColor,
+          tabBarInactiveTintColor: "gray",
+        })}
+      >
+        <Tab.Screen name="Home" component={HomePage} />
+        <Tab.Screen
+          name="Add"
+          component={() => <View />}
+          options={{
+            tabBarButton: () => (
+              <CustomButton
+                onPress={() => {
+                  setModalVisible(true);
+                }}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen name="Profile" component={ProfilePage} />
+      </Tab.Navigator>
+      <ModalConfig
+        mainModalVisible={modalVisible}
+        setMainModalVisible={setModalVisible}
+      />
+    </>
+  );
 };
-
+export const queryClient = new QueryClient();
 // Stack Navigator
 export default function App() {
   return (
-
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Auth"
-            component={AuthPage}
-            options={{
-              headerTitle: "Auth",
-              headerStyle: {
-                backgroundColor: primaryColor,
-              },
-              headerTintColor: "#fff",
-            }}
-          />
-          {/* Tab Navigator as the main screen */}
-          <Stack.Screen
-            name="MainTabs"
-            component={TabNavigator}
-            options={{ headerShown: false }} // Hide header for the tab navigator
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-  
-    
+    <SafeAreaProvider>
+      <QueryClientProvider client={queryClient}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Auth"
+              component={AuthPage}
+              options={{
+                headerTitle: "Auth",
+                headerStyle: {
+                  backgroundColor: primaryColor,
+                },
+                headerTintColor: "#fff",
+              }}
+            />
+            {/* Tab Navigator as the main screen */}
+            <Stack.Screen
+              name="MainTabs"
+              component={TabNavigator}
+              options={{ headerShown: false }} // Hide header for the tab navigator
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+        <Toaster />
+      </QueryClientProvider>
+    </SafeAreaProvider>
   );
 }
 

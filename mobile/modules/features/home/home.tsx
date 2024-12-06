@@ -3,29 +3,46 @@ import { Card } from "./components/card";
 import { Categories } from "./components/categories";
 import { SearchIcon } from "../../shared/icons/icons";
 import { Header } from "./components/header";
+import useGet from "../../core/hooks/useGet";
+import { fetchRealEstates } from "./api/endpoints";
+import { useLanguageStore } from "../../core/store/language";
 
 export function HomePage() {
+  const {
+    data: realEstates,
+    isLoading,
+    firstElementRef,
+    amountOfPages,
+    handlePagination,
+    currentPage,
+  } = useGet({
+    services: fetchRealEstates,
+    queryKey: ["realEstates"],
+    itemsPerPage: 4,
+  });
+  const { language } = useLanguageStore();
+
   const handleSearch = () => {
     Alert.alert("hi");
   };
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Header handleSearch={handleSearch}/>
+        <Header handleSearch={handleSearch} />
 
         <Text style={styles.title}>Encuentra la propiedad de tus sueños</Text>
 
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <View style={styles.btnContainer}>
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((v) => (
-              <Categories key={v}/>
+              <Categories key={v} />
             ))}
           </View>
         </ScrollView>
 
         <View style={styles.cardContainer}>
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((v, i) => (
-            <Card i={i} key={i}/>
+          {realEstates?.map((v, i) => (
+            <Card v={v} language={language} />
           ))}
         </View>
       </View>
@@ -57,8 +74,8 @@ const styles = StyleSheet.create({
     gap: 20,
   },
 
-  title:{
-    fontSize:32,
-    fontWeight:"500"
-  }
+  title: {
+    fontSize: 32,
+    fontWeight: "500",
+  },
 });

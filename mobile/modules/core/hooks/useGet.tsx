@@ -1,8 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
-import { Res } from "../types/res";
 import { useLanguageStore } from "../store/language";
-import { toast } from "sonner";
+import { toast } from 'sonner-native';
+
+export type LanguageDB={
+    es:string;
+    en:string;
+    pt:string;
+}
+
+export type Res<T>={
+    status:number;
+    message:LanguageDB;
+    val:T;
+}
 
 type Props<T> = {
   services: (val?:number) => Promise<Res<T>>;
