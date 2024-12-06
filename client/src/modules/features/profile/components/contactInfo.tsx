@@ -34,6 +34,7 @@ type ParamsType = {
   handleShowCreateRE: () => void;
   handleRedirect: ()=>void;
   contact: string;
+  averageComments:number
 };
 export const ContactInfo = ({
   user,
@@ -56,7 +57,8 @@ export const ContactInfo = ({
   handleShowCreateRE,
   btnAddRe,
   contact,
-  handleRedirect
+  handleRedirect,
+  averageComments
 }: ParamsType) => {
   return (
     <div className="flex flex-col gap-2 ">
@@ -76,7 +78,7 @@ export const ContactInfo = ({
           <label className="text-[#929191]">{calification}</label>
           <div className="flex gap-3 items-center">
             <p className="text-base md:text-2xl font-semibold ">
-              {user.qualification ?? 5}
+              {averageComments}
             </p>
             <div className="flex space-x-1">
               {[...Array(user.qualification)].map((_, i) => (

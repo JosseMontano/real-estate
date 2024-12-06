@@ -7,6 +7,7 @@ import { useRealEstateSchema } from "./validations/realEstates.schema";
 import {
   addREToDB,
   fetchCommentsForUser,
+  fetchGetAverageComments,
   fetchGetFavsRE,
   fetchRealEstatesByUserId,
 } from "./api/endpoints";
@@ -209,6 +210,14 @@ const DashboardPage = () => {
     itemsPerPage: 10,
     valueToService: user?.id,
   });
+
+  const { data: averageComments } = useGet({
+    services: () => fetchGetAverageComments(userSelected ? userSelected.id : user?.id),
+    queryKey: ["average-comments", user?.id],
+    itemsPerPage: 10,
+    valueToService: userSelected ? userSelected.id : user?.id,
+  });
+
   if (user.email == undefined) {
     handleNavigate("/auth");
   }
@@ -314,6 +323,7 @@ const DashboardPage = () => {
             handleShowModalEditUser={handleShowEditUser}
             handleShowCreateRE={handleShowCreateRE}
             contact={texts.contactProfile}
+            averageComments={averageComments[0]}
             handleRedirect={() => {
               window.open(
                 "whatsapp://send/?phone=+591" +

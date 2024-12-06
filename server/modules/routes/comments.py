@@ -6,7 +6,7 @@ import modules.core.models as models
 from pydantic import BaseModel
 from modules.core.const import Messages
 from modules.core.utils.translate import translate_es_en_pt
-from sqlalchemy import desc
+from sqlalchemy import desc, func
 
 app = APIRouter(
     prefix="/api/comments",
@@ -60,8 +60,8 @@ async def get_top_comments_by_user(user_id: int, db: Session = Depends(get_db)):
     )
     comments = query.all()
     if not comments:
-        return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": []}
-    return {"status": 200, "message": Messages.DATA_FOUND, "val": comments}
+        return {"status": 404, "message": Messages.DATA_NOT_FOUND.dict(), "val": []}
+    return {"status": 200, "message": Messages.DATA_FOUND.dict(), "val": comments}
 
 @app.get('/statistics/general')
 async def get_comment_statistics(db: Session = Depends(get_db)):
@@ -78,6 +78,20 @@ async def get_comment_statistics(db: Session = Depends(get_db)):
         
     return {"status": 200, "message": Messages.DATA_FOUND, "val": val}
 
+
+@app.get('/average-amount-start-by-user/{user_id}')
+async def get_average_amount_start_by_user(user_id: int, db: Session = Depends(get_db)):
+    average = (
+        db.query(func.avg(models.Comment.amount_star))
+        .join(models.RealEstate, models.Comment.real_estate_id == models.RealEstate.id)
+        .filter(models.RealEstate.user_id == user_id, models.Comment.active == True)
+        .scalar()
+    )
+
+    if average is None:
+        return {"status": 404, "message": Messages.DATA_NOT_FOUND.dict(), "val": {0}}
+    
+    return {"status": 200, "message": Messages.DATA_FOUND.dict(), "val": { average}}
 
 @app.post('/')
 async def create_comment(comment: CommentDTO, db: Session = Depends(get_db)):

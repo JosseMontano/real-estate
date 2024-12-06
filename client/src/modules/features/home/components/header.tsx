@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useLanguageStore } from "@/core/store/language";
 import { Link } from "react-scroll";
 import useUserStore from "@/core/store/user";
-import { User } from "@/core/types/user";
+
 
 interface Links {
   href: string;

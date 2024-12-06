@@ -33,11 +33,11 @@ export const fetchRealEstatesByUserId = async (userId:number): Promise<Res<RealE
   return await handleGet<RealEstate[]>("real_estates/"+userId);
 }
  
-export const fetchUnasweredQuestions = async (id:Number): Promise<Res<Question[]>> => {
+export const fetchUnasweredQuestions = async (id:number): Promise<Res<Question[]>> => {
   return await handleGet<Question[]>("questions/unanswered/"+id);
 }
 
-export const fetchGetAllResponsesByREId = async (id:Number): Promise<Res<Response[]>> => {
+export const fetchGetAllResponsesByREId = async (id:number): Promise<Res<Response[]>> => {
   return await handleGet<Response[]>("responses/"+id);
 }
 
@@ -48,6 +48,10 @@ export const postResponse = async (name: ResponseDTO) => {
 
 export const fetchGetFavsRE = async (id: number): Promise<Res<FavRealEstate[]>> => {
   return handleGet<FavRealEstate[]>(`favorite_real_estates/?user_id=${id}`);
+}
+
+export const fetchGetAverageComments = async (id?: number): Promise<Res<number[]>> => {
+  return handleGet<number[]>(`comments/average-amount-start-by-user/`+id);
 }
 
 export const deleteFavRe = async (id: number) => {
