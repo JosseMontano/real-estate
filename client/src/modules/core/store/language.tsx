@@ -11,9 +11,10 @@ export type TranslateRes = {
 export interface Translations {
   //global
   empty: string;
-  fieldRequired:string;
-  emptyComments:string
-  thereAre:string;
+  fieldRequired: string;
+  emptyComments: string;
+  thereAre: string;
+  activeUser: string;
   //auth
   titleAuth: string;
   invalidEmailAuth: string;
@@ -56,7 +57,7 @@ export interface Translations {
   infoButton: string;
   placesButton: string;
   viewMoreButton: string;
-  similaritiesHome:string;
+  similaritiesHome: string;
   //home questions
   ask: string;
   question: string;
@@ -69,13 +70,14 @@ export interface Translations {
   //profile user actions
   rating: string;
   sendMessage: string;
-  follow: string;
+  following: string;
   reportUser: string;
   posts: string;
   favorites: string;
   addComment: string;
   commentPlaceholder: string;
   signout: string;
+  contactProfile: string;
   //profile RE info
   generalVisitUser: string;
   questionsVisitUer: string;
@@ -85,7 +87,7 @@ export interface Translations {
   amountBedroomsVisitUser: string;
   commentsTitlteVisitUser: string;
   inputCommentVisitUser: string;
-  questionTitlteVisitUser:string
+  questionTitlteVisitUser: string;
   anonymousVisitUser: string;
   //profile comments
   commentsTitle: string;
@@ -124,9 +126,10 @@ export interface Translations {
 const translations: { [key in Language]: Translations } = {
   en: {
     empty: "No data found",
-    fieldRequired:"This field is required",
+    fieldRequired: "This field is required",
     emptyComments: "No comments found",
-    thereAre:"There are",
+    thereAre: "There are",
+    activeUser: "Active",
     //auth
     titleAuth: "Sign In",
     invalidEmailAuth: "Invalid email",
@@ -170,7 +173,7 @@ const translations: { [key in Language]: Translations } = {
     infoButton: "Information",
     placesButton: "Places",
     viewMoreButton: "View more",
-    similaritiesHome:"similarities with your tastes",
+    similaritiesHome: "similarities with your tastes",
     //home questions
     ask: "Ask a",
     question: "question",
@@ -183,13 +186,14 @@ const translations: { [key in Language]: Translations } = {
     //profile user actions
     rating: "Rating",
     sendMessage: "Send message",
-    follow: "Follow",
+    following: "Following",
     reportUser: "Report user",
     posts: "Posts",
     favorites: "Favorites",
     addComment: "Add comment",
     commentPlaceholder: "Comment...",
     signout: "Sign out",
+    contactProfile: "Contact",
     //profile RE INF
     generalVisitUser: "General",
     questionsVisitUer: "Questions",
@@ -197,9 +201,9 @@ const translations: { [key in Language]: Translations } = {
     addresVisitUser: "Addres",
     amountBathroomsVisitUser: "Bathrooms",
     amountBedroomsVisitUser: "Bedrooms",
-    commentsTitlteVisitUser:"Comments",
-    inputCommentVisitUser:"Write comment",
-    questionTitlteVisitUser:"Question",
+    commentsTitlteVisitUser: "Comments",
+    inputCommentVisitUser: "Write comment",
+    questionTitlteVisitUser: "Question",
     anonymousVisitUser: "Anonymous",
     //comments
     commentsTitle: "Featured comment",
@@ -235,9 +239,10 @@ const translations: { [key in Language]: Translations } = {
   },
   es: {
     empty: "No se encontraron datos",
-    fieldRequired:"Este campo es requerido",
+    fieldRequired: "Este campo es requerido",
     emptyComments: "No hay comentarios",
-    thereAre:"Hay",
+    thereAre: "Hay",
+    activeUser: "Activo",
     //auth
     titleAuth: "Iniciar sesión",
     invalidEmailAuth: "Correo inválido",
@@ -281,7 +286,7 @@ const translations: { [key in Language]: Translations } = {
     infoButton: "Información",
     placesButton: "Lugares",
     viewMoreButton: "Ver más",
-    similaritiesHome:"similitudes con tus gustos",
+    similaritiesHome: "similitudes con tus gustos",
     //home questions
     ask: "Haz una",
     question: "pregunta",
@@ -295,23 +300,24 @@ const translations: { [key in Language]: Translations } = {
     //profile user actions
     rating: "Calificación",
     sendMessage: "Enviar mensaje",
-    follow: "Seguir",
+    following: "Siguiendo",
     reportUser: "Reportar usuario",
     posts: "Publicaciones",
     favorites: "Favoritos",
     addComment: "Agregar comentario",
     commentPlaceholder: "Comentario...",
     signout: "Cerrar sesión",
-    //PROFILE RE INFO 
+    contactProfile: "Contactar",
+    //PROFILE RE INFO
     generalVisitUser: "General",
     questionsVisitUer: "Preguntas",
     feedbackVisitUser: "Reseñas",
     addresVisitUser: "Direccion",
     amountBathroomsVisitUser: "Baños",
     amountBedroomsVisitUser: "Cuartos",
-    commentsTitlteVisitUser:"Comentarios",
-    inputCommentVisitUser:"Escriba un comentario",
-    questionTitlteVisitUser:"Pregunta",
+    commentsTitlteVisitUser: "Comentarios",
+    inputCommentVisitUser: "Escriba un comentario",
+    questionTitlteVisitUser: "Pregunta",
     anonymousVisitUser: "Anónimo",
     //comments
     commentsTitle: "Comentario destacado",
@@ -347,9 +353,10 @@ const translations: { [key in Language]: Translations } = {
   },
   pt: {
     empty: "Nenhum dado encontrado",
-    fieldRequired:"Este campo é obrigatório",
+    fieldRequired: "Este campo é obrigatório",
     emptyComments: "Nenhum comentário",
-    thereAre:"há",
+    thereAre: "há",
+    activeUser: "ativo",
     //auth
     titleAuth: "Entrar",
     invalidEmailAuth: "Email inválido",
@@ -393,7 +400,7 @@ const translations: { [key in Language]: Translations } = {
     infoButton: "Informação",
     placesButton: "Lugares",
     viewMoreButton: "Ver mais",
-    similaritiesHome:"semelhanças com seus gostos",
+    similaritiesHome: "semelhanças com seus gostos",
     //home questions
     ask: "Faça uma",
     question: "pergunta",
@@ -407,13 +414,14 @@ const translations: { [key in Language]: Translations } = {
     //profile user actions
     rating: "Classificação",
     sendMessage: "Enviar mensagem",
-    follow: "Seguir",
+    following: "seguindo",
     reportUser: "Denunciar usuário",
     posts: "Publicações",
     favorites: "Favoritos",
     addComment: "Adicionar comentário",
     commentPlaceholder: "Comentário...",
     signout: "Sair",
+    contactProfile: "contato",
     // profile RE
     generalVisitUser: "Geral",
     questionsVisitUer: "Perguntas",
@@ -421,9 +429,9 @@ const translations: { [key in Language]: Translations } = {
     addresVisitUser: "Endereço",
     amountBathroomsVisitUser: "Banheiros",
     amountBedroomsVisitUser: "Quartos",
-    commentsTitlteVisitUser:"Comentários",
-    inputCommentVisitUser:"Escreva um comentário",
-    questionTitlteVisitUser:"Pergunta",
+    commentsTitlteVisitUser: "Comentários",
+    inputCommentVisitUser: "Escreva um comentário",
+    questionTitlteVisitUser: "Pergunta",
     anonymousVisitUser: "Anônimo",
     //comments
     commentsTitle: "Comentário em destaque",

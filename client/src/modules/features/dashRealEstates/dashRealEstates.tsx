@@ -14,8 +14,8 @@ import { RealEstate, TypeRE } from "@/shared/types/realEstate";
 import { useLanguageStore } from "@/core/store/language";
 import { fetchRealEstates } from "@/shared/api/endpoints";
 
-type ParamsType = {};
-export const DashRealEstates = ({}: ParamsType) => {
+
+export const DashRealEstates = () => {
   const {
     data: RealEstate,
     fullData,

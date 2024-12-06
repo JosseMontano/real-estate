@@ -45,7 +45,7 @@ export type options = "Publications" | "Favorites";
 
 const DashboardPage = () => {
   const { user: userLogged, logout } = useAuthStore();
-  const { userSelected } = useUserStore();
+  const { userSelected, selectUser } = useUserStore();
   const user = userSelected ?? userLogged;
 
   const { handleNavigate } = useNavigation();
@@ -87,12 +87,12 @@ const DashboardPage = () => {
 
         const res = await addREToDB(data);
         console.log(res);
-       if (res.status == 200 || res.status == 201) {
+        if (res.status == 200 || res.status == 201) {
           setSuccessMsg(res.message[language]);
           //reset();
         } else {
           setErrorMsg(res.message[language]);
-        } 
+        }
       }
     },
   });
@@ -196,13 +196,12 @@ const DashboardPage = () => {
   const [typeRE, setTypeRE] = useState({} as TypeRE);
   const [location, setLocation] = useState<Location | null>(null);
 
-  if (user.email == undefined) {
-    handleNavigate("/auth");
-  }
+
   const { texts } = useLanguageStore();
   const [currentRE, setCurrentRE] = useState<RealEstate | null>(null);
 
   const [stateBtn, setStateBtn] = useState<options>("Publications");
+
 
   const { data: realEstateFavs } = useGet({
     services: () => fetchGetFavsRE(user?.id || 0),
@@ -210,6 +209,10 @@ const DashboardPage = () => {
     itemsPerPage: 10,
     valueToService: user?.id,
   });
+  if (user.email == undefined) {
+    handleNavigate("/auth");
+  }
+
   return (
     <div className="h-screen hide_scroll flex items-center w-full">
       <div className="absolute top-0 w-full bg-white flex justify-between px-7 py-4 shadow-2xl h-[72px]">
@@ -229,12 +232,16 @@ const DashboardPage = () => {
             {texts.signout}
           </button>
 
-          <button onClick={handleShowCreateRE}>{texts.btnAddRe}</button>
+          {/*  <button onClick={handleShowCreateRE}>{texts.btnAddRe}</button> */}
 
           <img
-            className="rounded-full h-10 w-10"
+            className="rounded-full h-10 w-10 cursor-pointer"
             src={userLogged.photo ?? imgDefault}
             alt="User"
+            onClick={()=>{
+              selectUser(null);
+              handleNavigate("/profile")
+            }}
           />
         </div>
       </div>
@@ -293,11 +300,11 @@ const DashboardPage = () => {
             addComment={texts.addComment}
             calification={texts.rating}
             favorites={texts.favorites}
-            follow={texts.follow}
+            follow={userSelected == user ? texts.following: texts.activeUser}
             placeholderComment={texts.commentPlaceholder}
             publications={texts.posts}
             reportUser={texts.reportUser}
-            sendMsg={texts.sendMessage}
+            btnAddRe={texts.btnAddRe}
             stateBtn={stateBtn}
             setStateBtn={setStateBtn}
             amountRE={realEstates?.length ?? 0}
@@ -305,6 +312,16 @@ const DashboardPage = () => {
             userLogged={userLogged}
             btnEditUserLanguage={texts.btnEditUser}
             handleShowModalEditUser={handleShowEditUser}
+            handleShowCreateRE={handleShowCreateRE}
+            contact={texts.contactProfile}
+            handleRedirect={() => {
+              window.open(
+                "whatsapp://send/?phone=+591" +
+                  userSelected?.cellphone +
+                  "&text=Hey : )",
+                "_blank"
+              );
+            }}
           />
           <PublicationsAndFavorites
             handleShowModal={handleShowFav}

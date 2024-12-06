@@ -3,26 +3,26 @@ import Btn from "@/core/components/form/button";
 import { Input } from "@/core/components/form/input";
 import { ShowModal } from "@/core/components/form/modal";
 import { User } from "@/core/types/user";
-import { ChatLeftTextFill } from "@/shared/assets/icons/chatLeftTextFill";
 import { Check } from "@/shared/assets/icons/check";
 import { HeartFill } from "@/shared/assets/icons/heartFill";
 import { HousesFills } from "@/shared/assets/icons/housesFills";
 import { StarFill } from "@/shared/assets/icons/starFill";
 import { options } from "../profile";
 import { GeoIcon } from "@/shared/assets/icons/geo";
-
+import HouseAdd from "@/shared/assets/icons/houseAdd";
+import WhatsappIcon from "@/shared/assets/icons/whatsappIcon";
 
 type ParamsType = {
   isModalOpen: boolean;
   HandleSetIsModalOpen: () => void;
   user: User;
   calification: string;
-  sendMsg: string;
   follow: string;
   reportUser: string;
   publications: string;
   favorites: string;
   addComment: string;
+  btnAddRe: string;
   placeholderComment: string;
   stateBtn: options;
   setStateBtn: (state: options) => void;
@@ -31,13 +31,15 @@ type ParamsType = {
   userLogged: User;
   btnEditUserLanguage: string;
   handleShowModalEditUser: () => void;
+  handleShowCreateRE: () => void;
+  handleRedirect: ()=>void;
+  contact: string;
 };
 export const ContactInfo = ({
   user,
   isModalOpen,
   HandleSetIsModalOpen,
   calification,
-  sendMsg,
   follow,
   reportUser,
   publications,
@@ -51,6 +53,10 @@ export const ContactInfo = ({
   userLogged,
   btnEditUserLanguage,
   handleShowModalEditUser,
+  handleShowCreateRE,
+  btnAddRe,
+  contact,
+  handleRedirect
 }: ParamsType) => {
   return (
     <div className="flex flex-col gap-2 ">
@@ -83,10 +89,19 @@ export const ContactInfo = ({
         </div>
 
         <div className="flex gap-x-6 items-center flex-wrap md">
-          <div className="flex items-center w-auto gap-2 rounded-lg hover:bg-gray-200 focus:outline-none cursor-pointer">
-            <ChatLeftTextFill size="20" />
-            <button onClick={HandleSetIsModalOpen}> {sendMsg}</button>
-          </div>
+          {user == userLogged && (
+            <div className="flex items-center w-auto gap-2 rounded-lg hover:bg-gray-200 focus:outline-none cursor-pointer">
+              <HouseAdd size={20} />
+              <button onClick={handleShowCreateRE}> {btnAddRe}</button>
+            </div>
+          )}
+
+          {user != userLogged && (
+            <div className="flex items-center w-auto gap-2 rounded-lg hover:bg-gray-200 focus:outline-none cursor-pointer">
+              <WhatsappIcon size={20} />
+              <button onClick={handleRedirect}> {contact}</button>
+            </div>
+          )}
 
           <div
             className="flex gap-1 items-center px-2 justify-center h-8 text-white rounded-lg hover:opacity-90 focus:outline-none cursor-pointer"
