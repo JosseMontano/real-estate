@@ -20,6 +20,7 @@ app = APIRouter(
     tags=["Real Estates"],
 )
 
+
 BASEDIR = Path(__file__).resolve().parent.parent.parent  # Adjust this based on your structure
 load_dotenv(BASEDIR / '.env')
 GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY')
