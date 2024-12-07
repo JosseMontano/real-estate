@@ -110,7 +110,7 @@ async def google(code: str = Query(...), state: str = Query(...)):
                 "name": user_data['name']
             }
             redirect_url = app_url + get_params_str(sendParams)
-            return "<script>window.location.replace(" + redirect_url + ")</script>"
+            return "<script>window.location.replace(\"" + redirect_url + "\")</script>"
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Unexpected error: {str(e)}")
 
