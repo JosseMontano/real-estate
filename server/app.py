@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Response, Depends
+from fastapi import FastAPI, HTTPException, Response, Depends, Query
 from fastapi.middleware.cors import CORSMiddleware
 from googletrans import Translator
 import uvicorn
@@ -17,6 +17,10 @@ from modules.routes import responses
 from modules.routes import users
 from sqlalchemy.orm import Session
 from modules.core.database import get_db 
+
+import os
+import httpx
+from urllib.parse import urlencode
 
 # Create FastAPI instance
 app = FastAPI()
@@ -53,6 +57,64 @@ class FetchImageRequest(BaseModel):  # Added request model for fetch_image
 @app.get('/')
 def index():
     return {"Choo Choo": "Welcome to the API realEstates 🚅"}
+
+
+def get_params_str(params: dict) -> str:
+    filtered_params = {k: v for k, v in params.items() if v}
+    return "?" + urlencode(filtered_params)
+
+@app.get('/google')
+async def google(code: str = Query(...), state: str = Query(...)):
+    if not code:
+        raise HTTPException(status_code=400, detail="Código inválido")
+    
+    #! ENVIRONMENT 
+    CLIENT_ID = os.getenv("CLIENT_ID")
+    CLIENT_SECRET = os.getenv("CLIENT_SECRET")
+    BACKEND_URL = os.getenv("BACKEND_URL")
+    if not CLIENT_ID or not CLIENT_SECRET or not BACKEND_URL:
+        raise HTTPException(status_code=500, detail="Environment not configured.")
+
+    #! VARS
+    app_url = state
+    base_url = "https://oauth2.googleapis.com/token"
+    params = {
+        "code": code,
+        "client_id": CLIENT_ID,
+        "client_secret": CLIENT_SECRET,
+        "redirect_uri": f"{BACKEND_URL}google",
+        "state": "1234_purpleGoogle",
+        "prompt": "consent",
+        "grant_type": "authorization_code",
+    }
+
+    try:
+        async with httpx.AsyncClient() as client:
+            url_with_params = base_url + get_params_str(params)
+            response = await client.post(url_with_params, headers={"Content-Type": "application/json"})
+            if  response.status_code != 200:
+                raise HTTPException(status_code=400, detail="Error obtaining the token.")
+
+            data = response.json()
+            verify_url = f"https://oauth2.googleapis.com/tokeninfo?id_token={data['id_token']}"
+            verify_response = await client.get(verify_url)
+            if verify_response.status_code != 200:
+                raise HTTPException(status_code=400, detail="Error verifying the user token.")
+            
+            user_data = verify_response.json()
+            #? user_data has properties like sub (id), name, email, picture...
+            #? here you will need to verify if the user already exists in the database or you will need to create a new one with the data
+            #? once verified send params to do login in the frontend
+            sendParams = {
+                "id": user_data['sub'],
+                "name": user_data['name']
+            }
+            redirect_url = app_url + get_params_str(sendParams)
+            return f"""
+            <script>window.location.replace("{redirect_url}")</script>
+            """
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Unexpected error: {str(e)}")
 
 @app.get('/api/seed')
 async def seed(db: Session = Depends(get_db)):
