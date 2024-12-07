@@ -21,6 +21,7 @@ from modules.core.database import get_db
 import os
 import httpx
 from urllib.parse import urlencode
+from fastapi.responses import HTMLResponse
 
 # Create FastAPI instance
 app = FastAPI()
@@ -110,7 +111,11 @@ async def google(code: str = Query(...), state: str = Query(...)):
                 "name": user_data['name']
             }
             redirect_url = app_url + get_params_str(sendParams)
-            return f'<script>window.location.replace("{redirect_url}")</script>'
+            return HTMLResponse(content=f"""
+            <script>
+                window.location.replace("{redirect_url}");
+            </script>
+            """, status_code=200)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Unexpected error: {str(e)}")
 
