@@ -1,18 +1,20 @@
 import { SearchIcon } from "@/shared/assets/icons/search";
 import { Field, OptionsType } from "../home";
-
+import { TrashIcon } from "@/shared/assets/icons/trash";
 
 type ParamsType = {
   fields: Field[];
   primaryColor: string;
   handleSelectChange: (value: OptionsType, index: number) => void;
   handleSearch: () => void;
+  handleCleanSearch:()=>void 
 };
 export const SearchFormComponent = ({
   fields,
   primaryColor,
   handleSelectChange,
   handleSearch,
+  handleCleanSearch
 }: ParamsType) => {
   return (
     <section
@@ -22,10 +24,7 @@ export const SearchFormComponent = ({
     >
       <div className={`flex flex-row items-center md:space-y-0 w-full `}>
         {fields.map(({ label, options }, index) => (
-          <div
-            key={index}
-            className={`flex-1 p-[10px] text-left`}
-          >
+          <div key={index} className={`flex-1 p-[10px] text-left`}>
             <label className="font-bold">{label}</label>
             <select
               className="w-[100%] text-sm  px-2 py-[4px] border rounded-lg focus:outline-none"
@@ -49,6 +48,14 @@ export const SearchFormComponent = ({
           onClick={handleSearch}
         >
           <SearchIcon size="24" />
+        </div>
+
+        <div
+          style={{ background: primaryColor }}
+          className="w-[70px] h-full rounded-r-lg flex items-center justify-center text-white cursor-pointer"
+          onClick={handleCleanSearch}
+        >
+          <TrashIcon size="24" />
         </div>
       </div>
     </section>

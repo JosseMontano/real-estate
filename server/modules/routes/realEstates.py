@@ -161,10 +161,12 @@ async def get_combined_real_estates(user_id: int, db: Session = Depends(get_db))
         smart_filtered_data = []
 
     # Step 3: Add similarity_score = 0 for normal data
+    smart_filtered_ids = {sf["id"] for sf in smart_filtered_data}
+
     normal_data = [
         {**model_to_dict(prop), "similarity_score": 0}
         for prop in all_real_estates
-        if prop not in [sf["id"] for sf in smart_filtered_data]
+        if prop.id not in smart_filtered_ids  
     ]
 
     # Step 4: Concatenate results

@@ -6,12 +6,14 @@ interface Params {
   handleSelectChange: (value: OptionsType, index: number) => void;
   fields: Field[];
   handleSearch: () => void;
+  handleCleanSearch:()=>void 
 }
 
 export const SearchPropierties = ({
   fields,
   handleSelectChange,
   handleSearch,
+  handleCleanSearch,
 }: Params) => {
   return (
     <SearchFormComponent
@@ -19,6 +21,7 @@ export const SearchPropierties = ({
       primaryColor={primaryColor}
       handleSelectChange={handleSelectChange}
       handleSearch={handleSearch}
+    handleCleanSearch={handleCleanSearch}
     />
   );
 };

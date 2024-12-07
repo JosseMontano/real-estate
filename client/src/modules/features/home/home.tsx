@@ -37,14 +37,13 @@ export const HomePage = () => {
     amountOfPages,
     handlePagination,
     currentPage,
+    refetch:refetchRE
   } = useGet({
     services: () => fetchSmartRE(user.id ?? 0),
     queryKey: ["real-estates-smart-filter"],
     itemsPerPage: 4,
     valueToService: user.id,
   });
-
-  
 
   useEffect(() => {
     return () => {
@@ -180,7 +179,6 @@ export const HomePage = () => {
     valueToService: selectedValues,
   });
 
-
   return (
     <>
       <img
@@ -203,6 +201,10 @@ export const HomePage = () => {
           handleSelectChange={handleSelectChange}
           handleSearch={async () => {
             await refetch();
+          }}
+          handleCleanSearch={() => {
+            setSelectedValues(Array(fields.length).fill(""));
+            refetchRE()
           }}
         />
       </div>
