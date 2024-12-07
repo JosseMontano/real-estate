@@ -1,13 +1,22 @@
-import { StyleSheet, Text, View, ScrollView, Image, Alert } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  Image,
+  Alert,
+  TouchableOpacity,
+} from "react-native";
 import { Card } from "./components/card";
 import { Categories } from "./components/categories";
 import { SearchIcon } from "../../shared/icons/icons";
 import { Header } from "./components/header";
 import useGet from "../../core/hooks/useGet";
-import { fetchRealEstates } from "./api/endpoints";
+import { fetchRealEstates, fetchTypesRE } from "./api/endpoints";
 import { useLanguageStore } from "../../core/store/language";
 import { RealEstate } from "../../shared/types/realEstate";
 import { useNagigation } from "../../core/hooks/useNavigation";
+import { Pagination } from "../../core/components/pagination";
 
 export function HomePage() {
   const {
@@ -18,10 +27,20 @@ export function HomePage() {
     handlePagination,
     currentPage,
   } = useGet({
-    services: fetchRealEstates,
+    services: () => fetchRealEstates(1),
     queryKey: ["realEstates"],
-    itemsPerPage: 4,
+    itemsPerPage: 6,
+    valueToService: 1,
   });
+
+  const {
+    data: typeRE,
+  } = useGet({
+    services: fetchTypesRE,
+    queryKey: ["types-real-estates"],
+    itemsPerPage: 100,
+  });
+
   const { language } = useLanguageStore();
   const { handleRedirect } = useNagigation();
   const handleSearch = () => {
@@ -40,8 +59,8 @@ export function HomePage() {
 
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <View style={styles.btnContainer}>
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((v) => (
-              <Categories key={v} />
+            {typeRE?.map((v) => (
+              <Categories v={v} language={language}/>
             ))}
           </View>
         </ScrollView>
@@ -51,6 +70,13 @@ export function HomePage() {
             <Card v={v} language={language} showRealEstate={showRealEstate} />
           ))}
         </View>
+
+        <Pagination
+          currentPage={currentPage}
+          amountOfPages={amountOfPages}
+          handlePagination={handlePagination}
+          lastPage={amountOfPages}
+        />
       </View>
     </ScrollView>
   );
@@ -80,6 +106,11 @@ const styles = StyleSheet.create({
     gap: 20,
   },
 
+  loadingText: {
+    fontSize: 18,
+    textAlign: "center",
+    color: "#888",
+  },
   title: {
     fontSize: 32,
     fontWeight: "500",

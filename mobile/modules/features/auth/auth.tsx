@@ -16,21 +16,17 @@ import useAuthStore from "../../core/store/auth";
 import { useForm } from "../../core/hooks/useForm";
 import { useMemo } from "react";
 
-
-
-
 export const useUserShema = () => {
   const { texts } = useLanguageStore();
   return useMemo(() => {
-    return z
-      .object({
-        email: z.string().email("Invalid email"),
-        password: z.string().min(6, "Password must be at least 6 characters"),
-   /*      confirmPassword: z
+    return z.object({
+      email: z.string().email("Invalid email"),
+      password: z.string().min(6, "Password must be at least 6 characters"),
+      /*      confirmPassword: z
           .string()
           .min(6, "Confirm password must be at least 6 characters"), */
-      })
-/*       .refine((data) => data.password === data.confirmPassword, {
+    });
+    /*       .refine((data) => data.password === data.confirmPassword, {
         path: ["confirmPassword"],
         message: "Passwords must match",
       }); */
@@ -40,17 +36,6 @@ export const useUserShema = () => {
 export function AuthPage() {
   const { handleRedirect } = useNagigation();
   const userSchema = useUserShema();
-  /*  const {
-    control,
-    handleSubmit,
-    formState: { errors, isSubmitted, touchedFields },
-    reset,
-    trigger,
-    setError,
-  } = useForm({
-    resolver: zodResolver(userSchema),
-    defaultValues: { email: "", password: "" },
-  }); */
   const {
     register,
     handleOnSubmit,

@@ -9,10 +9,10 @@ import { TouchableOpacity, StyleSheet, View } from "react-native";
 import { primaryColor } from "./modules/core/constants/colors";
 import { ModalConfig } from "./modules/shared/components/modalConfig";
 import { useState } from "react";
-import { Toaster } from "sonner-native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { RealEstatePage } from "./modules/features/realEstate/realEstate";
+import Toast from "react-native-toast-message";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -74,40 +74,43 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <QueryClientProvider client={queryClient}>
-        <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen
-              name="Auth"
-              component={AuthPage}
-              options={{
-                headerTitle: "Auth",
-                headerStyle: {
-                  backgroundColor: primaryColor,
-                },
-                headerTintColor: "#fff",
-              }}
-            />
-            <Stack.Screen
-              name="RealEstate"
-              component={RealEstatePage}
-              options={{
-                headerTitle: "Inmueble",
-                headerStyle: {
-                  backgroundColor: primaryColor,
-                },
-                headerTintColor: "#fff",
-              }}
-            />
-            {/* Tab Navigator as the main screen */}
-            <Stack.Screen
-              name="MainTabs"
-              component={TabNavigator}
-              options={{ headerShown: false }} // Hide header for the tab navigator
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
-        <Toaster />
+  
+          <NavigationContainer>
+            <Stack.Navigator>
+              <Stack.Screen
+                name="Auth"
+                component={AuthPage}
+                options={{
+                  headerTitle: "Auth",
+                  headerStyle: {
+                    backgroundColor: primaryColor,
+                  },
+                  headerTintColor: "#fff",
+                }}
+              />
+              <Stack.Screen
+                name="RealEstate"
+                component={RealEstatePage}
+                options={{
+                  headerTitle: "Inmueble",
+                  headerStyle: {
+                    backgroundColor: primaryColor,
+                  },
+                  headerTintColor: "#fff",
+                }}
+              />
+              {/* Tab Navigator as the main screen */}
+              <Stack.Screen
+                name="MainTabs"
+                component={TabNavigator}
+                options={{ headerShown: false }} // Hide header for the tab navigator
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+      
+
       </QueryClientProvider>
+      <Toast  />
     </SafeAreaProvider>
   );
 }

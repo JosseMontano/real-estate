@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import { useLanguageStore } from "../store/language";
-import { toast } from 'sonner-native';
+/* import { toast } from 'sonner-native'; */
+import { handleToast } from "../helpers/toast";
 
 export type LanguageDB={
     es:string;
@@ -30,7 +31,7 @@ const useGet = <T,>({
   valueToService,
   itemsPerPage = defaultItemsPerPage,
 }: Props<T>) => {
-  const {language}= useLanguageStore()
+  const {language, texts}= useLanguageStore()
   const [msg, setMsg] = useState("");
   const [isFirstRun, setIsFirstRun] = useState(true);
 
@@ -74,7 +75,7 @@ const useGet = <T,>({
       if (isFirstRun) {
         setIsFirstRun(false);
       } else {
-        toast.success(msg);
+        handleToast(msg, texts.sucess)
       }
     }
   }, [dataUpdatedAt]);

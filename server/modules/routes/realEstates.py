@@ -171,6 +171,104 @@ async def get_combined_real_estates(user_id: int, db: Session = Depends(get_db))
     return {"status": 200, "message": Messages.DATA_FOUND.dict(), "val": combined_data}
 
 
+@app.get('/real_estates_by_type/{type_real_estate_id}/{user_id}')
+async def get_real_estates_by_type(
+    type_real_estate_id: int, 
+    user_id: int, 
+    db: Session = Depends(get_db)
+):
+    # Step 1: Fetch all real estate data for the specified type
+    type_specific_real_estates = db.query(models.RealEstate).filter(
+        models.RealEstate.type_real_estate_id == type_real_estate_id
+    ).options(
+        joinedload(models.RealEstate.photos),
+        joinedload(models.RealEstate.title),
+        joinedload(models.RealEstate.description),
+        joinedload(models.RealEstate.zone),
+        joinedload(models.RealEstate.user)
+    ).all()
+
+    if not type_specific_real_estates:
+        return {"status": 404, "message": Messages.DATA_NOT_FOUND.dict(), "val": []}
+
+    # Step 2: Fetch user's favorite properties
+    favorite_properties = db.query(models.FavoriteRealEstate).filter(
+        models.FavoriteRealEstate.user_id == user_id
+    ).all()
+
+    if favorite_properties:
+        # Extract IDs of favorite properties
+        favorite_property_ids = [fav.real_estate_id for fav in favorite_properties]
+
+        # Get favorite property details
+        favorite_real_estates = db.query(models.RealEstate).filter(
+            models.RealEstate.id.in_(favorite_property_ids)
+        ).all()
+
+        if favorite_real_estates:
+            # Build similarity conditions
+            conditions = []
+            for favorite in favorite_real_estates:
+                conditions.append(or_(
+                    models.RealEstate.price.between(favorite.price * 0.9, favorite.price * 1.1),
+                    models.RealEstate.zone_id == favorite.zone_id,
+                    models.RealEstate.type_real_estate_id == type_real_estate_id,  # Only match type
+                    models.RealEstate.amount_bathroom == favorite.amount_bathroom,
+                    models.RealEstate.amount_bedroom == favorite.amount_bedroom,
+                ))
+
+            # Fetch similar properties excluding current favorites
+            similar_properties = db.query(models.RealEstate).filter(
+                or_(*conditions),
+                ~models.RealEstate.id.in_(favorite_property_ids),
+                models.RealEstate.type_real_estate_id == type_real_estate_id
+            ).options(
+                joinedload(models.RealEstate.photos),
+                joinedload(models.RealEstate.title),
+                joinedload(models.RealEstate.description),
+                joinedload(models.RealEstate.zone),
+                joinedload(models.RealEstate.user)
+            ).all()
+
+            # Calculate similarity score
+            def calculate_similarity_score(property_, favorites):
+                score = 0
+                for favorite in favorites:
+                    if property_.price and favorite.price and favorite.price * 0.9 <= property_.price <= favorite.price * 1.1:
+                        score += 1
+                    if property_.zone_id == favorite.zone_id:
+                        score += 1
+                    if property_.amount_bathroom == favorite.amount_bathroom:
+                        score += 1
+                    if property_.amount_bedroom == favorite.amount_bedroom:
+                        score += 1
+                return score
+
+            # Add similarity scores to similar properties
+            smart_filtered_data = [
+                {**model_to_dict(prop), "similarity_score": calculate_similarity_score(prop, favorite_real_estates)}
+                for prop in similar_properties
+            ]
+
+            # Sort smart data by similarity_score descending
+            smart_filtered_data.sort(key=lambda x: x["similarity_score"], reverse=True)
+        else:
+            smart_filtered_data = []
+    else:
+        smart_filtered_data = []
+
+    # Step 3: Add similarity_score = 0 for normal data
+    normal_data = [
+        {**model_to_dict(prop), "similarity_score": 0}
+        for prop in type_specific_real_estates
+        if prop.id not in [sf["id"] for sf in smart_filtered_data]
+    ]
+
+    # Step 4: Concatenate results
+    combined_data = smart_filtered_data + normal_data
+
+    return {"status": 200, "message": Messages.DATA_FOUND.dict(), "val": combined_data}
+
 
 @app.get('/statistics')
 async def get_statistics(db: Session = Depends(get_db)):
@@ -288,19 +386,6 @@ async def filter_real_estates(
             "val": []
         }
 
-@app.get('/{type_real_estate_id}')
-async def get_real_estates_by_type(type_real_estate_id:int ,db: Session = Depends(get_db)):
-    query = db.query(models.RealEstate).options(
-        joinedload(models.RealEstate.photos),
-        joinedload(models.RealEstate.title),
-        joinedload(models.RealEstate.description)
-    ).filter(models.RealEstate.type_real_estate_id == type_real_estate_id)
-    real_estates = query.all()
-    
-    if not real_estates:
-        return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": []}
-    
-    return {"status": 200, "message": Messages.DATA_FOUND, "val": real_estates}
 
 @app.post('/')
 async def create_real_estate(real_estate: RealEstateDTO, db: Session = Depends(get_db)):
