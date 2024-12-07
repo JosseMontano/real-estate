@@ -4,7 +4,8 @@ requests
 pydantic
 sqlalchemy
 googletrans==4.0.0-rc1
-psycopg2 
+#psycopg2 
+psycopg2-binary
 geopy
 python-dotenv
 bcrypt
