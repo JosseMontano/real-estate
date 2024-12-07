@@ -18,6 +18,7 @@ from sqlalchemy.inspection import inspect
 app = APIRouter(
     prefix="/api/real_estates",
     tags=["Real Estates"],
+    
 )
 
 
