@@ -5,6 +5,8 @@ from sqlalchemy.orm import Session
 from typing import Annotated
 from fastapi import Depends
 
+
+
 #SQLALCHEMY_DATABASE_URL = "postgresql://postgres:admin@localhost:5432/realEstateDB"
 SQLALCHEMY_DATABASE_URL = "postgresql://neondb_owner:S43ByIoLcphi@ep-proud-bread-a2uigani-pooler.eu-central-1.aws.neon.tech/neondb?sslmode=require"
 
