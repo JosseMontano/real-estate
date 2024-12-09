@@ -1,4 +1,4 @@
-import { primaryColor, secondaryColor } from "@/core/constants/colors";
+import { primaryColor } from "@/core/constants/colors";
 
 type Props = {
   currentVisible: number;

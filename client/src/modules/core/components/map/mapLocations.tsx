@@ -56,9 +56,10 @@ interface Params {
   setLocation: (loc: Location) => void;
   location: string;
   locations: NearbyPlace[]; // Array of predefined locations with optional name
+  width?:number
 }
 
-export const MapLocations = ({ location, setLocation, locations }: Params) => {
+export const MapLocations = ({ location, setLocation, locations, width }: Params) => {
   const center = location
     ? location.split(",").map(Number)
     : [-17.37242843568179, -66.16250126879922];
@@ -68,6 +69,9 @@ export const MapLocations = ({ location, setLocation, locations }: Params) => {
       center={center}
       zoom={13}
       className="w-full h-[200px] lg:w-[500px] xl:w-[600px] rounded-lg shadow-lg"
+      style={{
+        width:width
+      }}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
