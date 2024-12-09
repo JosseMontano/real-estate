@@ -7,6 +7,7 @@ interface Params {
   fields: Field[];
   handleSearch: () => void;
   handleCleanSearch:()=>void 
+  selectedValues: OptionsType[];
 }
 
 export const SearchPropierties = ({
@@ -14,6 +15,7 @@ export const SearchPropierties = ({
   handleSelectChange,
   handleSearch,
   handleCleanSearch,
+  selectedValues
 }: Params) => {
   return (
     <SearchFormComponent
@@ -22,6 +24,7 @@ export const SearchPropierties = ({
       handleSelectChange={handleSelectChange}
       handleSearch={handleSearch}
     handleCleanSearch={handleCleanSearch}
+   selectedValues={selectedValues}
     />
   );
 };

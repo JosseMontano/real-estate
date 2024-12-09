@@ -7,42 +7,51 @@ type ParamsType = {
   primaryColor: string;
   handleSelectChange: (value: OptionsType, index: number) => void;
   handleSearch: () => void;
-  handleCleanSearch:()=>void 
+  handleCleanSearch: () => void;
+  selectedValues: OptionsType[];
 };
 export const SearchFormComponent = ({
   fields,
   primaryColor,
   handleSelectChange,
   handleSearch,
-  handleCleanSearch
+  handleCleanSearch,
+  selectedValues,
 }: ParamsType) => {
   return (
     <section
       className={`container rounded-lg 
-           absolute bottom-4 left-1/2 transform -translate-x-1/2  max-w-2xl lg:max-w-3xl bg-white shadow-md flex
-     `}
+         absolute bottom-4 left-1/2 transform -translate-x-1/2 max-w-2xl lg:max-w-3xl bg-white shadow-md flex`}
     >
-      <div className={`flex flex-row items-center md:space-y-0 w-full `}>
-        {fields.map(({ label, options }, index) => (
-          <div key={index} className={`flex-1 p-[10px] text-left`}>
-            <label className="font-bold">{label}</label>
-            <select
-              className="w-[100%] text-sm  px-2 py-[4px] border rounded-lg focus:outline-none"
-              onFocus={(e) => (e.target.style.borderColor = primaryColor)}
-              onBlur={(e) => (e.target.style.borderColor = "transparent")}
-            >
-              {options?.map((option) => (
-                <option
-                  onClick={() => handleSelectChange(option, index)}
-                  key={option.id}
+      <div className={`flex flex-row items-center md:space-y-0 w-full`}>
+        {fields.map(
+          ({ label, options }, index) =>
+            options && (
+              <div key={index} className={`flex-1 p-[10px] text-left`}>
+                <label className="font-bold">{label}</label>
+                <select
+                  className="w-[100%] text-sm px-2 py-[4px] border rounded-lg focus:outline-none"
+                  value={selectedValues[index]?.id || ""}
+                  onChange={(e) =>
+                    handleSelectChange(
+                      //@ts-ignore
+                      options.find((opt) => opt.id === Number(e.target.value)),
+                      index
+                    )
+                  }
+                  onFocus={(e) => (e.target.style.borderColor = primaryColor)}
+                  onBlur={(e) => (e.target.style.borderColor = "transparent")}
                 >
-                  {option.name}
-                </option>
-              ))}
-            </select>
-          </div>
-        ))}
-        <div
+                  {options.map((option) => (
+                    <option value={option.id} key={option.id}>
+                      {option.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )
+        )}
+           <div
           style={{ background: primaryColor }}
           className="w-[70px] h-full rounded-r-lg flex items-center justify-center text-white cursor-pointer"
           onClick={handleSearch}

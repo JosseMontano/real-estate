@@ -41,6 +41,8 @@ const useGet = <T,>({
   const [endPagination, setEndPagination] = useState(itemsPerPage);
   const firstElementRef = useRef<HTMLDivElement>(null);
   const [currentPage, setCurrentPage] = useState(1);
+
+
   const handlePagination = (page: number) => {
     setStartPagination((page - 1) * itemsPerPage);
     setEndPagination(page * itemsPerPage);

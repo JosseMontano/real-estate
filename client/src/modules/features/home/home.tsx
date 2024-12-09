@@ -11,6 +11,7 @@ import { SearchPropierties } from "./components/searchPropierties";
 import { useLanguageStore } from "@/core/store/language";
 import { fetchTypeRe } from "../dashTypeRe/api/endpoints";
 import useAuthStore from "@/core/store/auth";
+import { queryClient } from "../../../App";
 
 type Options = "price" | "type" | "zone";
 
@@ -37,7 +38,7 @@ export const HomePage = () => {
     amountOfPages,
     handlePagination,
     currentPage,
-    refetch:refetchRE
+
   } = useGet({
     services: () => fetchSmartRE(user.id ?? 0),
     queryKey: ["real-estates-smart-filter"],
@@ -167,17 +168,23 @@ export const HomePage = () => {
 
   const handleSelectChange = (value: OptionsType, index: number) => {
     const updatedValues = [...selectedValues];
-    updatedValues[index] = value;
+    updatedValues[index] = value || { id: 0, name: "" };
     setSelectedValues(updatedValues);
   };
 
   const { data: searchRE, refetch } = useGet({
     services: () => filterRE(selectedValues),
-    queryKey: ["real-estates-search"],
+    queryKey: ["real-estates-search", selectedValues],
     itemsPerPage: 1000,
     /* @ts-ignore */
     valueToService: selectedValues,
   });
+ 
+  const handleReset = async () => {
+   setSelectedValues(Array(fields.length).fill(""));
+   console.log(!Array(fields.length).fill(""));
+   queryClient.setQueryData("real-estates-search", []);
+  };
 
   return (
     <>
@@ -202,10 +209,8 @@ export const HomePage = () => {
           handleSearch={async () => {
             await refetch();
           }}
-          handleCleanSearch={() => {
-            setSelectedValues(Array(fields.length).fill(""));
-            refetchRE()
-          }}
+          handleCleanSearch={handleReset}
+          selectedValues={selectedValues}
         />
       </div>
       <SectionRealStates

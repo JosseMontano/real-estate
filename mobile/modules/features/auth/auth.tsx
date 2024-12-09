@@ -15,6 +15,7 @@ import { useNagigation } from "../../core/hooks/useNavigation";
 import useAuthStore from "../../core/store/auth";
 import { useForm } from "../../core/hooks/useForm";
 import { useMemo } from "react";
+import GoogleLogin from "./components/googleLogin";
 
 export const useUserShema = () => {
   const { texts } = useLanguageStore();
@@ -124,6 +125,7 @@ export function AuthPage() {
       <Pressable onPress={hi}>
         <Text>hi</Text>
       </Pressable>
+      <GoogleLogin />
       <Config />
     </View>
   );
