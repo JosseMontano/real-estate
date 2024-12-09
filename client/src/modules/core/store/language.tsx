@@ -71,6 +71,7 @@ export interface Translations {
   rating: string;
   sendMessage: string;
   following: string;
+  follow:string
   reportUser: string;
   posts: string;
   favorites: string;
@@ -187,6 +188,7 @@ const translations: { [key in Language]: Translations } = {
     rating: "Rating",
     sendMessage: "Send message",
     following: "Following",
+    follow:"Follow",
     reportUser: "Report user",
     posts: "Posts",
     favorites: "Favorites",
@@ -301,6 +303,7 @@ const translations: { [key in Language]: Translations } = {
     rating: "Calificación",
     sendMessage: "Enviar mensaje",
     following: "Siguiendo",
+    follow:"Seguir",
     reportUser: "Reportar usuario",
     posts: "Publicaciones",
     favorites: "Favoritos",
@@ -415,6 +418,7 @@ const translations: { [key in Language]: Translations } = {
     rating: "Classificação",
     sendMessage: "Enviar mensagem",
     following: "seguindo",
+    follow:"continuar",
     reportUser: "Denunciar usuário",
     posts: "Publicações",
     favorites: "Favoritos",

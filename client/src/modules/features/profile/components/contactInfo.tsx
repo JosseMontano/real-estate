@@ -11,6 +11,8 @@ import { options } from "../profile";
 import { GeoIcon } from "@/shared/assets/icons/geo";
 import HouseAdd from "@/shared/assets/icons/houseAdd";
 import WhatsappIcon from "@/shared/assets/icons/whatsappIcon";
+import FollowIcon from "@/shared/assets/icons/follow";
+import FollowingIcon from "@/shared/assets/icons/following";
 
 type ParamsType = {
   isModalOpen: boolean;
@@ -32,9 +34,10 @@ type ParamsType = {
   btnEditUserLanguage: string;
   handleShowModalEditUser: () => void;
   handleShowCreateRE: () => void;
-  handleRedirect: ()=>void;
+  handleRedirect: () => void;
   contact: string;
-  averageComments:number
+  averageComments: number;
+  startToFollow: string;
 };
 export const ContactInfo = ({
   user,
@@ -58,8 +61,13 @@ export const ContactInfo = ({
   btnAddRe,
   contact,
   handleRedirect,
-  averageComments
+  averageComments,
+  startToFollow,
 }: ParamsType) => {
+  const isFollowing = !!userLogged?.following?.find(
+    (v) => v.user_followed_id === user.id
+  );
+
   return (
     <div className="flex flex-col gap-2 ">
       <div className="mt-6 flex flex-col gap-2">
@@ -105,14 +113,28 @@ export const ContactInfo = ({
             </div>
           )}
 
-          <div
-            className="flex gap-1 items-center px-2 justify-center h-8 text-white rounded-lg hover:opacity-90 focus:outline-none cursor-pointer"
-            style={{ background: primaryColor }}
-          >
-            <Check size="19" />
-            <span>{follow}</span>
-          </div>
-
+          {userLogged == user ? (
+            <div
+              className="flex gap-1 items-center px-2 justify-center h-8 text-white rounded-lg hover:opacity-90 focus:outline-none cursor-pointer"
+              style={{ background: primaryColor }}
+            >
+              <Check size="19" />
+              <span>{follow}</span>
+            </div>
+          ) : isFollowing ? (
+            <div
+              className="flex gap-1 items-center px-2 justify-center h-8 text-white rounded-lg hover:opacity-90 focus:outline-none cursor-pointer"
+              style={{ background: primaryColor }}
+            >
+              <FollowingIcon size={19} />
+              <span>{follow}</span>
+            </div>
+          ) : (
+            <div className="flex gap-1 items-center px-2 justify-center h-8 text-primary border-primary border-2 rounded-lg hover:opacity-90 focus:outline-none cursor-pointer">
+              <FollowIcon size={19} />
+              <span>{startToFollow}</span>
+            </div>
+          )}
           {user == userLogged && (
             <button
               className="hover:bg-gray-100 rounded-lg text-gray-400"

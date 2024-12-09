@@ -310,6 +310,7 @@ const DashboardPage = () => {
             calification={texts.rating}
             favorites={texts.favorites}
             follow={userSelected == user ? texts.following: texts.activeUser}
+            startToFollow={texts.follow}
             placeholderComment={texts.commentPlaceholder}
             publications={texts.posts}
             reportUser={texts.reportUser}
