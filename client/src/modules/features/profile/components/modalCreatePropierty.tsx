@@ -10,7 +10,6 @@ import { fetchTypesRE } from "../api/endpoints";
 import { useLanguageStore } from "@/core/store/language";
 import { ShowModal } from "@/core/components/form/modal";
 import { TypeRE } from "@/shared/types/realEstate";
-import Btn from "@/core/components/form/button";
 import { FileSelectedType, FileUpType } from "../profile";
 import { UploadImageIcon } from "@/shared/assets/icons/uploadImage";
 import { ArrowDownIcon } from "@/shared/assets/icons/arrowDown";
@@ -157,14 +156,13 @@ export const ModalCreatePropierty = ({
                         >
                           <ArrowDownIcon size="15" />
                           <span>
-                            {countFilesUp}{" "}
+                            {countFilesUp}
                             {language === "es" || language === "pt"
                               ? "de"
-                              : "of"}{" "}
+                              : "of"}
                             {filesSelected.length} {texts.filesUplodesLanguage}
                           </span>
                         </button>
-
                         {isExpanded && (
                           <div className=" max-h-64 min-h-0 overflow-y-auto overflow-x-hidden">
                             {filesSelected.map((value, index) => (

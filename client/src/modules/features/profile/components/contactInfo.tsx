@@ -68,6 +68,8 @@ export const ContactInfo = ({
     (v) => v.user_followed_id === user.id
   );
 
+ 
+
   return (
     <div className="flex flex-col gap-2 ">
       <div className="mt-6 flex flex-col gap-2">
@@ -130,7 +132,7 @@ export const ContactInfo = ({
               <span>{follow}</span>
             </div>
           ) : (
-            <div className="flex gap-1 items-center px-2 justify-center h-8 text-primary border-primary border-2 rounded-lg hover:opacity-90 focus:outline-none cursor-pointer">
+            <div className="flex gap-1 items-center px-2 justify-center h-8 text-primary border-primary border-2 rounded-lg hover:opacity-90 focus:outline-none cursor-pointer" onClick={()=>}>
               <FollowIcon size={19} />
               <span>{startToFollow}</span>
             </div>

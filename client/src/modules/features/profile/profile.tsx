@@ -63,6 +63,7 @@ const DashboardPage = () => {
 
   const { handleStateModal: handleShowFav, isModalOpen: isFavOpen } =
     useModal();
+  const { texts, language } = useLanguageStore();
 
   const realEstateSchema = useRealEstateSchema();
   const {
@@ -87,10 +88,13 @@ const DashboardPage = () => {
         data.images = images;
 
         const res = await addREToDB(data);
-        console.log(res);
+
         if (res.status == 200 || res.status == 201) {
           setSuccessMsg(res.message[language]);
-          //reset();
+          setTimeout(() => {
+            reset();
+            handleShowCreateRE();
+          }, 800);
         } else {
           setErrorMsg(res.message[language]);
         }
@@ -201,7 +205,6 @@ const DashboardPage = () => {
   const [typeRE, setTypeRE] = useState({} as TypeRE);
   const [location, setLocation] = useState<Location | null>(null);
 
-  const { texts } = useLanguageStore();
   const [currentRE, setCurrentRE] = useState<RealEstate | null>(null);
 
   const [stateBtn, setStateBtn] = useState<options>("Publications");
@@ -346,8 +349,8 @@ const DashboardPage = () => {
             stateBtn={stateBtn}
             user={user}
             realEstateFavs={realEstateFavs ?? []}
-         refetchCommentTop={refetchCommentTop}
-         />
+            refetchCommentTop={refetchCommentTop}
+          />
           {isLoading && <p>Loading...</p>}
         </div>
       </div>
