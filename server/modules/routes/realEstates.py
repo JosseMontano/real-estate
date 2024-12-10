@@ -107,6 +107,8 @@ async def get_combined_real_estates(user_id: int, db: Session = Depends(get_db))
         models.FavoriteRealEstate.user_id == user_id
     ).all()
 
+    smart_filtered_data = []
+
     if favorite_properties:
         # Extract IDs of favorite properties
         favorite_property_ids = [fav.real_estate_id for fav in favorite_properties]
@@ -128,10 +130,11 @@ async def get_combined_real_estates(user_id: int, db: Session = Depends(get_db))
                     models.RealEstate.amount_bedroom == favorite.amount_bedroom,
                 ))
 
-            # Fetch similar properties excluding current favorites
+            # Fetch similar properties excluding current favorites and user's own properties
             similar_properties = db.query(models.RealEstate).filter(
                 or_(*conditions),
-                ~models.RealEstate.id.in_(favorite_property_ids)
+                ~models.RealEstate.id.in_(favorite_property_ids),
+                models.RealEstate.user_id != user_id  # Exclude the logged-in user's properties
             ).options(
                 joinedload(models.RealEstate.photos),
                 joinedload(models.RealEstate.title),
@@ -164,25 +167,27 @@ async def get_combined_real_estates(user_id: int, db: Session = Depends(get_db))
 
             # Sort smart data by similarity_score descending
             smart_filtered_data.sort(key=lambda x: x["similarity_score"], reverse=True)
-        else:
-            smart_filtered_data = []
-    else:
-        smart_filtered_data = []
 
-    # Step 3: Add similarity_score = 0 for normal data
+    # Step 3: Add similarity_score = 0 for normal data excluding the logged-in user's properties
     smart_filtered_ids = {sf["id"] for sf in smart_filtered_data}
 
     normal_data = [
         {**model_to_dict(prop), "similarity_score": 0}
         for prop in all_real_estates
-        if prop.id not in smart_filtered_ids  
+        if prop.id not in smart_filtered_ids and prop.user_id != user_id
     ]
 
-    # Step 4: Concatenate results
-    combined_data = smart_filtered_data + normal_data
+    # Step 4: Fetch the logged-in user's properties
+    user_properties = [
+        {**model_to_dict(prop), "similarity_score": None}  # No similarity score for the user's properties
+        for prop in all_real_estates
+        if prop.user_id == user_id
+    ]
+
+    # Step 5: Concatenate results: smart filtered, normal data, then user properties
+    combined_data = smart_filtered_data + normal_data + user_properties
 
     return {"status": 200, "message": Messages.DATA_FOUND.dict(), "val": combined_data}
-
 
 @app.get('/real_estates_by_type/{type_real_estate_id}/{user_id}')
 async def get_real_estates_by_type(

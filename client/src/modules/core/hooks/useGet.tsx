@@ -23,7 +23,7 @@ const useGet = <T,>({
   const [msg, setMsg] = useState("");
   const [isFirstRun, setIsFirstRun] = useState(true);
 
-  const { isLoading, data, isError, error,refetch, dataUpdatedAt  } = useQuery({
+  const { isLoading, data, isError, error,refetch:refetchQuery, dataUpdatedAt  } = useQuery({
     queryKey: queryKey,
     queryFn: async () => {
       if(valueToService){
@@ -41,7 +41,7 @@ const useGet = <T,>({
   const [endPagination, setEndPagination] = useState(itemsPerPage);
   const firstElementRef = useRef<HTMLDivElement>(null);
   const [currentPage, setCurrentPage] = useState(1);
-
+  const [shouldTriggerToast, setShouldTriggerToast] = useState(false);
 
   const handlePagination = (page: number) => {
     setStartPagination((page - 1) * itemsPerPage);
@@ -60,15 +60,23 @@ const useGet = <T,>({
     ? (data.slice(startPagination, endPagination) as unknown as T)
     : ([] as unknown as T);
 
-  useEffect(() => {
-    if (msg !== "") {
-      if (isFirstRun) {
-        setIsFirstRun(false);
-      } else {
-        toast.success(msg);
+    const handleRefetch = () => {
+      setShouldTriggerToast(true); 
+      refetchQuery();
+    };
+
+    useEffect(() => {
+      if (msg !== "") {
+        if (isFirstRun) {
+          setIsFirstRun(false);
+        } else if (shouldTriggerToast) {
+          console.log("msg", msg);
+          toast.success(msg);
+        }
       }
-    }
-  }, [dataUpdatedAt]);
+      // Reset the flag after the toast runs
+      setShouldTriggerToast(false);
+    }, [msg]);
 
   return {
     isLoading,
@@ -82,7 +90,7 @@ const useGet = <T,>({
     endPagination,
     firstElementRef,
     currentPage,
-    refetch 
+    refetch:handleRefetch 
   };
 };
 

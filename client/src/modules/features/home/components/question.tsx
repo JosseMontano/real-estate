@@ -34,9 +34,12 @@ export const Questions = ({
     schema: questionSchema,
     form: async (data) => {
       const res = await addQuestionToDB(data);
+      console.log(res);
       if (res.status == 200 || res.status == 201) {
         setSuccessMsg(res.message[language]);
-        reset();
+        setTimeout(() => {
+          reset()
+        }, 1000);
       } else {
         setErrorMsg(res.message[language]);
       }

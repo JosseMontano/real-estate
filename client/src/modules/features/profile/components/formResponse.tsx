@@ -38,10 +38,12 @@ export const FormResponse = ({
       if (res.status == 200 || res.status == 201) {
         setSuccessMsg(res.message[language]);
         setTimeout(() => {
+          reset();
           queryClient.invalidateQueries({
             queryKey: ["questions-by-re", selectedRE?.id],
           });
-        }, 500);
+
+        }, 800);
         /*         reset(); */
       } else {
         setErrorMsg(res.message[language]);
