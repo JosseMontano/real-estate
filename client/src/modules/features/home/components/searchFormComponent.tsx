@@ -51,13 +51,13 @@ export const SearchFormComponent = ({
               </div>
             )
         )}
-           <div
+  {/*          <div
           style={{ background: primaryColor }}
           className="w-[70px] h-full rounded-r-lg flex items-center justify-center text-white cursor-pointer"
           onClick={handleSearch}
         >
           <SearchIcon size="24" />
-        </div>
+        </div> */}
 
         <div
           style={{ background: primaryColor }}

@@ -27,7 +27,7 @@ export const Config = () => {
   return (
     <>
       <div
-        className="fixed bottom-2 right-2 p-3 rounded-full cursor-pointer"
+        className="fixed bottom-2 right-2 p-3 rounded-full cursor-pointer z-50"
         onClick={handleStateModal}
         style={{
           background: primaryColor,

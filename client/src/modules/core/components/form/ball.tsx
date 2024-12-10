@@ -10,7 +10,7 @@ const Ball = ({ currentVisible, value, setCurrentVisible }: Props) => {
     <span
       className="w-[10px] h-[10px] rounded-full cursor-pointer"
       style={{
-        background: currentVisible == value ? "#5dff9d" : primaryColor,
+        background: currentVisible == value ? primaryColor : "#365501",
       }}
       onClick={() => setCurrentVisible && setCurrentVisible(value)}
     ></span>

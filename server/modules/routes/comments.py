@@ -118,7 +118,6 @@ async def create_comment(comment: CommentDTO, db: Session = Depends(get_db)):
         db.rollback()
         return {"status": 500, "message": str(e), "val": []}
 
-
 @app.put('/{comment_id}')
 async def update_comment(comment_id: int, updated_comment: CommentDTO, db: Session = Depends(get_db)):
     try:

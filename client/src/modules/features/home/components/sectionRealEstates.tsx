@@ -97,7 +97,7 @@ export const SectionRealStates = ({
           <Photo img={item.photos} index={index} />
 
           <div
-            className={`flex flex-col gap-3 items-center ${
+            className={`flex flex-col gap-1 items-center ${
               index % 2 === 1 ? "md:items-end" : "md:items-start"
             } text-center w-full md:w-1/2`}
           >

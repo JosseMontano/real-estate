@@ -14,7 +14,7 @@ export type Comment = {
   comment: LanguageDB;
   realEstate: RealEstate
   commentator: User
-  amountStars: number
+  amount_star: number
   realEstateId: string
   commentatorId: string
   active: boolean

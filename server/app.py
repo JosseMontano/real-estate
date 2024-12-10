@@ -15,6 +15,7 @@ from modules.routes import comments
 from modules.routes import favorite_real_estates
 from modules.routes import responses
 from modules.routes import users
+from modules.routes import follows
 from sqlalchemy.orm import Session
 from modules.core.database import get_db 
 
@@ -33,9 +34,10 @@ app.include_router(comments.app)
 app.include_router(favorite_real_estates.app)
 app.include_router(responses.app)
 app.include_router(users.app)
+app.include_router(follows.app)
 
 # Configure CORS
-origins = ["http://localhost:5173", "exp://192.168.1.13:19000"]
+origins = ["http://localhost:5173","http://localhost:5174", "exp://192.168.1.13:19000"]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,

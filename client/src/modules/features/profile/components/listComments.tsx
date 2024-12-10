@@ -19,10 +19,15 @@ import { queryClient } from "../../../../App";
 type ParamsType = {
   user: User;
   selectedRE: RealEstate | null;
-  language: Language
-  texts: Translations
+  language: Language;
+  texts: Translations;
 };
-export const ListComments = ({ user, selectedRE, language, texts }: ParamsType) => {
+export const ListComments = ({
+  user,
+  selectedRE,
+  language,
+  texts,
+}: ParamsType) => {
   const { handleStateModal, isModalOpen } = useModal();
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
@@ -60,11 +65,13 @@ export const ListComments = ({ user, selectedRE, language, texts }: ParamsType) 
     itemsPerPage: 100,
     valueToService: user?.id,
   });
-
+console.log(comments);
   return (
     <>
       <div className="h-[250px] -m-5 py-2 px-5 overflow-y-auto flex flex-col gap-3">
-        <h1 className="text-justify font-bold text-gray-900 ">{texts.commentsTitlteVisitUser}</h1>
+        <h1 className="text-justify font-bold text-gray-900 ">
+          {texts.commentsTitlteVisitUser}
+        </h1>
         <div>
           <FormComponent
             isPending={isPendingQuestion}
@@ -117,7 +124,18 @@ export const ListComments = ({ user, selectedRE, language, texts }: ParamsType) 
                 <span className="text-[13px] text-gray-800">
                   {v.comment[language]}
                 </span>
-                <span className="text-[10px]">Reportar</span>
+                <p className="flex gap-1 items-center">
+                  <span className="text-[10px]">Reportar</span>
+                  <span className="text-[10px] flex gap-1 items-center">
+                    <span className="text-[10px]">{v.amount_star}</span>
+                    <span
+                      className="text-yellow-300 text-[10px]"
+                      onClick={handleStateModal}
+                    >
+                      <StarFill size="12" />
+                    </span>
+                  </span>
+                </p>
               </div>
             </div>
           ))}

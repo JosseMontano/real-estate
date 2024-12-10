@@ -38,7 +38,6 @@ export const HomePage = () => {
     amountOfPages,
     handlePagination,
     currentPage,
-
   } = useGet({
     services: () => fetchSmartRE(user.id ?? 0),
     queryKey: ["real-estates-smart-filter"],
@@ -166,25 +165,30 @@ export const HomePage = () => {
     Array(fields.length).fill("")
   );
 
+  const handleReset = async () => {
+    setSelectedValues(Array(fields.length).fill(""));
+    queryClient.setQueryData("real-estates-search", []);
+  };
+
+  const { data: searchRE, refetch } = useGet({
+    services: () => filterRE(selectedValues),
+    queryKey: [
+      "real-estates-search",
+      selectedValues.every((val) => val && val.id !== 0) && selectedValues,
+      handleReset
+    ],
+    itemsPerPage: 1000,
+    /* @ts-ignore */
+    valueToService: selectedValues,
+  });
+
   const handleSelectChange = (value: OptionsType, index: number) => {
     const updatedValues = [...selectedValues];
     updatedValues[index] = value || { id: 0, name: "" };
     setSelectedValues(updatedValues);
   };
 
-  const { data: searchRE, refetch } = useGet({
-    services: () => filterRE(selectedValues),
-    queryKey: ["real-estates-search", selectedValues],
-    itemsPerPage: 1000,
-    /* @ts-ignore */
-    valueToService: selectedValues,
-  });
  
-  const handleReset = async () => {
-   setSelectedValues(Array(fields.length).fill(""));
-   console.log(!Array(fields.length).fill(""));
-   queryClient.setQueryData("real-estates-search", []);
-  };
 
   return (
     <>

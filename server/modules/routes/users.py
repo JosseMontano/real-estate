@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from pydantic import BaseModel
 from modules.core.database import get_db 
 import modules.core.models as models
@@ -50,7 +50,7 @@ async def sign_up(user: signUpDTO, db: Session = Depends(get_db)):
         if user.password != user.confirmPassword:
             return {"status": 400, "message": AuthMsg.PASSWORD_NOT_MATCH.dict(), "val": []}
    
-        found_user = db.query(models.User).filter(models.User.email == user.email).first()
+        found_user = db.query(models.User).options(joinedload(models.User.following)).filter(models.User.email == user.email).first()
             
         if found_user:      
             if not bcrypt.checkpw(user.password.encode('utf-8'), found_user.password.encode('utf-8')):

@@ -31,6 +31,16 @@ class User(Base):
     comments = relationship("Comment", back_populates="commentator")
     real_estates = relationship("RealEstate", back_populates="user")
     favorites = relationship("FavoriteRealEstate", back_populates="user")
+    followers = relationship(
+            "Follow",
+            foreign_keys="[Follow.user_followed_id]",
+            back_populates="user_followed",
+    )
+    following = relationship(
+            "Follow",
+            foreign_keys="[Follow.user_id]",
+            back_populates="user",
+    )
 
 class TypeRealEstate(Base):
     __tablename__ = 'type_real_estates'
@@ -148,3 +158,22 @@ class Comment(Base):
 
     commentator = relationship("User", back_populates="comments")
     real_estate = relationship("RealEstate", back_populates="comments")
+
+class Follow(Base):
+    __tablename__ = "follows"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    user_followed_id = Column(Integer, ForeignKey("users.id"))
+
+    # Relationships
+    user = relationship(
+        "User",
+        foreign_keys=[user_id],
+        back_populates="following",
+    )
+    user_followed = relationship(
+        "User",
+        foreign_keys=[user_followed_id],
+        back_populates="followers",
+    )

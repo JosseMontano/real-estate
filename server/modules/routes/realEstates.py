@@ -14,6 +14,11 @@ from modules.core.utils.translate import translate_es_en_pt
 from modules.core.const import TranslateResponse
 from modules.core.const import Messages
 from sqlalchemy.inspection import inspect
+from email.message import EmailMessage
+import ssl
+import smtplib
+import os
+
 
 app = APIRouter(
     prefix="/api/real_estates",
@@ -25,6 +30,10 @@ app = APIRouter(
 BASEDIR = Path(__file__).resolve().parent.parent.parent  # Adjust this based on your structure
 load_dotenv(BASEDIR / '.env')
 GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY')
+
+PASSWORD_EMAIL=os.getenv('PASSWORD_EMAIL')
+EMAIL_SENDER=os.getenv('EMAIL_SENDER')
+WEB_URL = os.getenv('WEB_URL')
 
 
 class RealEstateResponse(BaseModel):
@@ -328,7 +337,8 @@ async def filter_real_estates(
             joinedload(models.RealEstate.photos),
             joinedload(models.RealEstate.title),
             joinedload(models.RealEstate.description),
-            joinedload(models.RealEstate.zone)
+            joinedload(models.RealEstate.zone),
+            joinedload(models.RealEstate.user)
         )
         # Process filters
         for filter_obj in filters:
@@ -398,7 +408,7 @@ async def create_real_estate(real_estate: RealEstateDTO, db: Session = Depends(g
         geo_location = Nominatim(user_agent="GetLoc")
         loc_name = geo_location.reverse(real_estate.latLong)
         
-        print(real_estate)
+        print(loc_name)
 
         if loc_name:
             address = loc_name.address
@@ -410,10 +420,15 @@ async def create_real_estate(real_estate: RealEstateDTO, db: Session = Depends(g
             zone = raw_data.get("neighbourhood", "Not Found") 
             
             found_zone = db.query(models.Zone).filter(models.Zone.name == zone).first()
+            zone_id=0
             if not found_zone:
-                zone = models.Zone(name=zone)
-                db.add(zone)
+                new_zone = models.Zone(name=zone)
+                db.add(new_zone)
                 db.commit()
+                db.refresh(new_zone)  # Fetch the `id` of the newly created zone
+                zone_id = new_zone.id
+            else:
+                zone_id = found_zone.id
             
         else:
             print("No se encontró información de la ubicación")
@@ -421,7 +436,7 @@ async def create_real_estate(real_estate: RealEstateDTO, db: Session = Depends(g
         # Generate translations for title and description
         result_title = translate_es_en_pt(real_estate.title)
         result_description = translate_es_en_pt(real_estate.description)
-
+ 
         # Create Translate records for title and description
         title_translate = models.Translate(es=result_title["valEs"], en=result_title["valEn"], pt=result_title["valPt"])
         description_translate = models.Translate(es=result_description["valEs"], en=result_description["valEn"], pt=result_description["valPt"])
@@ -446,7 +461,7 @@ async def create_real_estate(real_estate: RealEstateDTO, db: Session = Depends(g
             title_id=title_translate.id,
             type_real_estate_id=real_estate_data["typeRealEstateId"],
             user_id=real_estate_data["userId"],
-            zone_id=zone.id
+            zone_id=zone_id
         )
 
         # Save RealEstate entry
@@ -470,6 +485,38 @@ async def create_real_estate(real_estate: RealEstateDTO, db: Session = Depends(g
             joinedload(models.RealEstate.photos),
             joinedload(models.RealEstate.zone)
         ).filter(models.RealEstate.id == db_real_estate.id).first()
+
+        # notify by gmail to the followers
+        userDidPost= db.query(models.User).filter(models.User.id == real_estate_data["userId"]).first()
+        follows = db.query(models.Follow).filter(models.Follow.user_followed_id == real_estate_data["userId"]).all()
+
+        if follows:
+        # Fetch email addresses of followers
+            follower_emails = []
+            for follow in follows:
+                follower = db.query(models.User).filter(models.User.id == follow.user_id).first()
+                if follower and follower.email:
+                    follower_emails.append(follower.email)
+
+            if not follower_emails:
+                raise HTTPException(status_code=404, detail="No valid email addresses found for followers.")
+            
+            # Send email to each follower
+            context = ssl.create_default_context()
+            print(follower_emails)
+            with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+                server.login(EMAIL_SENDER, PASSWORD_EMAIL)
+                for email_receiver in follower_emails:
+                    # Email content
+                    em = EmailMessage()
+                    em["From"] = EMAIL_SENDER
+                    em["Subject"] = "New Publication Alert"
+                    em.set_content(
+                        f"Hola,\n\nuna nueva publicacion fue hecha por {userDidPost.email} . revisalo aca: {WEB_URL + 'visit_user/'}\n\nMejores deseos,\n"
+                    )
+                    em["To"] = email_receiver
+                    server.sendmail(EMAIL_SENDER, email_receiver, em.as_string())
+
 
         return {"status": 201, "message": Messages.DATA_CREATED.dict(), "val": result}
     except Exception as e:
