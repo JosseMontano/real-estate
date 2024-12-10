@@ -21,12 +21,14 @@ type ParamsType = {
   selectedRE: RealEstate | null;
   language: Language;
   texts: Translations;
+  refetchCommentTop: () => void;
 };
 export const ListComments = ({
   user,
   selectedRE,
   language,
   texts,
+  refetchCommentTop,
 }: ParamsType) => {
   const { handleStateModal, isModalOpen } = useModal();
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
@@ -45,12 +47,13 @@ export const ListComments = ({
     form: async (data) => {
       data.real_estate_id = selectedRE?.id;
       data.commentator_id = user.id;
-      data.amount_star = selectedIndex;
+      data.amount_star = selectedIndex + 1;
       const res = await postComment(data);
       if (res.status == 200 || res.status == 201) {
         setSuccessMsg(res.message[language]);
         reset();
-        queryClient.invalidateQueries({
+        await refetchCommentTop();
+        await queryClient.invalidateQueries({
           queryKey: ["comments-by-readl-estate", user?.id],
         });
       } else {
@@ -65,7 +68,7 @@ export const ListComments = ({
     itemsPerPage: 100,
     valueToService: user?.id,
   });
-console.log(comments);
+
   return (
     <>
       <div className="h-[250px] -m-5 py-2 px-5 overflow-y-auto flex flex-col gap-3">

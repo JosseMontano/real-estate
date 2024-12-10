@@ -104,7 +104,11 @@ const DashboardPage = () => {
     valueToService: user?.id,
   });
 
-  const { data: comments, isLoading: loadingComments } = useGet({
+  const {
+    data: comments,
+    isLoading: loadingComments,
+    refetch: refetchCommentTop,
+  } = useGet({
     services: () => fetchCommentsForUser(user?.id || 0),
     queryKey: ["comments-top-comments-by-user", user?.id],
     itemsPerPage: 10,
@@ -197,12 +201,10 @@ const DashboardPage = () => {
   const [typeRE, setTypeRE] = useState({} as TypeRE);
   const [location, setLocation] = useState<Location | null>(null);
 
-
   const { texts } = useLanguageStore();
   const [currentRE, setCurrentRE] = useState<RealEstate | null>(null);
 
   const [stateBtn, setStateBtn] = useState<options>("Publications");
-
 
   const { data: realEstateFavs } = useGet({
     services: () => fetchGetFavsRE(user?.id || 0),
@@ -212,7 +214,8 @@ const DashboardPage = () => {
   });
 
   const { data: averageComments } = useGet({
-    services: () => fetchGetAverageComments(userSelected ? userSelected.id : user?.id),
+    services: () =>
+      fetchGetAverageComments(userSelected ? userSelected.id : user?.id),
     queryKey: ["average-comments", user?.id],
     itemsPerPage: 10,
     valueToService: userSelected ? userSelected.id : user?.id,
@@ -247,9 +250,9 @@ const DashboardPage = () => {
             className="rounded-full h-10 w-10 cursor-pointer"
             src={userLogged.photo ?? imgDefault}
             alt="User"
-            onClick={()=>{
+            onClick={() => {
               selectUser(null);
-              handleNavigate("/profile")
+              handleNavigate("/profile");
             }}
           />
         </div>
@@ -309,7 +312,7 @@ const DashboardPage = () => {
             addComment={texts.addComment}
             calification={texts.rating}
             favorites={texts.favorites}
-            follow={userSelected == user ? texts.following: texts.activeUser}
+            follow={userSelected == user ? texts.following : texts.activeUser}
             startToFollow={texts.follow}
             placeholderComment={texts.commentPlaceholder}
             publications={texts.posts}
@@ -343,7 +346,8 @@ const DashboardPage = () => {
             stateBtn={stateBtn}
             user={user}
             realEstateFavs={realEstateFavs ?? []}
-          />
+         refetchCommentTop={refetchCommentTop}
+         />
           {isLoading && <p>Loading...</p>}
         </div>
       </div>

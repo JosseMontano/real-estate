@@ -33,12 +33,12 @@ export const ProfileHeader = ({
       <div className="flex flex-col gap-2 w-full max-h-[450px] md:items-start items-center">
         <div className="flex flex-col items-center w-full">
           <p className="text-[#929191] text-xl">{commentsLanguage}</p>
-          <div className="w-full h-px bg-gray-300 mb-[6px] text-transparent">
-          
-          </div>
+          <div className="w-full h-px bg-gray-300 mb-[6px] text-transparent"></div>
         </div>
         <div className="overflow-y-scroll w-full">
-          {commets.length == 0 && <p className="text-center text-[#424242]">{texts.emptyComments}</p>}
+          {commets.length == 0 && (
+            <p className="text-center text-[#424242]">{texts.emptyComments}</p>
+          )}
           {commets.map((v) => (
             <div className="w-full flex gap-3 items-center">
               <img
@@ -53,7 +53,9 @@ export const ProfileHeader = ({
               </div>
 
               <div className="flex items-center gap-1">
-                <p className=" text-base md:text-xl font-semibold">3</p>
+                <p className=" text-base md:text-xl font-semibold">
+                  {v.amount_star}
+                </p>
                 <div className="flex ">
                   <span className="text-yellow-400 text-base md:text-2xl">
                     <StarFill size="20" />

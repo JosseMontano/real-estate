@@ -26,6 +26,7 @@ type ParamsType = {
   setSelectedRE: (re: RealEstate) => void;
   stateBtn: options;
   user: User;
+  refetchCommentTop: () => void;
 };
 
 export enum Options {
@@ -43,6 +44,7 @@ export const PublicationsAndFavorites = ({
   stateBtn,
   user,
   realEstateFavs,
+  refetchCommentTop,
 }: ParamsType) => {
   const [currentOption, setCurrentOption] = useState<Options>(1);
   const { language, texts } = useLanguageStore();
@@ -107,9 +109,9 @@ export const PublicationsAndFavorites = ({
                 />
               ))}
               {realEstateFavs.length == 0 && (
-              <div className="w-full ">
-                <Empty data={realEstateFavs} />
-              </div>
+                <div className="w-full ">
+                  <Empty data={realEstateFavs} />
+                </div>
               )}
             </>
           )}
@@ -153,6 +155,7 @@ export const PublicationsAndFavorites = ({
                 selectedRE={selectedRE}
                 language={language}
                 texts={texts}
+                refetchCommentTop={refetchCommentTop}
               />
             )}
           </div>
