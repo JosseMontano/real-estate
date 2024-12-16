@@ -29,13 +29,13 @@ async def follow(follow: FollowDTO, db: Session = Depends(get_db)):
     db.refresh(db_follow)
     return {"status": 201, "message": Messages.DATA_CREATED.dict(), "val": db_follow}
 
-@app.delete('/{question_id}')
-async def delete_question(question_id: int, db: Session = Depends(get_db)):
-    question = db.query(models.Question).filter(models.Question.id == question_id).first()
-    if question is None:
+@app.delete('/{follow_id}')
+async def delete_follow(follow_id: int, db: Session = Depends(get_db)):
+    follow = db.query(models.Follow).filter(models.Follow.id == follow_id).first()
+    if follow is None:
         return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": []}
-    
-    question.active= not question.active
+    auxFollow=follow
+    db.delete(follow)
     db.commit()
-    db.refresh(question)
-    return {"status": 200, "message": Messages.DATA_DELETED, "val": question}
+    
+    return {"status": 200, "message": Messages.DATA_DELETED, "val": auxFollow}

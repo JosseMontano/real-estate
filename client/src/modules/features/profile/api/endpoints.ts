@@ -1,7 +1,7 @@
 
 import { RealEstate, TypeRE } from "../../../shared/types/realEstate";
-import { CommentDTO, RealEstateDTO, ResponseDTO } from "./dtos"
-import { User } from "@/core/types/user";
+import { CommentDTO, FollowDTO, RealEstateDTO, ResponseDTO } from "./dtos"
+import { Follow, User } from "@/core/types/user";
 import { Delete, handleGet, handlePost, handlePut } from "@/core/utils/fetch";
 import { Res } from "@/core/types/res";
 import { Comment, Question } from "@/shared/types/questions";
@@ -41,7 +41,6 @@ export const fetchGetAllResponsesByREId = async (id:number): Promise<Res<Respons
   return await handleGet<Response[]>("responses/"+id);
 }
 
-
 export const postResponse = async (name: ResponseDTO) => {
   return handlePost('responses', name)
 }
@@ -60,6 +59,10 @@ export const deleteFavRe = async (id: number) => {
 
 export const postComment = async (comment: CommentDTO) => {
   return handlePost('comments', comment)
+}
+
+export const postFollow = async (val: FollowDTO) => {
+  return handlePost<Follow>('follows', val)
 }
 
 export async function fetchCommentsByRE(id:number): Promise<Res<Comment[]>> {

@@ -15,8 +15,8 @@ import { RealEstate } from "@/shared/types/realEstate";
 import { fetchRealEstates } from "@/shared/api/endpoints";
 import { useLanguageStore } from "@/core/store/language";
 
-type ParamsType = {};
-export const DashComments = ({}: ParamsType) => {
+
+export const DashComments = () => {
   const {
     data: Comments,
     fullData,

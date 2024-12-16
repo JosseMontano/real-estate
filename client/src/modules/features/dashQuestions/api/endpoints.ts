@@ -14,3 +14,7 @@ export const getStadisticsQuestion = async (): Promise<Res<Statistic>> => {
 export const deleteQuestion = async (id: number) => {
   return await Delete('questions', id)
 }
+
+export const deleteFollow = async (id: number) => {
+  return await Delete('follows', id)
+}

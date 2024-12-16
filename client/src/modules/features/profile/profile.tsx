@@ -45,7 +45,7 @@ export type FileUpType = {
 export type options = "Publications" | "Favorites";
 
 const DashboardPage = () => {
-  const { user: userLogged, logout } = useAuthStore();
+  const { user: userLogged, logout, follow, unfollow } = useAuthStore();
   const { userSelected, selectUser } = useUserStore();
   const user = userSelected ?? userLogged;
 
@@ -339,6 +339,9 @@ const DashboardPage = () => {
                 "_blank"
               );
             }}
+            language={language}
+            updateFollowing={follow}
+          unfollow={unfollow}
           />
           <PublicationsAndFavorites
             handleShowModal={handleShowFav}

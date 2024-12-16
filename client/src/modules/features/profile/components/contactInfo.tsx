@@ -2,7 +2,7 @@ import { primaryColor } from "@/core/constants/colors";
 import Btn from "@/core/components/form/button";
 import { Input } from "@/core/components/form/input";
 import { ShowModal } from "@/core/components/form/modal";
-import { User } from "@/core/types/user";
+import { Follow, User } from "@/core/types/user";
 import { Check } from "@/shared/assets/icons/check";
 import { HeartFill } from "@/shared/assets/icons/heartFill";
 import { HousesFills } from "@/shared/assets/icons/housesFills";
@@ -13,6 +13,13 @@ import HouseAdd from "@/shared/assets/icons/houseAdd";
 import WhatsappIcon from "@/shared/assets/icons/whatsappIcon";
 import FollowIcon from "@/shared/assets/icons/follow";
 import FollowingIcon from "@/shared/assets/icons/following";
+import { useFollowSchema } from "../validations/follow.schema";
+import { useForm } from "@/core/hooks/useForm";
+import { postFollow } from "../api/endpoints";
+import { Language } from "@/core/store/language";
+import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { deleteFollow } from "@/features/dashQuestions/api/endpoints";
 
 type ParamsType = {
   isModalOpen: boolean;
@@ -38,6 +45,9 @@ type ParamsType = {
   contact: string;
   averageComments: number;
   startToFollow: string;
+  language: Language;
+  updateFollowing: (val: Follow) => void;
+  unfollow: (id: number) => void;
 };
 export const ContactInfo = ({
   user,
@@ -63,12 +73,44 @@ export const ContactInfo = ({
   handleRedirect,
   averageComments,
   startToFollow,
+  language,
+  updateFollowing,
+  unfollow,
 }: ParamsType) => {
-  const isFollowing = !!userLogged?.following?.find(
+  const isFollowingVar = !!userLogged?.following?.find(
     (v) => v.user_followed_id === user.id
   );
 
- 
+  const [unFollowState, setUnFollowState] = useState(0);
+
+  const [isFollowing, setIsFollowing] = useState(isFollowingVar);
+
+  const realEstateSchema = useFollowSchema();
+  const { handleOnSubmit, setSuccessMsg, setErrorMsg } = useForm({
+    schema: realEstateSchema,
+    form: async (data) => {
+      data.user_id = userLogged.id;
+      data.user_followed_id = user.id;
+      const res = await postFollow(data);
+
+      if (res.status == 200 || res.status == 201) {
+        setSuccessMsg(res.message[language]);
+        setIsFollowing(true);
+        console.log(res.val);
+        updateFollowing(res.val);
+      } else {
+        setErrorMsg(res.message[language]);
+      }
+    },
+  });
+
+  const { mutate: mutateToState } = useMutation({
+    mutationFn: deleteFollow,
+    onSuccess: () => {
+      unfollow(unFollowState);
+      setIsFollowing(!isFollowing)
+    },
+  });
 
   return (
     <div className="flex flex-col gap-2 ">
@@ -127,12 +169,22 @@ export const ContactInfo = ({
             <div
               className="flex gap-1 items-center px-2 justify-center h-8 text-white rounded-lg hover:opacity-90 focus:outline-none cursor-pointer"
               style={{ background: primaryColor }}
+              onClick={() => {
+                const unFollowId = userLogged?.following?.find(
+                  (v) => v.user_followed_id === user.id
+                )?.id;
+                setUnFollowState(unFollowId ?? 0);
+                mutateToState(unFollowId ?? 0);
+              }}
             >
               <FollowingIcon size={19} />
               <span>{follow}</span>
             </div>
           ) : (
-            <div className="flex gap-1 items-center px-2 justify-center h-8 text-primary border-primary border-2 rounded-lg hover:opacity-90 focus:outline-none cursor-pointer" onClick={()=>}>
+            <div
+              className="flex gap-1 items-center px-2 justify-center h-8 text-primary border-primary border-2 rounded-lg hover:opacity-90 focus:outline-none cursor-pointer"
+              onClick={handleOnSubmit}
+            >
               <FollowIcon size={19} />
               <span>{startToFollow}</span>
             </div>

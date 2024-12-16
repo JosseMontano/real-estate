@@ -1,5 +1,5 @@
 
-type Follow= {
+export type Follow= {
   user_id:number
   id:number
   user_followed_id:number
