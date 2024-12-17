@@ -385,7 +385,7 @@ async def get_real_estates_by_type(
     return {"status": 200, "message": Messages.DATA_FOUND.dict(), "val": combined_data}
 
 
-@app.get('/statistics')
+@app.get('/statistics/general')
 async def get_statistics(db: Session = Depends(get_db)):
     real_estates = db.query(models.RealEstate).all()
     

@@ -8,9 +8,9 @@ import { useEffect, useMemo, useState } from "react";
 type ParamsType = {
   url: string;
   header: string[];
-  selectUrl: string;
+  selectUrl?: string;
   deleteService: (id: number) => Promise<any>;
-  getDataBySelectedId: (id: number) => Promise<any>;
+  getDataBySelectedId?: (id: number) => Promise<any>;
 };
 
 const fetch = async <T,>(url: string): Promise<Res<T>> => {
@@ -20,7 +20,7 @@ const fetch = async <T,>(url: string): Promise<Res<T>> => {
 export const useDash = <TableData, SelectData>({
   url,
   header,
-  selectUrl,
+  selectUrl="",
   deleteService,
   getDataBySelectedId,
 }: ParamsType) => {
@@ -73,7 +73,7 @@ export const useDash = <TableData, SelectData>({
           .filter((item) => prevFiltered.some((prev) => prev.id === item.id))
       );
 
-      queryClient.invalidateQueries({ queryKey: ["comments"] });
+      queryClient.invalidateQueries({ queryKey: [url] });
     },
   });
 

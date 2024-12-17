@@ -31,7 +31,7 @@ async def get_types(db: Session = Depends(get_db)):
         return {"status": 404, "message": Messages.DATA_NOT_FOUND.dict(), "val": []}
     return {"status": 200, "message": Messages.DATA_FOUND.dict(), "val":  typeRE}
 
-@app.get('/statistics')
+@app.get('/statistics/general')
 async def get_statistics(db: Session = Depends(get_db)):
     types = db.query(models.TypeRealEstate).all()
     
@@ -72,7 +72,7 @@ async def create_type_real_estate(type_real_estate: TypeRealEstateDTO, db: Sessi
     db.commit()
     db.refresh(db_type_real_estate)
     
-    return {"status": "201", "message": "Type real estate created successfully", "val": db_type_real_estate}
+    return {"status": "201", "message": Messages.DATA_CREATED.dict(), "val": db_type_real_estate}
 
 @app.put('/{type_real_estate_id}')
 async def update_type_real_estate(type_real_estate_id: int, updated_type_real_estate: TypeRealEstateDTO, db: Session = Depends(get_db)):
