@@ -31,7 +31,7 @@ async def get_responses(db: Session = Depends(get_db)):
         return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": []}
     return {"status": 200, "message": Messages.DATA_FOUND, "val": responses}
 
-@app.get('/statistics')
+@app.get('/statistics/general')
 async def get_response_statistics(db: Session = Depends(get_db)):
     responses = db.query(models.Response).all()
 

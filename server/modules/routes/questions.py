@@ -47,7 +47,7 @@ async def get_unanswered_questions(real_estate_id: int, db: Session = Depends(ge
 
     return {"status": 200, "message": "Preguntas sin responder encontradas", "val": questions}
 
-@app.get('/statistics')
+@app.get('/statistics/general')
 async def get_statistics(db: Session = Depends(get_db)):
     questions = db.query(models.Question).all()
     

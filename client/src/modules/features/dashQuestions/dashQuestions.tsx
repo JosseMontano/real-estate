@@ -9,9 +9,11 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "../../../App";
 import { useLanguageStore } from "@/core/store/language";
+import { useDash } from "@/core/hooks/useDash";
+import { Question } from "@/shared/types/questions";
 
 export const DashQuestions = () => {
-  const {
+  /*   const {
     data: questions,
     fullData,
     isLoading,
@@ -39,7 +41,25 @@ export const DashQuestions = () => {
   });
 
   const { texts } = useLanguageStore();
+ */
 
+  const {
+    tableDate,
+    amountOfPages,
+    currentPage,
+    fullData,
+    handlePagination,
+    isLoading,
+    isLoadingStatistics,
+    statistics,
+    header,
+    mutateToState,
+  } = useDash<Question[], null>({
+    url: "questions",
+    header: ["question", "active"],
+    deleteService: deleteQuestion,
+  });
+  const { texts } = useLanguageStore();
   return (
     <div>
       <SumaryCard
@@ -49,9 +69,9 @@ export const DashQuestions = () => {
         isloading={isLoadingStatistics}
       />
       <CustomerTable
-      fullData={fullData}
+        fullData={fullData}
         header={header}
-        data={questions}
+        data={tableDate}
         handleState={mutateToState}
         amountOfPages={amountOfPages}
         currentPage={currentPage}
