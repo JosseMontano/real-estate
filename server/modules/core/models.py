@@ -1,6 +1,6 @@
 from modules.core.database import Base
 #libraries
-from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy import Column, Integer, String, Boolean, Text
 from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey, Float
 
@@ -41,6 +41,29 @@ class User(Base):
             foreign_keys="[Follow.user_id]",
             back_populates="user",
     )
+    reports_received = relationship(
+        "ReportUser",
+        foreign_keys="[ReportUser.user_reported_id]",
+        back_populates="user_reported",
+    )
+    reports_made = relationship(
+        "ReportUser",
+        foreign_keys="[ReportUser.reporter_id]",
+        back_populates="reporter",
+    )
+
+class ReportUser(Base):
+    __tablename__ = 'report_users'
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_reported_id = Column(Integer, ForeignKey('users.id'), nullable=False, index=True)
+    reporter_id = Column(Integer, ForeignKey('users.id'), nullable=False, index=True)
+    reason_id = Column(Integer, ForeignKey('translates.id'), nullable=False, index=True)  # ForeignKey to Translate
+
+    # Relationships
+    user_reported = relationship("User", foreign_keys=[user_reported_id], back_populates="reports_received")
+    reporter = relationship("User", foreign_keys=[reporter_id], back_populates="reports_made")
+    reason = relationship("Translate", foreign_keys=[reason_id]) 
 
 class TypeRealEstate(Base):
     __tablename__ = 'type_real_estates'
@@ -118,17 +141,6 @@ class PhotosRealEstate(Base):
     # relationships
     real_estate = relationship("RealEstate", back_populates="photos")
 
-class Question(Base):
-    __tablename__ = 'questions'
-
-    id = Column(Integer, primary_key=True, index=True)
-    question_id = Column(Integer, ForeignKey('translates.id'))
-    active = Column(Boolean, default=True)
-    
-    question = relationship("Translate", foreign_keys=[question_id])
-    
-    responses = relationship("Response", back_populates="question")
-
 class Response(Base):
     __tablename__ = 'responses'
 
@@ -142,6 +154,18 @@ class Response(Base):
 
     question = relationship("Question", back_populates="responses")
     real_estate = relationship("RealEstate", back_populates="responses")
+
+class Question(Base):
+    __tablename__ = 'questions'
+
+    id = Column(Integer, primary_key=True, index=True)
+    question_id = Column(Integer, ForeignKey('translates.id'))
+    active = Column(Boolean, default=True)
+    
+    question = relationship("Translate", foreign_keys=[question_id])
+    
+    responses = relationship("Response", back_populates="question")
+
 
 class Comment(Base):
     __tablename__ = 'comments'
