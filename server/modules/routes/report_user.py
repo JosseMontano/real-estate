@@ -32,7 +32,7 @@ async def get_all_reported_users(db: Session = Depends(get_db)):
     reported_users = query.all()
     if not reported_users:
         return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": []}
-    return {"status": 200, "message": Messages.DATA_FOUND, "val": reported_users}
+    return {"status": 200, "message": Messages.DATA_FOUND.dict(), "val": reported_users}
 
 # Report a new user
 @app.post('/')
@@ -55,7 +55,7 @@ async def report_user(report: ReportUserDTO, db: Session = Depends(get_db)):
     db.add(new_report)
     db.commit()
     db.refresh(new_report)
-    return {"status": 201, "message": Messages.DATA_CREATED, "val": new_report}
+    return {"status": 201, "message": Messages.DATA_CREATED.dict(), "val": new_report}
 
 # Disable a user
 @app.put('/toggle-availability/{user_id}')

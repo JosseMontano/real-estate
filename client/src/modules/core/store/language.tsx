@@ -79,6 +79,7 @@ export interface Translations {
   commentPlaceholder: string;
   signout: string;
   contactProfile: string;
+  reportProfile:string
   //profile RE info
   generalVisitUser: string;
   questionsVisitUer: string;
@@ -196,6 +197,7 @@ const translations: { [key in Language]: Translations } = {
     commentPlaceholder: "Comment...",
     signout: "Sign out",
     contactProfile: "Contact",
+    reportProfile:"Tell us the reason",
     //profile RE INF
     generalVisitUser: "General",
     questionsVisitUer: "Questions",
@@ -311,6 +313,7 @@ const translations: { [key in Language]: Translations } = {
     commentPlaceholder: "Comentario...",
     signout: "Cerrar sesión",
     contactProfile: "Contactar",
+    reportProfile:"Cuentanos la razon",
     //PROFILE RE INFO
     generalVisitUser: "General",
     questionsVisitUer: "Preguntas",
@@ -426,6 +429,7 @@ const translations: { [key in Language]: Translations } = {
     commentPlaceholder: "Comentário...",
     signout: "Sair",
     contactProfile: "contato",
+    reportProfile:"diga-nos o motivo",
     // profile RE
     generalVisitUser: "Geral",
     questionsVisitUer: "Perguntas",

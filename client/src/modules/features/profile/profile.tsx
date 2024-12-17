@@ -342,6 +342,7 @@ const DashboardPage = () => {
             language={language}
             updateFollowing={follow}
           unfollow={unfollow}
+          reportProfile={texts.reportProfile}
           />
           <PublicationsAndFavorites
             handleShowModal={handleShowFav}
@@ -353,6 +354,7 @@ const DashboardPage = () => {
             user={user}
             realEstateFavs={realEstateFavs ?? []}
             refetchCommentTop={refetchCommentTop}
+            
           />
           {isLoading && <p>Loading...</p>}
         </div>

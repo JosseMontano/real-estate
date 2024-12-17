@@ -15,11 +15,14 @@ import FollowIcon from "@/shared/assets/icons/follow";
 import FollowingIcon from "@/shared/assets/icons/following";
 import { useFollowSchema } from "../validations/follow.schema";
 import { useForm } from "@/core/hooks/useForm";
-import { postFollow } from "../api/endpoints";
+import { postFollow, postReport } from "../api/endpoints";
 import { Language } from "@/core/store/language";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { deleteFollow } from "@/features/dashQuestions/api/endpoints";
+import { useReportSchema } from "../validations/report.schema";
+import { useModal } from "@/core/hooks/useModal";
+import FormComponent from "@/core/components/form/form";
 
 type ParamsType = {
   isModalOpen: boolean;
@@ -48,6 +51,7 @@ type ParamsType = {
   language: Language;
   updateFollowing: (val: Follow) => void;
   unfollow: (id: number) => void;
+  reportProfile: string;
 };
 export const ContactInfo = ({
   user,
@@ -76,6 +80,7 @@ export const ContactInfo = ({
   language,
   updateFollowing,
   unfollow,
+  reportProfile,
 }: ParamsType) => {
   const isFollowingVar = !!userLogged?.following?.find(
     (v) => v.user_followed_id === user.id
@@ -86,6 +91,7 @@ export const ContactInfo = ({
   const [isFollowing, setIsFollowing] = useState(isFollowingVar);
 
   const realEstateSchema = useFollowSchema();
+  const reportSchema = useReportSchema();
   const { handleOnSubmit, setSuccessMsg, setErrorMsg } = useForm({
     schema: realEstateSchema,
     form: async (data) => {
@@ -104,11 +110,39 @@ export const ContactInfo = ({
     },
   });
 
+  const {
+    handleStateModal: handleStateModalReport,
+    isModalOpen: isModalReportOpen,
+  } = useModal();
+
+  const {
+    handleOnSubmit: handleOnSubmitReport,
+    setSuccessMsg: setSuccessMsgReport,
+    setErrorMsg: SetErrorMsgReport,
+    errors: errorsReport,
+    register: registerReport,
+    isPending: isPendingReport,
+  } = useForm({
+    schema: reportSchema,
+    form: async (data) => {
+      data.reporter_id = userLogged.id;
+      data.user_reported_id = user.id;
+      const res = await postReport(data);
+
+      if (res.status == 200 || res.status == 201) {
+        setSuccessMsgReport(res.message[language]);
+        setIsFollowing(true);
+      } else {
+        SetErrorMsgReport(res.message[language]);
+      } 
+    },
+  });
+
   const { mutate: mutateToState } = useMutation({
     mutationFn: deleteFollow,
     onSuccess: () => {
       unfollow(unFollowState);
-      setIsFollowing(!isFollowing)
+      setIsFollowing(!isFollowing);
     },
   });
 
@@ -199,7 +233,10 @@ export const ContactInfo = ({
           )}
 
           {user != userLogged && (
-            <button className="hover:bg-gray-100 rounded-lg text-gray-400">
+            <button
+              className="hover:bg-gray-100 rounded-lg text-gray-400"
+              onClick={handleStateModalReport}
+            >
               {reportUser}
             </button>
           )}
@@ -250,6 +287,25 @@ export const ContactInfo = ({
             <Input text={placeholderComment} />
             <Btn isPending={false} text="Comentar" />
           </div>
+        }
+      />
+      <ShowModal
+        title={reportProfile}
+        isModalOpen={isModalReportOpen}
+        setIsModalOpen={handleStateModalReport}
+        children={
+          <FormComponent
+            isPending={isPendingReport}
+            handleOnSubmit={handleOnSubmitReport}
+            btnText={reportUser}
+            children={
+              <Input
+                error={errorsReport.reason}
+                register={registerReport("reason")}
+                text={reportUser}
+              />
+            }
+          />
         }
       />
     </div>

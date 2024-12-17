@@ -1,6 +1,6 @@
 
 import { RealEstate, TypeRE } from "../../../shared/types/realEstate";
-import { CommentDTO, FollowDTO, RealEstateDTO, ResponseDTO } from "./dtos"
+import { CommentDTO, FollowDTO, RealEstateDTO, ReportDTO, ResponseDTO } from "./dtos"
 import { Follow, User } from "@/core/types/user";
 import { Delete, handleGet, handlePost, handlePut } from "@/core/utils/fetch";
 import { Res } from "@/core/types/res";
@@ -63,6 +63,10 @@ export const postComment = async (comment: CommentDTO) => {
 
 export const postFollow = async (val: FollowDTO) => {
   return handlePost<Follow>('follows', val)
+}
+
+export const postReport = async (val: ReportDTO) => {
+  return handlePost<Report>('report_users', val)
 }
 
 export async function fetchCommentsByRE(id:number): Promise<Res<Comment[]>> {
