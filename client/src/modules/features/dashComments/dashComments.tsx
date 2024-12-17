@@ -1,41 +1,36 @@
 import useGet from "@/core/hooks/useGet";
-import {
-  deleteComment,
-  fetchComments,
-  getCommentsByRe,
-  getStatisticsComments,
-} from "./api/endpoints";
+import { deleteComment, getCommentsByRe } from "./api/endpoints";
 import { useMutation } from "@tanstack/react-query";
 import { Comment } from "@/shared/types/questions";
 import { useState } from "react";
 import { queryClient } from "../../../App";
-import { SumaryCard } from "../dashboard/components/sumaryCards";
-import { CustomerTable } from "../dashboard/components/customerTable";
+import { SumaryCard } from "../../core/components/dashboard/sumaryCards";
+import { CustomerTable } from "../../core/components/dashboard/customerTable";
 import { RealEstate } from "@/shared/types/realEstate";
-import { fetchRealEstates } from "@/shared/api/endpoints";
 import { useLanguageStore } from "@/core/store/language";
-
+import { useDash } from "@/core/hooks/useDash";
 
 export const DashComments = () => {
+
   const {
-    data: Comments,
-    fullData,
-    isLoading,
+    tableDate,
     amountOfPages,
-    handlePagination,
     currentPage,
-  } = useGet({
-    services: fetchComments,
-    queryKey: ["Comments"],
-    itemsPerPage: 10,
+    fullData,
+    handlePagination,
+    isLoading,
+    isLoadingStatistics,
+    statistics,
+    header,
+    selectData,
+  } = useDash<Comment[], RealEstate[]>({
+    url: "comments",
+    header: ["comment", "amount_star", "active"],
+    selectUrl: "real_estates",
   });
 
-  const { data: statistics, isLoading: isLoadingStatistics } = useGet({
-    services: getStatisticsComments,
-    queryKey: ["Comments", Comments],
-  });
-  const header = ["comment", "amount_star", "active"];
   const [filteredComments, setFilteredComments] = useState<Comment[]>([]);
+
   const { mutate: mutateToState } = useMutation({
     mutationFn: deleteComment,
     onSuccess: async (data) => {
@@ -47,12 +42,8 @@ export const DashComments = () => {
           .filter((item) => prevFiltered.some((prev) => prev.id === item.id))
       );
 
-      queryClient.invalidateQueries({ queryKey: ["Comments"] });
+      queryClient.invalidateQueries({ queryKey: ["comments"] });
     },
-  });
-  const { data: DataRealEstate } = useGet({
-    services: fetchRealEstates,
-    queryKey: ["RealEstate"],
   });
 
   const { mutate: dataCommByRe } = useMutation({
@@ -63,7 +54,9 @@ export const DashComments = () => {
   });
 
   const [currentSelectedRE, setCurrentSelectedRE] = useState({} as RealEstate);
+
   const { texts } = useLanguageStore();
+
   return (
     <div>
       <SumaryCard
@@ -73,19 +66,19 @@ export const DashComments = () => {
         isloading={isLoadingStatistics}
       />
       <CustomerTable
-      fullData={fullData}
+        fullData={fullData}
         amountOfPages={amountOfPages}
         currentPage={currentPage}
         data={
           Object.keys(currentSelectedRE).length === 0
-            ? Comments
+            ? tableDate
             : filteredComments
         }
         handlePagination={handlePagination}
         handleState={mutateToState}
         header={header}
         isloading={isLoading}
-        selectData={DataRealEstate}
+        selectData={selectData}
         currentSelected={currentSelectedRE}
         setCurrentSelected={setCurrentSelectedRE}
         tableTitle={texts.comments}

@@ -10,8 +10,8 @@ import { useMutation } from "@tanstack/react-query";
 import { Response } from "@/shared/types/questions";
 import { queryClient } from "../../../App";
 import { fetchQuestions } from "../dashQuestions/api/endpoints";
-import { SumaryCard } from "../dashboard/components/sumaryCards";
-import { CustomerTable } from "../dashboard/components/customerTable";
+import { SumaryCard } from "../../core/components/dashboard/sumaryCards";
+import { CustomerTable } from "../../core/components/dashboard/customerTable";
 import { useLanguageStore } from "@/core/store/language";
 
 type ParamsType = {};

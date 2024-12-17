@@ -1,7 +1,7 @@
 import { ShowModal } from "@/core/components/form/modal";
-import { SumaryCard } from "../dashboard/components/sumaryCards";
+import { SumaryCard } from "../../core/components/dashboard/sumaryCards";
 import { useModal } from "@/core/hooks/useModal";
-import { CustomerTable } from "../dashboard/components/customerTable";
+import { CustomerTable } from "../../core/components/dashboard/customerTable";
 import useGet from "@/core/hooks/useGet";
 import {
   deleteTypeRe,

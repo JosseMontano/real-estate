@@ -6,7 +6,7 @@ import { Toaster } from "sonner";
 import DashboardPage from "@/features/profile/profile";
 import Img360 from "@/features/img360/img360";
 import { Config } from "@/shared/components/config";
-import { Dashboard } from "@/features/dashboard/dashboard";
+import { Dashboard } from "@/core/components/dashboard/dashboard";
 import { DashQuestions } from "@/features/dashQuestions/dashQuestions";
 import { DashTypeRe } from "@/features/dashTypeRe/dashTypeRe";
 import { DashRealEstates } from "@/features/dashRealEstates/dashRealEstates";

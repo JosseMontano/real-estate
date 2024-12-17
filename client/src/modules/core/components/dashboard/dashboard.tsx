@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
-import { Sidebar } from "./components/sidebar";
-import { HeaderDashboard } from "./components/headear";
+import { Sidebar } from "./sidebar";
+import { HeaderDashboard } from "./headear";
 import useAuthStore from "@/core/store/auth";
 import { useEffect } from "react";
 import useNavigation from "@/core/hooks/useNavigate";

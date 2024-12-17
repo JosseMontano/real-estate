@@ -6,8 +6,8 @@ import {
 } from "./api/endpoints";
 import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "../../../App";
-import { SumaryCard } from "../dashboard/components/sumaryCards";
-import { CustomerTable } from "../dashboard/components/customerTable";
+import { SumaryCard } from "../../core/components/dashboard/sumaryCards";
+import { CustomerTable } from "../../core/components/dashboard/customerTable";
 import { fetchTypesRE } from "../profile/api/endpoints";
 import { useEffect, useState } from "react";
 import { RealEstate, TypeRE } from "@/shared/types/realEstate";
