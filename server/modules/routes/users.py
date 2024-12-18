@@ -44,22 +44,50 @@ class UpdateUserDTO(BaseModel):
     photo: Optional[str] = None
     password: Optional[str] = None
     
+from sqlalchemy.orm import joinedload
+from fastapi import HTTPException
+
 @app.post('/signup')
 async def sign_up(user: signUpDTO, db: Session = Depends(get_db)):
     try:
         if user.password != user.confirmPassword:
             return {"status": 400, "message": AuthMsg.PASSWORD_NOT_MATCH.dict(), "val": []}
-   
-        found_user = db.query(models.User).options(joinedload(models.User.following)).filter(models.User.email == user.email).first()
-            
+        
+        # Check if user already exists
+        found_user = (
+            db.query(models.User)
+            .options(joinedload(models.User.following), joinedload(models.User.favorites).joinedload(models.FavoriteRealEstate.real_estate))
+            .filter(models.User.email == user.email)
+            .first()
+        )
+        
         if found_user:      
             if not bcrypt.checkpw(user.password.encode('utf-8'), found_user.password.encode('utf-8')):
                 return {"status": 400, "message": AuthMsg.PASSWORD_WRONG.dict(), "val": []}
         
-            return {"status": 200, "message": AuthMsg.USER_EXIST.dict(), "val": found_user}
-   
+            # Prepare user data with favorites
+            user_data = {
+                "id": found_user.id,
+                "email": found_user.email,
+                "favorites": [
+                    {
+                        "id": favorite.id,
+                        "real_estate": {
+                            "id": favorite.real_estate.id,
+                            "address": favorite.real_estate.address,
+                            "price": favorite.real_estate.price,
+                            "available": favorite.real_estate.available,
+                        } if favorite.real_estate else None,
+                    }
+                    for favorite in found_user.favorites
+                ],
+            }
+            return {"status": 200, "message": AuthMsg.USER_EXIST.dict(), "val": user_data}
+        
+        # Hash the password
         hashed_password = bcrypt.hashpw(user.password.encode('utf-8'), bcrypt.gensalt())
 
+        # Create new user
         db_user = models.User(
             email=user.email,
             password=hashed_password.decode('utf-8'),
@@ -71,17 +99,22 @@ async def sign_up(user: signUpDTO, db: Session = Depends(get_db)):
             role=2,
             username="1234"
         )
-        # Save RealEstate entry
         db.add(db_user)
         db.commit()
         db.refresh(db_user)
 
-        return {"status": 201, "message": AuthMsg.USER_CREATED.dict(), "val": db_user}
+        # Return the new user without favorites (empty initially)
+        user_data = {
+            "id": db_user.id,
+            "email": db_user.email,
+            "favorites": [],
+        }
+        return {"status": 201, "message": AuthMsg.USER_CREATED.dict(), "val": user_data}
     except Exception as e:
         db.rollback()
-        return {"status": 500, "message": Messages.SERVER_ERROR.dict(), "val": []}
-    
-    
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @app.post('/forgot_password')
 def forgot_password(request: EmailRequestDTO, db: Session = Depends(get_db)):
 

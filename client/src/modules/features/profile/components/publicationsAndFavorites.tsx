@@ -48,7 +48,7 @@ export const PublicationsAndFavorites = ({
 }: ParamsType) => {
   const [currentOption, setCurrentOption] = useState<Options>(1);
   const { language, texts } = useLanguageStore();
-  const { user: userLogged } = useAuthStore();
+  const { user: userLogged, removeFavorite } = useAuthStore();
   const options: LanguageDB[] = [
     {
       es: "General",
@@ -67,14 +67,6 @@ export const PublicationsAndFavorites = ({
     },
   ];
 
-  const { mutate: deleteFav } = useMutation({
-    mutationFn: deleteFavRe,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["favs-real-estates", user?.id],
-      });
-    },
-  });
 
   return (
     <div className="max-h-[240px] overflow-y-auto ">
@@ -87,6 +79,8 @@ export const PublicationsAndFavorites = ({
                   publication={publication}
                   handleShowModal={handleShowModal}
                   setSelectedRE={setSelectedRE}
+                  userLogged={userLogged}
+                  removeFavorite={removeFavorite}
                 />
               ))}
               {realEstate.length == 0 && (
@@ -104,8 +98,8 @@ export const PublicationsAndFavorites = ({
                   handleShowModal={handleShowModal}
                   setSelectedRE={setSelectedRE}
                   showIcon={true}
-                  deleteFav={deleteFav}
-                  favREiD={publication.id}
+                  userLogged={userLogged}
+                  removeFavorite={removeFavorite}
                 />
               ))}
               {realEstateFavs.length == 0 && (

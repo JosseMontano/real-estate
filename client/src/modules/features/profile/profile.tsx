@@ -227,7 +227,7 @@ const DashboardPage = () => {
   if (user.email == undefined) {
     handleNavigate("/auth");
   }
-
+  
   return (
     <div className="h-screen hide_scroll flex items-center w-full">
       <div className="absolute top-0 w-full bg-white flex justify-between px-7 py-4 shadow-2xl h-[72px]">

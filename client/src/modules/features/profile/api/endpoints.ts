@@ -53,8 +53,8 @@ export const fetchGetAverageComments = async (id?: number): Promise<Res<number[]
   return handleGet<number[]>(`comments/average-amount-start-by-user/`+id);
 }
 
-export const deleteFavRe = async (id: number) => {
-  return await Delete('favorite_real_estates', id)
+export const deleteFavRe = async (real_estate_id: number, user_id:number) => {
+  return await Delete('favorite_real_estates', real_estate_id + "/"+user_id)
 }
 
 export const postComment = async (comment: CommentDTO) => {

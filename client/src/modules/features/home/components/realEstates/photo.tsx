@@ -2,23 +2,30 @@ import useNavigation from "@/core/hooks/useNavigate";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import use360photo from "@/core/store/360photo";
-import { PhotoRes } from "@/shared/types/realEstate";
+import { PhotoRes, RealEstate } from "@/shared/types/realEstate";
 import { HeartFill } from "@/shared/assets/icons/heartFill";
 import { favsRESchema } from "../../validations/favRE.shema";
 import { addFavRE } from "../../api/endpoints";
 import { useForm } from "@/core/hooks/useForm";
 import useAuthStore from "@/core/store/auth";
 import { useLanguageStore } from "@/core/store/language";
+import { deleteFavRe } from "@/features/profile/api/endpoints";
+import { useMutation } from "@tanstack/react-query";
+
 
 type ParamsType = {
   img: PhotoRes[];
-  index:number
+  index: number;
+  isFavorite: boolean;
+  item: RealEstate;
 };
-export const Photo = ({ img, index }: ParamsType) => {
-  const [emblaRef] = useEmblaCarousel({ loop: true },   [Autoplay({ delay: 3000 + (index*600) })] );
+export const Photo = ({ img, index, isFavorite, item }: ParamsType) => {
+  const [emblaRef] = useEmblaCarousel({ loop: true }, [
+    Autoplay({ delay: 3000 + index * 600 }),
+  ]);
   const { handleNavigate } = useNavigation();
   const { loadUrl } = use360photo();
-  const { user } = useAuthStore();
+  const { user, addFavorite, removeFavorite } = useAuthStore();
   const { language } = useLanguageStore();
   const { handleOnSubmit, setSuccessMsg, setErrorMsg } = useForm({
     schema: favsRESchema,
@@ -28,9 +35,17 @@ export const Photo = ({ img, index }: ParamsType) => {
       const res = await addFavRE(data);
       if (res.status == 200 || res.status == 201) {
         setSuccessMsg(res.message[language]);
+        addFavorite(res.val);
       } else {
         setErrorMsg(res.message[language]);
       }
+    },
+  });
+
+  const { mutate: deleteFav } = useMutation({
+    mutationFn: ()=>deleteFavRe(item.id ?? 0, user.id ?? 0),
+    onSuccess: () => {
+      removeFavorite(item.id ?? 0);
     },
   });
 
@@ -45,9 +60,18 @@ export const Photo = ({ img, index }: ParamsType) => {
             >
               <div
                 className="absolute right-6 top-2 cursor-pointer"
-                onClick={handleOnSubmit}
+           
               >
-                <HeartFill size={"22"} className="text-gray-200" />
+                {!isFavorite && (
+                  <HeartFill size={"22"} className="text-gray-200"  onClick={handleOnSubmit}/>
+                )}
+                {isFavorite && (
+                  <HeartFill
+                    size={"22"}
+                    className="text-red-500"
+                    onClick={deleteFav}
+                  />
+                )}
               </div>
               <img
                 src={v.image}

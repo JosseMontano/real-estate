@@ -12,6 +12,7 @@ import Btn from "@/core/components/form/button";
 import useNavigation from "@/core/hooks/useNavigate";
 import useUserStore from "@/core/store/user";
 import { currentREType } from "../types/types";
+import { User } from "@/core/types/user";
 
 type Params = {
   realEstates: RealEstate[];
@@ -23,6 +24,7 @@ type Params = {
   placeTextLanguage: string;
   seeMoreBtn: string;
   currentRE: currentREType;
+  user: User;
 };
 
 export interface NearbyPlace {
@@ -44,6 +46,7 @@ export const SectionRealStates = ({
   placeTextLanguage,
   seeMoreBtn,
   currentRE,
+  user,
 }: Params) => {
   const { language, texts } = useLanguageStore();
   const [places, setPlaces] = useState<{ [key: number]: NearbyPlace[] }>({});
@@ -86,60 +89,68 @@ export const SectionRealStates = ({
       className="space-y-12 py-10 flex flex-col items-center"
       id="realEstates"
     >
-      {realEstates.map((item, index) => (
-        <div
-          key={index}
-          ref={index === 0 ? firstElementRef : null}
-          className={`flex w-[90%] flex-col md:flex-row gap-8 items-center ${
-            index % 2 === 1 ? "md:flex-row-reverse" : ""
-          }`}
-        >
-          <Photo img={item.photos} index={index} />
+      {realEstates.map((item, index) => {
 
+        const isFavorite = user?.favorites?.some(
+          (favorite) => favorite.real_estate.id === item.id
+        );
+
+        return (
           <div
-            className={`flex flex-col gap-1 items-center ${
-              index % 2 === 1 ? "md:items-end" : "md:items-start"
-            } text-center w-full md:w-1/2`}
+            key={index}
+            ref={index === 0 ? firstElementRef : null}
+            className={`flex w-[90%] flex-col md:flex-row gap-8 items-center ${
+              index % 2 === 1 ? "md:flex-row-reverse" : ""
+            }`}
           >
-            <Buttons
-              handleStateChange={handleStateChange}
-              states={states}
-              index={index}
-              item={item}
-              info={infoTextLanguage}
-              places={placeTextLanguage}
-              texts={texts}
-            />
+            {/* Pass isFavorite as a prop to the Photo component */}
+            <Photo img={item.photos} index={index} isFavorite={isFavorite} item={item}/>
 
-            <Info
-              index={index}
-              item={item}
-              language={language}
-              states={states}
-            />
-            {states[index] === "info" && (
-              <div className="w-[170px]">
-                <Btn
-                  text={seeMoreBtn}
-                  className="w-[150px]"
-                  isPending={false}
-                  onClick={() => {
-                    selectUser(item.user);
-                    handleNavigate("/visit_user");
-                  }}
-                />
-              </div>
-            )}
+            <div
+              className={`flex flex-col gap-1 items-center ${
+                index % 2 === 1 ? "md:items-end" : "md:items-start"
+              } text-center w-full md:w-1/2`}
+            >
+              <Buttons
+                handleStateChange={handleStateChange}
+                states={states}
+                index={index}
+                item={item}
+                info={infoTextLanguage}
+                places={placeTextLanguage}
+                texts={texts}
+              />
 
-            <ExtraInfo
-              index={index}
-              item={item}
-              states={states}
-              places={places}
-            />
+              <Info
+                index={index}
+                item={item}
+                language={language}
+                states={states}
+              />
+              {states[index] === "info" && (
+                <div className="w-[170px]">
+                  <Btn
+                    text={seeMoreBtn}
+                    className="w-[150px]"
+                    isPending={false}
+                    onClick={() => {
+                      selectUser(item.user);
+                      handleNavigate("/visit_user");
+                    }}
+                  />
+                </div>
+              )}
+
+              <ExtraInfo
+                index={index}
+                item={item}
+                states={states}
+                places={places}
+              />
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
       {currentRE == "real-estates" && (
         <Pagination
           currentPage={currentPage}

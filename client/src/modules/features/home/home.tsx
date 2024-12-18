@@ -175,7 +175,7 @@ export const HomePage = () => {
     queryKey: [
       "real-estates-search",
       selectedValues.every((val) => val && val.id !== 0) && selectedValues,
-      handleReset
+      handleReset,
     ],
     itemsPerPage: 1000,
     /* @ts-ignore */
@@ -187,8 +187,6 @@ export const HomePage = () => {
     updatedValues[index] = value || { id: 0, name: "" };
     setSelectedValues(updatedValues);
   };
-
- 
 
   return (
     <>
@@ -227,6 +225,7 @@ export const HomePage = () => {
         placeTextLanguage={texts.placesButton}
         seeMoreBtn={texts.viewMoreButton}
         currentRE={searchRE.length > 0 ? "real-estates-search" : "real-estates"}
+        user={user ?? {}}
       />
 
       {isLoading && <p>Loading...</p>}

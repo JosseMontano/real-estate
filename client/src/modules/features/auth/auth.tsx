@@ -58,7 +58,8 @@ export const AuthPage = () => {
           cellphone: userObject.cellphone,
           username: userObject.username,
           photo: userObject.photo,
-          following:userObject.following
+          following:userObject.following,
+          favorites:userObject.favorites
         });
         handleNavigate("/profile");
         return;
@@ -90,7 +91,8 @@ export const AuthPage = () => {
             role: 2,
             id: userObject.id,
             available: userObject.available,
-            following:userObject.following
+            following:userObject.following,
+            favorites:userObject.favorites
           });
           handleNavigate("/profile");
           return;

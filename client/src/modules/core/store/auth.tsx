@@ -1,6 +1,7 @@
 import { create } from "zustand";
-import { Follow, User } from "../types/user";
+import {  Follow, User } from "../types/user";
 import { persist } from "zustand/middleware";
+import { Favorites } from "@/features/home/types/favorites";
 
 interface AuthState {
   user: User;
@@ -8,6 +9,8 @@ interface AuthState {
   login: (user: User) => void;
   follow: (newFollowing: Follow) => void;
   unfollow: (id: number) => void;
+  addFavorite: (realEstate: Favorites) => void;
+  removeFavorite: (realEstateId: number) => void;
   logout: () => void;
 }
 
@@ -29,7 +32,23 @@ const useAuthStore = create(
           user: {
             ...state.user,
             following: state.user.following.filter(
-              (follow) => follow.id !== followId 
+              (follow) => follow.id !== followId
+            ),
+          },
+        })),
+        addFavorite: (favorite: Favorites) =>
+          set((state) => ({
+            user: {
+              ...state.user,
+              favorites: [...state.user.favorites, favorite],
+            },
+          })),
+      removeFavorite: (realEstateId: number) =>
+        set((state) => ({
+          user: {
+            ...state.user,
+            favorites: state.user.favorites.filter(
+              (favorite) => favorite.real_estate.id !== realEstateId
             ),
           },
         })),

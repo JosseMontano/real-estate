@@ -1,5 +1,5 @@
-type ParamsType = { size: string, className?: string };
-export const HeartFill = ({ size, className }: ParamsType) => {
+type ParamsType = { size: string, className?: string, onClick?:any };
+export const HeartFill = ({ size, className, onClick }: ParamsType) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -8,6 +8,7 @@ export const HeartFill = ({ size, className }: ParamsType) => {
       fill="currentColor"
       className={`bi bi-heart-fill ${className}`}
       viewBox="0 0 16 16"
+      onClick={() => onClick && onClick()}
     >
       <path
         fill-rule="evenodd"

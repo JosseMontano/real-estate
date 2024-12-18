@@ -91,7 +91,7 @@ export const handlePostBlob = async <T>(
   }
 }
 
-export const Delete = async (url: string, id: number) => {
+export const Delete = async (url: string, id: number | string) => {
   const response = await fetch(urls.endpoint + `${url}/${id}`, {
     method: 'DELETE'
   })

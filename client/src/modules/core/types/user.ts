@@ -1,9 +1,12 @@
+import { Favorites } from "@/features/home/types/favorites";
+
 
 export type Follow= {
   user_id:number
   id:number
   user_followed_id:number
 }
+
 
 export type User = {
   id?: number;
@@ -16,5 +19,6 @@ export type User = {
   available?: boolean;
   photo?: string;
   following:Follow[]
+  favorites:Favorites[]
 };
 

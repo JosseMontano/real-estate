@@ -6,6 +6,7 @@ import { handleGet, handlePost } from "@/core/utils/fetch";
 import { Zone } from "../types/zones";
 import { OptionsType } from "../home";
 import { RealEstate } from "@/shared/types/realEstate";
+import { Favorites } from "../types/favorites";
 
 
 export async function addQuestionToDB(
@@ -15,7 +16,7 @@ export async function addQuestionToDB(
 }
 
 export async function addFavRE(data: FavREDTO) {
-  return handlePost('favorite_real_estates', data)
+  return handlePost<Favorites>('favorite_real_estates', data)
   
 }
 
