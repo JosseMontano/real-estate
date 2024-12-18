@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Res } from "../types/res";
 import { Statistic } from "../types/statistic";
-import { Delete, handleGet } from "../utils/fetch";
+import { handleGet } from "../utils/fetch";
 import useGet from "./useGet";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 type ParamsType = {
   url: string;

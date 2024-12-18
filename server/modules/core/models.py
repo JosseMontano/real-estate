@@ -59,7 +59,8 @@ class ReportUser(Base):
     user_reported_id = Column(Integer, ForeignKey('users.id'), nullable=False, index=True)
     reporter_id = Column(Integer, ForeignKey('users.id'), nullable=False, index=True)
     reason_id = Column(Integer, ForeignKey('translates.id'), nullable=False, index=True)  # ForeignKey to Translate
-
+    active = Column(Boolean, default=True)
+    
     # Relationships
     user_reported = relationship("User", foreign_keys=[user_reported_id], back_populates="reports_received")
     reporter = relationship("User", foreign_keys=[reporter_id], back_populates="reports_made")

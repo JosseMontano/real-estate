@@ -13,6 +13,7 @@ import { DashRealEstates } from "@/features/dashRealEstates/dashRealEstates";
 import { DashGraphics } from "@/features/dashGraphics/dashGraphics";
 import { DashComments } from "@/features/dashComments/dashComments";
 import { DashResponses } from "@/features/dashResponses/dashResponses";
+import { DashReports } from "@/features/dashReports/dashReports";
 
 export const queryClient = new QueryClient();
 export type Routes =
@@ -25,6 +26,7 @@ export type Routes =
   | "/dashboard/questions"
   | "/dashboard/comments"
   | "/dashboard/responses"
+  | "/dashboard/reports"
   | "/visit_user"
   ;
 
@@ -48,6 +50,7 @@ function App() {
               <Route path="questions" element={<DashQuestions />} />
               <Route path="comments" element={<DashComments />} />
               <Route path="responses" element={<DashResponses />} />
+              <Route path="reports" element={<DashReports />} />
             </Route>
           </Routes>
           <Config />

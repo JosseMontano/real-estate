@@ -118,6 +118,7 @@ export interface Translations {
   questions: string;
   comments: string;
   responses: string;
+  reports:string;
   //status statistics
   total: string;
   active: string;
@@ -236,6 +237,7 @@ const translations: { [key in Language]: Translations } = {
     questions: "Questions",
     comments: "Comments",
     responses: "Response",
+    reports:"Reports",
     //status statistics
     total: "Total",
     active: "Active",
@@ -352,6 +354,7 @@ const translations: { [key in Language]: Translations } = {
     questions: "Preguntas",
     comments: "Comentarios",
     responses: "Respuestas",
+    reports:"Reportes",
     //status statistics
     total: "Total",
     active: "Activos",
@@ -468,6 +471,7 @@ const translations: { [key in Language]: Translations } = {
     questions: "Perguntas",
     comments: "Comentários",
     responses: "Respostas",
+    reports:"relatórios",
     //status statistics
     total: "Total",
     active: "Ativos",
