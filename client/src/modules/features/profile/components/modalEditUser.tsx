@@ -1,4 +1,3 @@
-import Btn from "@/core/components/form/button";
 import FormComponent from "@/core/components/form/form";
 import { Input } from "@/core/components/form/input";
 import { useForm } from "@/core/hooks/useForm";
@@ -55,6 +54,7 @@ export const ModalEditUser = ({
           console.error("Error uploading image:", error);
         }
         data.photo = url;
+        //@ts-ignore
         const res = await editUser(user.email, data);
         if (res.status === 200) {
           setSuccessMsg(res.message[language]);

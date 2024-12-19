@@ -1,15 +1,20 @@
 import { z } from "zod";
-import { useLanguageStore } from "@/core/store/language";
+import { Translations, useLanguageStore } from "@/core/store/language";
 import { useMemo } from "react";
+
+export const questionSchema = (texts: Translations)=>{
+  return z.object({
+    question: z.string().min(3, texts.fieldRequired),
+  });
+}
+
 
 export const useQuestionSchema = () => {
   const { texts } = useLanguageStore();
 
-  const questionSchema = useMemo(() => {
-    return z.object({
-      question: z.string().min(3, texts.fieldRequired),
-    });
+  const schema = useMemo(() => {
+    return questionSchema(texts)
   }, [texts]);
 
-  return questionSchema;
+  return schema;
 };

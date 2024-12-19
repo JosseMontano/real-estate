@@ -23,7 +23,7 @@ const useGet = <T,>({
   const [msg, setMsg] = useState("");
   const [isFirstRun, setIsFirstRun] = useState(true);
 
-  const { isLoading, data, isError, error,refetch:refetchQuery, dataUpdatedAt  } = useQuery({
+  const { isLoading, data, isError, error,refetch:refetchQuery  } = useQuery({
     queryKey: queryKey,
     queryFn: async () => {
       if(valueToService){

@@ -167,6 +167,7 @@ export const HomePage = () => {
 
   const handleReset = async () => {
     setSelectedValues(Array(fields.length).fill(""));
+    //@ts-ignore
     queryClient.setQueryData("real-estates-search", []);
   };
 

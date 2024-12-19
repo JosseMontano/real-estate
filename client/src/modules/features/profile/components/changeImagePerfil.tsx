@@ -10,7 +10,6 @@ type ParamasType = {
 
 export const ProfileImageUploader: React.FC<ParamasType> = ({
   setFile,
-  file,
   imgUrl,
   oldPhoto,
 }) => {

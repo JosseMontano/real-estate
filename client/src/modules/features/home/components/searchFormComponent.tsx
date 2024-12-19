@@ -1,4 +1,3 @@
-import { SearchIcon } from "@/shared/assets/icons/search";
 import { Field, OptionsType } from "../home";
 import { TrashIcon } from "@/shared/assets/icons/trash";
 
@@ -14,7 +13,6 @@ export const SearchFormComponent = ({
   fields,
   primaryColor,
   handleSelectChange,
-  handleSearch,
   handleCleanSearch,
   selectedValues,
 }: ParamsType) => {

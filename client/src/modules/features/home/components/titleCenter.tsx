@@ -1,6 +1,4 @@
 import Btn from "@/core/components/form/button";
-import { primaryColor } from "@/core/constants/colors";
-import { NavLink } from "@/features/home/components/navLink";
 import { Link } from "react-scroll";
 
 type ParamsType = {

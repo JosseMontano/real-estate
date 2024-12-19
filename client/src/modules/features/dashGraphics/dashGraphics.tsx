@@ -1,5 +1,4 @@
 import useNavigation from "@/core/hooks/useNavigate";
-import { auth } from "@/core/libs/firebase";
 import { useEffect } from "react";
 
 type ParamsType = {

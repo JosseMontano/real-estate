@@ -1,13 +1,8 @@
-import useGet from "@/core/hooks/useGet";
 import { CustomerTable } from "../../core/components/dashboard/customerTable";
 import { SumaryCard } from "../../core/components/dashboard/sumaryCards";
 import {
   deleteQuestion,
-  fetchQuestions,
-  getStadisticsQuestion,
 } from "./api/endpoints";
-import { useMutation } from "@tanstack/react-query";
-import { queryClient } from "../../../App";
 import { useLanguageStore } from "@/core/store/language";
 import { useDash } from "@/core/hooks/useDash";
 import { Question } from "@/shared/types/questions";

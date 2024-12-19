@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 type ParamsType = {};
 export const Sidebar = ({}: ParamsType) => {
-  const { texts, language } = useLanguageStore();
+  const { texts } = useLanguageStore();
   const { location } = useNavigation();
 
   const links = [

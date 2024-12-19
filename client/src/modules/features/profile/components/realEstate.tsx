@@ -39,13 +39,13 @@ export const RealEstateComp = ({
     >
       {showIcon && (
         <div
-          onClick={deleteFav}
+          onClick={() => deleteFav()}
           className="cursor-pointer absolute top-1 right-1"
         >
           <TrashIcon size="22" />
         </div>
       )}
-    
+
       <img
         src={
           publication.photos != undefined

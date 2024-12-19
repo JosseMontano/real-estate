@@ -20,7 +20,7 @@ export const Questions = ({
   btn,
   question,
 }: ParamsType) => {
-  const { language, texts } = useLanguageStore();
+  const { language } = useLanguageStore();
   const questionSchema = useQuestionSchema();
   const {
     register,

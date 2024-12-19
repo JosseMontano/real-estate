@@ -42,7 +42,7 @@ export const CustomerTable = ({
   propSelectData,
   fullData,
 }: ParamsType) => {
-  const { language, texts } = useLanguageStore();
+  const { language } = useLanguageStore();
   const [searchText, setSearchText] = useState("");
 
   const filteredData = (searchText != "" ? fullData : data).filter((row) =>

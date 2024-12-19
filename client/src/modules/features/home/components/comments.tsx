@@ -15,7 +15,6 @@ type Props = {
 const Comments = ({
   isModalOpen,
   setIsModalOpen,
-  currentRealEstate,
 }: Props) => {
   const { user } = useAuthStore();
   const {
@@ -27,7 +26,9 @@ const Comments = ({
     schema: commentSchema,
     form: async (data) => {
       const res = await handlePost("translate", { val: data.commentatorEs });
+      //@ts-ignore
       data.commentatorEn = res.val.valEn;
+      //@ts-ignore
       data.commentaroPt = res.val.valPt;
       if (user) {
         //await addCommentToDB(data, currentRealEstate, user)

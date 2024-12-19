@@ -80,8 +80,8 @@ const DashboardPage = () => {
       if (user) {
         const images = uploadedFiles.map((v) => v.url);
 
-        data.userId = Number(userLogged.id);
-        data.typeRealEstateId = Number(typeRE.id);
+        data.userId = userLogged.id?.toString();
+        data.typeRealEstateId = typeRE.id.toString();
 
         //@ts-ignore
         data.latLong = (location?.lat + ", " + location?.lng)?.toString();
