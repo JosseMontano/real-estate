@@ -14,9 +14,9 @@ export const Info = ({ index, item, language, states }: ParamsType) => {
     <>
       {states[index] === "info" && (
         <>
-         <div className={ index % 2 === 1 ? "text-end" : "text-start"}>
+         <div className={ index % 2 === 1 ? "text-center sm:text-end" : "text-center sm:text-start"}>
          <h1 className={`w-[350px] ${
-            index % 2 === 1 ? "text-end" : "text-start"
+            index % 2 === 1 ?"text-center sm:text-end" : "text-center sm:text-start"
           }   md:text-2xl lg:text-3xl font-bold text-gray-900 max-w-xs md:max-w-md lg:max-w-lg`} style={{fontSize:"32px", lineHeight:"30px"}}>
             {item.title[language]}
             
@@ -32,10 +32,9 @@ export const Info = ({ index, item, language, states }: ParamsType) => {
                 WebkitLineClamp: 4,
                 lineClamp: 4,
               }}
-              className={`w-[450px] text-base leading-[30px]  text-gray-600 max-w-xs md:max-w-md lg:max-w-lg text-justify ${  index % 2 === 1 ? "text-end" : "text-start"}`}
+              className={`w-[450px] text-base leading-[30px]  text-gray-600 max-w-xs md:max-w-md lg:max-w-lg text-justify ${  index % 2 === 1 ? "text-center sm:text-end" : "text-center sm:text-start"}`}
             >
               {item.description[language]}
-        
             </p>
           </div>
         </>

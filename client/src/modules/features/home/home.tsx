@@ -12,6 +12,7 @@ import { useLanguageStore } from "@/core/store/language";
 import { fetchTypeRe } from "../dashTypeRe/api/endpoints";
 import useAuthStore from "@/core/store/auth";
 import { queryClient } from "../../../App";
+import { Loading } from "@/core/components/loading";
 
 type Options = "price" | "type" | "zone";
 
@@ -216,6 +217,13 @@ export const HomePage = () => {
           selectedValues={selectedValues}
         />
       </div>
+
+      {isLoading && (
+        <div className="h-52 flex items-center justify-center">
+          <Loading />
+        </div>
+      )}
+
       <SectionRealStates
         realEstates={searchRE.length > 0 ? searchRE : realEstates ?? []}
         firstElementRef={firstElementRef}
@@ -228,8 +236,6 @@ export const HomePage = () => {
         currentRE={searchRE.length > 0 ? "real-estates-search" : "real-estates"}
         user={user ?? {}}
       />
-
-      {isLoading && <p>Loading...</p>}
 
       <Questions
         ask={texts.ask}

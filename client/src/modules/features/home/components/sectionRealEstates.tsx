@@ -90,7 +90,6 @@ export const SectionRealStates = ({
       id="realEstates"
     >
       {realEstates.map((item, index) => {
-
         const isFavorite = user?.favorites?.some(
           (favorite) => favorite.real_estate.id === item.id
         );
@@ -104,7 +103,12 @@ export const SectionRealStates = ({
             }`}
           >
             {/* Pass isFavorite as a prop to the Photo component */}
-            <Photo img={item.photos} index={index} isFavorite={isFavorite} item={item}/>
+            <Photo
+              img={item.photos}
+              index={index}
+              isFavorite={isFavorite}
+              item={item}
+            />
 
             <div
               className={`flex flex-col gap-1 items-center ${
