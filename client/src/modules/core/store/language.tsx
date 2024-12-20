@@ -28,6 +28,7 @@ export interface Translations {
   signInGoogleAuth: string;
   titleForgotPassword: string;
   recuperateAccountBtn: string;
+  loginGoogleBtn:string
   //config
   titleConfig: string;
   languageConfig: string;
@@ -146,6 +147,7 @@ const translations: { [key in Language]: Translations } = {
     signInGoogleAuth: "Sign in with Google",
     titleForgotPassword: "Forgot my password",
     recuperateAccountBtn: "Recover account",
+    loginGoogleBtn:"Login with google",
     //config
     titleConfig: "Configurations",
     languageConfig: "Language",
@@ -262,6 +264,7 @@ const translations: { [key in Language]: Translations } = {
     signInGoogleAuth: "Iniciar con Google",
     titleForgotPassword: "Olvidé mi contraseña",
     recuperateAccountBtn: "Recuperar cuenta",
+    loginGoogleBtn:"Login con google",
     //config
     titleConfig: "Configuraciones",
     languageConfig: "Idioma",
@@ -379,6 +382,7 @@ const translations: { [key in Language]: Translations } = {
     signInGoogleAuth: "Entrar com Google",
     titleForgotPassword: "Esqueci minha senha",
     recuperateAccountBtn: "Recuperar conta",
+    loginGoogleBtn:"Faça login no Google",
     //config
     titleConfig: "Configurações",
     languageConfig: "Idioma",

@@ -24,7 +24,6 @@ app = APIRouter(
 class signUpDTO(BaseModel):
     email: str
     password: str
-    confirmPassword: str
 
 class NearbyPlacesRequest(BaseModel):
     location: str
@@ -50,8 +49,8 @@ from fastapi import HTTPException
 @app.post('/signup')
 async def sign_up(user: signUpDTO, db: Session = Depends(get_db)):
     try:
-        if user.password != user.confirmPassword:
-            return {"status": 400, "message": AuthMsg.PASSWORD_NOT_MATCH.dict(), "val": []}
+        """         if user.password != user.confirmPassword:
+            return {"status": 400, "message": AuthMsg.PASSWORD_NOT_MATCH.dict(), "val": []} """
         
         # Check if user already exists
         found_user = (

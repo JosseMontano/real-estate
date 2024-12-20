@@ -15,17 +15,15 @@ type ParamsType = {
     email: string;
     password: string;
     confirmPassword: string;
-
   }>;
   handleLoginGoogle: () => void;
   handleOnSubmit: (e?: React.BaseSyntheticEvent) => Promise<void>;
   errors: FieldErrors<{
     email: string;
     password: string;
-    confirmPassword: string;
   }>;
   isSignUpPending: boolean;
-  texts: Translations
+  texts: Translations;
 };
 export const FormAuth = ({
   errors,
@@ -33,7 +31,7 @@ export const FormAuth = ({
   isSignUpPending,
   register,
   handleLoginGoogle,
-  texts
+  texts,
 }: ParamsType) => {
   const { isModalOpen, handleStateModal } = useModal();
 
@@ -63,15 +61,6 @@ export const FormAuth = ({
                 Icon={LockIcon}
               />
             </div>
-            <div className="">
-              <Input
-                type="password"
-                text="Confirmar contraseña"
-                error={errors.confirmPassword}
-                register={register("confirmPassword")}
-                Icon={LockRepeatIcon}
-              />
-            </div>
 
             <div className="text-right">
               <p
@@ -85,18 +74,17 @@ export const FormAuth = ({
         }
       />
       <div className="flex flex-col gap-3">
-        <p className="text-center text-sm text-gray-500 mt-3">
-          {texts.withoutAccountAuth}
+        <p className="flex flex-col gap-3 text-center text-sm text-gray-500 mt-3">
+          <span className="text-[14px]">{texts.orAuth}</span>
+          <span className="text-[14px]">{texts.signInGoogleAuth}</span>
         </p>
-
-        <p className="flex flex-col gap-3 text-center text-sm text-gray-500">
-          <span>{texts.orAuth}</span>
-          <span>{texts.signInGoogleAuth}</span>
-        </p>
-        <div className="flex justify-center space-x-4">
-          <button className="p-[10px] border  border-gray-200 rounded-lg">
+        <div className="flex justify-center items-center w-full gap-3  border border-primary rounded-full py-[10px]">
+          <button className="">
             <GoogleIcon size={29} onClick={handleLoginGoogle} />
           </button>
+          <span className="text-[14px] text-gray-700">
+            {texts.loginGoogleBtn}
+          </span>
         </div>
       </div>
 
@@ -104,7 +92,7 @@ export const FormAuth = ({
         title={texts.signInGoogleAuth}
         isModalOpen={isModalOpen}
         setIsModalOpen={handleStateModal}
-        children={<ForgotPass handleStateModal={handleStateModal}/>}
+        children={<ForgotPass handleStateModal={handleStateModal} />}
       />
     </div>
   );

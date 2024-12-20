@@ -227,7 +227,7 @@ const DashboardPage = () => {
   if (user.email == undefined) {
     handleNavigate("/auth");
   }
-  
+
   return (
     <div className="h-screen hide_scroll flex items-center w-full">
       <div className="absolute top-0 w-full bg-white flex justify-between px-7 py-4 shadow-2xl h-[72px]">
@@ -261,23 +261,17 @@ const DashboardPage = () => {
         </div>
       </div>
 
-      <div
-        className="grid bg-gray-50 mx-2 mt-2 gap-4 flex-wrap md:flex-nowrap overflow-y-hidden w-full h-full"
-        style={{
-          gridTemplateColumns: "1fr 3fr",
-        }}
-      >
-        <div className=" grow-0 w-full">
-          <ProfileHeader
-            handleShowModal={handleShowAddComment}
-            isModalOpen={isAddCommentOpen}
-            commets={comments ?? []}
-            loading={loadingComments}
-            user={user}
-            commentsLanguage={texts.commentsTitle}
-          />
-        </div>
-        <div className=" grow w-full flex flex-col justify-center ">
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr] bg-gray-50 mx-2 mt-2 gap-4 flex-wrap md:flex-nowrap overflow-y-hidden w-full h-full">
+        <ProfileHeader
+          handleShowModal={handleShowAddComment}
+          isModalOpen={isAddCommentOpen}
+          commets={comments ?? []}
+          loading={loadingComments}
+          user={user}
+          commentsLanguage={texts.commentsTitle}
+        />
+
+        <div className=" grow w-full flex flex-col justify-normal md:justify-center ">
           <div className="flex gap-5 md:justify-end justify-center">
             <ModalEditUser
               isModaEditUserOpen={isEditUserOpen}
@@ -341,8 +335,8 @@ const DashboardPage = () => {
             }}
             language={language}
             updateFollowing={follow}
-          unfollow={unfollow}
-          reportProfile={texts.reportProfile}
+            unfollow={unfollow}
+            reportProfile={texts.reportProfile}
           />
           <PublicationsAndFavorites
             handleShowModal={handleShowFav}
@@ -354,7 +348,6 @@ const DashboardPage = () => {
             user={user}
             realEstateFavs={realEstateFavs ?? []}
             refetchCommentTop={refetchCommentTop}
-            
           />
           {isLoading && <p>Loading...</p>}
         </div>

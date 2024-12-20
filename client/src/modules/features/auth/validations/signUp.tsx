@@ -7,16 +7,12 @@ export const signUpSchema = (texts: Translations)=>{
   .object({
     email: z.string().email(texts.invalidEmailAuth),
     password: z.string().min(6, texts.invalidPasswordAuth),
-    confirmPassword: z.string().min(6, texts.invalidConfirmPasswordAuth),
     code: z
       .string()
       .optional()
       .transform((val) => (val ? Number(val) : undefined)),
   })
-  .refine((data) => data.password === data.confirmPassword, {
-    path: ["confirmPassword"],
-    message: texts.invalidMatchPasswordAuth,
-  });
+
 }
 
 export const useUserSchema = () => {

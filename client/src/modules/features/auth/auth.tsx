@@ -15,6 +15,9 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { User } from "@/core/types/user";
 import { LanguageDB } from "@/shared/types/language";
+import { ArrowDownIcon } from "@/shared/assets/icons/arrowDown";
+import { ArrowLeft } from "@/shared/assets/icons/arrowLeft";
+import { ComeBack } from "@/core/components/comeBack";
 
 export const AuthPage = () => {
   const { texts, language } = useLanguageStore();
@@ -34,7 +37,7 @@ export const AuthPage = () => {
     schema: userSchema,
     form: async (userData) => {
       let userObject = {} as User;
-      let finalmessage:LanguageDB;
+      let finalmessage: LanguageDB;
       let finalStatus;
       if (code) {
         userData.code = Number(code);
@@ -58,8 +61,8 @@ export const AuthPage = () => {
           cellphone: userObject.cellphone,
           username: userObject.username,
           photo: userObject.photo,
-          following:userObject.following,
-          favorites:userObject.favorites
+          following: userObject.following,
+          favorites: userObject.favorites,
         });
         handleNavigate("/profile");
         return;
@@ -80,7 +83,6 @@ export const AuthPage = () => {
         const userDto: UserDTO = {
           email: credential.user?.email ?? "",
           password: "",
-          confirmPassword: "",
         };
 
         const { val: userObject, status, message } = await saveUser(userDto);
@@ -91,8 +93,8 @@ export const AuthPage = () => {
             role: 2,
             id: userObject.id,
             available: userObject.available,
-            following:userObject.following,
-            favorites:userObject.favorites
+            following: userObject.following,
+            favorites: userObject.favorites,
           });
           handleNavigate("/profile");
           return;
@@ -114,19 +116,22 @@ export const AuthPage = () => {
   }, [code, email]);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white shadow-lg rounded-lg m-[3%] p-8 max-w-md w-full">
-        <h2 className="text-2xl font-bold text-center mb-6">
-          {texts.titleAuth}
-        </h2>
-        <FormAuth
-          errors={errors}
-          handleOnSubmit={handleOnSubmit}
-          isSignUpPending={isSignUpPending}
-          register={register}
-          handleLoginGoogle={handleLoginGoogle}
-          texts={texts}
-        />
+    <div className=" bg-gray-100">
+      <ComeBack location="/" />
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="bg-white shadow-lg rounded-lg m-[3%] p-8 max-w-md w-full">
+          <h2 className="text-2xl font-bold text-center mb-6">
+            {texts.titleAuth}
+          </h2>
+          <FormAuth
+            errors={errors}
+            handleOnSubmit={handleOnSubmit}
+            isSignUpPending={isSignUpPending}
+            register={register}
+            handleLoginGoogle={handleLoginGoogle}
+            texts={texts}
+          />
+        </div>
       </div>
     </div>
   );
