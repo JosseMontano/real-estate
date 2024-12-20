@@ -39,15 +39,21 @@ app.include_router(follows.app)
 app.include_router(report_user.app)
 
 # Configure CORS
-origins = ["http://localhost:5173","http://localhost:5174", "exp://192.168.1.13:19000"]
+""" origins = ["http://localhost:5173","http://localhost:5174", "exp://192.168.1.13:19000"]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+) """
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Permitir solicitudes desde cualquier origen
+    allow_credentials=True,  # Permitir cookies/credenciales
+    allow_methods=["*"],  # Permitir todos los métodos (GET, POST, etc.)
+    allow_headers=["*"],  # Permitir todos los encabezados
 )
-
 class TranslateRequest(BaseModel):
     val: str
 

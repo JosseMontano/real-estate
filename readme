@@ -47,3 +47,6 @@
     <img src="https://fastapi.tiangolo.com/img/logo-margin/logo-teal.png" width="100">
     <img src="https://styles.redditmedia.com/t5_2su6s/styles/communityIcon_4g1uo0kd87c61.png?width=256&s=3f7493995143d3cf40b1fedc582607cea194b579" width="100">
 </p>
+
+#docker build -t your-image-name .
+#docker run -p 3000:3000 your-image-name
