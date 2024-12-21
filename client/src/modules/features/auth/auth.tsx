@@ -12,11 +12,8 @@ import { changePassword, saveUser } from "./utils/saveUser";
 import { UserDTO } from "./api/dtos";
 import useNavigation from "@/core/hooks/useNavigate";
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
 import { User } from "@/core/types/user";
 import { LanguageDB } from "@/shared/types/language";
-import { ArrowDownIcon } from "@/shared/assets/icons/arrowDown";
-import { ArrowLeft } from "@/shared/assets/icons/arrowLeft";
 import { ComeBack } from "@/core/components/comeBack";
 
 export const AuthPage = () => {
@@ -105,15 +102,6 @@ export const AuthPage = () => {
       console.error(error);
     }
   };
-
-  useEffect(() => {
-    // Check if parameters exist and log them
-    if (code && email) {
-      console.log(`ID: ${code}, Email: ${email}`);
-    } else {
-      console.log("No reset password parameters provided");
-    }
-  }, [code, email]);
 
   return (
     <div className=" bg-gray-100">

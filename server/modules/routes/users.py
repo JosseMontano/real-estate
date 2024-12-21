@@ -34,7 +34,6 @@ class EmailRequestDTO(BaseModel):
 class ChangePassDTO(BaseModel):
     email: str
     password: str
-    confirmPassword: str
     code: int
     
 class UpdateUserDTO(BaseModel):
@@ -149,9 +148,7 @@ def forgot_password(request: EmailRequestDTO, db: Session = Depends(get_db)):
 @app.post('/change_password')
 def change_password(request: ChangePassDTO, db: Session = Depends(get_db)):
     try:
-        if request.password != request.confirmPassword:
-            return {"status": 400, "message": AuthMsg.PASSWORD_NOT_MATCH.dict(), "val": []}
-        
+
         found_user = db.query(models.User).filter(models.User.email == request.email).first()
         
         if not found_user:

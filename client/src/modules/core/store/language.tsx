@@ -15,6 +15,7 @@ export interface Translations {
   emptyComments: string;
   thereAre: string;
   activeUser: string;
+  loading:string
   //auth
   titleAuth: string;
   invalidEmailAuth: string;
@@ -134,6 +135,7 @@ const translations: { [key in Language]: Translations } = {
     emptyComments: "No comments found",
     thereAre: "There are",
     activeUser: "Active",
+    loading:"Loading...",
     //auth
     titleAuth: "Sign In",
     invalidEmailAuth: "Invalid email",
@@ -251,6 +253,7 @@ const translations: { [key in Language]: Translations } = {
     emptyComments: "No hay comentarios",
     thereAre: "Hay",
     activeUser: "Activo",
+    loading:"Cargando...",
     //auth
     titleAuth: "Iniciar sesión",
     invalidEmailAuth: "Correo inválido",
@@ -369,6 +372,7 @@ const translations: { [key in Language]: Translations } = {
     emptyComments: "Nenhum comentário",
     thereAre: "há",
     activeUser: "ativo",
+      loading:"carregando...",
     //auth
     titleAuth: "Entrar",
     invalidEmailAuth: "Email inválido",

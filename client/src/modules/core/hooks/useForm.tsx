@@ -4,6 +4,7 @@ import { DefaultValues, useForm as useFormHook } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
 import { useEffect, useRef, useState } from "react";
+import { useLanguageStore } from "../store/language";
 
 type ParamsType<T extends z.ZodType<any, any>> = {
   schema: T;
@@ -19,15 +20,15 @@ export const useForm = <T extends z.ZodType<any, any>>({
   type FormType = z.infer<T>;
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-  const isMounted = useRef(false);
+  const { language } = useLanguageStore();
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitted, touchedFields },
+    formState: { errors, isSubmitted },
     reset,
     trigger,
-    setError,
+    getValues,
   } = useFormHook<FormType>({
     resolver: zodResolver(schema),
     defaultValues: defaultVales,
@@ -40,33 +41,30 @@ export const useForm = <T extends z.ZodType<any, any>>({
   const onSubmit = (data: FormType) => mutate(data);
   const handleOnSubmit = handleSubmit(onSubmit);
 
+  const isFirstVisit = useRef(true)
+
   useEffect(() => {
-    if (isSubmitted) {
-    if (errorMsg != "") toast.success(errorMsg || "Error");
-    if (successMsg != "") toast.success(successMsg);
+    if (isSubmitted ) {
+      if (errorMsg != "") toast.success(errorMsg || "Error");
+      if (successMsg != "") toast.success(successMsg);
     }
   }, [isSubmitted, errorMsg, successMsg]);
 
+
   useEffect(() => {
-    if (isMounted.current) {
-      if (isSubmitted || Object.keys(touchedFields).length > 0) {
-        trigger().then((isValid) => {
-          if (!isValid) {
-            Object.entries(errors).forEach(([field, error]) => {
-              // @ts-ignore
-              setError(field as keyof typeof errors, {
-                type: error?.type,
-                // @ts-ignore
-                message: schema.shape[field].message,
-              });
-            });
-          }
-        });
-      }
-    } else {
-      isMounted.current = true;
+    const allValues = getValues(); 
+    const hasValues = Object.values(allValues).some(
+      (value) => value !== undefined && value !== null && value !== ""
+    );
+    const hasErrors = Object.keys(errors).length > 0;
+
+    if ((hasValues || hasErrors ) && !isFirstVisit.current) trigger();
+
+    if (isFirstVisit) {
+      isFirstVisit.current=false;
+      console.log('hi');
     }
-  }, [schema, reset, trigger, setError, isSubmitted, touchedFields]);
+  }, [language]);
 
   return {
     reset,

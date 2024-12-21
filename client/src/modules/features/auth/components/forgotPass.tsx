@@ -1,7 +1,7 @@
 import FormComponent from "@/core/components/form/form";
 import { Input } from "@/core/components/form/input";
 
-import { forgotPassSchema } from "../validations/forgotPass";
+import {  useForgotPassSchema } from "../validations/forgotPass";
 import { useForm } from "@/core/hooks/useForm";
 import { forgotPass } from "../api/endpoints";
 import { useLanguageStore } from "@/core/store/language";
@@ -11,6 +11,7 @@ type ParamsType = {
 };
 export const ForgotPass = ({handleStateModal}: ParamsType) => {
   const {language,texts} = useLanguageStore()
+  const forgotPassSchema=useForgotPassSchema()
   const {
     register,
     handleOnSubmit,

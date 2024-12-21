@@ -1,7 +1,6 @@
 import FormComponent from "@/core/components/form/form";
 import { Input } from "@/core/components/form/input";
 import { LockIcon } from "@/shared/assets/icons/lock";
-import { LockRepeatIcon } from "@/shared/assets/icons/lockRepeat";
 import { UserIcon } from "@/shared/assets/icons/user";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { GoogleIcon } from "@/shared/assets/icons/google";
@@ -78,9 +77,12 @@ export const FormAuth = ({
           <span className="text-[14px]">{texts.orAuth}</span>
           <span className="text-[14px]">{texts.signInGoogleAuth}</span>
         </p>
-        <div className="flex justify-center items-center w-full gap-3  border border-primary rounded-full py-[10px]">
+        <div
+          onClick={handleLoginGoogle}
+          className="flex justify-center items-center w-full gap-3 cursor-pointer border border-primary rounded-full py-[10px]"
+        >
           <button className="">
-            <GoogleIcon size={29} onClick={handleLoginGoogle} />
+            <GoogleIcon size={29} />
           </button>
           <span className="text-[14px] text-gray-700">
             {texts.loginGoogleBtn}

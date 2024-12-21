@@ -16,11 +16,11 @@ export const signUpSchema = (texts: Translations)=>{
 }
 
 export const useUserSchema = () => {
-  const { texts } = useLanguageStore();
-
+  const { texts, language} = useLanguageStore();
   const userSchema = useMemo(() => {
     return signUpSchema(texts)
   }, [texts]); 
 
   return userSchema;
 };
+

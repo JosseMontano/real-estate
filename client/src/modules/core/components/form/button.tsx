@@ -1,4 +1,6 @@
 import { primaryColor } from "@/core/constants/colors";
+import { useLanguageStore } from "@/core/store/language";
+
 
 type Props = {
   isPending: boolean;
@@ -17,8 +19,9 @@ const Btn = ({
   disabled,
   smallBtn = false,
 }: Props) => {
+  const {texts} = useLanguageStore()
   //guardar... - gurdando  //iniciar iniciando... //publicar publicando...
-  const textPending = text.slice(0, -1) + "ndo...";
+
   return (
     <button
       type="submit"
@@ -34,7 +37,7 @@ const Btn = ({
        ${className}`}
       onClick={onClick}
     >
-      {isPending ? textPending : text}
+      {isPending ? texts.loading : text}
     </button>
   );
 };
