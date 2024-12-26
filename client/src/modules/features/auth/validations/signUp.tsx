@@ -16,7 +16,7 @@ export const signUpSchema = (texts: Translations)=>{
 }
 
 export const useUserSchema = () => {
-  const { texts, language} = useLanguageStore();
+  const { texts} = useLanguageStore();
   const userSchema = useMemo(() => {
     return signUpSchema(texts)
   }, [texts]); 

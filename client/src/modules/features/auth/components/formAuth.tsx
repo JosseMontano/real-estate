@@ -13,7 +13,6 @@ type ParamsType = {
   register: UseFormRegister<{
     email: string;
     password: string;
-    confirmPassword: string;
   }>;
   handleLoginGoogle: () => void;
   handleOnSubmit: (e?: React.BaseSyntheticEvent) => Promise<void>;

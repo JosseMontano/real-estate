@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Res } from "../types/res";
 import { useLanguageStore } from "../store/language";
 import { toast } from "sonner";
-import { ERRORMSGBACK } from "../constants/msgS";
+import { ERRORMSGBACK } from "../constants/msg";
 
 type Props<T> = {
   services: (val?: number) => Promise<Res<T>>;
