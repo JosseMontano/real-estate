@@ -1,5 +1,6 @@
 import { MapLocations } from "@/core/components/map/mapLocations";
 import { Language, Translations } from "@/core/store/language";
+import useRealEstateStore from "@/core/store/realEstate";
 import { handlePost } from "@/core/utils/fetch";
 import { NearbyPlace } from "@/features/home/components/sectionRealEstates";
 import { RealEstate } from "@/shared/types/realEstate";
@@ -11,23 +12,21 @@ type ParamsType = {
   texts: Translations;
 };
 export const InfoRE = ({ selectedRE, language, texts }: ParamsType) => {
-  const [places, setPlaces] = useState<{ [key: number]: NearbyPlace[] }>({});
-
+  const [places, setPlaces] = useState<NearbyPlace[]>([] as NearbyPlace[]);
+  const { setPlaces: setPlacesStorage, placesSelected } = useRealEstateStore();
   useEffect(() => {
     const handleLocations = async () => {
       // Only fetch if not already fetched
-      const res = await handlePost<NearbyPlace>(
+      const res = await handlePost<NearbyPlace[]>(
         "real_estates/fetch_nearby_places",
         {
           location: selectedRE?.lat_long,
         }
       );
-      setPlaces((prevPlaces) => ({
-        ...prevPlaces,
-        [1]: Array.isArray(res.val) ? res.val : [res.val],
-      }));
+      setPlacesStorage(res.val);
+      setPlaces(res.val);
     };
-    handleLocations();
+    if (places.length == 0) handleLocations();
   }, []);
 
   return (
@@ -72,7 +71,7 @@ export const InfoRE = ({ selectedRE, language, texts }: ParamsType) => {
 
       <div className="flex justify-center">
         <MapLocations
-          locations={places[1] || []}
+          locations={placesSelected}
           location={selectedRE?.lat_long ?? ""}
           setLocation={() => {}}
           width={390}

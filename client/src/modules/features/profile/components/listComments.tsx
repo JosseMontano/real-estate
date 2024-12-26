@@ -14,7 +14,6 @@ import { RowIcon } from "@/shared/assets/icons/rowIcon";
 import { fetchCommentsByRE, postComment } from "../api/endpoints";
 import useGet from "@/core/hooks/useGet";
 import { Language, Translations } from "@/core/store/language";
-import { queryClient } from "../../../../App";
 import { deleteComment } from "@/features/dashComments/api/endpoints";
 import { useDelete } from "@/core/hooks/useDelete";
 
