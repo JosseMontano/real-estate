@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -56,13 +57,45 @@ interface Params {
   setLocation: (loc: Location) => void;
   location: string;
   locations: NearbyPlace[]; // Array of predefined locations with optional name
-  width?:number
+  width?: number;
 }
 
-export const MapLocations = ({ location, setLocation, locations, width }: Params) => {
+export const MapLocations = ({
+  location,
+  setLocation,
+  locations,
+  width,
+}: Params) => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Simulate fetching data from the backend
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Simulate backend delay (replace with actual API call if needed)
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const center = location
     ? location.split(",").map(Number)
     : [-17.37242843568179, -66.16250126879922];
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center w-[500px] sm:w-[600px]  justify-center h-[200px] lg:h-[200px] rounded-lg shadow-lg bg-gray-200 animate-pulse">
+        <div className="h-full w-full bg-gray-300 rounded-lg"></div>
+      </div>
+    );
+  }
+
   return (
     <MapContainer
       /* @ts-ignore */
@@ -70,7 +103,7 @@ export const MapLocations = ({ location, setLocation, locations, width }: Params
       zoom={13}
       className="w-full h-[200px] lg:w-[500px] xl:w-[600px] rounded-lg shadow-lg"
       style={{
-        width:width
+        width,
       }}
     >
       <TileLayer
@@ -86,8 +119,7 @@ export const MapLocations = ({ location, setLocation, locations, width }: Params
           position={[loc.location.lat, loc.location.lng]}
           icon={customIcon}
         >
-          <Popup>{loc.name  || "Unnamed location"}</Popup>{" "}
-          {/* Show name on hover */}
+          <Popup>{loc.name || "Unnamed location"}</Popup>
         </Marker>
       ))}
 
