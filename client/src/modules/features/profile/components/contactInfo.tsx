@@ -69,8 +69,8 @@ export const ContactInfo = ({
   amountRE,
   amountREFavs,
   userLogged,
-  btnEditUserLanguage,
-  handleShowModalEditUser,
+/*   btnEditUserLanguage,
+  handleShowModalEditUser, */
   handleShowCreateRE,
   btnAddRe,
   contact,
@@ -134,7 +134,7 @@ export const ContactInfo = ({
         setIsFollowing(true);
       } else {
         SetErrorMsgReport(res.message[language]);
-      } 
+      }
     },
   });
 
@@ -151,7 +151,11 @@ export const ContactInfo = ({
       <div className="mt-6 flex flex-col gap-2">
         <div>
           <p className=" flex gap-4 ">
-            <span className="font-semibold text-xl">{user.email}</span>
+            <span className="font-semibold text-xl">
+              {user.email.length > 10
+                ? `${user.email.slice(0, 15)}...`
+                : user.email}
+            </span>
             <span className="flex items-center gap-1 ">
               <GeoIcon size={14} />
               <span>Cochabamba</span>
@@ -223,14 +227,14 @@ export const ContactInfo = ({
               <span>{startToFollow}</span>
             </div>
           )}
-          {user == userLogged && (
+       {/*    {user == userLogged && (
             <button
               className="hover:bg-gray-100 rounded-lg text-gray-400"
               onClick={handleShowModalEditUser}
             >
               {btnEditUserLanguage}
             </button>
-          )}
+          )} */}
 
           {user != userLogged && (
             <button

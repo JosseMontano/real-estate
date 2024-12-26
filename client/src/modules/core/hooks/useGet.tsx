@@ -21,8 +21,8 @@ const useGet = <T,>({
 }: Props<T>) => {
   const {language}= useLanguageStore()
   const [msg, setMsg] = useState("");
-  const [isFirstRun, setIsFirstRun] = useState(true);
-
+  //const [isFirstRun, setIsFirstRun] = useState(true);
+  const isFirstRun= useRef(true) 
   const { isLoading, data, isError, error,refetch:refetchQuery  } = useQuery({
     queryKey: queryKey,
     queryFn: async () => {
@@ -41,7 +41,7 @@ const useGet = <T,>({
   const [endPagination, setEndPagination] = useState(itemsPerPage);
   const firstElementRef = useRef<HTMLDivElement>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [shouldTriggerToast, setShouldTriggerToast] = useState(false);
+
 
   const handlePagination = (page: number) => {
     setStartPagination((page - 1) * itemsPerPage);
@@ -61,21 +61,22 @@ const useGet = <T,>({
     : ([] as unknown as T);
 
     const handleRefetch = () => {
-      setShouldTriggerToast(true); 
+
       refetchQuery();
     };
 
     useEffect(() => {
       if (msg !== "") {
-        if (isFirstRun) {
-          setIsFirstRun(false);
-        } else if (shouldTriggerToast) {
+        console.log('try1');
+        if (isFirstRun.current) {
+          isFirstRun.current=false;
+        } else {
           console.log("msg", msg);
           toast.success(msg);
         }
       }
       // Reset the flag after the toast runs
-      setShouldTriggerToast(false);
+
     }, [msg]);
 
   return {

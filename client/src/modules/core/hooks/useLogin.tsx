@@ -8,15 +8,14 @@ import useNavigation from "./useNavigate";
 import { useLanguageStore } from "../store/language";
 import { changePassword, saveUser } from "@/features/auth/utils/saveUser";
 import {
-    auth,
-    GoogleAuthProvider,
-    signInWithPopup,
-  } from "@/core/libs/firebase";
+  auth,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "@/core/libs/firebase";
 
 type ParamsType = { code?: string; email?: string };
 
 export const useLogin = ({ code, email }: ParamsType) => {
-
   const userSchema = useUserSchema();
   const { login } = useAuthStore();
   const { handleNavigate } = useNavigation();
@@ -81,15 +80,11 @@ export const useLogin = ({ code, email }: ParamsType) => {
         };
 
         const { val: userObject, status, message } = await saveUser(userDto);
-        console.log('try1');
-        console.log(message)
-        console.log(status);
         if (status === 200 || status === 201) {
           setSuccessMsg(message[language]);
-        console.log('try2');
-        login({
+          login({
             email: userObject.email,
-            role: 2,
+            role: userObject.role,
             id: userObject.id,
             available: userObject.available,
             following: userObject.following,
@@ -109,6 +104,7 @@ export const useLogin = ({ code, email }: ParamsType) => {
     handleLoginGoogle,
     register,
     handleOnSubmit,
-    errors, isSignUpPending
+    errors,
+    isSignUpPending,
   };
 };

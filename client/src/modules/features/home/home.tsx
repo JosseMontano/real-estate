@@ -32,28 +32,6 @@ export type Field = {
 
 export const HomePage = () => {
   const { user } = useAuthStore();
-  const {
-    data: realEstates,
-    isLoading,
-    firstElementRef,
-    amountOfPages,
-    handlePagination,
-    currentPage,
-  } = useGet({
-    services: () => fetchSmartRE(user.id ?? 0),
-    queryKey: ["real-estates-smart-filter"],
-    itemsPerPage: 4,
-    valueToService: user.id,
-  });
-
-  useEffect(() => {
-    return () => {
-      // get by class
-      const sceneEl = document.querySelector(".a-fullscreen");
-      if (sceneEl) sceneEl.remove();
-    };
-  }, []);
-
   const { data: zones } = useGet({
     services: fetchZones,
     queryKey: ["zones"],
@@ -66,27 +44,7 @@ export const HomePage = () => {
     itemsPerPage: 1000,
   });
   //Home translate
-  const { texts } = useLanguageStore();
-  const links = [
-    {
-      href: "home",
-      name: texts.languageHeader1,
-    },
-    {
-      href: "realEstates",
-      name: texts.languageHeader2,
-    },
-    {
-      href: "questions",
-      name: texts.languageHeader3,
-    },
-    {
-      href: "socialMedia",
-      name: texts.languageHeader4,
-    },
-  ];
-
-  const { language } = useLanguageStore();
+  const { texts, language } = useLanguageStore();
   const zonesOptions: OptionsType[] = zones.map((zone) => {
     return {
       id: zone.id,
@@ -165,6 +123,48 @@ export const HomePage = () => {
   const [selectedValues, setSelectedValues] = useState<OptionsType[]>(
     Array(fields.length).fill("")
   );
+
+  const {
+    data: realEstates,
+    isLoading,
+    firstElementRef,
+    amountOfPages,
+    handlePagination,
+    currentPage,
+  } = useGet({
+    services: () => fetchSmartRE(user.id ?? 0),
+    queryKey: ["real-estates-smart-filter"],
+    itemsPerPage: 4,
+    valueToService: user.id,
+  });
+
+  useEffect(() => {
+    return () => {
+      // get by class
+      const sceneEl = document.querySelector(".a-fullscreen");
+      if (sceneEl) sceneEl.remove();
+    };
+  }, []);
+
+
+  const links = [
+    {
+      href: "home",
+      name: texts.languageHeader1,
+    },
+    {
+      href: "realEstates",
+      name: texts.languageHeader2,
+    },
+    {
+      href: "questions",
+      name: texts.languageHeader3,
+    },
+    {
+      href: "socialMedia",
+      name: texts.languageHeader4,
+    },
+  ];
 
   const handleReset = async () => {
     setSelectedValues(Array(fields.length).fill(""));

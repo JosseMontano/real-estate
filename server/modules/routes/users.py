@@ -65,6 +65,7 @@ async def sign_up(user: signUpDTO, db: Session = Depends(get_db)):
             user_data = {
                 "id": found_user.id,
                 "email": found_user.email,
+                "role":found_user.role,
                 "favorites": [
                     {
                         "id": favorite.id,
