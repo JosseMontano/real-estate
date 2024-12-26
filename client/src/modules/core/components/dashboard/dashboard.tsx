@@ -11,10 +11,10 @@ export const Dashboard = ({}: ParamsType) => {
   const { handleNavigate } = useNavigation();
   useEffect(() => {
     if (!user.email == undefined) {
-      handleNavigate("/auth");
+      handleNavigate("/");
     }
     if (user.role != 1) {
-      handleNavigate("/auth");
+      handleNavigate("/");
     }
   }, [user]);
 

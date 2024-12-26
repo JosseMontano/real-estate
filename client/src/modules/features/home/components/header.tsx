@@ -6,7 +6,8 @@ import { useEffect, useState } from "react";
 import { useLanguageStore } from "@/core/store/language";
 import { Link } from "react-scroll";
 import useUserStore from "@/core/store/user";
-
+import useAuthStore from "@/core/store/auth";
+import { useLogin } from "@/core/hooks/useLogin";
 
 interface Links {
   href: string;
@@ -17,9 +18,9 @@ type ParamsType = { links: Links[] };
 export const Header = ({ links }: ParamsType) => {
   const { texts } = useLanguageStore();
   const { selectUser } = useUserStore();
-
   const { handleNavigate } = useNavigation();
-
+  const { user } = useAuthStore();
+  const { handleLoginGoogle } = useLogin({});
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -66,7 +67,8 @@ export const Header = ({ links }: ParamsType) => {
             className="  cursor-pointer"
             onClick={() => {
               selectUser(null);
-              handleNavigate("/profile");
+              if (!user.id) handleLoginGoogle();
+              else handleNavigate("/profile");
             }}
           />
         </div>

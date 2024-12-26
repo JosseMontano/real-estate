@@ -225,7 +225,7 @@ const DashboardPage = () => {
   });
 
   if (user.email == undefined) {
-    handleNavigate("/auth");
+    handleNavigate("/");
   }
 
   return (
@@ -241,7 +241,7 @@ const DashboardPage = () => {
           <button
             onClick={() => {
               logout();
-              handleNavigate("/auth");
+              handleNavigate("/");
             }}
           >
             {texts.signout}

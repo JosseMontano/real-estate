@@ -87,7 +87,7 @@ export const FormAuth = ({
           <span className="text-[14px] text-gray-700">
             {texts.loginGoogleBtn}
           </span>
-        </div>
+        </div> 
       </div>
 
       <ShowModal

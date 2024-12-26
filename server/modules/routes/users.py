@@ -48,9 +48,7 @@ from fastapi import HTTPException
 @app.post('/signup')
 async def sign_up(user: signUpDTO, db: Session = Depends(get_db)):
     try:
-        """         if user.password != user.confirmPassword:
-            return {"status": 400, "message": AuthMsg.PASSWORD_NOT_MATCH.dict(), "val": []} """
-        
+
         # Check if user already exists
         found_user = (
             db.query(models.User)
@@ -60,8 +58,8 @@ async def sign_up(user: signUpDTO, db: Session = Depends(get_db)):
         )
         
         if found_user:      
-            if not bcrypt.checkpw(user.password.encode('utf-8'), found_user.password.encode('utf-8')):
-                return {"status": 400, "message": AuthMsg.PASSWORD_WRONG.dict(), "val": []}
+            """  if not bcrypt.checkpw(user.password.encode('utf-8'), found_user.password.encode('utf-8')):
+                return {"status": 400, "message": AuthMsg.PASSWORD_WRONG.dict(), "val": []} """
         
             # Prepare user data with favorites
             user_data = {
