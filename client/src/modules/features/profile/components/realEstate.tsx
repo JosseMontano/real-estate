@@ -5,6 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "../../../../App";
 import { deleteFavRe } from "../api/endpoints";
 import { User } from "@/core/types/user";
+import { useState } from "react";
 
 type ParamsType = {
   publication: RealEstate;
@@ -31,6 +32,7 @@ export const RealEstateComp = ({
       });
     },
   });
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
     <div
@@ -46,18 +48,37 @@ export const RealEstateComp = ({
         </div>
       )}
 
+      {!imageLoaded && (
+        <div className="w-[260px] h-[220px] rounded-lg shadow-lg bg-gray-300 animate-pulse"></div>
+      )}
+
+       {/* Render the image only when it has fully loaded */}
+       {imageLoaded && (
+        <img
+          src={
+            publication.photos != undefined
+              ? publication.photos[0].image
+              : PhotoNOAvailable
+          }
+          alt="Imagen"
+          className="w-[260px] h-[220px] rounded-lg shadow-lg object-cover cursor-pointer"
+          onClick={() => {
+            setSelectedRE(publication);
+            handleShowModal();
+          }}
+        />
+      )}
+
+      {/* Preload the image */}
       <img
         src={
           publication.photos != undefined
             ? publication.photos[0].image
             : PhotoNOAvailable
         }
-        alt="Imagen"
-        className="w-[260px] h-[220px] rounded-lg shadow-lg object-cover cursor-pointer"
-        onClick={() => {
-          setSelectedRE(publication);
-          handleShowModal();
-        }}
+        alt="Preload"
+        className="hidden"
+        onLoad={() => setImageLoaded(true)}
       />
     </div>
   );

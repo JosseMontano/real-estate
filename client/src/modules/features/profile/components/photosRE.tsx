@@ -7,6 +7,8 @@ import PhotoNOAvailable from "@/shared/assets/photo-no-available.jpg";
 import { primaryColor } from "@/core/constants/colors";
 import { Options } from "./publicationsAndFavorites";
 import {  Translations } from "@/core/store/language";
+import use360photo from "@/core/store/360photo";
+import useNavigation from "@/core/hooks/useNavigate";
 
 type ParamsType = {
     selectedRE: RealEstate | null;
@@ -17,6 +19,8 @@ type ParamsType = {
 export const PhotosRE = ({selectedRE, currentOption, setCurrentOption, texts}: ParamsType) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay()]);
   const [currentImageVisible, setCurrentImageVisible] = useState(0);
+  const { handleNavigate } = useNavigation();
+  const { loadUrl } = use360photo();
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
@@ -40,6 +44,10 @@ export const PhotosRE = ({selectedRE, currentOption, setCurrentOption, texts}: P
                 src={v.image}
                 alt="Imagen"
                 className="w-[650px] h-[250px] object-cover rounded-lg shadow-lg"
+                onClick={() => {
+                  loadUrl(v.image);
+                  handleNavigate("/img360");
+                }}
               />
               <div className="absolute bottom-2 w-full">
                 <div className="flex justify-center gap-1">

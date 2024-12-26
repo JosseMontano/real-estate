@@ -34,7 +34,7 @@ async def get_comments(db: Session = Depends(get_db)):
 
 @app.get('/{real_estate_id}')
 async def get_comments_by_real_estate(real_estate_id: int, db: Session = Depends(get_db)):
-    query = db.query(models.Comment).filter(models.Comment.real_estate_id == real_estate_id).options(
+    query = db.query(models.Comment).filter(models.Comment.real_estate_id == real_estate_id, models.Comment.active == True).options(
         joinedload(models.Comment.comment),
         joinedload(models.Comment.commentator),
         joinedload(models.Comment.real_estate)

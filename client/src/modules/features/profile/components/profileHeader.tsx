@@ -35,6 +35,7 @@ export const ProfileHeader = ({
           <p className="text-[#929191] text-xl">{commentsLanguage}</p>
           <div className="w-full h-px bg-gray-300 mb-[6px] text-transparent"></div>
         </div>
+
         <div className="overflow-y-scroll w-full">
           {commets.length == 0 && (
             <p className="text-center text-[#424242]">{texts.emptyComments}</p>
@@ -47,13 +48,13 @@ export const ProfileHeader = ({
                 className="rounded-full w-9 h-9"
               />
 
-              <div className=" flex-wrap text-sm w-[175px]">
+              <div className=" flex-wrap text-sm">
                 <p className="font-semibold">{v.commentator.email}</p>
                 <p className="text-[#888787]">{v.comment[language]}</p>
               </div>
 
               <div className="flex items-center gap-1">
-                <p className=" text-base md:text-xl font-semibold">
+                <p className=" text-base md:text-lg font-semibold">
                   {v.amount_star}
                 </p>
                 <div className="flex ">
@@ -62,6 +63,7 @@ export const ProfileHeader = ({
                   </span>
                 </div>
               </div>
+
             </div>
           ))}
         </div>

@@ -15,7 +15,7 @@ export interface Translations {
   emptyComments: string;
   thereAre: string;
   activeUser: string;
-  loading:string
+  loading: string;
   //auth
   titleAuth: string;
   invalidEmailAuth: string;
@@ -29,7 +29,7 @@ export interface Translations {
   signInGoogleAuth: string;
   titleForgotPassword: string;
   recuperateAccountBtn: string;
-  loginGoogleBtn:string
+  loginGoogleBtn: string;
   //config
   titleConfig: string;
   languageConfig: string;
@@ -73,7 +73,7 @@ export interface Translations {
   rating: string;
   sendMessage: string;
   following: string;
-  follow:string
+  follow: string;
   reportUser: string;
   posts: string;
   favorites: string;
@@ -81,7 +81,7 @@ export interface Translations {
   commentPlaceholder: string;
   signout: string;
   contactProfile: string;
-  reportProfile:string
+  reportProfile: string;
   //profile RE info
   generalVisitUser: string;
   questionsVisitUer: string;
@@ -120,7 +120,7 @@ export interface Translations {
   questions: string;
   comments: string;
   responses: string;
-  reports:string;
+  reports: string;
   //status statistics
   total: string;
   active: string;
@@ -135,7 +135,7 @@ const translations: { [key in Language]: Translations } = {
     emptyComments: "No comments found",
     thereAre: "There are",
     activeUser: "Active",
-    loading:"Loading...",
+    loading: "Loading...",
     //auth
     titleAuth: "Sign In",
     invalidEmailAuth: "Invalid email",
@@ -149,7 +149,7 @@ const translations: { [key in Language]: Translations } = {
     signInGoogleAuth: "Sign in with Google",
     titleForgotPassword: "Forgot my password",
     recuperateAccountBtn: "Recover account",
-    loginGoogleBtn:"Login with google",
+    loginGoogleBtn: "Login with google",
     //config
     titleConfig: "Configurations",
     languageConfig: "Language",
@@ -194,7 +194,7 @@ const translations: { [key in Language]: Translations } = {
     rating: "Rating",
     sendMessage: "Send message",
     following: "Following",
-    follow:"Follow",
+    follow: "Follow",
     reportUser: "Report user",
     posts: "Posts",
     favorites: "Favorites",
@@ -202,7 +202,7 @@ const translations: { [key in Language]: Translations } = {
     commentPlaceholder: "Comment...",
     signout: "Sign out",
     contactProfile: "Contact",
-    reportProfile:"Tell us the reason",
+    reportProfile: "Tell us the reason",
     //profile RE INF
     generalVisitUser: "General",
     questionsVisitUer: "Questions",
@@ -241,7 +241,7 @@ const translations: { [key in Language]: Translations } = {
     questions: "Questions",
     comments: "Comments",
     responses: "Response",
-    reports:"Reports",
+    reports: "Reports",
     //status statistics
     total: "Total",
     active: "Active",
@@ -253,7 +253,7 @@ const translations: { [key in Language]: Translations } = {
     emptyComments: "No hay comentarios",
     thereAre: "Hay",
     activeUser: "Activo",
-    loading:"Cargando...",
+    loading: "Cargando...",
     //auth
     titleAuth: "Iniciar sesión",
     invalidEmailAuth: "Correo inválido",
@@ -267,7 +267,7 @@ const translations: { [key in Language]: Translations } = {
     signInGoogleAuth: "Iniciar con Google",
     titleForgotPassword: "Olvidé mi contraseña",
     recuperateAccountBtn: "Recuperar cuenta",
-    loginGoogleBtn:"Login con google",
+    loginGoogleBtn: "Login con google",
     //config
     titleConfig: "Configuraciones",
     languageConfig: "Idioma",
@@ -313,7 +313,7 @@ const translations: { [key in Language]: Translations } = {
     rating: "Calificación",
     sendMessage: "Enviar mensaje",
     following: "Siguiendo",
-    follow:"Seguir",
+    follow: "Seguir",
     reportUser: "Reportar usuario",
     posts: "Publicaciones",
     favorites: "Favoritos",
@@ -321,7 +321,7 @@ const translations: { [key in Language]: Translations } = {
     commentPlaceholder: "Comentario...",
     signout: "Cerrar sesión",
     contactProfile: "Contactar",
-    reportProfile:"Cuentanos la razon",
+    reportProfile: "Cuentanos la razon",
     //PROFILE RE INFO
     generalVisitUser: "General",
     questionsVisitUer: "Preguntas",
@@ -360,7 +360,7 @@ const translations: { [key in Language]: Translations } = {
     questions: "Preguntas",
     comments: "Comentarios",
     responses: "Respuestas",
-    reports:"Reportes",
+    reports: "Reportes",
     //status statistics
     total: "Total",
     active: "Activos",
@@ -372,7 +372,7 @@ const translations: { [key in Language]: Translations } = {
     emptyComments: "Nenhum comentário",
     thereAre: "há",
     activeUser: "ativo",
-      loading:"carregando...",
+    loading: "carregando...",
     //auth
     titleAuth: "Entrar",
     invalidEmailAuth: "Email inválido",
@@ -386,7 +386,7 @@ const translations: { [key in Language]: Translations } = {
     signInGoogleAuth: "Entrar com Google",
     titleForgotPassword: "Esqueci minha senha",
     recuperateAccountBtn: "Recuperar conta",
-    loginGoogleBtn:"Faça login no Google",
+    loginGoogleBtn: "Faça login no Google",
     //config
     titleConfig: "Configurações",
     languageConfig: "Idioma",
@@ -432,7 +432,7 @@ const translations: { [key in Language]: Translations } = {
     rating: "Classificação",
     sendMessage: "Enviar mensagem",
     following: "seguindo",
-    follow:"continuar",
+    follow: "continuar",
     reportUser: "Denunciar usuário",
     posts: "Publicações",
     favorites: "Favoritos",
@@ -440,7 +440,7 @@ const translations: { [key in Language]: Translations } = {
     commentPlaceholder: "Comentário...",
     signout: "Sair",
     contactProfile: "contato",
-    reportProfile:"diga-nos o motivo",
+    reportProfile: "diga-nos o motivo",
     // profile RE
     generalVisitUser: "Geral",
     questionsVisitUer: "Perguntas",
@@ -479,7 +479,7 @@ const translations: { [key in Language]: Translations } = {
     questions: "Perguntas",
     comments: "Comentários",
     responses: "Respostas",
-    reports:"relatórios",
+    reports: "relatórios",
     //status statistics
     total: "Total",
     active: "Ativos",

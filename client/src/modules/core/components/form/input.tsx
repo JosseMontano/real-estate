@@ -14,6 +14,7 @@ type ParamsType = {
   smallInput?: boolean;
   positionIcon?: PostIconType;
   onClickIcon?: () => void;
+  handleOnSubmit?: (e?: React.BaseSyntheticEvent) => Promise<void>
 };
 
 export const Input = ({
@@ -25,7 +26,8 @@ export const Input = ({
   className,
   smallInput = false,
   positionIcon = "left",
-  onClickIcon
+  onClickIcon,
+  handleOnSubmit
 }: ParamsType) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
@@ -54,6 +56,11 @@ export const Input = ({
             {...register}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && handleOnSubmit) {
+                handleOnSubmit();
+              }
+            }}
           />
              {Icon && positionIcon == "right" && (
             <div className={`py-1 px-2 cursor-pointer`} onClick={onClickIcon}>

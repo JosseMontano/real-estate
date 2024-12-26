@@ -3,13 +3,15 @@ import { useEffect, useRef, useState } from "react";
 import { Res } from "../types/res";
 import { useLanguageStore } from "../store/language";
 import { toast } from "sonner";
+import { ERRORMSGBACK } from "../constants/msgS";
 
 type Props<T> = {
-  services: (val?:number) => Promise<Res<T>>;
+  services: (val?: number) => Promise<Res<T>>;
   queryKey: any[];
   itemsPerPage?: number;
   valueToService?: number;
 };
+
 
 const defaultItemsPerPage = 100;
 
@@ -19,17 +21,22 @@ const useGet = <T,>({
   valueToService,
   itemsPerPage = defaultItemsPerPage,
 }: Props<T>) => {
-  const {language}= useLanguageStore()
+  const { language } = useLanguageStore();
   const [msg, setMsg] = useState("");
-  //const [isFirstRun, setIsFirstRun] = useState(true);
-  const isFirstRun= useRef(true) 
-  const { isLoading, data, isError, error,refetch:refetchQuery  } = useQuery({
+  const isFirstRun = useRef(true);
+  const {
+    isLoading,
+    data,
+    isError,
+    error,
+    refetch: refetchQuery,
+  } = useQuery({
     queryKey: queryKey,
     queryFn: async () => {
-      if(valueToService){
-      const res = await services(valueToService);
-      setMsg(res.message[language]);
-      return res.val;
+      if (valueToService) {
+        const res = await services(valueToService);
+        setMsg(res.message[language]);
+        return res.val;
       }
       const res = await services();
       setMsg(res.message[language]);
@@ -42,13 +49,11 @@ const useGet = <T,>({
   const firstElementRef = useRef<HTMLDivElement>(null);
   const [currentPage, setCurrentPage] = useState(1);
 
-
   const handlePagination = (page: number) => {
     setStartPagination((page - 1) * itemsPerPage);
     setEndPagination(page * itemsPerPage);
     setCurrentPage(page);
     if (firstElementRef.current) {
-    
       firstElementRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
@@ -60,24 +65,19 @@ const useGet = <T,>({
     ? (data.slice(startPagination, endPagination) as unknown as T)
     : ([] as unknown as T);
 
-    const handleRefetch = () => {
+  const handleRefetch = () => {
+    refetchQuery();
+  };
 
-      refetchQuery();
-    };
-
-    useEffect(() => {
-      if (msg !== "") {
-        console.log('try1');
-        if (isFirstRun.current) {
-          isFirstRun.current=false;
-        } else {
-          console.log("msg", msg);
-          toast.success(msg);
-        }
+  useEffect(() => {
+    if (msg !== "") {
+      if (isFirstRun.current) {
+        isFirstRun.current = false;
+      } else {
+        if (msg != ERRORMSGBACK) toast.success(msg);
       }
-      // Reset the flag after the toast runs
-
-    }, [msg]);
+    }
+  }, [msg]);
 
   return {
     isLoading,
@@ -91,7 +91,8 @@ const useGet = <T,>({
     endPagination,
     firstElementRef,
     currentPage,
-    refetch:handleRefetch 
+    refetch: handleRefetch,
+    setMsg,
   };
 };
 

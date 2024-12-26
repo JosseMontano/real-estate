@@ -15,6 +15,8 @@ import { fetchCommentsByRE, postComment } from "../api/endpoints";
 import useGet from "@/core/hooks/useGet";
 import { Language, Translations } from "@/core/store/language";
 import { queryClient } from "../../../../App";
+import { deleteComment } from "@/features/dashComments/api/endpoints";
+import { useDelete } from "@/core/hooks/useDelete";
 
 type ParamsType = {
   user: User;
@@ -34,6 +36,13 @@ export const ListComments = ({
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
+  const { data: comments, refetch } = useGet({
+    services: () => fetchCommentsByRE(selectedRE?.id || 0),
+    queryKey: ["comments-by-readl-estate", user?.id],
+    itemsPerPage: 100,
+    valueToService: user?.id,
+  });
+
   const {
     register,
     handleOnSubmit,
@@ -52,21 +61,20 @@ export const ListComments = ({
       if (res.status == 200 || res.status == 201) {
         setSuccessMsg(res.message[language]);
         reset();
-        await refetchCommentTop();
-        await queryClient.invalidateQueries({
-          queryKey: ["comments-by-readl-estate", user?.id],
-        });
+        refetch();
+        refetchCommentTop();
       } else {
         setErrorMsg(res.message[language]);
       }
     },
   });
 
-  const { data: comments } = useGet({
-    services: () => fetchCommentsByRE(selectedRE?.id || 0),
-    queryKey: ["comments-by-readl-estate", user?.id],
-    itemsPerPage: 100,
-    valueToService: user?.id,
+  const { mutateToState } = useDelete({
+    service: deleteComment,
+    refetch: () => {
+      refetch();
+      refetchCommentTop();
+    },
   });
 
   return (
@@ -100,6 +108,7 @@ export const ListComments = ({
                   Icon={SendIcon}
                   positionIcon="right"
                   onClickIcon={handleOnSubmit}
+                  handleOnSubmit={handleOnSubmit}
                 />
                 <span
                   className="text-yellow-300 text-base md:text-2xl cursor-pointer"
@@ -127,8 +136,18 @@ export const ListComments = ({
                 <span className="text-[13px] text-gray-800">
                   {v.comment[language]}
                 </span>
-                <p className="flex gap-1 items-center">
-                  <span className="text-[10px]">Reportar</span>
+                <p className="flex gap-2 items-center">
+                  {user.email == v.commentator.email ? (
+                    <span
+                      className="text-[10px] cursor-pointer"
+                      onClick={() => mutateToState(Number(v.id))}
+                    >
+                      Eliminar
+                    </span>
+                  ) : (
+                    <span className="text-[10px] cursor-pointer">Reportar</span>
+                  )}
+
                   <span className="text-[10px] flex gap-1 items-center">
                     <span className="text-[10px]">{v.amount_star}</span>
                     <span
@@ -170,7 +189,7 @@ export const ListComments = ({
               </div>
 
               <div
-                className="bg-primary rounded-md text-white cursor-pointer"
+                className="bg-primary rounded-md mt-[11px] text-white cursor-pointer"
                 onClick={handleStateModal}
               >
                 <RowIcon size={24} />

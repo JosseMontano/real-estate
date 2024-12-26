@@ -1,0 +1,1 @@
+export const ERRORMSGBACK= "Network response was not ok"
