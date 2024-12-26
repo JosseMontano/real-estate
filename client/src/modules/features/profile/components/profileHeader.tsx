@@ -20,7 +20,7 @@ export const ProfileHeader = ({
   const { language, texts } = useLanguageStore();
   return (
     <div className="flex flex-col gap-4 w-full h-full justify-center">
-      <div className="flex flex-col items-center gap-3">
+      <div className="flex flex-col items-center gap-3 mt-20 md:mt-0">
         <div className="">
           <img
             className=" rounded-full h-28 w-28 md:h-52 md:w-52 lg:h-64 lg:w-64"
@@ -41,7 +41,7 @@ export const ProfileHeader = ({
             <p className="text-center text-[#424242]">{texts.emptyComments}</p>
           )}
           {commets.map((v) => (
-            <div className="w-full flex gap-3 items-center">
+            <div className="w-full flex gap-3 items-center justify-center md:justify-start">
               <img
                 src={v.commentator.photo ?? imgDefault}
                 alt="imagen por defecto"

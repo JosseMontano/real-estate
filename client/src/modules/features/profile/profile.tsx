@@ -271,7 +271,7 @@ const DashboardPage = () => {
           commentsLanguage={texts.commentsTitle}
         />
 
-        <div className=" grow w-full flex flex-col justify-normal md:justify-center ">
+        <div className=" grow w-full flex flex-col items-center md:items-start md:justify-center ">
           <div className="flex gap-5 md:justify-end justify-center">
             <ModalEditUser
               isModaEditUserOpen={isEditUserOpen}

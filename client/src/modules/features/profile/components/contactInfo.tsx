@@ -148,7 +148,7 @@ export const ContactInfo = ({
 
   return (
     <div className="flex flex-col gap-2 ">
-      <div className="mt-6 flex flex-col gap-2">
+      <div className="md:mt-6 flex flex-col gap-2">
         <div>
           <p className=" flex gap-4 ">
             <span className="font-semibold text-xl">
