@@ -1,11 +1,11 @@
 import { UserDTO } from "@/features/auth/api/dtos";
 import { useUserSchema } from "@/features/auth/validations/signUp";
-import { useForm } from "./useForm";
-import { User } from "../types/user";
+import { useForm } from "../../core/hooks/useForm";
+import { User } from "../../core/types/user";
 import { LanguageDB } from "@/shared/types/language";
-import useAuthStore from "../store/auth";
-import useNavigation from "./useNavigate";
-import { useLanguageStore } from "../store/language";
+import useAuthStore from "../../core/store/auth";
+import useNavigation from "../../core/hooks/useNavigate";
+import { useLanguageStore } from "../../core/store/language";
 import { changePassword, saveUser } from "@/features/auth/utils/saveUser";
 import {
   auth,
@@ -86,6 +86,7 @@ export const useLogin = ({ code, email }: ParamsType) => {
             email: userObject.email,
             role: userObject.role,
             id: userObject.id,
+            photo:userObject.photo,
             available: userObject.available,
             following: userObject.following,
             favorites: userObject.favorites,

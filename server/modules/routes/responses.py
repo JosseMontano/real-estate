@@ -77,7 +77,6 @@ async def get_all_responses(real_estate_id: int, db: Session = Depends(get_db)):
 async def create_response(response: ResponseDTO, db: Session = Depends(get_db)):
     try:
         result_response = translate_es_en_pt(response.response_text)
-        
         translated_response = models.Translate(es=result_response["valEs"], en=result_response["valEn"], pt=result_response["valPt"]) 
         db.add(translated_response)
         db.commit()
@@ -92,7 +91,7 @@ async def create_response(response: ResponseDTO, db: Session = Depends(get_db)):
         db.add(new_response)
         db.commit()
         db.refresh(new_response)
-        return {"status": 201, "message": Messages.DATA_CREATED.dict(), "val": new_response}
+        return {"status": 201, "message": Messages.NEW_RESPONSE.dict(), "val": new_response}
     except Exception as e:
         db.rollback()
         return {"status": 500, "message": str(e), "val": []}

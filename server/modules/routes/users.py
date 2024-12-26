@@ -11,6 +11,8 @@ import ssl
 import smtplib
 import os
 import random
+from sqlalchemy.orm import joinedload
+from fastapi import HTTPException
 
 PASSWORD_EMAIL=os.getenv('PASSWORD_EMAIL')
 EMAIL_SENDER=os.getenv('EMAIL_SENDER')
@@ -23,7 +25,7 @@ app = APIRouter(
 # Request model for creating and updating RealEstate
 class signUpDTO(BaseModel):
     email: str
-    password: str
+    #password: str
 
 class NearbyPlacesRequest(BaseModel):
     location: str
@@ -42,8 +44,7 @@ class UpdateUserDTO(BaseModel):
     photo: Optional[str] = None
     password: Optional[str] = None
     
-from sqlalchemy.orm import joinedload
-from fastapi import HTTPException
+
 
 @app.post('/signup')
 async def sign_up(user: signUpDTO, db: Session = Depends(get_db)):
@@ -66,6 +67,7 @@ async def sign_up(user: signUpDTO, db: Session = Depends(get_db)):
                 "id": found_user.id,
                 "email": found_user.email,
                 "role":found_user.role,
+                "photo":found_user.photo,
                 "favorites": [
                     {
                         "id": favorite.id,

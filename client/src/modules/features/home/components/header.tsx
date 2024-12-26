@@ -7,7 +7,7 @@ import { useLanguageStore } from "@/core/store/language";
 import { Link } from "react-scroll";
 import useUserStore from "@/core/store/user";
 import useAuthStore from "@/core/store/auth";
-import { useLogin } from "@/core/hooks/useLogin";
+import { useLogin } from "@/shared/hooks/useLogin";
 
 interface Links {
   href: string;

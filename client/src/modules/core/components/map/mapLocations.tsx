@@ -86,7 +86,7 @@ export const MapLocations = ({ location, setLocation, locations, width }: Params
           position={[loc.location.lat, loc.location.lng]}
           icon={customIcon}
         >
-          <Popup>{loc.name || "Unnamed location"}</Popup>{" "}
+          <Popup>{loc.name  || "Unnamed location"}</Popup>{" "}
           {/* Show name on hover */}
         </Marker>
       ))}

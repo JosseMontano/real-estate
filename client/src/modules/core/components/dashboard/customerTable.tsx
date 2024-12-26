@@ -6,6 +6,8 @@ import { useLanguageStore } from "@/core/store/language";
 import { SearchIcon } from "@/shared/assets/icons/search";
 import Select from "@/core/components/form/select";
 import { Empty } from "@/core/components/map/empty";
+import { header } from "@/core/hooks/useDash";
+
 
 type ParamsType = {
   data: any[];
@@ -13,7 +15,7 @@ type ParamsType = {
   selectData?: any[];
   propSelectData?: string;
   currentSelected?: any;
-  header: string[];
+  header: header[];
   handleState: (id: number) => void;
   amountOfPages: number;
   currentPage: number;
@@ -47,7 +49,7 @@ export const CustomerTable = ({
 
   const filteredData = (searchText != "" ? fullData : data).filter((row) =>
     header.some((col) => {
-      const cellValue = row[col as keyof typeof row];
+      const cellValue = row[col.key as keyof typeof row];
       if (typeof cellValue === "object" && cellValue !== null) {
         return String(cellValue[language] || "")
           .toLowerCase()
@@ -153,10 +155,10 @@ export const CustomerTable = ({
                   <tr>
                     {header.map((v) => (
                       <th
-                        key={v}
+                        key={v.key}
                         className="pl-10 md:pl-10 px-10 w-auto break-words text-gray-300 text-center"
                       >
-                        {v}
+                        {v.val}
                       </th>
                     ))}
                   </tr>
@@ -166,30 +168,30 @@ export const CustomerTable = ({
                     <tr key={index} className="border-t">
                       {header.map((col) => (
                         <>
-                          {col != "active" && (
+                          {col.key != "active" && (
                             <td
-                              key={col}
+                              key={col.key}
                               className="pl-10 md:pl-0 max-w-[130px] min-w-[130px] md:max-w-max  break-words py-2 text-balance text-center"
                             >
-                              {typeof v[col as keyof typeof v] === "object" &&
-                              v[col as keyof typeof v] !== null
-                                ? v[col as keyof typeof v]?.[language] // Access "language" if it's an object
-                                : String(v[col as keyof typeof v])}
+                              {typeof v[col.key as keyof typeof v] === "object" &&
+                              v[col.key as keyof typeof v] !== null
+                                ? v[col.key as keyof typeof v]?.[language] // Access "language" if it's an object
+                                : String(v[col.key as keyof typeof v])}
                             </td>
                           )}
-                          {col == "active" && (
+                          {col.key == "active" && (
                             <td className="pl-10 md:pl-0 max-w-[130px] min-w-[130px] md:max-w-[90px] md:min-w-[90px] break-words py-2 text-center">
                               <span
                                 onClick={() => {
                                   handleState(v.id);
                                 }}
                                 className={`px-2 py-1 rounded-lg ${
-                                  v[col as keyof typeof v]
+                                  v[col.key as keyof typeof v]
                                     ? "bg-green-100 text-green-700"
                                     : "bg-red-100 text-red-700"
                                 } cursor-pointer`}
                               >
-                                {v[col as keyof typeof v]
+                                {v[col.key as keyof typeof v]
                                   ? "active"
                                   : "Inactive"}
                               </span>

@@ -73,6 +73,7 @@ export const SectionRealStates = ({
           location: item.lat_long,
         }
       );
+      console.log(res.val);
       setPlaces((prevPlaces) => ({
         ...prevPlaces,
         [index]: Array.isArray(res.val) ? res.val : [res.val],

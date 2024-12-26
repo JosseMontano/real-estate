@@ -12,6 +12,8 @@ class Messages:
     DATA_UPDATED = TranslateResponse(es="Se actualizó el dato con éxito", en="Data updated successfully", pt="Dado atualizado com sucesso")
     DATA_NOT_FOUND = TranslateResponse(es="No se encontraron datos", en="No data found", pt="Nenhum dado encontrado")
     SERVER_ERROR = TranslateResponse(es="Error en el servidor", en="Server error", pt="Erro no servidor")
+    ADD_FAV = TranslateResponse(es="Se agrego a favoritos", en="Added to favorites", pt="adicionado aos favoritos")
+    NEW_RESPONSE = TranslateResponse(es="Pregunta respondida", en="Question answered", pt="Pergunta respondida")
 
 
 class AuthMsg:

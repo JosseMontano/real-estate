@@ -5,9 +5,11 @@ import { handleGet } from "../utils/fetch";
 import useGet from "./useGet";
 import { useMemo, useState } from "react";
 
+
+export type header={ key: string; val: string; }
 type ParamsType = {
   url: string;
-  header: string[];
+  header: header[];
   selectUrl?: string;
   deleteService: (id: number) => Promise<any>;
   getDataBySelectedId?: (id: number) => Promise<any>;

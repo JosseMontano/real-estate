@@ -10,7 +10,7 @@ import { User } from "@/core/types/user";
 
 
 export const DashReports = () => {
-
+  const { texts } = useLanguageStore();
   const {
     tableDate,
     amountOfPages,
@@ -29,12 +29,35 @@ export const DashReports = () => {
     mutateToState,
   } = useDash<Report[], User[]>({
     url: "report_users",
-    header: ["user_reported_email", "user_reported_cellphone","reporter_email", "reporter_cellphone","active"],
+    header: [
+      
+      {
+        key: "user_reported_email",
+        val: texts.userReportsDash,
+      },
+      {
+        key: "user_reported_cellphone",
+        val: texts.userReportesCellphoneDash,
+      },
+      {
+        key: "reporter_email",
+        val: texts.reporterEmailDash,
+      },
+      {
+        key: "reporter_cellphone",
+        val: texts.reporterCellphoneDash,
+      },
+      {
+        key: "active",
+        val: texts.active,
+      },
+      
+   ],
     selectUrl: "questions",
     deleteService: deleteReport,
     getDataBySelectedId: getReportsyUserId,
   });
-  const { texts } = useLanguageStore();
+
   return (
     <div>
       <SumaryCard

@@ -7,6 +7,7 @@ import { useLanguageStore } from "@/core/store/language";
 import { useDash } from "@/core/hooks/useDash";
 
 export const DashComments = () => {
+  const { texts } = useLanguageStore();
   const {
     tableDate,
     amountOfPages,
@@ -25,13 +26,26 @@ export const DashComments = () => {
     mutateToState,
   } = useDash<Comment[], RealEstate[]>({
     url: "comments",
-    header: ["comment", "amount_star", "active"],
+    header: [
+      
+      {
+        key: "comment",
+        val: texts.commentsDash,
+      },
+      {
+        key: "amount_star",
+        val: texts.starsDash,
+      },
+      {
+        key: "active",
+        val:texts.active,
+      },],
     selectUrl: "real_estates",
     deleteService: deleteComment,
     getDataBySelectedId: getCommentsByRe,
   });
 
-  const { texts } = useLanguageStore();
+
 
   return (
     <div>

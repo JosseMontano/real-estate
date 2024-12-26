@@ -13,6 +13,7 @@ import { useDash } from "@/core/hooks/useDash";
 
 export const DashTypeRe = () => {
   const { isModalOpen, handleStateModal } = useModal();
+  const { texts, language } = useLanguageStore();
   const {
     tableDate,
     amountOfPages,
@@ -26,11 +27,20 @@ export const DashTypeRe = () => {
     mutateToState,
   } = useDash<Comment[], null>({
     url: "type-real-estates",
-    header: ["name", "active"],
+    header: [
+      {
+        key: "name",
+        val: texts.nameTypeRE,
+      },
+      {
+        key: "active",
+        val: texts.active,
+      }
+      ],
     deleteService: deleteTypeRe,
   });
 
-  const { texts, language } = useLanguageStore();
+
 
   const {
     errors,

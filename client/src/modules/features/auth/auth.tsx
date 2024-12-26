@@ -2,7 +2,7 @@ import { FormAuth } from "./components/formAuth";
 import { useLanguageStore } from "@/core/store/language";
 import { useParams } from "react-router-dom";
 import { ComeBack } from "@/core/components/comeBack";
-import { useLogin } from "@/core/hooks/useLogin";
+import { useLogin } from "@/shared/hooks/useLogin";
 
 export const AuthPage = () => {
   const { texts } = useLanguageStore();

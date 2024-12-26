@@ -8,36 +8,7 @@ import { useDash } from "@/core/hooks/useDash";
 import { Question } from "@/shared/types/questions";
 
 export const DashQuestions = () => {
-  /*   const {
-    data: questions,
-    fullData,
-    isLoading,
-    amountOfPages,
-    handlePagination,
-    currentPage,
-  } = useGet({
-    services: fetchQuestions,
-    queryKey: ["questions"],
-    itemsPerPage: 3,
-  });
-
-  const { data: statistics, isLoading: isLoadingStatistics } = useGet({
-    services: getStadisticsQuestion,
-    queryKey: ["question-statistics", questions],
-  });
-
-  const header = ["question", "active"];
-
-  const { mutate: mutateToState } = useMutation({
-    mutationFn: deleteQuestion,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["questions"] });
-    },
-  });
-
   const { texts } = useLanguageStore();
- */
-
   const {
     tableDate,
     amountOfPages,
@@ -51,10 +22,19 @@ export const DashQuestions = () => {
     mutateToState,
   } = useDash<Question[], null>({
     url: "questions",
-    header: ["question", "active"],
+    header: [
+      {
+        key: "question",
+        val:texts.question,
+      },
+      {
+        key: "active",
+        val: texts.active,
+      },
+    ],
     deleteService: deleteQuestion,
   });
-  const { texts } = useLanguageStore();
+
   return (
     <div>
       <SumaryCard

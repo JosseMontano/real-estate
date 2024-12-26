@@ -25,7 +25,7 @@ class TypeRealEstateResponse(BaseModel):
 
 @app.get('/')
 async def get_types(db: Session = Depends(get_db)):
-    query = db.query(models.TypeRealEstate).options(joinedload(models.TypeRealEstate.name))
+    query = db.query(models.TypeRealEstate).options(joinedload(models.TypeRealEstate.name)).filter(models.TypeRealEstate.active == True)
     typeRE= query.all()
     if not typeRE:
         return {"status": 404, "message": Messages.DATA_NOT_FOUND.dict(), "val": []}

@@ -10,7 +10,7 @@ import { useDash } from "@/core/hooks/useDash";
 
 type ParamsType = {};
 export const DashResponses = ({}: ParamsType) => {
-
+  const { texts } = useLanguageStore();
   const {
     tableDate,
     amountOfPages,
@@ -29,12 +29,21 @@ export const DashResponses = ({}: ParamsType) => {
     mutateToState,
   } = useDash<Response[], Question[]>({
     url: "responses",
-    header: ["response", "active"],
+    header: [
+      {
+        key: "response",
+        val: texts.responsesDash,
+      },
+      {
+        key: "active",
+        val: texts.active,
+      },
+    ],
     selectUrl: "questions",
     deleteService: deleteReponse,
     getDataBySelectedId: getResponsesByQuestion,
   });
-  const { texts } = useLanguageStore();
+
 
   return (
     <div>

@@ -9,6 +9,28 @@ export type TranslateRes = {
 };
 
 export interface Translations {
+  //Dash
+  //realEstate
+  titleRE:string
+  amountBedroomsRE:string
+  amountBathroomsRE:string
+  squareMetersRE:string
+  priceRE:string
+  activeRE:string
+  //typeRE
+  nameTypeRE:string
+  //question
+  questionDash:string
+  //comments
+  commentsDash:string
+  starsDash:string
+  //responses
+  responsesDash:string
+  //reports
+  userReportsDash:string
+  userReportesCellphoneDash:string
+  reporterEmailDash:string
+  reporterCellphoneDash:string
   //global
   empty: string;
   fieldRequired: string;
@@ -130,6 +152,21 @@ export interface Translations {
 
 const translations: { [key in Language]: Translations } = {
   en: {
+    titleRE:"title",
+    amountBedroomsRE:"amount bathroom",
+    amountBathroomsRE:"amount bedroom",
+    squareMetersRE:"square meters",
+    priceRE:"price",
+    activeRE:"active",
+    nameTypeRE:"Real Estate Type",
+    questionDash:"Question",
+    commentsDash:"Comments",
+    starsDash:"Stars",
+    responsesDash:"Responses",
+    userReportsDash:"User reported email",
+    userReportesCellphoneDash:"User reported cellphone",
+    reporterEmailDash:"Reporter email",
+    reporterCellphoneDash:"Reporter cellphone",
     empty: "No data found",
     fieldRequired: "This field is required",
     emptyComments: "No comments found",
@@ -248,6 +285,21 @@ const translations: { [key in Language]: Translations } = {
     inactive: "Inactive",
   },
   es: {
+    titleRE:"Titulo",
+    amountBedroomsRE:"Cantidad de baños",
+    amountBathroomsRE:"Cantidad de cuartos",
+    squareMetersRE:"Metros cuadrados",
+    priceRE:"Precio",
+    activeRE:"Activo",
+    nameTypeRE:"Tipo de inmueble",
+    questionDash:"Pregunta",
+    commentsDash:"Comentarios",
+    starsDash:"Estrellas",
+    responsesDash:"Respuestas",
+    userReportsDash:"Email del usuario reportado",
+    userReportesCellphoneDash:"Celular del usuario reportado",
+    reporterEmailDash:"Email del reportador",
+    reporterCellphoneDash:"Celular del reportador",
     empty: "No se encontraron datos",
     fieldRequired: "Este campo es requerido",
     emptyComments: "No hay comentarios",
@@ -367,12 +419,28 @@ const translations: { [key in Language]: Translations } = {
     inactive: "Inactivos",
   },
   pt: {
+    titleRE:"título",
+    amountBedroomsRE:"quantidade de quartos",
+    amountBathroomsRE:"quantidade de banheiros",
+    squareMetersRE:"metros quadrados",
+    priceRE:"preço",
+    activeRE:"ativo",
+    nameTypeRE:"Tipo de imóvel",
+    questionDash:"Pergunta",
+    commentsDash:"Comentários",
+    starsDash:"Estrelas",
+    responsesDash:"Respostas",
+    userReportsDash:"Email do usuário relatado",
+    userReportesCellphoneDash:"Celular do usuário relatado",
+    reporterEmailDash:"Email do repórter",
+    reporterCellphoneDash:"Celular do repórter",
     empty: "Nenhum dado encontrado",
     fieldRequired: "Este campo é obrigatório",
     emptyComments: "Nenhum comentário",
     thereAre: "há",
     activeUser: "ativo",
     loading: "carregando...",
+
     //auth
     titleAuth: "Entrar",
     invalidEmailAuth: "Email inválido",

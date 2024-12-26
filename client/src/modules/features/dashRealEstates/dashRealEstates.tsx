@@ -7,6 +7,7 @@ import { useDash } from "@/core/hooks/useDash";
 import { TypeRe } from "@/shared/types/typeRe";
 
 export const DashRealEstates = () => {
+  const { texts } = useLanguageStore();
   const {
     tableDate,
     amountOfPages,
@@ -26,18 +27,36 @@ export const DashRealEstates = () => {
   } = useDash<RealEstate[], TypeRe[]>({
     url: "real_estates",
     header: [
-      "title",
-      "amount_bathroom",
-      "amount_bedroom",
-      "square_meter",
-      "price",
-      "active",
+      {
+        key: "title",
+        val: texts.titleRE,
+      },
+      {
+        key: "amount_bathroom",
+        val: texts.bathrooms,
+      },
+      {
+        key: "amount_bedroom",
+        val: texts.bedrooms,
+      },
+      {
+        key: "square_meter",
+        val: texts.squareMeters,
+      },
+      {
+        key: "price",
+        val: texts.price,
+      },
+      {
+        key: "active",
+        val: texts.active,
+      },
     ],
     selectUrl: "type-real-estates",
     deleteService: deleteRealEstates,
     getDataBySelectedId: getREByType,
   });
-  const { texts } = useLanguageStore();
+
 
   return (
     <div>

@@ -22,6 +22,8 @@ class FavoriteRealEstateResponse(BaseModel):
 class FavoriteRealEstateDTO(BaseModel):
     real_estate_id: int
     user_id: int
+    
+    
 
 @app.get("/")
 async def get_favorites(
@@ -77,7 +79,7 @@ async def create_favorite(favorite: FavoriteRealEstateDTO, db: Session = Depends
             },
         }
 
-        return {"status": 201, "message": Messages.DATA_CREATED, "val": response}
+        return {"status": 201, "message": Messages.ADD_FAV.dict(), "val": response}
 
     except Exception as e:
         db.rollback()
