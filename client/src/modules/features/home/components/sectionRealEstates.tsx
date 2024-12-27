@@ -40,10 +40,6 @@ export interface locationType {
   key: string;
   value: LanguageDB;
 }
-export interface Response {
-  current_data: NearbyPlace;
-  all_types: locationType[];
-}
 
 export const SectionRealStates = ({
   realEstates,
@@ -58,7 +54,8 @@ export const SectionRealStates = ({
   user,
 }: Params) => {
   const { language, texts } = useLanguageStore();
-  const [places, setPlaces] = useState<{ [key: number]: NearbyPlace[] }>({});
+  const [places, setPlaces] = useState<NearbyPlace[]>([]);
+  const [placesAux, setPlacesAux] = useState<NearbyPlace[]>([]);
   const [locationsType, setLocationsType] = useState<locationType[]>([]);
   const { selectUser } = useUserStore();
   const [states, setStates] = useState<State[]>(
@@ -67,6 +64,7 @@ export const SectionRealStates = ({
   type State = "info" | "places";
   const { handleNavigate } = useNavigation();
   const [isLoading, setIsLoading] = useState(true);
+  const [isloadingLocations, setIsloadingLocations] = useState(true);
   const handleStateChange = async (
     index: number,
     newState: State,
@@ -78,26 +76,39 @@ export const SectionRealStates = ({
 
     if (newState === "places" && !places[index]) {
       // Only fetch if not already fetched
-      const res = await handlePost<Response>(
+      const res = await handlePost<NearbyPlace[]>(
         "real_estates/fetch_nearby_places",
         {
           location: item.lat_long,
         }
       );
-      setLocationsType(res.val.all_types);
+
       setIsLoading(false);
-      setPlaces((prevPlaces) => ({
-        ...prevPlaces,
-        [index]: Array.isArray(res.val.current_data)
-          ? res.val.current_data
-          : [res.val.current_data],
-      }));
+      setPlaces(res.val);
+      setPlacesAux(res.val);
+      const res2 = await handlePost<locationType[]>(
+        "real_estates/fetch_all_types_places",
+        {
+          location: item.lat_long,
+        }
+      );
+      setLocationsType(res2.val);
+      setIsloadingLocations(false)
     }
   };
 
   useEffect(() => {
     setStates(Array(realEstates.length).fill("info"));
   }, [realEstates]);
+
+  const getCurrentLocationType = (option: locationType) => {
+    if (option.key === "all") {
+      setPlaces(placesAux);
+      return;
+    }
+    const res = placesAux.filter((place) => place.types.includes(option.key));
+    setPlaces(res);
+  };
 
   return (
     <div
@@ -138,6 +149,9 @@ export const SectionRealStates = ({
                 info={infoTextLanguage}
                 places={placeTextLanguage}
                 texts={texts}
+                locationsType={locationsType}
+                getCurrentLocationType={getCurrentLocationType}
+                isloadingLocations={isloadingLocations}
               />
 
               <Info
@@ -166,7 +180,6 @@ export const SectionRealStates = ({
                 states={states}
                 places={places}
                 isLoading={isLoading}
-                locationsType={locationsType}
               />
             </div>
           </div>

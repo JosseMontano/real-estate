@@ -127,16 +127,42 @@ async def report_user(report: ReportUserDTO, db: Session = Depends(get_db)):
     return {"status": 201, "message": Messages.DATA_CREATED.dict(), "val": new_report}
 
 # Disable a user
-@app.delete('/toggle-availability/{user_id}')
-async def toggle_user_availability(user_id: int, db: Session = Depends(get_db)):
-    user = db.query(models.User).filter(models.User.id == user_id).first()
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found")
+@app.delete('/toggle-report/{report_id}')
+async def toggle_report_status(report_id: int, db: Session = Depends(get_db)):
+    # Obtener el reporte por su ID
+    report = db.query(models.ReportUser).filter(models.ReportUser.id == report_id).first()
     
-    # Toggle the availability
-    user.available = not user.available
+    # Verificar si el reporte existe
+    if not report:
+        raise HTTPException(status_code=404, detail="Report not found")
+    
+    # Obtener el usuario reportado y cambiar su estado (activar o desactivar)
+    user_reported = db.query(models.User).filter(models.User.id == report.user_reported_id).first()
+    
+    # Verificar si el usuario reportado existe
+    if not user_reported:
+        raise HTTPException(status_code=404, detail="User reported not found")
+
+    # Cambiar el estado del reporte (activar o desactivar)
+    report.active = not report.active
     db.commit()
-    db.refresh(user)
+    db.refresh(report)
     
-    status_message = "User enabled successfully" if user.available else "User disabled successfully"
-    return {"status": 200, "message": status_message, "val": user}
+    # Cambiar el estado del usuario reportado si es necesario (si es por algún tipo de reporte)
+    user_reported.available = not user_reported.available
+    db.commit()
+    db.refresh(user_reported)
+    
+    # Preparar el mensaje de éxito dependiendo del nuevo estado
+    status_message = "Report enabled successfully" if report.active else "Report disabled successfully"
+    user_status_message = "User enabled successfully" if user_reported.available else "User disabled successfully"
+    
+    # Retornar la respuesta
+    return {
+        "status": 200,
+        "message": {"report_status": status_message, "user_status": user_status_message},
+        "val": {
+            "report": report,
+            "user_reported": user_reported
+        }
+    }

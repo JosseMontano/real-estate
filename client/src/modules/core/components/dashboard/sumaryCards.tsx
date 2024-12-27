@@ -19,7 +19,7 @@ export const SumaryCard = ({
   const iconSize = "35";
   return (
     <>
-      {isloading && <p>cargando</p>}
+      {isloading && <p>{texts.loading}</p>}
 
       {!isloading && (
         <div className="flex  mb-6 bg-white md:py-7 py-3 rounded-lg shadow h-auto w-full md:px-5 px-2">

@@ -101,7 +101,7 @@ export const MapLocations = ({
       /* @ts-ignore */
       center={center}
       zoom={13}
-      className="w-full h-[200px] lg:w-[500px] xl:w-[600px] rounded-lg shadow-lg"
+      className="w-full z-10 h-[200px] lg:w-[500px] xl:w-[600px] rounded-lg shadow-lg"
       style={{
         width,
       }}

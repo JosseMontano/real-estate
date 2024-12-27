@@ -26,8 +26,8 @@ export const InfoRE = ({ selectedRE, language, texts }: ParamsType) => {
         }
       );
       setLoading(false)
-      setPlacesStorage(res.val.current_data);
-      setPlaces(res.val.current_data);
+      setPlacesStorage(res.val);
+      setPlaces(res.val);
     };
     if (places.length == 0) handleLocations();
   }, []);

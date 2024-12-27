@@ -689,6 +689,30 @@ def fetch_nearby_places(request: NearbyPlacesRequest, db: Session = Depends(get_
         for place in results
     ]
 
+    return {
+        "status": 200,
+        "message": "Data found", 
+        "val": formatted_results,
+        
+    }
+    
+    
+
+@app.post('/fetch_all_types_places')
+def fetch_all_types_places(request: NearbyPlacesRequest, db: Session = Depends(get_db)):
+    location = request.location
+    if not location:
+        raise HTTPException(status_code=400, detail="Location parameter is required")
+
+    # Llamada a la API de Google Places
+    url = f'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={location}&radius=1000&key={GOOGLE_MAPS_API_KEY}'
+    response = requests.get(url, headers={"Content-Type": "application/json"})
+    response.raise_for_status()
+
+    data = response.json()
+    results = data.get('results', [])
+
+
     # Extraer todos los tipos únicos
     all_types = set(
         type_item
@@ -715,9 +739,7 @@ def fetch_nearby_places(request: NearbyPlacesRequest, db: Session = Depends(get_
     
     return {
         "status": 200,
-        "message": "Data found",  # Cambia este mensaje si es necesario
-        "val": {
-            "current_data": formatted_results,
-            "all_types": translated_types,  # Solo con las traducciones exitosas
-        },
+        "message": "Data found", 
+        "val":  translated_types,  
+        
     }

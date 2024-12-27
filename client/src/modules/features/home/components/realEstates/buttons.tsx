@@ -1,6 +1,7 @@
-import { Translations } from "@/core/store/language";
+import { Translations, useLanguageStore } from "@/core/store/language";
 import RobotoIcon from "@/shared/assets/icons/robot";
 import { RealEstate } from "@/shared/types/realEstate";
+import { locationType } from "../sectionRealEstates";
 
 export type StateBtnType = "info" | "places";
 
@@ -16,6 +17,9 @@ type ParamsType = {
   info: string;
   places: string;
   texts: Translations;
+  locationsType: locationType[];
+  getCurrentLocationType: (option: locationType) => void;
+  isloadingLocations: boolean;
 };
 export const Buttons = ({
   handleStateChange,
@@ -25,7 +29,12 @@ export const Buttons = ({
   info,
   places,
   texts,
+  locationsType,
+  getCurrentLocationType,
+  isloadingLocations,
 }: ParamsType) => {
+  const { language } = useLanguageStore();
+  const allSelect = { en: "All", es: "Todos", pt: "Todos" };
   return (
     <div className="flex items-center gap-2">
       <div className="flex space-x-4 bg-gray-100 p-2 rounded-full">
@@ -51,13 +60,40 @@ export const Buttons = ({
         </button>
       </div>
       {item.similarity_score && item.similarity_score > 0 ? (
-        <div className="relative group flex gap-[5px]">
-          <p>{item.similarity_score}</p>
-          <RobotoIcon />
-          <div className="absolute w-[200px] left-1/2 -translate-x-1/2 bottom-full mb-2 hidden group-hover:flex items-center p-2 bg-gray-800 text-white text-sm rounded shadow-lg">
-            {`${texts.thereAre} ${item.similarity_score} ${texts.similaritiesHome}`}
-          </div>
-        </div>
+        <>
+          {states[index] === "info" && (
+            <div className="relative group flex gap-[5px]">
+              <p>{item.similarity_score}</p>
+              <RobotoIcon />
+              <div className="absolute w-[200px] left-1/2 -translate-x-1/2 bottom-full mb-2 hidden group-hover:flex items-center p-2 bg-gray-800 text-white text-sm rounded shadow-lg">
+                {`${texts.thereAre} ${item.similarity_score} ${texts.similaritiesHome}`}
+              </div>
+            </div>
+          )}
+          {states[index] === "places" && (
+            <select className="w-[170px] text-sm px-2 py-[4px] border rounded-lg focus:outline-none">
+              <option
+                value={"all"}
+                key={"all"}
+                onClick={() =>
+                  getCurrentLocationType({ key: "all", value: allSelect })
+                }
+              >
+                {allSelect[language]}
+              </option>
+              {isloadingLocations && <option>{texts.loading}</option>}
+              {locationsType.map((option) => (
+                <option
+                  value={option.key}
+                  key={option.key}
+                  onClick={() => getCurrentLocationType(option)}
+                >
+                  {option.value[language]}
+                </option>
+              ))}
+            </select>
+          )}
+        </>
       ) : null}
     </div>
   );
