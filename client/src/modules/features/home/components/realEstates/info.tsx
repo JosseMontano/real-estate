@@ -6,13 +6,13 @@ import { StateBtnType } from "./buttons";
 type ParamsType = {
   index: number;
   item: RealEstate;
-  states: StateBtnType[];
+  states: StateBtnType;
   language: Language;
 };
 export const Info = ({ index, item, language, states }: ParamsType) => {
   return (
     <>
-      {states[index] === "info" && (
+      {states === "info" && (
         <>
          <div className={ index % 2 === 1 ? "text-center sm:text-end" : "text-center sm:text-start"}>
          <h1 className={`w-[350px] ${

@@ -11,7 +11,7 @@ type ParamsType = {
     newState: any,
     item: RealEstate
   ) => Promise<void>;
-  states: StateBtnType[];
+  states: StateBtnType;
   index: number;
   item: RealEstate;
   info: string;
@@ -41,7 +41,7 @@ export const Buttons = ({
         <button
           onClick={() => handleStateChange(index, "info", item)}
           className={`px-4 py-2 text-xs font-semibold ${
-            states[index] === "info"
+            states === "info"
               ? "text-secondary bg-white"
               : "text-gray-500 hover:bg-white"
           } rounded-full shadow-sm`}
@@ -51,7 +51,7 @@ export const Buttons = ({
         <button
           onClick={() => handleStateChange(index, "places", item)}
           className={`px-4 py-2 text-sm font-medium ${
-            states[index] === "places"
+            states === "places"
               ? "text-secondary bg-white"
               : "text-gray-500 hover:bg-white"
           } rounded-full shadow-sm`}
@@ -61,7 +61,7 @@ export const Buttons = ({
       </div>
       {item.similarity_score && item.similarity_score > 0 ? (
         <>
-          {states[index] === "info" && (
+          {states === "info" && (
             <div className="relative group flex gap-[5px]">
               <p>{item.similarity_score}</p>
               <RobotoIcon />
@@ -70,7 +70,7 @@ export const Buttons = ({
               </div>
             </div>
           )}
-          {states[index] === "places" && (
+          {states === "places" && (
             <select className="w-[170px] text-sm px-2 py-[4px] border rounded-lg focus:outline-none">
               <option
                 value={"all"}

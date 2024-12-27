@@ -4,14 +4,12 @@ import { MapLocations } from "@/core/components/map/mapLocations";
 import { StateBtnType } from "./buttons";
 
 type ParamsType = {
-  index: number;
   item: RealEstate;
-  states: StateBtnType[];
+  states: StateBtnType;
   places: NearbyPlace[] ;
   isLoading: boolean;
 };
 export const ExtraInfo = ({
-  index,
   item,
   states,
   places,
@@ -19,7 +17,7 @@ export const ExtraInfo = ({
 }: ParamsType) => {
   return (
     <>
-      {states[index] === "places" && (
+      {states === "places" && (
         <>
           <MapLocations
             locations={places}
