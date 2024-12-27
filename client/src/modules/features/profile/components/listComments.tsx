@@ -16,6 +16,7 @@ import useGet from "@/core/hooks/useGet";
 import { Language, Translations } from "@/core/store/language";
 import { deleteComment } from "@/features/dashComments/api/endpoints";
 import { useDelete } from "@/core/hooks/useDelete";
+import { queryClient } from "../../../../App";
 
 type ParamsType = {
   user: User;
@@ -58,9 +59,16 @@ export const ListComments = ({
       data.amount_star = selectedIndex + 1;
       const res = await postComment(data);
       if (res.status == 200 || res.status == 201) {
+        const updatedComments = [...comments, res.val];
+        
+        queryClient.setQueryData(
+          ["comments-by-readl-estate", user?.id],
+          updatedComments
+        );
+
         setSuccessMsg(res.message[language]);
         reset();
-        refetch();
+
         refetchCommentTop();
       } else {
         setErrorMsg(res.message[language]);

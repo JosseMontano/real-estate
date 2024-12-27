@@ -14,6 +14,8 @@ type ParamsType = {
 export const InfoRE = ({ selectedRE, language, texts }: ParamsType) => {
   const [places, setPlaces] = useState<NearbyPlace[]>([] as NearbyPlace[]);
   const { setPlaces: setPlacesStorage, placesSelected } = useRealEstateStore();
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const handleLocations = async () => {
       // Only fetch if not already fetched
@@ -23,8 +25,9 @@ export const InfoRE = ({ selectedRE, language, texts }: ParamsType) => {
           location: selectedRE?.lat_long,
         }
       );
-      setPlacesStorage(res.val);
-      setPlaces(res.val);
+      setLoading(false)
+      setPlacesStorage(res.val.current_data);
+      setPlaces(res.val.current_data);
     };
     if (places.length == 0) handleLocations();
   }, []);
@@ -75,6 +78,8 @@ export const InfoRE = ({ selectedRE, language, texts }: ParamsType) => {
           location={selectedRE?.lat_long ?? ""}
           setLocation={() => {}}
           width={390}
+          isLoading={loading}
+
         />
       </div>
     </div>

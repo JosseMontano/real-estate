@@ -31,6 +31,7 @@ export interface Translations {
   userReportesCellphoneDash:string
   reporterEmailDash:string
   reporterCellphoneDash:string
+  whyDash:string
   //global
   empty: string;
   fieldRequired: string;
@@ -167,6 +168,7 @@ const translations: { [key in Language]: Translations } = {
     userReportesCellphoneDash:"User reported cellphone",
     reporterEmailDash:"Reporter email",
     reporterCellphoneDash:"Reporter cellphone",
+    whyDash:"Complain",
     empty: "No data found",
     fieldRequired: "This field is required",
     emptyComments: "No comments found",
@@ -300,6 +302,7 @@ const translations: { [key in Language]: Translations } = {
     userReportesCellphoneDash:"Celular del usuario reportado",
     reporterEmailDash:"Email del reportador",
     reporterCellphoneDash:"Celular del reportador",
+    whyDash:"Motivo",
     empty: "No se encontraron datos",
     fieldRequired: "Este campo es requerido",
     emptyComments: "No hay comentarios",
@@ -434,6 +437,7 @@ const translations: { [key in Language]: Translations } = {
     userReportesCellphoneDash:"Celular do usuário relatado",
     reporterEmailDash:"Email do repórter",
     reporterCellphoneDash:"Celular do repórter",
+    whyDash:"Motivo",
     empty: "Nenhum dado encontrado",
     fieldRequired: "Este campo é obrigatório",
     emptyComments: "Nenhum comentário",

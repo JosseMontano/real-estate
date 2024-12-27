@@ -103,7 +103,7 @@ export const handleGet = async <T,>(url: string): Promise<Res<T>> => {
   let errorMg = "";
   try {
     const response = await fetch(urls.endpoint + url)
-
+    
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }

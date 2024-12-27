@@ -113,7 +113,28 @@ async def create_comment(comment: CommentDTO, db: Session = Depends(get_db)):
         db.add(new_comment)
         db.commit()
         db.refresh(new_comment)
-        return {"status": 201, "message": Messages.DATA_CREATED.dict(), "val": new_comment}
+        
+       # Obtener las relaciones necesarias
+        real_estate = db.query(models.RealEstate).filter(models.RealEstate.id == new_comment.real_estate_id).first()
+        commentator = db.query(models.User).filter(models.User.id == new_comment.commentator_id).first()
+
+        # Crear el objeto con la estructura esperada
+        result = {
+            "id": str(new_comment.id),
+            "comment": {
+                "en": translated_comment.en,
+                "es": translated_comment.es,
+                "pt": translated_comment.pt
+            },
+            "realEstate": real_estate,  # Aquí podrías modificar si necesitas detalles adicionales
+            "commentator": commentator,  # Aquí podrías modificar si necesitas detalles adicionales
+            "amount_star": new_comment.amount_star,
+            "realEstateId": new_comment.real_estate_id,
+            "commentatorId": new_comment.commentator_id,
+            "active": new_comment.active
+        }
+
+        return {"status": 201, "message": Messages.DATA_CREATED.dict(), "val": result}
     except Exception as e:
         db.rollback()
         return {"status": 500, "message": str(e), "val": []}

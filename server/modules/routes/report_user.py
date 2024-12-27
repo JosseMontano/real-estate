@@ -81,10 +81,7 @@ async def get_all_reported_users(db: Session = Depends(get_db)):
         }
         for user in reported_users
     ]
-    return response
-
-
-
+    return {"status": 200, "message": Messages.DATA_FOUND.dict(), "val":  response}
 
 @app.get('/statistics/general')
 async def get_statistics(db: Session = Depends(get_db)):

@@ -29,8 +29,7 @@ export const DashReports = () => {
     mutateToState,
   } = useDash<Report[], User[]>({
     url: "report_users",
-    header: [
-      
+    header: [ 
       {
         key: "user_reported_email",
         val: texts.userReportsDash,
@@ -46,6 +45,10 @@ export const DashReports = () => {
       {
         key: "reporter_cellphone",
         val: texts.reporterCellphoneDash,
+      },
+      {
+        key: "reason",
+        val: texts.whyDash,
       },
       {
         key: "active",
