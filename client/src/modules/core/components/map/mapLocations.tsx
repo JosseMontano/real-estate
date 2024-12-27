@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -58,6 +58,7 @@ interface Params {
   location: string;
   locations: NearbyPlace[]; // Array of predefined locations with optional name
   width?: number;
+  isLoading: boolean;
 }
 
 export const MapLocations = ({
@@ -65,8 +66,9 @@ export const MapLocations = ({
   setLocation,
   locations,
   width,
+  isLoading
 }: Params) => {
-  const [isLoading, setIsLoading] = useState(true);
+
 
   // Simulate fetching data from the backend
   useEffect(() => {
@@ -74,10 +76,8 @@ export const MapLocations = ({
       try {
         // Simulate backend delay (replace with actual API call if needed)
         await new Promise((resolve) => setTimeout(resolve, 2000));
-        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
-        setIsLoading(false);
       }
     };
 

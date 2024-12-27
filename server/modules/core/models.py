@@ -12,6 +12,15 @@ class Translate(Base):
     es = Column(String)
     en = Column(String)
     pt = Column(String)
+    
+class LocationType(Base):
+    __tablename__ = 'location_types'
+
+    id = Column(Integer, primary_key=True, index=True)
+    translate_id = Column(Integer, ForeignKey('translates.id'))
+    active = Column(Boolean, default=True)
+
+    translate = relationship("Translate", foreign_keys=[translate_id])
 
 class User(Base):
     __tablename__ = 'users'

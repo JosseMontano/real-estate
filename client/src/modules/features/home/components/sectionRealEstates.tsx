@@ -13,6 +13,7 @@ import useNavigation from "@/core/hooks/useNavigate";
 import useUserStore from "@/core/store/user";
 import { currentREType } from "../types/types";
 import { User } from "@/core/types/user";
+import { LanguageDB } from "@/shared/types/language";
 
 type Params = {
   realEstates: RealEstate[];
@@ -35,6 +36,14 @@ export interface NearbyPlace {
   };
   types: string[];
 }
+export interface locationType {
+  key: string;
+  value: LanguageDB;
+}
+export interface Response {
+  current_data: NearbyPlace;
+  all_types: locationType[];
+}
 
 export const SectionRealStates = ({
   realEstates,
@@ -50,12 +59,14 @@ export const SectionRealStates = ({
 }: Params) => {
   const { language, texts } = useLanguageStore();
   const [places, setPlaces] = useState<{ [key: number]: NearbyPlace[] }>({});
+  const [locationsType, setLocationsType] = useState<locationType[]>([]);
   const { selectUser } = useUserStore();
   const [states, setStates] = useState<State[]>(
     Array(realEstates.length).fill("info")
   );
   type State = "info" | "places";
   const { handleNavigate } = useNavigation();
+  const [isLoading, setIsLoading] = useState(true);
   const handleStateChange = async (
     index: number,
     newState: State,
@@ -67,16 +78,19 @@ export const SectionRealStates = ({
 
     if (newState === "places" && !places[index]) {
       // Only fetch if not already fetched
-      const res = await handlePost<NearbyPlace>(
+      const res = await handlePost<Response>(
         "real_estates/fetch_nearby_places",
         {
           location: item.lat_long,
         }
       );
-      console.log(res.val);
+      setLocationsType(res.val.all_types);
+      setIsLoading(false);
       setPlaces((prevPlaces) => ({
         ...prevPlaces,
-        [index]: Array.isArray(res.val) ? res.val : [res.val],
+        [index]: Array.isArray(res.val.current_data)
+          ? res.val.current_data
+          : [res.val.current_data],
       }));
     }
   };
@@ -151,6 +165,8 @@ export const SectionRealStates = ({
                 item={item}
                 states={states}
                 places={places}
+                isLoading={isLoading}
+                locationsType={locationsType}
               />
             </div>
           </div>

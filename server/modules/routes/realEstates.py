@@ -10,7 +10,7 @@ import requests
 import os
 from dotenv import load_dotenv
 from pathlib import Path
-from modules.core.utils.translate import translate_es_en_pt
+from modules.core.utils.translate import translate_es_en_pt, translate_en_es_pt
 from modules.core.const import TranslateResponse
 from modules.core.const import Messages
 from sqlalchemy.inspection import inspect
@@ -666,25 +666,58 @@ async def update_real_estate(real_estate_id: int, updated_real_estate: RealEstat
     return {"status": 200, "message": Messages.DATA_UPDATED,"val": real_estate}
 
 @app.post('/fetch_nearby_places')
-def fetch_nearby_places(request: NearbyPlacesRequest):
+def fetch_nearby_places(request: NearbyPlacesRequest, db: Session = Depends(get_db)):
     location = request.location
     if not location:
         raise HTTPException(status_code=400, detail="Location parameter is required")
 
+    # Llamada a la API de Google Places
     url = f'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={location}&radius=1000&key={GOOGLE_MAPS_API_KEY}'
-    print(GOOGLE_MAPS_API_KEY)
     response = requests.get(url, headers={"Content-Type": "application/json"})
     response.raise_for_status()
-    
+
     data = response.json()
     results = data.get('results', [])
 
+    # Formatear los resultados
     formatted_results = [
         {
             "name": place.get("name"),
             "location": place["geometry"]["location"],
-            "types": place.get("types")
+            "types": place.get("types", [])
         }
         for place in results
     ]
-    return {"status": 200, "message": Messages.DATA_FOUND, "val": formatted_results}
+
+    # Extraer todos los tipos únicos
+    all_types = set(
+        type_item
+        for place in results
+        for type_item in place.get("types", [])
+    )
+
+    # Traducir los valores únicos de `all_types`
+    translated_types = []
+
+    for type_item in all_types:
+        translation = translate_en_es_pt(type_item)  # Esta función maneja los reintentos
+        if translation:  # Solo si la traducción fue exitosa
+            translated_types.append({
+                "key": type_item,
+                "value": {
+                    "en": translation["valEn"],
+                    "es": translation["valEs"],
+                    "pt": translation["valPt"]
+                }
+            })
+        else:
+            print(f"Skipping translation for '{type_item}' as it failed.")
+    
+    return {
+        "status": 200,
+        "message": "Data found",  # Cambia este mensaje si es necesario
+        "val": {
+            "current_data": formatted_results,
+            "all_types": translated_types,  # Solo con las traducciones exitosas
+        },
+    }
