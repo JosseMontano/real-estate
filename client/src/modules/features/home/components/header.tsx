@@ -45,12 +45,9 @@ export const Header = ({ links }: ParamsType) => {
       }`}
     >
       <div className="container py-4 lg:p-4 flex justify-evenly md:items-center items-start">
-        <div
-          className="text-2xl font-bold cursor-pointer"
-          onClick={() => handleNavigate("/")}
-        >
+        <Link className="text-2xl font-bold cursor-pointer" to="home" smooth={true} duration={500}>
           InmoApp
-        </div>
+        </Link>
         <nav className={`md:space-x-6 hidden flex-row md:flex`}>
           {links.map((linkText, index) => (
             <Link to={linkText.href} smooth={true} duration={500}>

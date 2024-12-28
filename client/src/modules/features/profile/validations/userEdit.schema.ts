@@ -7,6 +7,5 @@ export const userEditSchema = z.object({
         .optional()
         .transform((val) => (val ? Number(val) : undefined)),
     email: z.string().email("El correo electrónico no es válido"),
-    password: z.string().optional(),
     photo: z.string().optional(),
 });

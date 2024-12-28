@@ -3,7 +3,7 @@ import { useLanguageStore } from "@/core/store/language";
 
 type ParamasType = {
   setFile: (name: File) => void;
-  file: File;
+  file: File | null;
   imgUrl: string;
   oldPhoto: string;
 };

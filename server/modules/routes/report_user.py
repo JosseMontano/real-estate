@@ -78,6 +78,7 @@ async def get_all_reported_users(db: Session = Depends(get_db)):
             "reporter_email": user.reporter.email if user.reporter else None,
             "reporter_cellphone": user.reporter.cellphone if user.reporter.cellphone else None,
             "reason": user.reason if user.reason else None,
+            "active": user.user_reported.available if user.user_reported else None
         }
         for user in reported_users
     ]
@@ -124,7 +125,7 @@ async def report_user(report: ReportUserDTO, db: Session = Depends(get_db)):
     db.add(new_report)
     db.commit()
     db.refresh(new_report)
-    return {"status": 201, "message": Messages.DATA_CREATED.dict(), "val": new_report}
+    return {"status": 201, "message": Messages.USER_REPORTED.dict(), "val": new_report}
 
 # Disable a user
 @app.delete('/toggle-report/{report_id}')
@@ -134,7 +135,7 @@ async def toggle_report_status(report_id: int, db: Session = Depends(get_db)):
     
     # Verificar si el reporte existe
     if not report:
-        raise HTTPException(status_code=404, detail="Report not found")
+        raise HTTPException(status_code=404, detail=Messages.DATA_NOT_FOUND.dict())
     
     # Obtener el usuario reportado y cambiar su estado (activar o desactivar)
     user_reported = db.query(models.User).filter(models.User.id == report.user_reported_id).first()

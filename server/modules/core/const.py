@@ -14,6 +14,7 @@ class Messages:
     SERVER_ERROR = TranslateResponse(es="Error en el servidor", en="Server error", pt="Erro no servidor")
     ADD_FAV = TranslateResponse(es="Se agrego a favoritos", en="Added to favorites", pt="adicionado aos favoritos")
     NEW_RESPONSE = TranslateResponse(es="Pregunta respondida", en="Question answered", pt="Pergunta respondida")
+    USER_REPORTED = TranslateResponse(es="Usuario reportado", en="User reported", pt="Usuário reportado")
 
 
 class AuthMsg:
@@ -22,7 +23,7 @@ class AuthMsg:
     USER_EXIST = TranslateResponse(es="Bienvenido de nuevo", en="Welcome back", pt="Bem-vindo de volta")
     USER_CREATED = TranslateResponse(es="Usuario creado con éxito", en="User created successfully", pt="Usuário criado com sucesso")
     CODE_NOT_MATCH = TranslateResponse(es="El código no coincide", en="Code does not match", pt="O código não corresponde")
-
+    USER_NOT_AVAILABLE= TranslateResponse(es="El usuario fue desactivado", en="User was deactivated", pt="O usuário foi desativado")
     
 
     class Config:

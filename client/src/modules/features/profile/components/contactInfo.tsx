@@ -69,8 +69,8 @@ export const ContactInfo = ({
   amountRE,
   amountREFavs,
   userLogged,
-/*   btnEditUserLanguage,
-  handleShowModalEditUser, */
+   btnEditUserLanguage,
+  handleShowModalEditUser, 
   handleShowCreateRE,
   btnAddRe,
   contact,
@@ -227,14 +227,14 @@ export const ContactInfo = ({
               <span>{startToFollow}</span>
             </div>
           )}
-       {/*    {user == userLogged && (
+          {user == userLogged && (
             <button
               className="hover:bg-gray-100 rounded-lg text-gray-400"
               onClick={handleShowModalEditUser}
             >
               {btnEditUserLanguage}
             </button>
-          )} */}
+          )} 
 
           {user != userLogged && (
             <button

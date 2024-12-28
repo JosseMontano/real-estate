@@ -66,6 +66,17 @@ const DashboardPage = () => {
   const { texts, language } = useLanguageStore();
 
   const realEstateSchema = useRealEstateSchema();
+
+  const {
+    isLoading,
+    data: realEstates,
+    refetch,
+  } = useGet({
+    queryKey: ["realEstate-by-user", user?.id],
+    services: () => fetchRealEstatesByUserId(user?.id ?? 0),
+    valueToService: user?.id,
+  });
+
   const {
     register,
     handleOnSubmit,
@@ -93,6 +104,7 @@ const DashboardPage = () => {
           setSuccessMsg(res.message[language]);
           setTimeout(() => {
             reset();
+            refetch();
             handleShowCreateRE();
           }, 800);
         } else {
@@ -100,12 +112,6 @@ const DashboardPage = () => {
         }
       }
     },
-  });
-
-  const { isLoading, data: realEstates } = useGet({
-    queryKey: ["realEstate-by-user", user?.id],
-    services: () => fetchRealEstatesByUserId(user?.id ?? 0),
-    valueToService: user?.id,
   });
 
   const {
@@ -272,36 +278,6 @@ const DashboardPage = () => {
         />
 
         <div className=" grow w-full flex flex-col items-center md:items-start md:justify-center ">
-          <div className="flex gap-5 md:justify-end justify-center">
-            <ModalEditUser
-              isModaEditUserOpen={isEditUserOpen}
-              handleShowModalEditUser={handleShowEditUser}
-              btnEditUserLanguage={texts.btnEditUser}
-              btnSaveLanguage={texts.saveButton}
-            />
-            <ModalCreatePropierty
-              errors={errors}
-              handleOnSubmit={handleOnSubmit}
-              handleStateModal={handleShowCreateRE}
-              isModalOpen={isCreateREOpen}
-              handleImageSelection={handleImageSelection}
-              isPendingRE={isPendingRealEstate}
-              setTypeRE={setTypeRE}
-              typeRE={typeRE}
-              location={location}
-              setLocation={setLocation}
-              register={register}
-              isExpanded={isExpanded}
-              toggleExpand={toggleExpand}
-              countFilesUp={countFilesUp}
-              handleDeleteFile={handleDeleteFile}
-              uploadFiles={uploadedFiles}
-              filesSelected={filesSelected}
-              btnAddReLanguage={texts.btnAddRe}
-              btnSaveLanguage={texts.saveButton}
-            />
-          </div>
-
           <ContactInfo
             user={user ? user : ({} as User)}
             isModalOpen={isAddCommentOpen}
@@ -350,8 +326,40 @@ const DashboardPage = () => {
             refetchCommentTop={refetchCommentTop}
           />
           {isLoading && <p>Loading...</p>}
+
+       
+        
         </div>
       </div>
+
+
+      <ModalEditUser
+              isModaEditUserOpen={isEditUserOpen}
+              handleShowModalEditUser={handleShowEditUser}
+              btnEditUserLanguage={texts.btnEditUser}
+              btnSaveLanguage={texts.saveButton}
+            />
+            <ModalCreatePropierty
+              errors={errors}
+              handleOnSubmit={handleOnSubmit}
+              handleStateModal={handleShowCreateRE}
+              isModalOpen={isCreateREOpen}
+              handleImageSelection={handleImageSelection}
+              isPendingRE={isPendingRealEstate}
+              setTypeRE={setTypeRE}
+              typeRE={typeRE}
+              location={location}
+              setLocation={setLocation}
+              register={register}
+              isExpanded={isExpanded}
+              toggleExpand={toggleExpand}
+              countFilesUp={countFilesUp}
+              handleDeleteFile={handleDeleteFile}
+              uploadFiles={uploadedFiles}
+              filesSelected={filesSelected}
+              btnAddReLanguage={texts.btnAddRe}
+              btnSaveLanguage={texts.saveButton}
+            />
     </div>
   );
 };

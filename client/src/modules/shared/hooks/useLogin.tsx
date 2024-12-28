@@ -12,6 +12,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "@/core/libs/firebase";
+import { useState } from "react";
 
 type ParamsType = { code?: string; email?: string };
 
@@ -20,6 +21,42 @@ export const useLogin = ({ code, email }: ParamsType) => {
   const { login } = useAuthStore();
   const { handleNavigate } = useNavigation();
   const { language } = useLanguageStore();
+  const [forceSubmit, setForceSubmit] = useState(false);
+  const handleLoginGoogle = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      const credential = await signInWithPopup(auth, provider);
+
+      if (credential.user) {
+        const userDto: UserDTO = {
+          email: credential.user?.email ?? "",
+          password: "",
+        };
+
+        const { val: userObject, status, message } = await saveUser(userDto);
+        if (status === 200 || status === 201) {
+          setSuccessMsg(message[language]);
+          login({
+            email: userObject.email,
+            role: userObject.role,
+            id: userObject.id,
+            photo:userObject.photo,
+            available: userObject.available,
+            following: userObject.following,
+            favorites: userObject.favorites,
+          });
+          handleNavigate("/profile");
+          return;
+        }
+        setForceSubmit(true);
+        setErrorMsg(message[language]);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
   const {
     register,
     handleOnSubmit,
@@ -66,40 +103,9 @@ export const useLogin = ({ code, email }: ParamsType) => {
     defaultVales: {
       email: email ?? "",
     },
+    forceSubmit:forceSubmit
   });
 
-  const handleLoginGoogle = async () => {
-    const provider = new GoogleAuthProvider();
-    try {
-      const credential = await signInWithPopup(auth, provider);
-
-      if (credential.user) {
-        const userDto: UserDTO = {
-          email: credential.user?.email ?? "",
-          password: "",
-        };
-
-        const { val: userObject, status, message } = await saveUser(userDto);
-        if (status === 200 || status === 201) {
-          setSuccessMsg(message[language]);
-          login({
-            email: userObject.email,
-            role: userObject.role,
-            id: userObject.id,
-            photo:userObject.photo,
-            available: userObject.available,
-            following: userObject.following,
-            favorites: userObject.favorites,
-          });
-          handleNavigate("/profile");
-          return;
-        }
-        setErrorMsg(message[language]);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   return {
     handleLoginGoogle,

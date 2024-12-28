@@ -30,9 +30,9 @@ export const ModalEditUser = ({
 }: ParamsType) => {
   const { user, login } = useAuthStore();
   const { texts } = useLanguageStore();
-  const [file, setFile] = useState<File>({} as File);
+  const [file, setFile] = useState<File | null>(null);
   const [urlImage, setUrlImage] = useState("");
-  const {language} = useLanguageStore()
+  const { language } = useLanguageStore();
   const {
     register,
     handleOnSubmit,
@@ -45,32 +45,33 @@ export const ModalEditUser = ({
     form: async (data) => {
       if (user?.id) {
         let url = "";
-        try {
+
+        if (file) {
           const storageRef = ref(storage, `profile-images/${file.name}`);
           await uploadBytes(storageRef, file);
           url = await getDownloadURL(storageRef);
           setUrlImage(url);
-        } catch (error) {
-          console.error("Error uploading image:", error);
         }
+
         data.photo = url;
         //@ts-ignore
         const res = await editUser(user.email, data);
         if (res.status === 200) {
-          setSuccessMsg(res.message[language]);
+          setTimeout(() => {
+            setSuccessMsg(res.message[language]);
+          }, 500);
           login(res.val as User);
+          handleShowModalEditUser()
         } else {
           setErrorMsg(res.message[language]);
         }
       }
     },
-    defaultVales: user ? {...user, password:""} : ({} as User),
+    defaultVales: user ? { ...user } : ({} as User),
   });
 
   return (
     <div className="">
- 
-
       <ShowModal
         setIsModalOpen={handleShowModalEditUser}
         isModalOpen={isModaEditUserOpen}
@@ -96,11 +97,7 @@ export const ModalEditUser = ({
                   text={texts.email}
                   error={errors?.email}
                   register={register("email")}
-                />
-                <Input
-                  text={texts.password}
-                  error={errors?.password}
-                  register={register("password")}
+                  disabled={true}
                 />
                 <ProfileImageUploader
                   file={file}

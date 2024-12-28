@@ -15,6 +15,7 @@ type ParamsType = {
   positionIcon?: PostIconType;
   onClickIcon?: () => void;
   handleOnSubmit?: (e?: React.BaseSyntheticEvent) => Promise<void>
+  disabled?: boolean;
 };
 
 export const Input = ({
@@ -27,7 +28,8 @@ export const Input = ({
   smallInput = false,
   positionIcon = "left",
   onClickIcon,
-  handleOnSubmit
+  handleOnSubmit,
+  disabled=false
 }: ParamsType) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
@@ -50,6 +52,7 @@ export const Input = ({
           <input
             type={type}
             placeholder={text}
+        disabled={disabled}
             className={`flex-1 bg-transparent w-full focus:outline-none px-2 py-2 ${
               smallInput ? "h-7" : ""
             }`}

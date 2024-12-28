@@ -1,13 +1,9 @@
-import {
-  deleteReport,
-  getReportsyUserId,
-} from "./api/endpoints";
+import { deleteReport, getReportsyUserId } from "./api/endpoints";
 import { SumaryCard } from "../../core/components/dashboard/sumaryCards";
 import { CustomerTable } from "../../core/components/dashboard/customerTable";
 import { useLanguageStore } from "@/core/store/language";
 import { useDash } from "@/core/hooks/useDash";
 import { User } from "@/core/types/user";
-
 
 export const DashReports = () => {
   const { texts } = useLanguageStore();
@@ -27,9 +23,9 @@ export const DashReports = () => {
     tableDateFiltered,
     dataBySelectedId,
     mutateToState,
-  } = useDash<Report[], User[]>({
+  } = useDash<Report[], null>({
     url: "report_users",
-    header: [ 
+    header: [
       {
         key: "user_reported_email",
         val: texts.userReportsDash,
@@ -54,11 +50,8 @@ export const DashReports = () => {
         key: "active",
         val: texts.active,
       },
-      
-   ],
-    selectUrl: "questions",
+    ],
     deleteService: deleteReport,
-    getDataBySelectedId: getReportsyUserId,
   });
 
   return (
@@ -73,16 +66,11 @@ export const DashReports = () => {
         fullData={fullData}
         amountOfPages={amountOfPages}
         currentPage={currentPage}
-        data={
-          Object.keys(selected).length === 0
-            ? tableDate
-            : tableDateFiltered
-        }
+        data={tableDate}
         handlePagination={handlePagination}
         handleState={mutateToState}
         header={header}
         isloading={isLoading}
-        selectData={selectData}
         currentSelected={selected}
         setCurrentSelected={setSelected}
         tableTitle={texts.reports}

@@ -25,7 +25,7 @@ export const ShowModal = ({
             style={{
               animation: "modal 0.7s ease-out",
             }}
-            className={`bg-white p-5 rounded-lg shadow-lg transform transition-transform duration-300 ${
+            className={`bg-white max-w-[500px] p-5 rounded-lg shadow-lg transform transition-transform duration-300 ${
               isModalOpen
                 ? "translate-y-0 opacity-100"
                 : "-translate-y-full opacity-0"

@@ -10,18 +10,19 @@ type ParamsType<T extends z.ZodType<any, any>> = {
   schema: T;
   form: (data: z.infer<T>) => Promise<any>;
   defaultVales?: DefaultValues<z.TypeOf<T>>;
+  forceSubmit?: boolean;
 };
 
 export const useForm = <T extends z.ZodType<any, any>>({
   schema,
   form,
+  forceSubmit,
   defaultVales,
 }: ParamsType<T>) => {
   type FormType = z.infer<T>;
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const { language } = useLanguageStore();
-
   const {
     register,
     handleSubmit,
@@ -44,11 +45,11 @@ export const useForm = <T extends z.ZodType<any, any>>({
   const isFirstVisit = useRef(true)
 
   useEffect(() => {
-    if (isSubmitted ) {
+    if (isSubmitted || forceSubmit ) {
       if (errorMsg != "") toast.success(errorMsg || "Error");
       if (successMsg != "") toast.success(successMsg);
     }
-  }, [isSubmitted, errorMsg, successMsg]);
+  }, [isSubmitted, errorMsg, successMsg, forceSubmit ]);
 
 
   useEffect(() => {
@@ -77,5 +78,6 @@ export const useForm = <T extends z.ZodType<any, any>>({
     onSubmit,
     setSuccessMsg,
     trigger,
+    isSubmitted
   };
 };

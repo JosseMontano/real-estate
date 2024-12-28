@@ -35,6 +35,7 @@ export const Buttons = ({
 }: ParamsType) => {
   const { language } = useLanguageStore();
   const allSelect = { en: "All", es: "Todos", pt: "Todos" };
+  console.log(states);
   return (
     <div className="flex items-center gap-2">
       <div className="flex space-x-4 bg-gray-100 p-2 rounded-full">
@@ -70,31 +71,32 @@ export const Buttons = ({
               </div>
             </div>
           )}
-          {states === "places" && (
-            <select className="w-[170px] text-sm px-2 py-[4px] border rounded-lg focus:outline-none">
-              <option
-                value={"all"}
-                key={"all"}
-                onClick={() =>
-                  getCurrentLocationType({ key: "all", value: allSelect })
-                }
-              >
-                {allSelect[language]}
-              </option>
-              {isloadingLocations && <option>{texts.loading}</option>}
-              {locationsType.map((option) => (
-                <option
-                  value={option.key}
-                  key={option.key}
-                  onClick={() => getCurrentLocationType(option)}
-                >
-                  {option.value[language]}
-                </option>
-              ))}
-            </select>
-          )}
         </>
       ) : null}
+
+      {states === "places" && (
+        <select className="w-[170px] text-sm px-2 py-[4px] border rounded-lg focus:outline-none">
+          <option
+            value={"all"}
+            key={"all"}
+            onClick={() =>
+              getCurrentLocationType({ key: "all", value: allSelect })
+            }
+          >
+            {allSelect[language]}
+          </option>
+          {isloadingLocations && <option>{texts.loading}</option>}
+          {locationsType.map((option) => (
+            <option
+              value={option.key}
+              key={option.key}
+              onClick={() => getCurrentLocationType(option)}
+            >
+              {option.value[language]}
+            </option>
+          ))}
+        </select>
+      )}
     </div>
   );
 };

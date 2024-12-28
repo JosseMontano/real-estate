@@ -42,7 +42,6 @@ class UpdateUserDTO(BaseModel):
     username: Optional[str] = None
     cellphone: Optional[int] = None
     photo: Optional[str] = None
-    password: Optional[str] = None
     
 
 
@@ -57,6 +56,9 @@ async def sign_up(user: signUpDTO, db: Session = Depends(get_db)):
             .filter(models.User.email == user.email)
             .first()
         )
+        
+        if found_user.available == False:
+            return {"status": 400, "message": AuthMsg.USER_NOT_AVAILABLE.dict(), "val": []}
         
         if found_user:      
             """  if not bcrypt.checkpw(user.password.encode('utf-8'), found_user.password.encode('utf-8')):
@@ -176,9 +178,6 @@ def edit_profile(email: str, request: UpdateUserDTO, db: Session = Depends(get_d
         if not found_user:
             return {"status": 400, "message": Messages.DATA_NOT_FOUND.dict(), "val": []}
         
-        if request.password:
-            hashed_password = bcrypt.hashpw(request.password.encode('utf-8'), bcrypt.gensalt())
-            found_user.password = hashed_password.decode('utf-8')
         if request.cellphone:
             found_user.cellphone = request.cellphone
         if request.username:
