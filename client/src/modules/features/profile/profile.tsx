@@ -326,40 +326,36 @@ const DashboardPage = () => {
             refetchCommentTop={refetchCommentTop}
           />
           {isLoading && <p>Loading...</p>}
-
-       
-        
         </div>
       </div>
 
-
       <ModalEditUser
-              isModaEditUserOpen={isEditUserOpen}
-              handleShowModalEditUser={handleShowEditUser}
-              btnEditUserLanguage={texts.btnEditUser}
-              btnSaveLanguage={texts.saveButton}
-            />
-            <ModalCreatePropierty
-              errors={errors}
-              handleOnSubmit={handleOnSubmit}
-              handleStateModal={handleShowCreateRE}
-              isModalOpen={isCreateREOpen}
-              handleImageSelection={handleImageSelection}
-              isPendingRE={isPendingRealEstate}
-              setTypeRE={setTypeRE}
-              typeRE={typeRE}
-              location={location}
-              setLocation={setLocation}
-              register={register}
-              isExpanded={isExpanded}
-              toggleExpand={toggleExpand}
-              countFilesUp={countFilesUp}
-              handleDeleteFile={handleDeleteFile}
-              uploadFiles={uploadedFiles}
-              filesSelected={filesSelected}
-              btnAddReLanguage={texts.btnAddRe}
-              btnSaveLanguage={texts.saveButton}
-            />
+        isModaEditUserOpen={isEditUserOpen}
+        handleShowModalEditUser={handleShowEditUser}
+        btnEditUserLanguage={texts.btnEditUser}
+        btnSaveLanguage={texts.saveButton}
+      />
+      <ModalCreatePropierty
+        errors={errors}
+        handleOnSubmit={handleOnSubmit}
+        handleStateModal={handleShowCreateRE}
+        isModalOpen={isCreateREOpen}
+        handleImageSelection={handleImageSelection}
+        isPendingRE={isPendingRealEstate}
+        setTypeRE={setTypeRE}
+        typeRE={typeRE}
+        location={location}
+        setLocation={setLocation}
+        register={register}
+        isExpanded={isExpanded}
+        toggleExpand={toggleExpand}
+        countFilesUp={countFilesUp}
+        handleDeleteFile={handleDeleteFile}
+        uploadFiles={uploadedFiles}
+        filesSelected={filesSelected}
+        btnAddReLanguage={texts.btnAddRe}
+        btnSaveLanguage={texts.saveButton}
+      />
     </div>
   );
 };

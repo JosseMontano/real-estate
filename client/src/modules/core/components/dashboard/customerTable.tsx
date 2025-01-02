@@ -65,7 +65,6 @@ export const CustomerTable = ({
     if (handleGetReByType) {
       if (currentSelected.id) {
         handleGetReByType(currentSelected.id);
-        console.log(currentSelected.id);
       }
     }
   }, [currentSelected]);
@@ -132,7 +131,11 @@ export const CustomerTable = ({
                     onChange={(val) => {
                       if (setCurrentSelected) {
                         setCurrentSelected(val);
+                        if(val.id == 0){
+                          setCurrentSelected({})
+                        }
                       }
+                      
                     }}
                     options={selectData?.map((v) => ({
                       name: v[propSelectData as keyof typeof v],

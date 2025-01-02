@@ -31,7 +31,10 @@ const CustomSelect: React.FC<SelectProps> = ({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
+      if (
+        selectRef.current &&
+        !selectRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
@@ -53,6 +56,17 @@ const CustomSelect: React.FC<SelectProps> = ({
       </div>
       {isOpen && (
         <ul className="realative md:absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-52 overflow-y-auto">
+          <li
+            className="px-3 py-2 cursor-pointer hover:bg-gray-200 border-b-2 border-gray-200"
+            onClick={() =>
+              handleOptionClick({
+                name: { es: "Todos", en: "All", pt: "Todos" },
+                id: 0,
+              })
+            }
+          >
+            Todos
+          </li>
           {options.map((option) => (
             <li
               key={option.id}

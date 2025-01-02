@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 export type Language = "en" | "es" | "pt";
 
@@ -11,27 +12,27 @@ export type TranslateRes = {
 export interface Translations {
   //Dash
   //realEstate
-  titleRE:string
-  amountBedroomsRE:string
-  amountBathroomsRE:string
-  squareMetersRE:string
-  priceRE:string
-  activeRE:string
+  titleRE: string;
+  amountBedroomsRE: string;
+  amountBathroomsRE: string;
+  squareMetersRE: string;
+  priceRE: string;
+  activeRE: string;
   //typeRE
-  nameTypeRE:string
+  nameTypeRE: string;
   //question
-  questionDash:string
+  questionDash: string;
   //comments
-  commentsDash:string
-  starsDash:string
+  commentsDash: string;
+  starsDash: string;
   //responses
-  responsesDash:string
+  responsesDash: string;
   //reports
-  userReportsDash:string
-  userReportesCellphoneDash:string
-  reporterEmailDash:string
-  reporterCellphoneDash:string
-  whyDash:string
+  userReportsDash: string;
+  userReportesCellphoneDash: string;
+  reporterEmailDash: string;
+  reporterCellphoneDash: string;
+  whyDash: string;
   //global
   empty: string;
   fieldRequired: string;
@@ -116,6 +117,7 @@ export interface Translations {
   inputCommentVisitUser: string;
   questionTitlteVisitUser: string;
   anonymousVisitUser: string;
+  selectRE: string;
   //profile comments
   commentsTitle: string;
   //btn edit user
@@ -153,22 +155,22 @@ export interface Translations {
 
 const translations: { [key in Language]: Translations } = {
   en: {
-    titleRE:"title",
-    amountBedroomsRE:"amount bathroom",
-    amountBathroomsRE:"amount bedroom",
-    squareMetersRE:"square meters",
-    priceRE:"price",
-    activeRE:"active",
-    nameTypeRE:"Real Estate Type",
-    questionDash:"Question",
-    commentsDash:"Comments",
-    starsDash:"Stars",
-    responsesDash:"Responses",
-    userReportsDash:"User reported email",
-    userReportesCellphoneDash:"User reported cellphone",
-    reporterEmailDash:"Reporter email",
-    reporterCellphoneDash:"Reporter cellphone",
-    whyDash:"Complain",
+    titleRE: "title",
+    amountBedroomsRE: "amount bathroom",
+    amountBathroomsRE: "amount bedroom",
+    squareMetersRE: "square meters",
+    priceRE: "price",
+    activeRE: "active",
+    nameTypeRE: "Real Estate Type",
+    questionDash: "Question",
+    commentsDash: "Comments",
+    starsDash: "Stars",
+    responsesDash: "Responses",
+    userReportsDash: "User reported email",
+    userReportesCellphoneDash: "User reported cellphone",
+    reporterEmailDash: "Reporter email",
+    reporterCellphoneDash: "Reporter cellphone",
+    whyDash: "Complain",
     empty: "No data found",
     fieldRequired: "This field is required",
     emptyComments: "No comments found",
@@ -253,6 +255,7 @@ const translations: { [key in Language]: Translations } = {
     inputCommentVisitUser: "Write comment",
     questionTitlteVisitUser: "Question",
     anonymousVisitUser: "Anonymous",
+    selectRE: "Select Real Estate",
     //comments
     commentsTitle: "Featured comment",
     //btn edit user
@@ -287,22 +290,22 @@ const translations: { [key in Language]: Translations } = {
     inactive: "Inactive",
   },
   es: {
-    titleRE:"Titulo",
-    amountBedroomsRE:"Cantidad de baños",
-    amountBathroomsRE:"Cantidad de cuartos",
-    squareMetersRE:"Metros cuadrados",
-    priceRE:"Precio",
-    activeRE:"Activo",
-    nameTypeRE:"Tipo de inmueble",
-    questionDash:"Pregunta",
-    commentsDash:"Comentarios",
-    starsDash:"Estrellas",
-    responsesDash:"Respuestas",
-    userReportsDash:"Email del usuario reportado",
-    userReportesCellphoneDash:"Celular del usuario reportado",
-    reporterEmailDash:"Email del reportador",
-    reporterCellphoneDash:"Celular del reportador",
-    whyDash:"Motivo",
+    titleRE: "Titulo",
+    amountBedroomsRE: "Cantidad de baños",
+    amountBathroomsRE: "Cantidad de cuartos",
+    squareMetersRE: "Metros cuadrados",
+    priceRE: "Precio",
+    activeRE: "Activo",
+    nameTypeRE: "Tipo de inmueble",
+    questionDash: "Pregunta",
+    commentsDash: "Comentarios",
+    starsDash: "Estrellas",
+    responsesDash: "Respuestas",
+    userReportsDash: "Email del usuario reportado",
+    userReportesCellphoneDash: "Celular del usuario reportado",
+    reporterEmailDash: "Email del reportador",
+    reporterCellphoneDash: "Celular del reportador",
+    whyDash: "Motivo",
     empty: "No se encontraron datos",
     fieldRequired: "Este campo es requerido",
     emptyComments: "No hay comentarios",
@@ -388,6 +391,7 @@ const translations: { [key in Language]: Translations } = {
     inputCommentVisitUser: "Escriba un comentario",
     questionTitlteVisitUser: "Pregunta",
     anonymousVisitUser: "Anónimo",
+    selectRE: "Seleccionar inmueble",
     //comments
     commentsTitle: "Comentario destacado",
     //btn edit user
@@ -422,22 +426,22 @@ const translations: { [key in Language]: Translations } = {
     inactive: "Inactivos",
   },
   pt: {
-    titleRE:"título",
-    amountBedroomsRE:"quantidade de quartos",
-    amountBathroomsRE:"quantidade de banheiros",
-    squareMetersRE:"metros quadrados",
-    priceRE:"preço",
-    activeRE:"ativo",
-    nameTypeRE:"Tipo de imóvel",
-    questionDash:"Pergunta",
-    commentsDash:"Comentários",
-    starsDash:"Estrelas",
-    responsesDash:"Respostas",
-    userReportsDash:"Email do usuário relatado",
-    userReportesCellphoneDash:"Celular do usuário relatado",
-    reporterEmailDash:"Email do repórter",
-    reporterCellphoneDash:"Celular do repórter",
-    whyDash:"Motivo",
+    titleRE: "título",
+    amountBedroomsRE: "quantidade de quartos",
+    amountBathroomsRE: "quantidade de banheiros",
+    squareMetersRE: "metros quadrados",
+    priceRE: "preço",
+    activeRE: "ativo",
+    nameTypeRE: "Tipo de imóvel",
+    questionDash: "Pergunta",
+    commentsDash: "Comentários",
+    starsDash: "Estrelas",
+    responsesDash: "Respostas",
+    userReportsDash: "Email do usuário relatado",
+    userReportesCellphoneDash: "Celular do usuário relatado",
+    reporterEmailDash: "Email do repórter",
+    reporterCellphoneDash: "Celular do repórter",
+    whyDash: "Motivo",
     empty: "Nenhum dado encontrado",
     fieldRequired: "Este campo é obrigatório",
     emptyComments: "Nenhum comentário",
@@ -524,6 +528,7 @@ const translations: { [key in Language]: Translations } = {
     inputCommentVisitUser: "Escreva um comentário",
     questionTitlteVisitUser: "Pergunta",
     anonymousVisitUser: "Anônimo",
+    selectRE: "Selecionar imóvel",
     //comments
     commentsTitle: "Comentário em destaque",
     //btn edit user
@@ -565,12 +570,19 @@ interface LanguageState {
   texts: Translations;
 }
 
-export const useLanguageStore = create<LanguageState>((set) => ({
-  language: "es", // default language
-  setLanguage: (language) =>
-    set(() => ({
-      language,
-      texts: translations[language],
-    })),
-  texts: translations["es"], // default translations
-}));
+export const useLanguageStore = create(
+  persist<LanguageState>(
+    (set) => ({
+      language: "es",
+      setLanguage: (language) =>
+        set(() => ({
+          language,
+          texts: translations[language],
+        })),
+      texts: translations["es"],
+    }),
+    {
+      name: "language-storage",
+    }
+  )
+);

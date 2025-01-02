@@ -218,7 +218,9 @@ export const ModalCreatePropierty = ({
                 }
               </>
             }
-            children2={<Map location={location} setLocation={setLocation} />}
+            children2={
+              <Map location={location} setLocation={setLocation} width={450}/>
+            }
           />
         }
       />
