@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 export interface Option {
   name: LanguageDB;
   id: number | string;
+
 }
 
 interface SelectProps {
@@ -12,6 +13,7 @@ interface SelectProps {
   onChange: (value: Option) => void;
   options: Option[];
   className?: string;
+  showAll?: boolean;
 }
 
 const CustomSelect: React.FC<SelectProps> = ({
@@ -19,6 +21,7 @@ const CustomSelect: React.FC<SelectProps> = ({
   onChange,
   options,
   className,
+  showAll=false
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
@@ -56,17 +59,21 @@ const CustomSelect: React.FC<SelectProps> = ({
       </div>
       {isOpen && (
         <ul className="realative md:absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-52 overflow-y-auto">
-          <li
-            className="px-3 py-2 cursor-pointer hover:bg-gray-200 border-b-2 border-gray-200"
-            onClick={() =>
-              handleOptionClick({
-                name: { es: "Todos", en: "All", pt: "Todos" },
-                id: 0,
-              })
-            }
-          >
-            Todos
-          </li>
+          
+          {showAll && (
+      <li
+      className="px-3 py-2 cursor-pointer hover:bg-gray-200 border-b-2 border-gray-200"
+      onClick={() =>
+        handleOptionClick({
+          name: { es: "Todos", en: "All", pt: "Todos" },
+          id: 0,
+        })
+      }
+    >
+      Todos
+    </li>
+          )}
+      
           {options.map((option) => (
             <li
               key={option.id}

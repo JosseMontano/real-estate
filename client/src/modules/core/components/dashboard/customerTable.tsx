@@ -142,6 +142,7 @@ export const CustomerTable = ({
                       id: v.id, // Siempre incluir el ID
                     }))}
                     className="border-none shadow-none bg-opacity-0 rounded-none"
+                    showAll={true}
                   />
                 </div>
               )}

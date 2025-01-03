@@ -60,7 +60,7 @@ export const ListComments = ({
       const res = await postComment(data);
       if (res.status == 200 || res.status == 201) {
         const updatedComments = [...comments, res.val];
-        
+
         queryClient.setQueryData(
           ["comments-by-readl-estate", user?.id],
           updatedComments
@@ -152,7 +152,9 @@ export const ListComments = ({
                       Eliminar
                     </span>
                   ) : (
-                    <span className="text-[10px] cursor-pointer">Reportar</span>
+                    <span className="text-[10px] cursor-pointer">
+                      {texts.reportUser}
+                    </span>
                   )}
 
                   <span className="text-[10px] flex gap-1 items-center">

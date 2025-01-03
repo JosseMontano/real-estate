@@ -18,6 +18,7 @@ export interface Translations {
   squareMetersRE: string;
   priceRE: string;
   activeRE: string;
+  update:string
   //typeRE
   nameTypeRE: string;
   //question
@@ -161,6 +162,7 @@ const translations: { [key in Language]: Translations } = {
     squareMetersRE: "square meters",
     priceRE: "price",
     activeRE: "active",
+    update:"update",
     nameTypeRE: "Real Estate Type",
     questionDash: "Question",
     commentsDash: "Comments",
@@ -236,7 +238,7 @@ const translations: { [key in Language]: Translations } = {
     sendMessage: "Send message",
     following: "Following",
     follow: "Follow",
-    reportUser: "Report user",
+    reportUser: "Report",
     posts: "Posts",
     favorites: "Favorites",
     addComment: "Add comment",
@@ -296,6 +298,7 @@ const translations: { [key in Language]: Translations } = {
     squareMetersRE: "Metros cuadrados",
     priceRE: "Precio",
     activeRE: "Activo",
+    update:"Actualizar",
     nameTypeRE: "Tipo de inmueble",
     questionDash: "Pregunta",
     commentsDash: "Comentarios",
@@ -372,7 +375,7 @@ const translations: { [key in Language]: Translations } = {
     sendMessage: "Enviar mensaje",
     following: "Siguiendo",
     follow: "Seguir",
-    reportUser: "Reportar usuario",
+    reportUser: "Reportar",
     posts: "Publicaciones",
     favorites: "Favoritos",
     addComment: "Agregar comentario",
@@ -432,6 +435,7 @@ const translations: { [key in Language]: Translations } = {
     squareMetersRE: "metros quadrados",
     priceRE: "preço",
     activeRE: "ativo",
+    update:"atualizar",
     nameTypeRE: "Tipo de imóvel",
     questionDash: "Pergunta",
     commentsDash: "Comentários",
@@ -509,7 +513,7 @@ const translations: { [key in Language]: Translations } = {
     sendMessage: "Enviar mensagem",
     following: "seguindo",
     follow: "continuar",
-    reportUser: "Denunciar usuário",
+    reportUser: "Denunciar",
     posts: "Publicações",
     favorites: "Favoritos",
     addComment: "Adicionar comentário",

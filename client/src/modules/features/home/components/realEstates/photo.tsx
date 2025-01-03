@@ -48,7 +48,6 @@ export const Photo = ({ img, index, isFavorite, item }: ParamsType) => {
       removeFavorite(item.id ?? 0);
     },
   });
-
   return (
     <div className=" flex justify-center w-full md:w-1/2">
       <div className="embla" ref={emblaRef}>
@@ -62,10 +61,10 @@ export const Photo = ({ img, index, isFavorite, item }: ParamsType) => {
                 className="absolute right-6 top-2 cursor-pointer"
            
               >
-                {!isFavorite && (
+                {user.id != undefined && !isFavorite && (
                   <HeartFill size={"22"} className="text-gray-200"  onClick={handleOnSubmit}/>
                 )}
-                {isFavorite && (
+                {user.id != undefined && isFavorite && (
                   <HeartFill
                     size={"22"}
                     className="text-red-500"
