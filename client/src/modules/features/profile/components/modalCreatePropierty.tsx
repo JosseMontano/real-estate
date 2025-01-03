@@ -14,6 +14,7 @@ import { FileSelectedType, FileUpType } from "../profile";
 import { UploadImageIcon } from "@/shared/assets/icons/uploadImage";
 import { ArrowDownIcon } from "@/shared/assets/icons/arrowDown";
 import { TrashIcon } from "@/shared/assets/icons/trash";
+import { fetchTypeRe } from "@/features/dashTypeRe/api/endpoints";
 
 type ParamsType = {
   handleStateModal: () => void;
@@ -60,7 +61,8 @@ export const ModalCreatePropierty = ({
   const { data } = useGet({
     itemsPerPage: 10,
     queryKey: ["type-realEstates"],
-    services: fetchTypesRE,
+    services: fetchTypeRe,
+    
   });
 
   const { language, texts } = useLanguageStore();

@@ -44,21 +44,19 @@ export const SectionRealStates = ({
   currentRE,
   user,
 }: Params) => {
-
-
   return (
     <div
       className="space-y-12 py-10 flex flex-col items-center"
       id="realEstates"
     >
-      {realEstates.map((item, index) => {
+      {realEstates.map((item) => {
         const isFavorite = user?.favorites?.some(
           (favorite) => favorite.real_estate.id === item.id
         );
 
         return (
           <RealEstateComp
-            index={index}
+            index={item.id ?? 0}
             item={item}
             firstElementRef={firstElementRef}
             infoTextLanguage={infoTextLanguage}

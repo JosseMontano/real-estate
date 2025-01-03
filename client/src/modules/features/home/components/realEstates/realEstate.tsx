@@ -8,7 +8,7 @@ import { useLanguageStore } from "@/core/store/language";
 import { RealEstate } from "@/shared/types/realEstate";
 import { ExtraInfo } from "./extraInfo";
 import useUserStore from "@/core/store/user";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { handlePost } from "@/core/utils/fetch";
 
 type ParamsType = {
