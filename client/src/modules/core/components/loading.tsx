@@ -1,7 +1,7 @@
 type ParamsType = {};
 export const Loading = ({}: ParamsType) => {
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center" role="loader">
       <div className="loader"></div>
     </div>
   );

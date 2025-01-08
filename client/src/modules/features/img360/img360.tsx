@@ -50,7 +50,7 @@ const Img360 = () => {
       {!isLoading && img && (
         <div className="bg-[#282c34] min-h-screen relative flex text-[calc(10px+2vmin)] text-white justify-center">
           {/* @ts-expect-error: a-scene is not a recognized JSX element */}
-          <a-scene className="RV">
+          <a-scene className="RV" role="RV">
             {/* @ts-expect-error: a-sky is not a recognized JSX element */}
             <a-sky src={img} rotation="0 -130 0"></a-sky>
             {/* @ts-expect-error: Closing tag for a-scene */}
