@@ -11,6 +11,8 @@ import {
 import { User } from "@/core/types/user";
 import { Language, Translations } from "@/core/store/language";
 import { Empty } from "@/core/components/map/empty";
+import useNavigation from "@/core/hooks/useNavigate";
+import { options } from "../profile";
 
 type ParamsType = {
   selectedRE: RealEstate | null;
@@ -18,6 +20,7 @@ type ParamsType = {
   language: Language;
   userLogged: User;
   user: User;
+  stateBtn: options;
 };
 export const Questions = ({
   selectedRE,
@@ -25,6 +28,7 @@ export const Questions = ({
   language,
   user,
   userLogged,
+  stateBtn,
 }: ParamsType) => {
   const { data: unasweredQuestions, isLoading } = useGet({
     queryKey: ["questions-by-re", selectedRE?.id],
@@ -37,16 +41,18 @@ export const Questions = ({
     services: () => fetchGetAllResponsesByREId(selectedRE?.id ?? 0),
     valueToService: selectedRE?.id,
   });
-  
+
+  const { location } = useNavigation();
+  console.log(stateBtn);
   return (
     <div className="h-[250px] -m-5 py-2 px-5 overflow-y-auto flex flex-wrap gap-[7px]">
-      {user == userLogged && (
+      {location == "/profile" && stateBtn == "Publications" && (
         <>
           {!isLoading && (
-             <div className="w-full">
-             <Empty data={unasweredQuestions ?? []} />
-           </div> 
-            )}
+            <div className="w-full">
+              <Empty data={unasweredQuestions ?? []} />
+            </div>
+          )}
 
           {unasweredQuestions?.map((question, i) => (
             <div
@@ -80,37 +86,75 @@ export const Questions = ({
         </>
       )}
 
-      {user != userLogged && (
-        <>
-          {!isLoadingAllResponses && (
-            <div className="w-full">
-              <Empty data={allResponses ?? []} />
-            </div>
-          )}
-
-          {allResponses?.map((v, i) => (
-            <div
-              className={`w-[49%] rounded-md h-[180px] shadow-2xl p-3 border-t-4 border-t-primary flex flex-col gap-1`}
-            >
-              <div className="flex justify-between items-center">
-                <h4 className="text-sm font-[550]">
-                  {texts.questionTitlteVisitUser} {i + 1}
-                </h4>
-                <HeadingIcon size={16} />
+      {stateBtn == "Favorites" ||
+        (location == "/visit_user" && (
+          <>
+            {!isLoadingAllResponses && (
+              <div className="w-full">
+                <Empty data={allResponses ?? []} />
               </div>
-              <p className="text-[13px]">{v.question.question[language]}</p>
-              <div className="flex gap-1 items-center  ">
-                <div className="bg-gray-200 p-[2px] rounded-full">
-                  <UserIcon size="16" />
+            )}
+
+            {allResponses?.map((v, i) => (
+              <div
+                className={`w-[49%] rounded-md h-[180px] shadow-2xl p-3 border-t-4 border-t-primary flex flex-col gap-1`}
+              >
+                <div className="flex justify-between items-center">
+                  <h4 className="text-sm font-[550]">
+                    {texts.questionTitlteVisitUser} {i + 1}
+                  </h4>
+                  <HeadingIcon size={16} />
                 </div>
+                <p className="text-[13px]">{v.question.question[language]}</p>
+                <div className="flex gap-1 items-center  ">
+                  <div className="bg-gray-200 p-[2px] rounded-full">
+                    <UserIcon size="16" />
+                  </div>
 
-                <span className="text-[13px]">{texts.anonymousVisitUser}</span>
+                  <span className="text-[13px]">
+                    {texts.anonymousVisitUser}
+                  </span>
+                </div>
+                R. {v.response[language]}
               </div>
-              R. {v.response[language]}
-            </div>
-          ))}
-        </>
-      )}
+            ))}
+          </>
+        ))}
+
+      {location == "/visit_user" ||
+        (stateBtn == "Favorites" && (
+          <>
+            {!isLoadingAllResponses && (
+              <div className="w-full">
+                <Empty data={allResponses ?? []} />
+              </div>
+            )}
+
+            {allResponses?.map((v, i) => (
+              <div
+                className={`w-[49%] rounded-md h-[180px] shadow-2xl p-3 border-t-4 border-t-primary flex flex-col gap-1`}
+              >
+                <div className="flex justify-between items-center">
+                  <h4 className="text-sm font-[550]">
+                    {texts.questionTitlteVisitUser} {i + 1}
+                  </h4>
+                  <HeadingIcon size={16} />
+                </div>
+                <p className="text-[13px]">{v.question.question[language]}</p>
+                <div className="flex gap-1 items-center  ">
+                  <div className="bg-gray-200 p-[2px] rounded-full">
+                    <UserIcon size="16" />
+                  </div>
+
+                  <span className="text-[13px]">
+                    {texts.anonymousVisitUser}
+                  </span>
+                </div>
+                R. {v.response[language]}
+              </div>
+            ))}
+          </>
+        ))}
     </div>
   );
 };

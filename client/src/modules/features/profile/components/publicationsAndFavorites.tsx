@@ -137,6 +137,7 @@ export const PublicationsAndFavorites = ({
                 language={language}
                 user={user}
                 userLogged={userLogged}
+                stateBtn={stateBtn}
               />
             )}
 
