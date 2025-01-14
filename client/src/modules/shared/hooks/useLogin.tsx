@@ -26,11 +26,12 @@ export const useLogin = ({ code, email }: ParamsType) => {
     const provider = new GoogleAuthProvider();
     try {
       const credential = await signInWithPopup(auth, provider);
-
+      console.log(credential.user?.photoURL);
       if (credential.user) {
         const userDto: UserDTO = {
           email: credential.user?.email ?? "",
           password: "",
+          photo:credential.user?.photoURL ?? ""
         };
 
         const { val: userObject, status, message } = await saveUser(userDto);

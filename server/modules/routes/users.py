@@ -25,7 +25,8 @@ app = APIRouter(
 # Request model for creating and updating RealEstate
 class signUpDTO(BaseModel):
     email: str
-    #password: str
+    photo:str
+    password: str
 
 class NearbyPlacesRequest(BaseModel):
     location: str
@@ -57,13 +58,13 @@ async def sign_up(user: signUpDTO, db: Session = Depends(get_db)):
             .first()
         )
         
-        if found_user.available == False:
-            return {"status": 400, "message": AuthMsg.USER_NOT_AVAILABLE.dict(), "val": []}
         
         if found_user:      
             """  if not bcrypt.checkpw(user.password.encode('utf-8'), found_user.password.encode('utf-8')):
                 return {"status": 400, "message": AuthMsg.PASSWORD_WRONG.dict(), "val": []} """
         
+            if found_user.available == False:
+                return {"status": 400, "message": AuthMsg.USER_NOT_AVAILABLE.dict(), "val": []}
             # Prepare user data with favorites
             user_data = {
                 "id": found_user.id,
@@ -87,18 +88,17 @@ async def sign_up(user: signUpDTO, db: Session = Depends(get_db)):
         
         # Hash the password
         hashed_password = bcrypt.hashpw(user.password.encode('utf-8'), bcrypt.gensalt())
-
         # Create new user
         db_user = models.User(
+            available=True,
             email=user.email,
             password=hashed_password.decode('utf-8'),
-            available=True,
             cellphone=0,
             code_recuperation="",
             qualification=0,
-            photo="",
             role=2,
-            username="1234"
+            username="",
+            photo=user.photo,
         )
         db.add(db_user)
         db.commit()
@@ -108,11 +108,13 @@ async def sign_up(user: signUpDTO, db: Session = Depends(get_db)):
         user_data = {
             "id": db_user.id,
             "email": db_user.email,
+            "photo":db_user.photo,
             "favorites": [],
         }
         return {"status": 201, "message": AuthMsg.USER_CREATED.dict(), "val": user_data}
     except Exception as e:
         db.rollback()
+        print(str(e))
         raise HTTPException(status_code=500, detail=str(e))
 
 

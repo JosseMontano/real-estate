@@ -7,6 +7,7 @@ export const signUpSchema = (texts: Translations)=>{
   .object({
     email: z.string().email(texts.invalidEmailAuth),
     password: z.string().min(6, texts.invalidPasswordAuth),
+    photo:z.string().optional(),
     code: z
       .string()
       .optional()
