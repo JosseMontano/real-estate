@@ -49,20 +49,21 @@ export const SectionRealStates = ({
       className="space-y-12 py-10 flex flex-col items-center"
       id="realEstates"
     >
-      {realEstates.map((item) => {
+      {realEstates.map((item, index) => {
         const isFavorite = user?.favorites?.some(
           (favorite) => favorite.real_estate.id === item.id
         );
 
         return (
           <RealEstateComp
-            index={item.id ?? 0}
+            index={index}
             item={item}
             firstElementRef={firstElementRef}
             infoTextLanguage={infoTextLanguage}
             placeTextLanguage={placeTextLanguage}
             seeMoreBtn={seeMoreBtn}
             isFavorite={isFavorite}
+            handlePagination={handlePagination}
           />
         );
       })}

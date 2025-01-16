@@ -8,7 +8,7 @@ import { useLanguageStore } from "@/core/store/language";
 import { RealEstate } from "@/shared/types/realEstate";
 import { ExtraInfo } from "./extraInfo";
 import useUserStore from "@/core/store/user";
-import {  useState } from "react";
+import { useEffect, useState } from "react";
 import { handlePost } from "@/core/utils/fetch";
 
 type ParamsType = {
@@ -19,6 +19,7 @@ type ParamsType = {
   placeTextLanguage: string;
   seeMoreBtn: string;
   isFavorite: boolean;
+  handlePagination: (page: number) => void;
 };
 export const RealEstateComp = ({
   index,
@@ -28,6 +29,7 @@ export const RealEstateComp = ({
   placeTextLanguage,
   seeMoreBtn,
   isFavorite,
+  handlePagination,
 }: ParamsType) => {
   const { handleNavigate } = useNavigation();
   const { language, texts } = useLanguageStore();
@@ -81,11 +83,16 @@ export const RealEstateComp = ({
     }
   };
 
+  useEffect(() => {
+    //when the user when the page restar the state
+    setStates("info")
+  }, [handlePagination]);
+
   return (
     <div
       key={index}
       ref={index === 0 ? firstElementRef : null}
-      className={`flex w-[90%] flex-col md:flex-row gap-8 items-center ${
+      className={`flex w-[90%] flex-col md:flex-row  gap-8 items-center ${
         index % 2 === 1 ? "md:flex-row-reverse" : ""
       }`}
     >
