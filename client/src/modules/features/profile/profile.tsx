@@ -88,7 +88,7 @@ const DashboardPage = () => {
   } = useForm({
     schema: realEstateSchema,
     form: async (data) => {
-      if (user) {
+      if (user && location) {
         const images = uploadedFiles.map((v) => v.url);
 
         data.userId = userLogged.id?.toString();

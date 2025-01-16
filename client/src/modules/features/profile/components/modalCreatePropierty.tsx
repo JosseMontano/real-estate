@@ -6,7 +6,6 @@ import Select from "@/core/components/form/select";
 import { Location, Map } from "@/core/components/map/maps";
 import { ChangeEvent } from "react";
 import useGet from "@/core/hooks/useGet";
-import { fetchTypesRE } from "../api/endpoints";
 import { useLanguageStore } from "@/core/store/language";
 import { ShowModal } from "@/core/components/form/modal";
 import { TypeRE } from "@/shared/types/realEstate";
