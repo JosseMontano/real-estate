@@ -617,8 +617,21 @@ async def create_real_estate(real_estate: RealEstateDTO, db: Session = Depends(g
                     em["From"] = EMAIL_SENDER
                     em["Subject"] = "New Publication Alert"
                     em.set_content(
-                        f"Hola,\n\nuna nueva publicacion fue hecha por {userDidPost.email} . revisalo aca: {WEB_URL + 'visit_user/'}\n\nMejores deseos,\n"
-                    )
+    f"""
+    ¡Hola! 👋
+
+    🎉 **¡Una nueva publicación ha sido realizada por {userDidPost.email}!** 🎉
+
+    🌟 No te pierdas el contenido. Haz clic en el enlace a continuación para verlo ahora:  
+    👉 [Ver publicación]({WEB_URL + 'visit_user/'}) 👈
+
+    Si tienes alguna pregunta o necesitas más información, ¡no dudes en contactarnos! 📧
+
+    ¡Te deseamos un excelente día! ☀️
+
+    El equipo de INMOAPP 🚀
+    """
+)
                     em["To"] = email_receiver
                     server.sendmail(EMAIL_SENDER, email_receiver, em.as_string())
 
