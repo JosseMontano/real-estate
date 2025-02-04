@@ -48,7 +48,7 @@ const CustomSelect: React.FC<SelectProps> = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
+  console.log(value);
   return (
     <div ref={selectRef} className="md:relative inline-block w-full">
       <div
@@ -77,7 +77,7 @@ const CustomSelect: React.FC<SelectProps> = ({
           {options.map((option) => (
             <li
               key={option.id}
-              className="px-3 py-2 cursor-pointer hover:bg-gray-200 border-b-2 border-gray-200"
+              className={`px-3 py-2 cursor-pointer hover:bg-gray-200 border-b-2 border-gray-200 ${value == option.id ? "border-b-4 border-secondary" : ""}`}
               onClick={() => handleOptionClick(option)}
             >
               {option.name && option.name[language]}
