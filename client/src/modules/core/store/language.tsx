@@ -125,6 +125,7 @@ export interface Translations {
   btnEditUser: string;
   //btn add RE
   btnAddRe: string;
+  btnRedirectDashboard: string;
   //user information
   username: string;
   phoneNumber: string;
@@ -264,6 +265,7 @@ const translations: { [key in Language]: Translations } = {
     btnEditUser: "Edit user",
     //btn create Re
     btnAddRe: "Create property",
+    btnRedirectDashboard: "Dashboard",
     //user information
     username: "Username",
     phoneNumber: "Phone number",
@@ -401,6 +403,7 @@ const translations: { [key in Language]: Translations } = {
     btnEditUser: "Editar usuário",
     //btn create Re
     btnAddRe: "Crear inmueble",
+    btnRedirectDashboard: "Dashboard",
     //user information
     username: "Nombe de usuario",
     phoneNumber: "Número de celular",
@@ -539,6 +542,7 @@ const translations: { [key in Language]: Translations } = {
     btnEditUser: "Editar usuário",
     //btn create Re
     btnAddRe: "Criar imóvel",
+    btnRedirectDashboard: "Painel",
     //user information
     username: "Nome de usuário",
     phoneNumber: "Número de celular",

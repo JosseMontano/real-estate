@@ -290,7 +290,6 @@ const DashboardPage = () => {
             placeholderComment={texts.commentPlaceholder}
             publications={texts.posts}
             reportUser={texts.reportUser}
-            btnAddRe={texts.btnAddRe}
             stateBtn={stateBtn}
             setStateBtn={setStateBtn}
             amountRE={realEstates?.length ?? 0}

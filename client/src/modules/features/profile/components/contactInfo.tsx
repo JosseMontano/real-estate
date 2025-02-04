@@ -16,7 +16,7 @@ import FollowingIcon from "@/shared/assets/icons/following";
 import { useFollowSchema } from "../validations/follow.schema";
 import { useForm } from "@/core/hooks/useForm";
 import { postFollow, postReport } from "../api/endpoints";
-import { Language } from "@/core/store/language";
+import { Language, useLanguageStore } from "@/core/store/language";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { deleteFollow } from "@/features/dashQuestions/api/endpoints";
@@ -24,6 +24,8 @@ import { useReportSchema } from "../validations/report.schema";
 import { useModal } from "@/core/hooks/useModal";
 import FormComponent from "@/core/components/form/form";
 import useAuthStore from "@/core/store/auth";
+import useNavigation from "@/core/hooks/useNavigate";
+
 
 type ParamsType = {
   isModalOpen: boolean;
@@ -35,7 +37,6 @@ type ParamsType = {
   publications: string;
   favorites: string;
   addComment: string;
-  btnAddRe: string;
   placeholderComment: string;
   stateBtn: options;
   setStateBtn: (state: options) => void;
@@ -69,10 +70,9 @@ export const ContactInfo = ({
   amountRE,
   amountREFavs,
   userLogged,
-   btnEditUserLanguage,
-  handleShowModalEditUser, 
+  btnEditUserLanguage,
+  handleShowModalEditUser,
   handleShowCreateRE,
-  btnAddRe,
   contact,
   handleRedirect,
   averageComments,
@@ -81,7 +81,9 @@ export const ContactInfo = ({
   unfollow,
   reportProfile,
 }: ParamsType) => {
-  const {follow} = useAuthStore()
+  const { follow } = useAuthStore();
+  const {texts} = useLanguageStore()
+  const {handleNavigate} = useNavigation()
   const isFollowingVar = !!userLogged?.following?.find(
     (v) => v.user_followed_id === user.id
   );
@@ -145,6 +147,29 @@ export const ContactInfo = ({
     },
   });
 
+  const showCreateRE = () => {
+    let handle:any;
+    let text=""
+    if (user == userLogged) {
+
+      if (user.role == 2) {
+        handle = ()=>handleShowCreateRE()
+        text= texts.btnAddRe
+      } // if is user
+      else {
+        handle = ()=>handleNavigate("/dashboard/realEstates");
+        text= texts.btnRedirectDashboard
+      } //is is admin
+      return (
+        <div className="flex items-center w-auto gap-2 rounded-lg hover:bg-gray-200 focus:outline-none cursor-pointer">
+          <HouseAdd size={20} />
+          <button onClick={handle}> {text}</button>
+        </div>
+      );
+
+    }
+  };
+
   return (
     <div className="flex flex-col gap-2 ">
       <div className="md:mt-6 flex flex-col gap-2">
@@ -180,12 +205,7 @@ export const ContactInfo = ({
         </div>
 
         <div className="flex gap-x-6 items-center flex-wrap md">
-          {user == userLogged && (
-            <div className="flex items-center w-auto gap-2 rounded-lg hover:bg-gray-200 focus:outline-none cursor-pointer">
-              <HouseAdd size={20} />
-              <button onClick={handleShowCreateRE}> {btnAddRe}</button>
-            </div>
-          )}
+          {showCreateRE()}
 
           {user != userLogged && (
             <div className="flex items-center w-auto gap-2 rounded-lg hover:bg-gray-200 focus:outline-none cursor-pointer">
@@ -233,7 +253,7 @@ export const ContactInfo = ({
             >
               {btnEditUserLanguage}
             </button>
-          )} 
+          )}
 
           {user != userLogged && (
             <button

@@ -17,6 +17,7 @@ import { Language, Translations } from "@/core/store/language";
 import { deleteComment } from "@/features/dashComments/api/endpoints";
 import { useDelete } from "@/core/hooks/useDelete";
 import { queryClient } from "../../../../App";
+import { Loading } from "@/core/components/loading";
 
 type ParamsType = {
   user: User;
@@ -47,7 +48,7 @@ export const ListComments = ({
     register,
     handleOnSubmit,
     errors,
-    isPending: isPendingQuestion,
+    isPending: isPendingComment,
     setSuccessMsg,
     setErrorMsg,
     reset,
@@ -83,7 +84,7 @@ export const ListComments = ({
       refetchCommentTop();
     },
   });
-
+  console.log(isPendingComment);
   return (
     <>
       <div className="h-[250px] -m-5 py-2 px-5 overflow-y-auto flex flex-col gap-3">
@@ -92,7 +93,7 @@ export const ListComments = ({
         </h1>
         <div>
           <FormComponent
-            isPending={isPendingQuestion}
+            isPending={isPendingComment}
             handleOnSubmit={handleOnSubmit}
             btnText={"Responder"}
             spaceBtn={false}
@@ -101,29 +102,38 @@ export const ListComments = ({
             showBtn={false}
             useMargin={false}
             children={
-              <div className="flex items-center gap-2">
-                <img
-                  src={user.photo ?? imgDefault}
-                  alt="user-image"
-                  className="w-10 h-10 rounded-full"
-                />
-                <Input
-                  error={errors.comment_text}
-                  register={register("comment_text")}
-                  text={texts.inputCommentVisitUser}
-                  /* @ts-ignore */
-                  Icon={SendIcon}
-                  positionIcon="right"
-                  onClickIcon={handleOnSubmit}
-                  handleOnSubmit={handleOnSubmit}
-                />
-                <span
-                  className="text-yellow-300 text-base md:text-2xl cursor-pointer"
-                  onClick={handleStateModal}
-                >
-                  <StarFill size="25" />
-                </span>
-              </div>
+              <>
+                {!isPendingComment && (
+                  <div className="flex items-center gap-2">
+                    <img
+                      src={user.photo ?? imgDefault}
+                      alt="user-image"
+                      className="w-10 h-10 rounded-full"
+                    />
+                    <Input
+                      error={errors.comment_text}
+                      register={register("comment_text")}
+                      text={texts.inputCommentVisitUser}
+                      /* @ts-ignore */
+                      Icon={SendIcon}
+                      positionIcon="right"
+                      onClickIcon={handleOnSubmit}
+                      handleOnSubmit={handleOnSubmit}
+                    />
+                    <span
+                      className="text-yellow-300 text-base md:text-2xl cursor-pointer"
+                      onClick={handleStateModal}
+                    >
+                      <StarFill size="25" />
+                    </span>
+                  </div>
+                )}
+                {isPendingComment && (
+                  <div className=" ">
+                    <Loading />
+                  </div>
+                )}
+              </>
             }
           />
         </div>
@@ -138,8 +148,11 @@ export const ListComments = ({
               />
               <div className="flex flex-col">
                 <p className="text-[17px] font-semibold">
-                  {v.commentator.email}
+                  {v.commentator.email.length > 25
+                    ? `${v.commentator.email.slice(0, 25)}...`
+                    : v.commentator.email}
                 </p>
+
                 <span className="text-[13px] text-gray-800">
                   {v.comment[language]}
                 </span>
