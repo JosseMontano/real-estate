@@ -1,9 +1,8 @@
-import { deleteReport, getReportsyUserId } from "./api/endpoints";
+import { deleteReport } from "./api/endpoints";
 import { SumaryCard } from "../../core/components/dashboard/sumaryCards";
 import { CustomerTable } from "../../core/components/dashboard/customerTable";
 import { useLanguageStore } from "@/core/store/language";
 import { useDash } from "@/core/hooks/useDash";
-import { User } from "@/core/types/user";
 
 export const DashReports = () => {
   const { texts } = useLanguageStore();
@@ -17,10 +16,8 @@ export const DashReports = () => {
     isLoadingStatistics,
     statistics,
     header,
-    selectData,
     selected,
     setSelected,
-    tableDateFiltered,
     dataBySelectedId,
     mutateToState,
   } = useDash<Report[], null>({

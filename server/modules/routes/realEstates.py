@@ -697,7 +697,6 @@ def fetch_nearby_places(request: NearbyPlacesRequest, db: Session = Depends(get_
     }
     
     
-
 @app.post('/fetch_all_types_places')
 def fetch_all_types_places(request: NearbyPlacesRequest, db: Session = Depends(get_db)):
     location = request.location
@@ -713,13 +712,13 @@ def fetch_all_types_places(request: NearbyPlacesRequest, db: Session = Depends(g
     results = data.get('results', [])
 
 
-    # Extraer todos los tipos únicos
+    # Extract all unique types, filtering out types containing "_"
     all_types = set(
         type_item
         for place in results
         for type_item in place.get("types", [])
+        if "_" not in type_item  # Filter condition
     )
-
     # Traducir los valores únicos de `all_types`
     translated_types = []
 

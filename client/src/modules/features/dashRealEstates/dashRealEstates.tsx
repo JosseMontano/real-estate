@@ -52,7 +52,7 @@ export const DashRealEstates = () => {
         val: texts.active,
       },
     ],
-    selectUrl: "type-real-estates",
+    selectUrl: "type-real-estates/with_filter",
     deleteService: deleteRealEstates,
     getDataBySelectedId: getREByType,
   });

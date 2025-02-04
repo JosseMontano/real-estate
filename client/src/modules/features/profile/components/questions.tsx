@@ -26,8 +26,6 @@ export const Questions = ({
   selectedRE,
   texts,
   language,
-  user,
-  userLogged,
   stateBtn,
 }: ParamsType) => {
   const { data: unasweredQuestions, isLoading } = useGet({
