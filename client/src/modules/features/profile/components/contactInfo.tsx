@@ -2,7 +2,7 @@ import { primaryColor } from "@/core/constants/colors";
 import Btn from "@/core/components/form/button";
 import { Input } from "@/core/components/form/input";
 import { ShowModal } from "@/core/components/form/modal";
-import { Follow, User } from "@/core/types/user";
+import { User } from "@/core/types/user";
 import { Check } from "@/shared/assets/icons/check";
 import { HeartFill } from "@/shared/assets/icons/heartFill";
 import { HousesFills } from "@/shared/assets/icons/housesFills";

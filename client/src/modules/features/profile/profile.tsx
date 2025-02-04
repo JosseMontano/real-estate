@@ -45,7 +45,7 @@ export type FileUpType = {
 export type options = "Publications" | "Favorites";
 
 const DashboardPage = () => {
-  const { user: userLogged, logout, follow, unfollow } = useAuthStore();
+  const { user: userLogged, logout, unfollow } = useAuthStore();
   const { userSelected, selectUser } = useUserStore();
   const user = userSelected ?? userLogged;
 

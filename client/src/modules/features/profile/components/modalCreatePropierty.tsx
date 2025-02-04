@@ -61,7 +61,6 @@ export const ModalCreatePropierty = ({
     itemsPerPage: 10,
     queryKey: ["type-realEstates"],
     services: fetchTypeRe,
-    
   });
 
   const { language, texts } = useLanguageStore();
@@ -83,11 +82,6 @@ export const ModalCreatePropierty = ({
                     text={texts.title}
                     error={errors.title}
                     register={register("title")}
-                  />
-                  <Input
-                    text={texts.description}
-                    error={errors.description}
-                    register={register("description")}
                   />
                   <Input
                     text={texts.price}
@@ -124,6 +118,12 @@ export const ModalCreatePropierty = ({
                     }))}
                   />
                 </div>
+                <Input
+                  text={texts.description}
+                  error={errors.description}
+                  register={register("description")}
+                  isTextArea={true}
+                />
 
                 <div className="flex flex-col gap-2 ">
                   <input
@@ -220,7 +220,7 @@ export const ModalCreatePropierty = ({
               </>
             }
             children2={
-              <Map location={location} setLocation={setLocation} width={450}/>
+              <Map location={location} setLocation={setLocation} width={450} />
             }
           />
         }
