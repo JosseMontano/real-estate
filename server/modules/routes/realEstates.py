@@ -18,7 +18,7 @@ from email.message import EmailMessage
 import ssl
 import smtplib
 import os
-
+import re
 
 app = APIRouter(
     prefix="/api/real_estates",
@@ -510,10 +510,13 @@ async def create_real_estate(real_estate: RealEstateDTO, db: Session = Depends(g
         geo_location = Nominatim(user_agent="GetLoc")
         loc_name = geo_location.reverse(real_estate.latLong)
         
-        print(loc_name)
 
         if loc_name:
-            address = loc_name.address
+            # Remove from "Cochabamba" to the end
+            new_address = re.split(r",\s*Cochabamba", loc_name.address, maxsplit=1)[0]
+            # Remove only the last comma if present
+            new_address = new_address[:-1] if new_address.endswith(',') else new_address
+            address = new_address
 
             raw_data = loc_name.raw.get("address", {})
             city = raw_data.get("city", "Not Found") 
