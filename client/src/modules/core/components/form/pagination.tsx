@@ -3,6 +3,7 @@ type Props = {
   primaryColor: string;
   handlePagination: (page: number) => void;
   lastPage: number;
+  setCurrentPageStore?: (vals: number) => void;
 };
 
 const Pagination = (props: Props) => {
@@ -11,6 +12,7 @@ const Pagination = (props: Props) => {
     primaryColor,
     handlePagination,
     lastPage,
+    setCurrentPageStore
   } = props;
 
   const getVisiblePages = () => {
@@ -18,6 +20,11 @@ const Pagination = (props: Props) => {
     const endPage = Math.min(lastPage, currentPage + 1); 
     return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
   };
+
+  const handlePaginationState = (page: number) => {
+    setCurrentPageStore && setCurrentPageStore(page);
+    handlePagination(page);
+  }
 
   return (
     <div className="flex justify-center">
@@ -27,7 +34,7 @@ const Pagination = (props: Props) => {
           className={`w-8 h-8 flex items-center justify-center border rounded-md ${
             currentPage === 1 ? "text-gray-400 cursor-not-allowed" : "text-black"
           }`}
-          onClick={() => handlePagination(currentPage - 1)}
+          onClick={() => handlePaginationState(currentPage - 1)}
           disabled={currentPage === 1}
         >
           {"<"}
@@ -45,7 +52,7 @@ const Pagination = (props: Props) => {
             style={{
               backgroundColor: page === currentPage ? primaryColor : "white",
             }}
-            onClick={() => handlePagination(page)}
+            onClick={() => handlePaginationState(page)}
           >
             {page}
           </button>
@@ -58,7 +65,7 @@ const Pagination = (props: Props) => {
               ? "text-gray-400 cursor-not-allowed"
               : "text-black"
           }`}
-          onClick={() => handlePagination(currentPage + 1)}
+          onClick={() => handlePaginationState(currentPage + 1)}
           disabled={currentPage === lastPage}
         >
           {">"}

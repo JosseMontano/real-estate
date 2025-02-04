@@ -1,13 +1,16 @@
+import { ComeBack } from "@/core/components/comeBack";
 import { Loading } from "@/core/components/loading";
 import use360photo from "@/core/store/360photo";
+import useGeneralStore from "@/core/store/general";
 import { handlePostBlob } from "@/core/utils/fetch";
 import { useEffect, useState } from "react";
 
+
 const Img360 = () => {
   const { url } = use360photo();
-
   const [img, setImg] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const {lastPageVisited} = useGeneralStore()
 
   useEffect(() => {
     const handleGetImage = async () => {
@@ -42,6 +45,7 @@ const Img360 = () => {
 
   return (
     <>
+    <ComeBack location={lastPageVisited}/>
       {isLoading && (
         <div className="min-h-screen flex items-center justify-center bg-[#282c34] text-white">
           <Loading />
@@ -49,6 +53,7 @@ const Img360 = () => {
       )}
       {!isLoading && img && (
         <div className="bg-[#282c34] min-h-screen relative flex text-[calc(10px+2vmin)] text-white justify-center">
+          
           {/* @ts-expect-error: a-scene is not a recognized JSX element */}
           <a-scene className="RV" role="RV">
             {/* @ts-expect-error: a-sky is not a recognized JSX element */}

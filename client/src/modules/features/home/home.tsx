@@ -13,6 +13,7 @@ import { fetchTypeRe } from "../dashTypeRe/api/endpoints";
 import useAuthStore from "@/core/store/auth";
 import { queryClient } from "../../../App";
 import { Loading } from "@/core/components/loading";
+import useGeneralStore from "@/core/store/general";
 
 type Options = "price" | "type" | "zone";
 
@@ -32,6 +33,7 @@ export type Field = {
 
 export const HomePage = () => {
   const { user } = useAuthStore();
+  const {currentPageMainRE, setCurrentPageMainRE} = useGeneralStore()
   const { data: zones } = useGet({
     services: fetchZones,
     queryKey: ["zones"],
@@ -136,6 +138,7 @@ export const HomePage = () => {
     queryKey: ["real-estates-smart-filter"],
     itemsPerPage: 4,
     valueToService: user.id,
+    currentPageStore:currentPageMainRE
   });
 
   useEffect(() => {
@@ -235,6 +238,7 @@ export const HomePage = () => {
         seeMoreBtn={texts.viewMoreButton}
         currentRE={searchRE.length > 0 ? "real-estates-search" : "real-estates"}
         user={user ?? {}}
+        setCurrentPageStore={setCurrentPageMainRE}
       />
 
       <Questions

@@ -17,6 +17,7 @@ type Params = {
   seeMoreBtn: string;
   currentRE: currentREType;
   user: User;
+  setCurrentPageStore: (vals: number) => void;
 };
 
 export interface NearbyPlace {
@@ -43,6 +44,7 @@ export const SectionRealStates = ({
   seeMoreBtn,
   currentRE,
   user,
+  setCurrentPageStore
 }: Params) => {
   return (
     <div
@@ -73,6 +75,7 @@ export const SectionRealStates = ({
           primaryColor={primaryColor}
           handlePagination={handlePagination}
           lastPage={amountOfPages}
+          setCurrentPageStore={setCurrentPageStore}
         />
       )}
     </div>

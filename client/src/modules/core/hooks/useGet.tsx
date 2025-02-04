@@ -10,8 +10,8 @@ type Props<T> = {
   queryKey: any[];
   itemsPerPage?: number;
   valueToService?: number;
+  currentPageStore?: number;
 };
-
 
 const defaultItemsPerPage = 100;
 
@@ -20,6 +20,7 @@ const useGet = <T,>({
   queryKey,
   valueToService,
   itemsPerPage = defaultItemsPerPage,
+  currentPageStore=1,
 }: Props<T>) => {
   const { language } = useLanguageStore();
   const [msg, setMsg] = useState("");
@@ -47,7 +48,7 @@ const useGet = <T,>({
   const [startPagination, setStartPagination] = useState(0);
   const [endPagination, setEndPagination] = useState(itemsPerPage);
   const firstElementRef = useRef<HTMLDivElement>(null);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(currentPageStore);
 
   const handlePagination = (page: number) => {
     setStartPagination((page - 1) * itemsPerPage);
