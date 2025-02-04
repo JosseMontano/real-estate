@@ -63,7 +63,6 @@ export const useForm = <T extends z.ZodType<any, any>>({
 
     if (isFirstVisit) {
       isFirstVisit.current=false;
-      console.log('hi');
     }
   }, [language]);
 

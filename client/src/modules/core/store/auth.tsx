@@ -24,7 +24,7 @@ const useAuthStore = create(
         set((state) => ({
           user: {
             ...state.user,
-            following: [...state.user.following, newFollow],
+            following: [...(state.user?.following || []), newFollow],
           },
         })),
       unfollow: (followId: number) =>

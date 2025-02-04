@@ -35,7 +35,6 @@ export const Buttons = ({
 }: ParamsType) => {
   const { language } = useLanguageStore();
   const allSelect = { en: "All", es: "Todos", pt: "Todos" };
-  console.log(states);
   return (
     <div className="flex items-center gap-2">
       <div className="flex space-x-4 bg-gray-100 p-2 rounded-full">

@@ -23,13 +23,14 @@ import { deleteFollow } from "@/features/dashQuestions/api/endpoints";
 import { useReportSchema } from "../validations/report.schema";
 import { useModal } from "@/core/hooks/useModal";
 import FormComponent from "@/core/components/form/form";
+import useAuthStore from "@/core/store/auth";
 
 type ParamsType = {
   isModalOpen: boolean;
   HandleSetIsModalOpen: () => void;
   user: User;
   calification: string;
-  follow: string;
+  followText: string;
   reportUser: string;
   publications: string;
   favorites: string;
@@ -49,7 +50,6 @@ type ParamsType = {
   averageComments: number;
   startToFollow: string;
   language: Language;
-  updateFollowing: (val: Follow) => void;
   unfollow: (id: number) => void;
   reportProfile: string;
 };
@@ -58,7 +58,7 @@ export const ContactInfo = ({
   isModalOpen,
   HandleSetIsModalOpen,
   calification,
-  follow,
+  followText,
   reportUser,
   publications,
   favorites,
@@ -78,10 +78,10 @@ export const ContactInfo = ({
   averageComments,
   startToFollow,
   language,
-  updateFollowing,
   unfollow,
   reportProfile,
 }: ParamsType) => {
+  const {follow} = useAuthStore()
   const isFollowingVar = !!userLogged?.following?.find(
     (v) => v.user_followed_id === user.id
   );
@@ -102,8 +102,7 @@ export const ContactInfo = ({
       if (res.status == 200 || res.status == 201) {
         setSuccessMsg(res.message[language]);
         setIsFollowing(true);
-        console.log(res.val);
-        updateFollowing(res.val);
+        follow(res.val);
       } else {
         setErrorMsg(res.message[language]);
       }
@@ -201,7 +200,7 @@ export const ContactInfo = ({
               style={{ background: primaryColor }}
             >
               <Check size="19" />
-              <span>{follow}</span>
+              <span>{followText}</span>
             </div>
           ) : isFollowing ? (
             <div
@@ -216,7 +215,7 @@ export const ContactInfo = ({
               }}
             >
               <FollowingIcon size={19} />
-              <span>{follow}</span>
+              <span>{followText}</span>
             </div>
           ) : (
             <div

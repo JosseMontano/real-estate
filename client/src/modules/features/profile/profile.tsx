@@ -285,7 +285,7 @@ const DashboardPage = () => {
             addComment={texts.addComment}
             calification={texts.rating}
             favorites={texts.favorites}
-            follow={userSelected == user ? texts.following : texts.activeUser}
+            followText={userSelected == user ? texts.following : texts.activeUser}
             startToFollow={texts.follow}
             placeholderComment={texts.commentPlaceholder}
             publications={texts.posts}
@@ -310,7 +310,6 @@ const DashboardPage = () => {
               );
             }}
             language={language}
-            updateFollowing={follow}
             unfollow={unfollow}
             reportProfile={texts.reportProfile}
           />

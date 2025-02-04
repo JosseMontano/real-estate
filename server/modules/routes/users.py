@@ -88,6 +88,7 @@ async def sign_up(user: signUpDTO, db: Session = Depends(get_db)):
         
         # Hash the password
         hashed_password = bcrypt.hashpw(user.password.encode('utf-8'), bcrypt.gensalt())
+        print(user)
         # Create new user
         db_user = models.User(
             available=True,
