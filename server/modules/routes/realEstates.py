@@ -87,8 +87,6 @@ def model_to_dict(obj, include_relationships=True):
                     data[name] = model_to_dict(related_obj, include_relationships=False)
     return data
 
-
-
 @app.get('/')
 async def get_real_estates(db: Session = Depends(get_db)):
     # Step 1: Fetch all real estate data
@@ -421,6 +419,8 @@ async def get_real_estates_by_user(user_id:int ,db: Session = Depends(get_db)):
         joinedload(models.RealEstate.description)
     ).filter(models.RealEstate.user_id == user_id)
     real_estates = query.all()
+    
+    print(real_estates)
     
     if not real_estates:
         return {"status": 404, "message": Messages.DATA_NOT_FOUND, "val": []}
