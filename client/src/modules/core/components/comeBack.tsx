@@ -4,11 +4,12 @@ import { Routes } from "../../../App";
 
 type ParamsType = {
     location:Routes
+    useAbsolute?:boolean
 }
-export const ComeBack = ({location}:ParamsType) => {
+export const ComeBack = ({location, useAbsolute=true}:ParamsType) => {
     const {handleNavigate} = useNavigation()
     return (
-        <div onClick={()=>handleNavigate(location)} className="md:hidden absolute top-2 left-2 bg-primary rounded-full w-6 h-6 flex items-center justify-center text-white z-10">
+        <div onClick={()=>handleNavigate(location)} className={`md:hidden ${useAbsolute ? "absolute" : ""}  top-2 left-2 bg-primary rounded-full w-6 h-6 flex items-center justify-center text-white z-10`}>
         <ArrowLeft size={18} />
       </div>
     );

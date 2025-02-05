@@ -4,6 +4,7 @@ import { DashboardIcon } from "@/shared/assets/icons/dasboard";
 import { MenuIcon } from "@/shared/assets/icons/menu";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { ComeBack } from "../comeBack";
 
 type ParamsType = {};
 export const Sidebar = ({}: ParamsType) => {
@@ -22,7 +23,7 @@ export const Sidebar = ({}: ParamsType) => {
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
-  console.log(location);
+
   return (
     <>
       <div
@@ -43,7 +44,9 @@ export const Sidebar = ({}: ParamsType) => {
           isOpen ? "translate-x-0 " : "-translate-x-full"
         } lg:translate-x-0 lg:block `}
       >
-        <div className="mb-7 mt-5 lg:mt-0 px-3">
+        <div className="mb-7 mt-5 lg:mt-0 flex items-center gap-1">
+          <ComeBack useAbsolute={false} location="/profile"/>
+
           <Link to="" className="text-3xl font-semibold">
             {"InmoApp"}
           </Link>

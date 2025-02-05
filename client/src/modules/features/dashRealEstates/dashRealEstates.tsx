@@ -56,8 +56,7 @@ export const DashRealEstates = () => {
     deleteService: deleteRealEstates,
     getDataBySelectedId: getREByType,
   });
-console.log(tableDate);
-console.log(tableDateFiltered);
+
   return (
     <div>
       <SumaryCard
