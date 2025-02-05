@@ -41,8 +41,10 @@ export const Config = () => {
         title={texts.titleConfig}
         children={
           <div className="w-[300px]">
-            <div className="flex gap-2 items-center">
-              <h3>{texts.languageConfig}</h3>
+            <div className="flex gap-2 ">
+              <div className="h-10 flex items-center">
+              <h3 className=" ">{texts.languageConfig}</h3>
+              </div>
 
               <Select
                 value={language}

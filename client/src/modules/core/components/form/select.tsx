@@ -58,7 +58,7 @@ const CustomSelect: React.FC<SelectProps> = ({
         {value || texts.select}
       </div>
       {isOpen && (
-        <ul className="realative md:absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-52 overflow-y-auto">
+        <ul className="absolute w-[210px] z-10 mt-1 md:w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-52 overflow-y-auto">
           
           {showAll && (
       <li
