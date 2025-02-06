@@ -90,7 +90,7 @@ export const MapLocations = ({
 
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center w-[500px] sm:w-[600px]  justify-center h-[200px] lg:h-[200px] rounded-lg shadow-lg bg-gray-200 animate-pulse">
+      <div className="flex flex-col items-center w-full sm:w-[600px]  justify-center h-[200px] lg:h-[200px] rounded-lg shadow-lg bg-gray-200 animate-pulse">
         <div className="h-full w-full bg-gray-300 rounded-lg"></div>
       </div>
     );
