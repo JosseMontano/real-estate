@@ -1,23 +1,37 @@
-import { StyleSheet, Text, View, Image, Pressable } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ImageBackground,
+  TouchableOpacity,
+} from "react-native";
 import { SearchIcon } from "../../../shared/icons/icons";
+import { Btn } from "../../../core/components/btn";
 type ParamsType = {
-  handleSearch: () => void;
+ 
 };
-export const Header = ({ handleSearch }: ParamsType) => {
+export const Header = ({  }: ParamsType) => {
   return (
-    <View style={styles.headerContainer}>
-      <View style={styles.imgContainer}>
-        <Image
-          source={{
-            uri: "https://firebasestorage.googleapis.com/v0/b/new-realestate-f4127.appspot.com/o/realEstates%2Feljosema505%2Fimage.png-af37eed9-2fab-4764-8ab8-9e5805ddee34?alt=media&token=cc1d4428-6c90-45d5-8e07-1a0ddf488017",
-          }}
-          style={styles.image}
-        />
-        <Text>Jose Maria Zambrana</Text>
+    <View>
+      <View style={styles.headerContainer}>
+        <Text style={styles.title}>InmoApp</Text>
+        <Btn text="Publicar propiedad" />
       </View>
-      <Pressable onPress={handleSearch}>
-        <SearchIcon />
-      </Pressable>
+
+      <ImageBackground
+        source={require("../../../shared/assets/bg.jpg")}
+        style={styles.imageContainer}
+      >
+        <View style={styles.overlay}>
+          <Text style={styles.mainTitle}>
+            La casa moderna hace la vida mejor.
+          </Text>
+          <Text style={styles.subtitle}>
+            Descubre cómo mejorar tu calidad de vida con una casa a tu medida.
+          </Text>
+          <Btn text="Explora nuestras propiedades" />
+        </View>
+      </ImageBackground>
     </View>
   );
 };
@@ -26,16 +40,38 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    backgroundColor: "#000",
+    width: "100%",
+    paddingInline: 40,
+    paddingTop: 40,
+    paddingBottom: 20,
   },
-  imgContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
-    width: 300,
+  title: {
+    color: "#fff",
+    fontSize: 25,
+    fontWeight: "700",
   },
-  image: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+  mainTitle: {
+    color: "#fff",
+    fontSize: 32,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  subtitle: {
+    color: "#ddd",
+    fontSize: 16,
+    textAlign: "center",
+    marginTop: 10,
+  },
+  imageContainer: {
+    height: 400,
+    justifyContent: "center",
+    paddingHorizontal: 0, // Remove padding to match full width
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject, // Fills the entire parent container
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
+    justifyContent: "center",
+    padding: 20,
   },
 });

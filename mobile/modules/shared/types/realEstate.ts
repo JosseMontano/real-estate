@@ -25,6 +25,7 @@ export type RealEstate = {
   zone: Zone
   active?:boolean
   user:User
+  similarity_score?:number
 }
 
 export interface TypeRE {

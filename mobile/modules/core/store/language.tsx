@@ -11,52 +11,60 @@ export type TranslateRes = {
 export interface Translations {
   //shared
   titleConfig: string;
-  titleModalConfig:string;
-  spanishConfig:string
-  englishConfig:string
-  portugueseConfig:string 
-  sucess:string
+  titleModalConfig: string;
+  spanishConfig: string;
+  englishConfig: string;
+  portugueseConfig: string;
+  sucess: string;
   //auth
   title: string;
   subTitle: string;
+  //homePage
+  typeText: string;
 }
 
 const translations: { [key in Language]: Translations } = {
   en: {
-      //shared
+    //shared
     titleConfig: "Language",
-    titleModalConfig:"Configuration",
-    spanishConfig:"Spanish",
-    englishConfig:"English",
-    portugueseConfig:"Portuguese",
-    sucess:"Success",
-     //auth
+    titleModalConfig: "Configuration",
+    spanishConfig: "Spanish",
+    englishConfig: "English",
+    portugueseConfig: "Portuguese",
+    sucess: "Success",
+    //auth
     title: "Welcome to InmoApp",
     subTitle: "Enjoy life in your dream home",
+    //homePage
+    typeText: "Type",
   },
   es: {
-      //shared
+    //shared
     titleConfig: "Idioma",
-    titleModalConfig:"Configuracion",
-    spanishConfig:"Español",
-    englishConfig:"Inglés",
-    portugueseConfig:"Portugués",
-    sucess:"Exitoso",
-     //auth
+    titleModalConfig: "Configuracion",
+    spanishConfig: "Español",
+    englishConfig: "Inglés",
+    portugueseConfig: "Portugués",
+    sucess: "Exitoso",
+    //auth
     title: "Bienvenido a InmoApp",
     subTitle: "Disfruta la vida en tu casa soñada",
+      //homePage
+    typeText: "Tipo",
   },
   pt: {
-      //shared
+    //shared
     titleConfig: "linguagem",
-    titleModalConfig:"configuração",
-    spanishConfig:"Espanhol",
-    englishConfig:"Inglês",
-    portugueseConfig:"Português",
-    sucess:"bem-sucedido",
-     //auth
+    titleModalConfig: "configuração",
+    spanishConfig: "Espanhol",
+    englishConfig: "Inglês",
+    portugueseConfig: "Português",
+    sucess: "bem-sucedido",
+    //auth
     title: "Bem-vindo ao InmoApp",
     subTitle: "Disfruta la vida en tu casa soñada",
+      //homePage
+    typeText: "Tipo",
   },
 };
 

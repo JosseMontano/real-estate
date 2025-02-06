@@ -1,7 +1,6 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
-import Icon from "react-native-vector-icons/AntDesign";
 import { AuthPage } from "./modules/features/auth/auth";
 import { HomePage } from "./modules/features/home/home";
 import { ProfilePage } from "./modules/features/profile/profile";
@@ -19,7 +18,7 @@ const Stack = createNativeStackNavigator();
 
 const CustomButton = ({ onPress }: { onPress: () => void }) => (
   <TouchableOpacity style={styles.customButton} onPress={onPress}>
-    <Icon name="plus" size={30} color="#fff" />
+    <View style={styles.plusIcon} />
   </TouchableOpacity>
 );
 
@@ -28,22 +27,11 @@ const TabNavigator = () => {
   return (
     <>
       <Tab.Navigator
-        screenOptions={({ route }) => ({
+        screenOptions={{
           tabBarStyle: styles.tabBar,
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName = "";
-
-            if (route.name === "Home") {
-              iconName = "home";
-            } else if (route.name === "Profile") {
-              iconName = "user";
-            }
-
-            return <Icon name={iconName} size={size} color={color} />;
-          },
           tabBarActiveTintColor: primaryColor,
           tabBarInactiveTintColor: "gray",
-        })}
+        }}
       >
         <Tab.Screen name="Home" component={HomePage} />
         <Tab.Screen
@@ -68,49 +56,41 @@ const TabNavigator = () => {
     </>
   );
 };
+
 export const queryClient = new QueryClient();
-// Stack Navigator
+
 export default function App() {
   return (
     <SafeAreaProvider>
       <QueryClientProvider client={queryClient}>
-  
-          <NavigationContainer>
-            <Stack.Navigator>
-              <Stack.Screen
-                name="Auth"
-                component={AuthPage}
-                options={{
-                  headerTitle: "Auth",
-                  headerStyle: {
-                    backgroundColor: primaryColor,
-                  },
-                  headerTintColor: "#fff",
-                }}
-              />
-              <Stack.Screen
-                name="RealEstate"
-                component={RealEstatePage}
-                options={{
-                  headerTitle: "Inmueble",
-                  headerStyle: {
-                    backgroundColor: primaryColor,
-                  },
-                  headerTintColor: "#fff",
-                }}
-              />
-              {/* Tab Navigator as the main screen */}
-              <Stack.Screen
-                name="MainTabs"
-                component={TabNavigator}
-                options={{ headerShown: false }} // Hide header for the tab navigator
-              />
-            </Stack.Navigator>
-          </NavigationContainer>
-      
-
+        <NavigationContainer>
+          <Stack.Navigator>
+          <Stack.Screen
+              name="Home"
+              component={HomePage}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Auth"
+              component={AuthPage}
+              options={{
+                headerTitle: "Auth",
+                headerStyle: {
+                  backgroundColor: primaryColor,
+                },
+                headerTintColor: "#fff",
+              }}
+            />
+   
+            <Stack.Screen
+              name="MainTabs"
+              component={TabNavigator}
+              options={{ headerShown: false }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
       </QueryClientProvider>
-      <Toast  />
+      <Toast />
     </SafeAreaProvider>
   );
 }
@@ -139,5 +119,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 10,
     alignSelf: "center",
+  },
+  plusIcon: {
+    width: 30,
+    height: 30,
+    backgroundColor: "#fff",
+    borderRadius: 15,
   },
 });

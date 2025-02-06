@@ -7,7 +7,7 @@ import { useLanguageStore } from "@/core/store/language";
 import { Link } from "react-scroll";
 import useUserStore from "@/core/store/user";
 import useAuthStore from "@/core/store/auth";
-import { useLogin } from "@/shared/hooks/useLogin";
+
 
 interface Links {
   href: string;
@@ -20,7 +20,6 @@ export const Header = ({ links }: ParamsType) => {
   const { selectUser } = useUserStore();
   const { handleNavigate } = useNavigation();
   const { user } = useAuthStore();
-  const { handleLoginGoogle } = useLogin({});
   const [isScrolled, setIsScrolled] = useState(false);
 
 
