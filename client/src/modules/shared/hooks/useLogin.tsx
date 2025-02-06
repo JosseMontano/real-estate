@@ -78,6 +78,8 @@ export const useLogin = ({ code, email }: ParamsType) => {
         finalmessage = message;
         finalStatus = status;
       } else {
+        userData.photo = "https://firebasestorage.googleapis.com/v0/b/new-realestate-f4127.appspot.com/o/users%2FdefaultUser.jpg?alt=media&token=e9d3452e-a245-4b1d-a711-ffeba2237443";
+        userData.is_google = false;
         const { val, message, status } = await saveUser(userData);
         userObject = val;
         finalmessage = message;

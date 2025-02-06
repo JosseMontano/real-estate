@@ -12,6 +12,7 @@ export const signUpSchema = (texts: Translations)=>{
       .string()
       .optional()
       .transform((val) => (val ? Number(val) : undefined)),
+    is_google: z.boolean().optional(),
   })
 
 }

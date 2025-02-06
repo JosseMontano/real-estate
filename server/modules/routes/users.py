@@ -27,6 +27,7 @@ class signUpDTO(BaseModel):
     email: str
     photo:str
     password: str
+    is_google: Optional[bool] = True
 
 class NearbyPlacesRequest(BaseModel):
     location: str
@@ -60,8 +61,9 @@ async def sign_up(user: signUpDTO, db: Session = Depends(get_db)):
         
         
         if found_user:      
-            """  if not bcrypt.checkpw(user.password.encode('utf-8'), found_user.password.encode('utf-8')):
-                return {"status": 400, "message": AuthMsg.PASSWORD_WRONG.dict(), "val": []} """
+            if user.is_google == False:
+                if not bcrypt.checkpw(user.password.encode('utf-8'), found_user.password.encode('utf-8')):
+                    return {"status": 400, "message": AuthMsg.PASSWORD_WRONG.dict(), "val": []}
         
             if found_user.available == False:
                 return {"status": 400, "message": AuthMsg.USER_NOT_AVAILABLE.dict(), "val": []}

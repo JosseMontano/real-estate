@@ -23,6 +23,7 @@ export const Header = ({ links }: ParamsType) => {
   const { handleLoginGoogle } = useLogin({});
   const [isScrolled, setIsScrolled] = useState(false);
 
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -64,7 +65,7 @@ export const Header = ({ links }: ParamsType) => {
             className="  cursor-pointer"
             onClick={() => {
               selectUser(null);
-              if (!user.id) handleLoginGoogle();
+              if (!user.id) handleNavigate("/auth");
               else handleNavigate("/profile");
             }}
           />
