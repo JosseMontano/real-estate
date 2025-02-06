@@ -52,6 +52,7 @@ export function HomePage() {
   };
 
   const [currentType, setCurrentType] = useState("");
+
   return (
     <ScrollView style={styles.container}>
       <Header />
@@ -75,21 +76,22 @@ export function HomePage() {
         handlePagination={handlePagination}
         lastPage={amountOfPages}
       />
-   </View>
+   </View> 
+  
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+   container: {
     flex: 1,
     backgroundColor: "#fff",
   },
-  
   cardContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
     gap: 20,
   },
+
 });

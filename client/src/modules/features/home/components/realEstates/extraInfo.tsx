@@ -15,6 +15,7 @@ export const ExtraInfo = ({
   places,
   isLoading,
 }: ParamsType) => {
+
   return (
     <>
       {states === "places" && (

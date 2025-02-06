@@ -1,8 +1,9 @@
+import React, { useState } from "react";
 import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import { StarIcon } from "../../../shared/icons/icons";
-import { truncateText } from "../../../core/helpers/truncateText";
 import { RealEstate } from "../../../shared/types/realEstate";
-import { Language, useLanguageStore } from "../../../core/store/language";
+import { useLanguageStore } from "../../../core/store/language";
+import WebView from "react-native-webview";
 
 type ParamsType = {
   v: RealEstate;
@@ -10,7 +11,11 @@ type ParamsType = {
 };
 
 export const Card = ({ v, showRealEstate }: ParamsType) => {
-    const { texts, language } = useLanguageStore();
+  const { texts, language } = useLanguageStore();
+  const [activeButton, setActiveButton] = useState<"info" | "places">("info"); // Track active button
+  console.log(v.lat_long);
+  const mapUrl="http://192.168.1.7:5173/map/"+v.lat_long
+
   return (
     <View style={styles.container} key={v.id}>
       <Pressable onPress={() => showRealEstate(v)}>
@@ -22,29 +27,68 @@ export const Card = ({ v, showRealEstate }: ParamsType) => {
         />
       </Pressable>
 
+      {/* Buttons: Info and Places */}
       <View style={styles.buttonContainer}>
-        <Pressable style={styles.button}>
-          <Text style={styles.buttonText}>{texts.btnInfo}</Text>
+        <Pressable
+          style={[
+            styles.button,
+            activeButton === "info" && styles.activeButton, // Apply active style
+          ]}
+          onPress={() => setActiveButton("info")} // Set active button
+        >
+          <Text
+            style={[
+              styles.buttonText,
+              activeButton === "info" && styles.activeButtonText, // Apply active text style
+            ]}
+          >
+            {texts.btnInfo}
+          </Text>
         </Pressable>
-        <Pressable style={styles.button}>
-          <Text style={styles.buttonText}>{texts.btnPlaces}</Text>
+        <Pressable
+          style={[
+            styles.button,
+            activeButton === "places" && styles.activeButton, // Apply active style
+          ]}
+          onPress={() => setActiveButton("places")} // Set active button
+        >
+          <Text
+            style={[
+              styles.buttonText,
+              activeButton === "places" && styles.activeButtonText, // Apply active text style
+            ]}
+          >
+            {texts.btnPlaces}
+          </Text>
         </Pressable>
       </View>
 
-      <Text style={styles.title}>{v.title[language]}</Text>
-      <Text style={styles.contact}>{v.user.email}</Text>
-      <Text style={styles.description}>
-       {v.description[language]}
-      </Text>
+      {activeButton == "info" && (
+        <View>
+          <Text style={styles.title}>{v.title[language]}</Text>
+          <Text style={styles.contact}>{v.user.email}</Text>
+          <Text style={styles.description}>{v.description[language]}</Text>
 
-      {/* Price and Rating */}
-      <View style={styles.infoContainer}>
-        <Text style={styles.price}>{v.price} BS</Text>
-        <View style={styles.ratingContainer}>
-          <StarIcon size={15} />
-          <Text style={styles.rating}>{v.user.qualification}</Text>
+          {/* Price and Rating */}
+          <View style={styles.infoContainer}>
+            <Text style={styles.price}>{v.price} BS</Text>
+            <View style={styles.ratingContainer}>
+              <StarIcon size={15} />
+              <Text style={styles.rating}>{v.user.qualification}</Text>
+            </View>
+          </View>
         </View>
-      </View>
+      )}
+
+      {activeButton =="places" && (
+            <WebView
+                source={{ uri: mapUrl }}
+                style={styles.webView}
+                javaScriptEnabled={true} 
+                domStorageEnabled={true} 
+              />
+      )}
+
     </View>
   );
 };
@@ -97,10 +141,16 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     alignItems: "center",
   },
+  activeButton: {
+    backgroundColor: "red", // Red background for active button
+  },
   buttonText: {
     fontSize: 14,
     color: "#333",
     fontWeight: "500",
+  },
+  activeButtonText: {
+    color: "#fff", // White text for active button
   },
   infoContainer: {
     flexDirection: "row",
@@ -120,4 +170,8 @@ const styles = StyleSheet.create({
   rating: {
     fontSize: 14,
   },
+  webView:{
+    height:200,
+    width:"96%"
+  }
 });

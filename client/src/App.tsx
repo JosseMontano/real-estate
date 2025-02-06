@@ -14,6 +14,7 @@ import { DashGraphics } from "@/features/dashGraphics/dashGraphics";
 import { DashComments } from "@/features/dashComments/dashComments";
 import { DashResponses } from "@/features/dashResponses/dashResponses";
 import { DashReports } from "@/features/dashReports/dashReports";
+import { MapPage } from "@/features/map/map";
 
 export const queryClient = new QueryClient();
 export type Routes =
@@ -43,6 +44,8 @@ function App() {
             <Route path="/auth" element={<AuthPage />} />
             <Route path="/reset_password/:code/:email" element={<AuthPage />} />
             <Route path="/img360" element={<Img360 />} />
+            {/* @ts-ignore */}
+            <Route path="/map/:lat_long" element={<MapPage />} />
             <Route path="/dashboard" element={<Dashboard />}>
               <Route path="" element={<DashGraphics />} />
               <Route path="realEstates" element={<DashRealEstates />} />
