@@ -57,14 +57,13 @@ export function HomePage() {
       <Header />
 
    <View style={{padding:15}}>
-<Filter currentType={currentType} setCurrentType={setCurrentType} typeRE={typeRE}/>
+    <Filter currentType={currentType} setCurrentType={setCurrentType} typeRE={typeRE}/>
 
       <View style={styles.cardContainer}>
         {realEstates?.map((v) => (
           <Card
             key={v.id}
             v={v}
-            language={language}
             showRealEstate={showRealEstate}
           />
         ))}
