@@ -24,10 +24,10 @@ export const Card = ({ v, showRealEstate }: ParamsType) => {
 
       <View style={styles.buttonContainer}>
         <Pressable style={styles.button}>
-          <Text style={styles.buttonText}>Informacion</Text>
+          <Text style={styles.buttonText}>{texts.btnInfo}</Text>
         </Pressable>
         <Pressable style={styles.button}>
-          <Text style={styles.buttonText}>Lugares</Text>
+          <Text style={styles.buttonText}>{texts.btnPlaces}</Text>
         </Pressable>
       </View>
 

@@ -30,7 +30,7 @@ export function HomePage() {
   } = useGet({
     services: () => fetchRealEstates(1),
     queryKey: ["realEstates"],
-    itemsPerPage: 6,
+    itemsPerPage: 4,
     valueToService: 1,
   });
 

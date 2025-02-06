@@ -21,6 +21,8 @@ export interface Translations {
   subTitle: string;
   //homePage
   typeText: string;
+  btnInfo:string
+  btnPlaces:string
 }
 
 const translations: { [key in Language]: Translations } = {
@@ -37,6 +39,8 @@ const translations: { [key in Language]: Translations } = {
     subTitle: "Enjoy life in your dream home",
     //homePage
     typeText: "Type",
+    btnInfo:"Information",
+    btnPlaces:"Places",
   },
   es: {
     //shared
@@ -51,6 +55,8 @@ const translations: { [key in Language]: Translations } = {
     subTitle: "Disfruta la vida en tu casa soñada",
       //homePage
     typeText: "Tipo",
+    btnInfo:"Informacion",
+    btnPlaces:"Lugares",
   },
   pt: {
     //shared
@@ -65,6 +71,8 @@ const translations: { [key in Language]: Translations } = {
     subTitle: "Disfruta la vida en tu casa soñada",
       //homePage
     typeText: "Tipo",
+    btnInfo:"Informação",
+    btnPlaces:"Lugares",
   },
 };
 
