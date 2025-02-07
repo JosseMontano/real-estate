@@ -7,7 +7,6 @@ import {
   Pressable,
 } from "react-native";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useLanguageStore } from "../../core/store/language";
 import { Config } from "../../shared/components/config";
@@ -16,6 +15,7 @@ import useAuthStore from "../../core/store/auth";
 import { useForm } from "../../core/hooks/useForm";
 import { useMemo } from "react";
 import GoogleLogin from "./components/googleLogin";
+import { Btn } from "../../core/components/btn";
 
 export const useUserShema = () => {
   const { texts } = useLanguageStore();
@@ -23,14 +23,7 @@ export const useUserShema = () => {
     return z.object({
       email: z.string().email("Invalid email"),
       password: z.string().min(6, "Password must be at least 6 characters"),
-      /*      confirmPassword: z
-          .string()
-          .min(6, "Confirm password must be at least 6 characters"), */
     });
-    /*       .refine((data) => data.password === data.confirmPassword, {
-        path: ["confirmPassword"],
-        message: "Passwords must match",
-      }); */
   }, [texts]);
 };
 
@@ -60,72 +53,75 @@ export function AuthPage() {
 
   const { texts } = useLanguageStore();
 
-  const hi = () => {
-    handleRedirect("MainTabs");
-  };
-
   return (
-    <View style={styles.container}>
-      <View>
-        <Image
-          style={styles.image}
-          source={require("../../shared/assets/realEstate.png")}
-        />
-      </View>
-
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>{texts.title}</Text>
-        <Text style={styles.subTitle}>{texts.subTitle}</Text>
-      </View>
-
-      <View style={styles.inputContainer}>
-        <Controller
-          name="email"
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <View>
-              <TextInput
-                style={[styles.input, errors.email && styles.errorInput]}
-                placeholder="Email"
-                value={value}
-                onChangeText={onChange}
-              />
-              {errors.email && (
-                <Text style={styles.errorText}>{errors.email.message}</Text>
-              )}
-            </View>
-          )}
-        />
-
-        <Controller
-          name="password"
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <View>
-              <TextInput
-                style={[styles.input, errors.password && styles.errorInput]}
-                placeholder="Password"
-                secureTextEntry
-                value={value}
-                onChangeText={onChange}
-              />
-              {errors.password && (
-                <Text style={styles.errorText}>{errors.password.message}</Text>
-              )}
-            </View>
-          )}
-        />
-        <View style={styles.btnContainer}>
-          <Pressable style={styles.btn} onPress={handleOnSubmit}>
-            <Text style={styles.btnText}>I'm pressable!</Text>
-          </Pressable>
-          <Text style={styles.footerText}>¿Olvidaste tu contraseña?</Text>
+    <View
+      style={{
+        backgroundColor: "#f3f4f6",
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <View style={styles.container}>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>{texts.title}</Text>
+          <Text style={styles.subTitle}>{texts.subTitle}</Text>
         </View>
+
+        <View style={styles.inputContainer}>
+          <Controller
+            name="email"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <View>
+                <TextInput
+                  style={[styles.input, errors.email && styles.errorInput]}
+                  placeholder="Email"
+                  value={value}
+                  onChangeText={onChange}
+                />
+                {errors.email && (
+                  <Text style={styles.errorText}>{errors.email.message}</Text>
+                )}
+              </View>
+            )}
+          />
+
+          <Controller
+            name="password"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <View>
+                <TextInput
+                  style={[styles.input, errors.password && styles.errorInput]}
+                  placeholder="Password"
+                  secureTextEntry
+                  value={value}
+                  onChangeText={onChange}
+                />
+                {errors.password && (
+                  <Text style={styles.errorText}>
+                    {errors.password.message}
+                  </Text>
+                )}
+              </View>
+            )}
+          />
+          <View style={styles.btnContainer}>
+            <Text style={styles.footerText}>¿Olvidaste tu contraseña?</Text>
+            <Btn text="Sign in" fullWidth handleOnSubmit={onSubmit} />
+          </View>
+        </View>
+
+        <Text>O</Text>
+
+        <Text>Inicia con Google</Text>
+        <View style={{width:"90%"}}>
+        <GoogleLogin />
+        </View>
+   
+     
       </View>
-      <Pressable onPress={hi}>
-        <Text>hi</Text>
-      </Pressable>
-      <GoogleLogin />
       <Config />
     </View>
   );
@@ -133,16 +129,14 @@ export function AuthPage() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     gap: 13,
     backgroundColor: "#fff",
+    width: "90%",
     alignItems: "center",
-    justifyContent: "center",
+    paddingVertical: 20,
+    borderRadius:15,
   },
-  image: {
-    width: 100,
-    height: 100,
-  },
+
   title: {
     fontSize: 25,
     fontWeight: "700",
@@ -184,23 +178,11 @@ const styles = StyleSheet.create({
   btnContainer: {
     marginTop: 10,
     display: "flex",
-    flexDirection: "column",
     gap: 13,
-    alignItems: "center",
-  },
-  btn: {
-    borderRadius: 20,
-    backgroundColor: "#6ca704",
-    padding: 13,
-  },
-  btnText: {
-    textAlign: "center",
-    color: "#fff",
-    fontWeight: 600,
   },
   footerText: {
-    textAlign: "center",
-    color: "#6ca704",
+    width: "100%",
+    textAlign: "right",
     fontWeight: 400,
   },
 });

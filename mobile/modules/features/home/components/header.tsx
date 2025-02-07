@@ -6,15 +6,17 @@ import {
   Dimensions,
 } from "react-native";
 import { Btn } from "../../../core/components/btn";
+import { useNagigation } from "../../../core/hooks/useNavigation";
 
 type ParamsType = {};
 
 export const Header = ({}: ParamsType) => {
+    const { handleRedirect } = useNagigation();
   return (
     <View>
       <View style={styles.headerContainer}>
         <Text style={styles.title}>InmoApp</Text>
-        <Btn text="Publicar propiedad" />
+        <Btn text="Publicar propiedad" handleOnSubmit={()=>handleRedirect("Auth")} />
       </View>
 
       <ImageBackground

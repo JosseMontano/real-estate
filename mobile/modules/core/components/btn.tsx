@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View, Image, Pressable } from "react-native";
+import { primaryColor } from "../constants/colors";
 type ParamsType = {
   text: string;
-  handleOnSubmit?: (e?: React.BaseSyntheticEvent) => Promise<void>;
+  handleOnSubmit?: any;
   fullWidth?:boolean
 };
 export const Btn = ({ text, handleOnSubmit, fullWidth=false }: ParamsType) => {
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
   },
   btn: {
     borderRadius: 20,
-    backgroundColor: "#6ca704",
+    backgroundColor: primaryColor,
     padding: 13,
   },
   btnText: {

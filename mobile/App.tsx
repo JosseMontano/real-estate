@@ -66,22 +66,19 @@ export default function App() {
         <NavigationContainer>
           <Stack.Navigator>
           <Stack.Screen
+              name="Auth"
+              component={AuthPage}
+              options={{
+                headerShown: false,
+                
+              }}
+            />
+          <Stack.Screen
               name="Home"
               component={HomePage}
               options={{ headerShown: false }}
             />
-            <Stack.Screen
-              name="Auth"
-              component={AuthPage}
-              options={{
-                headerTitle: "Auth",
-                headerStyle: {
-                  backgroundColor: primaryColor,
-                },
-                headerTintColor: "#fff",
-              }}
-            />
-   
+      
             <Stack.Screen
               name="MainTabs"
               component={TabNavigator}

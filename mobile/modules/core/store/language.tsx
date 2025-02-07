@@ -35,7 +35,7 @@ const translations: { [key in Language]: Translations } = {
     portugueseConfig: "Portuguese",
     sucess: "Success",
     //auth
-    title: "Welcome to InmoApp",
+    title: "Sign in",
     subTitle: "Enjoy life in your dream home",
     //homePage
     typeText: "Type",
@@ -51,7 +51,7 @@ const translations: { [key in Language]: Translations } = {
     portugueseConfig: "Portugués",
     sucess: "Exitoso",
     //auth
-    title: "Bienvenido a InmoApp",
+    title: "Iniciar sesion",
     subTitle: "Disfruta la vida en tu casa soñada",
       //homePage
     typeText: "Tipo",
@@ -67,7 +67,7 @@ const translations: { [key in Language]: Translations } = {
     portugueseConfig: "Português",
     sucess: "bem-sucedido",
     //auth
-    title: "Bem-vindo ao InmoApp",
+    title: "Entrar",
     subTitle: "Disfruta la vida en tu casa soñada",
       //homePage
     typeText: "Tipo",

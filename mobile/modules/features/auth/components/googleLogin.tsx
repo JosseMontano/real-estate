@@ -1,7 +1,8 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import * as WebBrowser from "expo-web-browser";
 import * as Linking from "expo-linking";
+import { primaryColor } from "../../../core/constants/colors";
 
 export const getParamsStr = (params: Record<string, string | undefined>) => {
   const arr = [];
@@ -52,12 +53,31 @@ const GoogleLogin = () => {
   }, []);
 
   return (
-    <Pressable onPress={handlePress}>
-      <Text>Logueate con google haciendo click aquí</Text>
+    <Pressable style={styles.btn} onPress={handlePress}>
+         <Image
+        style={styles.image}
+        source={require('../assets/google.png')}
+      />
+      <Text>Loguin con google</Text>
     </Pressable>
   );
 };
 
 export default GoogleLogin;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  btn:{
+    borderColor:primaryColor,
+    borderWidth:1,
+    borderRadius:20,
+    padding:13,
+    flexDirection:"row",
+    alignItems:"center",
+    justifyContent:"center",
+    gap:10,
+  },
+  image:{
+    width:30,
+    height:30
+  }
+});
