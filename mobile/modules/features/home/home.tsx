@@ -18,6 +18,7 @@ import { Pagination } from "../../core/components/pagination";
 
 import { useState } from "react";
 import { Filter } from "./components/filter";
+import { Footer } from "./components/footer";
 
 export function HomePage() {
   const {
@@ -76,7 +77,10 @@ export function HomePage() {
           handlePagination={handlePagination}
           lastPage={amountOfPages}
         />
+
+     
       </View>
+      <Footer />
     </ScrollView>
   );
 }

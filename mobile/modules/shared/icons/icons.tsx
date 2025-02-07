@@ -15,13 +15,7 @@ export const StarIcon = ({ size }: Params) => (
 export const SearchIcon = () => (
   <Icon name="search1" size={iconSize} color={"#000"} />
 );
-export const FacebookIcon = () => (
-  <IconFontAwesome
-    name="facebook-square"
-    size={iconSize}
-    style={{ width: 30, color: "#3B5998" }}
-  />
-);
+
 export const WhatsappIcon = () => (
   <IconFontAwesome5
     name="whatsapp-square"
@@ -37,3 +31,7 @@ export const YoutubeIcon = () => (
     color={"#d22721"}
   />
 );
+
+export const FacebookIcon = <Icon name="facebook-square" size={25} color="#fff" />;
+export const YTIcon = <Icon name="youtube" size={25} color="#fff" />;
+export const InstagramIcon = <Icon name="instagram" size={25} color="#fff" />;
