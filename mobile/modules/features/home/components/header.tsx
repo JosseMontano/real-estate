@@ -3,14 +3,13 @@ import {
   Text,
   View,
   ImageBackground,
-  TouchableOpacity,
+  Dimensions,
 } from "react-native";
-import { SearchIcon } from "../../../shared/icons/icons";
 import { Btn } from "../../../core/components/btn";
-type ParamsType = {
- 
-};
-export const Header = ({  }: ParamsType) => {
+
+type ParamsType = {};
+
+export const Header = ({}: ParamsType) => {
   return (
     <View>
       <View style={styles.headerContainer}>
@@ -21,6 +20,7 @@ export const Header = ({  }: ParamsType) => {
       <ImageBackground
         source={require("../../../shared/assets/bg.jpg")}
         style={styles.imageContainer}
+        resizeMode="cover" // Ensures the image covers the entire container
       >
         <View style={styles.overlay}>
           <Text style={styles.mainTitle}>
@@ -35,6 +35,7 @@ export const Header = ({  }: ParamsType) => {
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: "row",
@@ -42,9 +43,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#000",
     width: "100%",
-    paddingInline: 40,
+    paddingHorizontal: 40,
     paddingTop: 40,
     paddingBottom: 20,
+    position:"absolute",
+    zIndex:10,
   },
   title: {
     color: "#fff",
@@ -64,9 +67,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   imageContainer: {
-    height: 400,
+    position:"static",
+    width: "100%", // Full width
+    height: Dimensions.get("window").height * 1, // 90% of screen height (adjust as needed)
     justifyContent: "center",
-    paddingHorizontal: 0, // Remove padding to match full width
   },
   overlay: {
     ...StyleSheet.absoluteFillObject, // Fills the entire parent container

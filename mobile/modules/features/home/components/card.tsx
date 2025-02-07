@@ -13,7 +13,7 @@ type ParamsType = {
 export const Card = ({ v, showRealEstate }: ParamsType) => {
   const { texts, language } = useLanguageStore();
   const [activeButton, setActiveButton] = useState<"info" | "places">("info"); // Track active button
-  console.log(v.lat_long);
+
   const mapUrl="http://192.168.1.7:5173/map/"+v.lat_long
 
   return (

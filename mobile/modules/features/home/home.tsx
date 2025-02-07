@@ -57,33 +57,32 @@ export function HomePage() {
     <ScrollView style={styles.container}>
       <Header />
 
-   <View style={{padding:15}}>
-    <Filter currentType={currentType} setCurrentType={setCurrentType} typeRE={typeRE}/>
+      <View style={{ padding: 15 }}>
+        <Filter
+          currentType={currentType}
+          setCurrentType={setCurrentType}
+          typeRE={typeRE}
+        />
 
-      <View style={styles.cardContainer}>
-        {realEstates?.map((v) => (
-          <Card
-            key={v.id}
-            v={v}
-            showRealEstate={showRealEstate}
-          />
-        ))}
+        <View style={styles.cardContainer}>
+          {realEstates?.map((v) => (
+            <Card key={v.id} v={v} showRealEstate={showRealEstate} />
+          ))}
+        </View>
+
+        <Pagination
+          currentPage={currentPage}
+          amountOfPages={amountOfPages}
+          handlePagination={handlePagination}
+          lastPage={amountOfPages}
+        />
       </View>
-
-      <Pagination
-        currentPage={currentPage}
-        amountOfPages={amountOfPages}
-        handlePagination={handlePagination}
-        lastPage={amountOfPages}
-      />
-   </View> 
-  
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-   container: {
+  container: {
     flex: 1,
     backgroundColor: "#fff",
   },
@@ -93,5 +92,4 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     gap: 20,
   },
-
 });
