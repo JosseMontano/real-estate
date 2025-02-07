@@ -1,5 +1,4 @@
 import { StyleSheet, Text, View, Image } from "react-native";
-import Icon from "react-native-vector-icons/AntDesign";
 import { FacebookIcon, InstagramIcon, YTIcon } from "../../../shared/icons/icons";
 
 type ParamsType = {};

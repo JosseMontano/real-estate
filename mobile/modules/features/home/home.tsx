@@ -19,6 +19,7 @@ import { Pagination } from "../../core/components/pagination";
 import { useState } from "react";
 import { Filter } from "./components/filter";
 import { Footer } from "./components/footer";
+import { QuestionForm } from "./components/questionForm";
 
 export function HomePage() {
   const {
@@ -78,7 +79,7 @@ export function HomePage() {
           lastPage={amountOfPages}
         />
 
-     
+     <QuestionForm />
       </View>
       <Footer />
     </ScrollView>
