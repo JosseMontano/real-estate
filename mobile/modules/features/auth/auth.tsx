@@ -72,13 +72,10 @@ export function AuthPage() {
     },
   });
 
-  useEffect(() => {
-    console.log(user);
-    if (user.email !== "") {
-      handleRedirect("Profile");
-    }
-  }, [user.email, handleRedirect]);
 
+  if (user.email !== "") {
+    handleRedirect("Profile");
+  }
   return (
     <View
       style={{

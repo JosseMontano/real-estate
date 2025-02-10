@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import { categoryType } from "../types/types";
+import { secondaryColor } from "../../../core/constants/colors";
 type ParamsType = {
   activeCategory: categoryType;
   setActiveCategory: (v: categoryType) => void;
@@ -46,7 +47,7 @@ const styles = StyleSheet.create({
   active: {
     color: "#181818",
     fontWeight: "500",
-    borderBottomColor: "#000",
-    borderBottomWidth: 2,
+    borderBottomColor: secondaryColor,
+    borderBottomWidth: 4,
   },
 });
