@@ -9,16 +9,18 @@ import { SocialMedia } from "./components/socialMedia";
 import { useState } from "react";
 import { categoryType } from "./types/types";
 import { Categories } from "./components/category";
+import useAuthStore from "../../core/store/auth";
 
 export function ProfilePage() {
   const [activeCategory, setActiveCategory] =
     useState<categoryType>("realEstates");
-
+  const {user} = useAuthStore()
+  console.log(user);
   return (
     <ScrollView style={styles.scroll}>
       <View style={styles.container}>
-        <BasicInfo />
-        <SocialMedia />
+        <BasicInfo user={user}/>
+        {/* <SocialMedia /> */}
         <View>
           <Categories
             activeCategory={activeCategory}

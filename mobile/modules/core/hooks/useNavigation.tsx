@@ -1,12 +1,25 @@
-import { useLinkTo } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-type Redirect = "MainTabs" | "RealEstate" | "Auth"
+type Redirect = "MainTabs" | "RealEstate" | "Auth" | "Profile"
+
+type RootStackParamList = {
+  MainTabs: undefined;
+  RealEstate: undefined;
+  Auth: undefined;
+  Profile: undefined;
+};
+
+type ProfileScreenNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  "Profile"
+>;
 
 export const useNagigation = () => {
-  const linkTo = useLinkTo();
+  const navigation = useNavigation<ProfileScreenNavigationProp>();
 
   const handleRedirect = (v:Redirect) => {
-    linkTo("/"+v);
+    navigation.navigate(v);
   };
 
   return {

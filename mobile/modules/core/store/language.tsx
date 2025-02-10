@@ -19,6 +19,8 @@ export interface Translations {
   //auth
   title: string;
   subTitle: string;
+  invalidEmailAuth:string;
+  invalidPasswordAuth:string
   //homePage
   typeText: string;
   btnInfo:string
@@ -37,6 +39,8 @@ const translations: { [key in Language]: Translations } = {
     //auth
     title: "Sign in",
     subTitle: "Enjoy life in your dream home",
+    invalidEmailAuth:"Invalid email",
+    invalidPasswordAuth:"Must be at least 6 characters",
     //homePage
     typeText: "Type",
     btnInfo:"Information",
@@ -53,6 +57,8 @@ const translations: { [key in Language]: Translations } = {
     //auth
     title: "Iniciar sesion",
     subTitle: "Disfruta la vida en tu casa soñada",
+    invalidEmailAuth:"Correo inválido",
+    invalidPasswordAuth:"Debe tener al menos 6 caracteres",
       //homePage
     typeText: "Tipo",
     btnInfo:"Informacion",
@@ -69,6 +75,8 @@ const translations: { [key in Language]: Translations } = {
     //auth
     title: "Entrar",
     subTitle: "Disfruta la vida en tu casa soñada",
+    invalidEmailAuth:"Email inválido",
+    invalidPasswordAuth:"Deve ter pelo menos 6 caracteres",
       //homePage
     typeText: "Tipo",
     btnInfo:"Informação",

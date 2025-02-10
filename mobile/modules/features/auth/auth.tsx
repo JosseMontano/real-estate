@@ -1,34 +1,39 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TextInput,
-  Pressable,
-} from "react-native";
+import { StyleSheet, Text, View, TextInput } from "react-native";
 import { z } from "zod";
-
 import { useLanguageStore } from "../../core/store/language";
 import { Config } from "../../shared/components/config";
 import { useNagigation } from "../../core/hooks/useNavigation";
 import useAuthStore from "../../core/store/auth";
 import { useForm } from "../../core/hooks/useForm";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import GoogleLogin from "./components/googleLogin";
 import { Btn } from "../../core/components/btn";
+import { handlePost } from "../../core/helpers/fetch";
+import { handleToast } from "../../core/helpers/toast";
+import { User } from "../../core/store/user";
 
 export const useUserShema = () => {
   const { texts } = useLanguageStore();
   return useMemo(() => {
     return z.object({
-      email: z.string().email("Invalid email"),
-      password: z.string().min(6, "Password must be at least 6 characters"),
+      email: z.string().email(texts.invalidEmailAuth),
+      password: z.string().min(6, texts.invalidPasswordAuth),
+      photo: z.string().optional(),
+      code: z
+        .string()
+        .optional()
+        .transform((val) => (val ? Number(val) : undefined)),
+      is_google: z.boolean().optional(),
     });
   }, [texts]);
 };
 
 export function AuthPage() {
+  const { language,texts } = useLanguageStore();
   const { handleRedirect } = useNagigation();
+  const { login, user } = useAuthStore();
+
+
   const userSchema = useUserShema();
   const {
     register,
@@ -42,16 +47,37 @@ export function AuthPage() {
   } = useForm({
     schema: userSchema,
     form: async (data) => {
-      console.log(data);
+      data.photo =
+        "https://firebasestorage.googleapis.com/v0/b/new-realestate-f4127.appspot.com/o/users%2FdefaultUser.jpg?alt=media&token=e9d3452e-a245-4b1d-a711-ffeba2237443";
+      data.is_google = false;
+      const { val, message, status } = await handlePost<User>(
+        "auth/signup",
+        data
+      );
+      if (status === 200) {
+        handleToast(message[language], texts.sucess);
+        login({
+          email: val.email,
+          role: val.role,
+          id: val.id,
+          available: val.available,
+          cellphone: val.cellphone,
+          username: val.username,
+          photo: val.photo,
+          following: val.following,
+          favorites: val.favorites,
+        });
+        handleRedirect("Profile");
+      }
     },
   });
-  const { login } = useAuthStore();
 
-  const onSubmit = (data: { email: string; password: string }) => {
-    console.log("Form Data:", data);
-  };
-
-  const { texts } = useLanguageStore();
+  useEffect(() => {
+    console.log(user);
+    if (user.email !== "") {
+      handleRedirect("Profile");
+    }
+  }, [user.email, handleRedirect]);
 
   return (
     <View
@@ -67,7 +93,6 @@ export function AuthPage() {
           <Text style={styles.title}>{texts.title}</Text>
           <Text style={styles.subTitle}>{texts.subTitle}</Text>
         </View>
-
         <View style={styles.inputContainer}>
           <Controller
             name="email"
@@ -109,18 +134,16 @@ export function AuthPage() {
           />
           <View style={styles.btnContainer}>
             <Text style={styles.footerText}>¿Olvidaste tu contraseña?</Text>
-            <Btn text="Sign in" fullWidth handleOnSubmit={onSubmit} />
+            <Btn text="Sign in" fullWidth handleOnSubmit={handleOnSubmit} />
           </View>
         </View>
 
         <Text>O</Text>
 
         <Text>Inicia con Google</Text>
-        <View style={{width:"90%"}}>
-        <GoogleLogin />
+        <View style={{ width: "90%" }}>
+          <GoogleLogin />
         </View>
-   
-     
       </View>
       <Config />
     </View>
@@ -134,7 +157,7 @@ const styles = StyleSheet.create({
     width: "90%",
     alignItems: "center",
     paddingVertical: 20,
-    borderRadius:15,
+    borderRadius: 15,
   },
 
   title: {

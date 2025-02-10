@@ -1,5 +1,14 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { Favorites } from "./auth";
+
+
+export type Follow= {
+  user_id:number
+  id:number
+  user_followed_id:number
+}
+
 
 export type User = {
   id?: number;
@@ -11,6 +20,8 @@ export type User = {
   role?: number; // 1: admin, 2: user
   available?: boolean;
   photo?: string;
+  following:Follow[]
+  favorites:Favorites[]
 };
 
 
