@@ -1,6 +1,8 @@
 import Icon from "react-native-vector-icons/AntDesign";
+import IconEntypo from "react-native-vector-icons/Entypo";
 import IconFontAwesome from "react-native-vector-icons/FontAwesome";
 import IconFontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import IconFontAwesome6 from "react-native-vector-icons/FontAwesome6";
 
 export const iconSize = 30;
 
@@ -35,3 +37,5 @@ export const YoutubeIcon = () => (
 export const FacebookIcon = <Icon name="facebook-square" size={25} color="#fff" />;
 export const YTIcon = <Icon name="youtube" size={25} color="#fff" />;
 export const InstagramIcon = <Icon name="instagram" size={25} color="#fff" />;
+export const AddressIcon = <IconEntypo name="address" size={25} color="#9f9f9f" />;
+export const AdHouse = <IconFontAwesome6 name="house-chimney-medical" size={18} color="#9f9f9f" />;

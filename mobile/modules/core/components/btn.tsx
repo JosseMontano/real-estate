@@ -19,7 +19,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     display: "flex",
     flexDirection: "column",
-
     gap: 13,
   },
   btn: {

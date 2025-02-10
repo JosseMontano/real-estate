@@ -1,31 +1,32 @@
-import {
-  View,
-  ScrollView,
-  StyleSheet,
-  Image,
-} from "react-native";
+import { View, ScrollView, StyleSheet, Image } from "react-native";
 import { BasicInfo } from "./components/basicInfo";
-import { SocialMedia } from "./components/socialMedia";
 import { useState } from "react";
 import { categoryType } from "./types/types";
 import { Categories } from "./components/category";
 import useAuthStore from "../../core/store/auth";
+import { Operations } from "./components/operations";
 
 export function ProfilePage() {
   const [activeCategory, setActiveCategory] =
     useState<categoryType>("realEstates");
-  const {user} = useAuthStore()
-  console.log(user);
+  const { user } = useAuthStore();
+
   return (
     <ScrollView style={styles.scroll}>
       <View style={styles.container}>
-        <BasicInfo user={user}/>
+        <BasicInfo user={user} />
         {/* <SocialMedia /> */}
         <View>
+
+        <Operations />
+
           <Categories
             activeCategory={activeCategory}
             setActiveCategory={setActiveCategory}
           />
+
+        
+
           <View style={styles.containerImg}>
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((v) => (
               <Image
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 10,
     flexDirection: "column",
-    gap: 25,
+    padding: 25,
   },
   containerImg: {
     flexDirection: "row",
