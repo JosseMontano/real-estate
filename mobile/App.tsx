@@ -12,6 +12,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { RealEstatePage } from "./modules/features/realEstate/realEstate";
 import Toast from "react-native-toast-message";
+import { CreateRE } from "./modules/features/createRealEstate/createRealEstate";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -67,6 +68,13 @@ export default function App() {
           <Stack.Navigator>
 
           <Stack.Screen
+              name="CreateRealEstate"
+              component={CreateRE}
+              options={{ headerShown: false }}
+              
+            />
+
+          <Stack.Screen
               name="Home"
               component={HomePage}
               options={{ headerShown: false }}
@@ -79,6 +87,8 @@ export default function App() {
               options={{ headerShown: false }}
               
             />
+
+
             
             <Stack.Screen
               name="Auth"

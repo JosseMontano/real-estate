@@ -50,12 +50,6 @@ export function ProfilePage() {
     valueToService: 1,
   });
 
-  useEffect(() => {
-    if (!userLogged) {
-      handleRedirect("Auth");
-    }
-  }, [userLogged, handleRedirect, userSelected]);
-
   if (!userLogged) {
     return null;
   }

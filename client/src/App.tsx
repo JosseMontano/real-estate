@@ -15,6 +15,8 @@ import { DashComments } from "@/features/dashComments/dashComments";
 import { DashResponses } from "@/features/dashResponses/dashResponses";
 import { DashReports } from "@/features/dashReports/dashReports";
 import { MapPage } from "@/features/map/map";
+import { Map } from "@/core/components/map/maps";
+import { SelectAddress } from "@/features/selectAddress/selectAddress";
 
 export const queryClient = new QueryClient();
 export type Routes =
@@ -46,6 +48,7 @@ function App() {
             <Route path="/img360" element={<Img360 />} />
             {/* @ts-ignore */}
             <Route path="/map/:lat_long" element={<MapPage />} />
+            <Route path="/select_address/" element={<SelectAddress />} />
             <Route path="/dashboard" element={<Dashboard />}>
               <Route path="" element={<DashGraphics />} />
               <Route path="realEstates" element={<DashRealEstates />} />

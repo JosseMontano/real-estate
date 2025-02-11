@@ -14,7 +14,7 @@ export const Card = ({ v, showRealEstate }: ParamsType) => {
   const { texts, language } = useLanguageStore();
   const [activeButton, setActiveButton] = useState<"info" | "places">("info"); // Track active button
 
-  const mapUrl="http://192.168.1.7:5173/map/"+v.lat_long
+  const mapUrl = "http://192.168.1.7:5173/map/" + v.lat_long;
 
   return (
     <View style={styles.container} key={v.id}>
@@ -80,15 +80,14 @@ export const Card = ({ v, showRealEstate }: ParamsType) => {
         </View>
       )}
 
-      {activeButton =="places" && (
-            <WebView
-                source={{ uri: mapUrl }}
-                style={styles.webView}
-                javaScriptEnabled={true} 
-                domStorageEnabled={true} 
-              />
+      {activeButton == "places" && (
+        <WebView
+          source={{ uri: mapUrl }}
+          style={styles.webView}
+          javaScriptEnabled={true}
+          domStorageEnabled={true}
+        />
       )}
-
     </View>
   );
 };
@@ -170,8 +169,8 @@ const styles = StyleSheet.create({
   rating: {
     fontSize: 14,
   },
-  webView:{
-    height:200,
-    width:"96%"
-  }
+  webView: {
+    height: 200,
+    width: "96%",
+  },
 });

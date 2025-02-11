@@ -1,14 +1,16 @@
 import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import { Btn } from "../../../core/components/btn";
 import { AdHouse } from "../../../shared/icons/icons";
+import { useNagigation } from "../../../core/hooks/useNavigation";
 type ParamsType = {};
 export const Operations = ({}: ParamsType) => {
+  const {handleRedirect}= useNagigation()
   return (
     <View style={styles.container}>
       <View style={[styles.btnContainer]}>
-        <Pressable style={styles.btn} onPress={() => {}}>
+        <Pressable style={styles.btn} onPress={() => handleRedirect("CreateRealEstate")}>
           <Text>{AdHouse}</Text>
-          <Text style={styles.btnText}>{"Crear Inmueble"}</Text>
+          <Text style={styles.btnText} >{"Crear Inmueble"}</Text>
         </Pressable>
       </View>
 

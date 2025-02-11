@@ -1,13 +1,14 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-type Redirect = "MainTabs" | "RealEstate" | "Auth" | "Profile"
+type Redirect = "MainTabs" | "RealEstate" | "Auth" | "Profile" | "CreateRealEstate"
 
 type RootStackParamList = {
   MainTabs: undefined;
   RealEstate: undefined;
   Auth: undefined;
   Profile: undefined;
+  CreateRealEstate:undefined
 };
 
 type ProfileScreenNavigationProp = NativeStackNavigationProp<
