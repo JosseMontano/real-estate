@@ -37,5 +37,6 @@ export const useRe = ({currentType}:ParamsType) => {
         amountOfPages,
         handlePagination,
         currentPage,
+        isLoading
     }
 }

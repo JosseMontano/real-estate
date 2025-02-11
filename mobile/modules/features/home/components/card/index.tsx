@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Image, Pressable } from "react-native";
 import { RealEstate } from "../../../../shared/types/realEstate";
-import { useLanguageStore } from "../../../../core/store/language";
 import WebView from "react-native-webview";
 import { urls } from "../../../../core/constants/endpoint";
 import { Info } from "./info";

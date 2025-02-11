@@ -21,11 +21,12 @@ import { handleGet } from "../../core/helpers/fetch";
 import { useTypeRe } from "./hooks/useTypeRE";
 import { useRe } from "./hooks/useRE";
 import { useRedirect } from "./hooks/useRedirect";
+import { SkeletonCard } from "./components/card/skeletonCard";
 
 export function HomePage() {
   const { currentType, setCurrentType, typeRE } = useTypeRe();
 
-  const { filteredRealEstates, amountOfPages, currentPage, handlePagination } =
+  const { filteredRealEstates, amountOfPages, currentPage, handlePagination, isLoading } =
     useRe({ currentType });
 
   const {handleScrollToRE, realEstateRef, scrollViewRef, showRealEstate} = useRedirect()
@@ -47,6 +48,9 @@ export function HomePage() {
             />
 
             <View style={styles.cardContainer}>
+              {isLoading && [1,2,3,4].map((v)=>(
+                <SkeletonCard key={v}/>
+              ))}
               {filteredRealEstates?.map((v) => (
                 <Card key={v.id} v={v} showRealEstate={showRealEstate} />
               ))}
