@@ -32,6 +32,8 @@ export interface Translations {
   homeBtn:string
   //profile
   logOut:string
+  profileRESelected:string
+  profileREFavorites:string
 }
 
 const translations: { [key in Language]: Translations } = {
@@ -59,6 +61,8 @@ const translations: { [key in Language]: Translations } = {
     homeBtn: "Explore our properties",
     //profile
     logOut:"log out",
+    profileRESelected:"Real estates",
+    profileREFavorites:"favorites",
   },
   es: {
     //shared
@@ -84,6 +88,8 @@ const translations: { [key in Language]: Translations } = {
     homeBtn:"Explora nuestras propiedades",
     //profile
     logOut:"Cerrar sesion",
+    profileRESelected:"Inmuebles",
+    profileREFavorites:"Favoritos"
   },
   pt: {
     //shared
@@ -108,7 +114,9 @@ const translations: { [key in Language]: Translations } = {
     homeDescription:"Descubra como melhorar a sua qualidade de vida com uma casa à sua medida.",
     homeBtn:"Explore nossos imóveis",
     //profile
-    logOut:"sair"
+    logOut:"sair",
+    profileRESelected:"Propriedade",
+    profileREFavorites:"favoritos"
   },
 };
 

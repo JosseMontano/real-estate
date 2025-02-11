@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View, Image } from "react-native";
 import { RealEstate } from "../../../shared/types/realEstate";
 type ParamsType = {
-              
     v: RealEstate
 };
 export const RealEstateImg = ({v}: ParamsType) => {

@@ -1,14 +1,18 @@
-import { StyleSheet, Text, View, Image, Pressable } from "react-native";
+import { StyleSheet, Text, View, Pressable } from "react-native";
 import { categoryType } from "../types/types";
 import { secondaryColor } from "../../../core/constants/colors";
+import { useLanguageStore } from "../../../core/store/language";
+
 type ParamsType = {
   activeCategory: categoryType;
   setActiveCategory: (v: categoryType) => void;
 };
+
 export const Categories = ({
   activeCategory,
   setActiveCategory,
 }: ParamsType) => {
+  const {texts}= useLanguageStore()
   return (
     <View style={styles.categoryContainer}>
       <Pressable onPress={() => setActiveCategory("realEstates")}>
@@ -18,7 +22,7 @@ export const Categories = ({
             activeCategory === "realEstates" && styles.active,
           ]}
         >
-          Inmuebles
+          {texts.profileRESelected}
         </Text>
       </Pressable>
 
@@ -26,12 +30,13 @@ export const Categories = ({
         <Text
           style={[styles.category, activeCategory === "Favs" && styles.active]}
         >
-          Favoritos
+          {texts.profileREFavorites}
         </Text>
       </Pressable>
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   categoryContainer: {
     flexDirection: "row",
