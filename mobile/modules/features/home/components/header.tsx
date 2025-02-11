@@ -8,12 +8,18 @@ import {
 import { Btn } from "../../../core/components/btn";
 import { useNagigation } from "../../../core/hooks/useNavigation";
 import useAuthStore from "../../../core/store/auth";
+import { useRef } from "react";
 
-type ParamsType = {};
+type ParamsType = {
+  goRealEstates:()=>void;
+};
 
-export const Header = ({}: ParamsType) => {
+export const Header = ({goRealEstates}: ParamsType) => {
     const { handleRedirect } = useNagigation();
   const {user} = useAuthStore()
+
+
+
   const redirect = ()=>{
     if(user) handleRedirect("Profile")
       else handleRedirect("Profile")
@@ -38,7 +44,7 @@ export const Header = ({}: ParamsType) => {
           <Text style={styles.subtitle}>
             Descubre cómo mejorar tu calidad de vida con una casa a tu medida.
           </Text>
-          <Btn text="Explora nuestras propiedades" withAnimation/>
+          <Btn text="Explora nuestras propiedades" withAnimation handleOnSubmit={goRealEstates}/>
         </View>
       </ImageBackground>
     </View>

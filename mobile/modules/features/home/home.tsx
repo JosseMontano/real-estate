@@ -16,7 +16,7 @@ import { RealEstate } from "../../shared/types/realEstate";
 import { useNagigation } from "../../core/hooks/useNavigation";
 import { Pagination } from "../../core/components/pagination";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Filter } from "./components/filter";
 import { Footer } from "./components/footer";
 import { QuestionForm } from "./components/questionForm";
@@ -45,18 +45,31 @@ export function HomePage() {
   const { texts, language } = useLanguageStore();
   const { handleRedirect } = useNagigation();
 
-
   const showRealEstate = (v: RealEstate) => {
     handleRedirect("Profile", v.user);
   };
 
   const [currentType, setCurrentType] = useState("");
 
-  return (
-    <ScrollView style={styles.container}>
-      <Header />
+  const scrollViewRef = useRef<ScrollView>(null);
+  const realEstateRef = useRef<View>(null);
 
-      <View style={{ padding: 15 }}>
+  const handleScrollToRE = () => {
+    if (scrollViewRef.current && realEstateRef.current) {
+      // Measure the position of the QuestionForm component
+      realEstateRef.current.measure((x, y, width, height, pageX, pageY) => {
+        // Scroll to the position of the QuestionForm component
+        if (scrollViewRef.current)
+          scrollViewRef.current.scrollTo({ y: pageY, animated: true });
+      });
+    }
+  };
+
+  return (
+    <ScrollView style={styles.container} ref={scrollViewRef}>
+      <Header goRealEstates={handleScrollToRE} />
+
+      <View style={{ padding: 15 }} ref={realEstateRef}>
         <Filter
           currentType={currentType}
           setCurrentType={setCurrentType}
@@ -76,7 +89,7 @@ export function HomePage() {
           lastPage={amountOfPages}
         />
 
-     <QuestionForm />
+        <QuestionForm />
       </View>
       <Footer />
     </ScrollView>
