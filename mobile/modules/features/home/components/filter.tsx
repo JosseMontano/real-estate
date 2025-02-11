@@ -21,6 +21,7 @@ export const Filter = ({ typeRE, currentType, setCurrentType }: ParamsType) => {
         valueField="value"
         value={currentType}
         onChange={(val: any) => setCurrentType(val.value)}
+        placeholder={texts.selectType}
       />
     </View>
   );

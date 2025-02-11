@@ -23,6 +23,7 @@ export interface Translations {
   invalidPasswordAuth:string
   //homePage
   typeText: string;
+  selectType:string
   btnInfo:string
   btnPlaces:string
 }
@@ -43,6 +44,7 @@ const translations: { [key in Language]: Translations } = {
     invalidPasswordAuth:"Must be at least 6 characters",
     //homePage
     typeText: "Type",
+    selectType:"Select type",
     btnInfo:"Information",
     btnPlaces:"Places",
   },
@@ -61,6 +63,7 @@ const translations: { [key in Language]: Translations } = {
     invalidPasswordAuth:"Debe tener al menos 6 caracteres",
       //homePage
     typeText: "Tipo",
+    selectType:"Seleccionar tipo",
     btnInfo:"Informacion",
     btnPlaces:"Lugares",
   },
@@ -79,6 +82,7 @@ const translations: { [key in Language]: Translations } = {
     invalidPasswordAuth:"Deve ter pelo menos 6 caracteres",
       //homePage
     typeText: "Tipo",
+     selectType:"selecione o tipo",
     btnInfo:"Informação",
     btnPlaces:"Lugares",
   },

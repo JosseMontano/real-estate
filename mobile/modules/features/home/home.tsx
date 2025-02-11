@@ -1,11 +1,7 @@
 import {
   StyleSheet,
-  Text,
   View,
   ScrollView,
-  ImageBackground,
-  Alert,
-  TouchableOpacity,
 } from "react-native";
 import { Card } from "./components/card";
 import { Header } from "./components/header";
@@ -15,7 +11,6 @@ import { useLanguageStore } from "../../core/store/language";
 import { RealEstate } from "../../shared/types/realEstate";
 import { useNagigation } from "../../core/hooks/useNavigation";
 import { Pagination } from "../../core/components/pagination";
-
 import { useRef, useState } from "react";
 import { Filter } from "./components/filter";
 import { Footer } from "./components/footer";
