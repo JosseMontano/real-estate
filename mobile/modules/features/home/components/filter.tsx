@@ -4,18 +4,18 @@ import { useLanguageStore } from "../../../core/store/language";
 import { TypeRE } from "../../../shared/types/realEstate";
 
 type ParamsType = {
-  typeRE: TypeRE[];
+  data: TypeRE[];
   currentType: string;
   setCurrentType: (val: string) => void;
 };
 
-export const Filter = ({ typeRE, currentType, setCurrentType }: ParamsType) => {
+export const Filter = ({ data, currentType, setCurrentType }: ParamsType) => {
   const { texts, language } = useLanguageStore();
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{texts.typeText}:</Text>
       <Dropdown
-        data={typeRE?.map((v) => ({ label: v.name[language], value: v.id })) || []}
+        data={data?.map((v) => ({ label: v.name[language], value: v.id })) || []}
         style={styles.dropdown}
         labelField="label"
         valueField="value"

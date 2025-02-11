@@ -20,6 +20,11 @@ export type RealEstate = {
   title: LanguageDB
   address: string
   typeRealEstateId: number
+  type_real_estate:{
+    activate:boolean,
+    id:number,
+    name_id:number
+  }
   userId: number
   photos: PhotoRes[]
   zone: Zone
@@ -27,6 +32,7 @@ export type RealEstate = {
   user:User
   similarity_score?:number
 }
+
 
 export interface TypeRE {
   id: number;
