@@ -9,6 +9,7 @@ import { Btn } from "../../../core/components/btn";
 import { useNagigation } from "../../../core/hooks/useNavigation";
 import useAuthStore from "../../../core/store/auth";
 import { useLanguageStore } from "../../../core/store/language";
+import { Navbar } from "../../../shared/components/navbar";
 
 type ParamsType = {
   goRealEstates: () => void;
@@ -17,7 +18,7 @@ type ParamsType = {
 export const Header = ({ goRealEstates }: ParamsType) => {
   const { handleRedirect } = useNagigation();
   const { user } = useAuthStore();
-  const {texts} = useLanguageStore()
+  const { texts } = useLanguageStore();
 
   const redirect = () => {
     if (user) handleRedirect("Profile");
@@ -26,23 +27,16 @@ export const Header = ({ goRealEstates }: ParamsType) => {
 
   return (
     <View>
-      <View style={styles.headerContainer}>
-        <Text style={styles.title}>InmoApp</Text>
-        <Btn text={texts.createRE} handleOnSubmit={() => redirect()} />
-      </View>
+      <Navbar onClick={redirect} texts={texts.createRE} backgroundColor="#000"/>
 
       <ImageBackground
         source={require("../../../shared/assets/bg.jpg")}
         style={styles.imageContainer}
-        resizeMode="cover" 
+        resizeMode="cover"
       >
         <View style={styles.overlay}>
-          <Text style={styles.mainTitle}>
-            {texts.homeTitle}
-          </Text>
-          <Text style={styles.subtitle}>
-            {texts.homeDescription}
-          </Text>
+          <Text style={styles.mainTitle}>{texts.homeTitle}</Text>
+          <Text style={styles.subtitle}>{texts.homeDescription}</Text>
           <Btn
             text={texts.homeBtn}
             withAnimation
@@ -55,23 +49,6 @@ export const Header = ({ goRealEstates }: ParamsType) => {
 };
 
 const styles = StyleSheet.create({
-  headerContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "#000",
-    width: "100%",
-    paddingHorizontal: 40,
-    paddingTop: 40,
-    paddingBottom: 20,
-    position: "absolute",
-    zIndex: 10,
-  },
-  title: {
-    color: "#fff",
-    fontSize: 25,
-    fontWeight: "700",
-  },
   mainTitle: {
     color: "#fff",
     fontSize: 32,
@@ -86,7 +63,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     position: "static",
-    width: "100%", 
+    width: "100%",
     height: Dimensions.get("window").height * 1, // 90% of screen height (adjust as needed)
     justifyContent: "center",
   },

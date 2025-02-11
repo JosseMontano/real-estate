@@ -1,6 +1,6 @@
-import { View, ScrollView, StyleSheet, Image } from "react-native";
+import { View, ScrollView, StyleSheet } from "react-native";
 import { BasicInfo } from "./components/basicInfo";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { categoryType } from "./types/types";
 import { Categories } from "./components/category";
 import useAuthStore from "../../core/store/auth";
@@ -12,16 +12,19 @@ import { RealEstateImg } from "./components/realEstate";
 import { useNagigation } from "../../core/hooks/useNavigation";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { User } from "../../core/store/user";
+import { Navbar } from "../../shared/components/navbar";
+import { useLanguageStore } from "../../core/store/language";
+import { SkeletonRECard } from "./components/skeletonRECard";
 
 
 export function ProfilePage() {
-
+  const {texts} = useLanguageStore()
   const route = useRoute<RouteProp<{ Profile: User }, "Profile">>();
   const userSelected = route.params;
 
   const [activeCategory, setActiveCategory] =
     useState<categoryType>("realEstates");
-  const { user: userLogged } = useAuthStore();
+  const { user: userLogged, logout } = useAuthStore();
   const { handleRedirect } = useNagigation();
 
   const {
@@ -56,6 +59,9 @@ export function ProfilePage() {
 
   return (
     <ScrollView style={styles.scroll}>
+
+      <Navbar onClick={()=>{logout(); handleRedirect("Auth")}} texts={texts.logOut} backgroundColor="#fff"/>
+
       <View style={styles.container}>
         <BasicInfo user={userSelected ?? userLogged} />
 
@@ -68,6 +74,7 @@ export function ProfilePage() {
           />
 
           <View style={styles.containerImg}>
+          {isLoading && [1,2,3,4,5,6].map((v)=> <SkeletonRECard key={v}/>)}
             {posts.map((v) => (
               <RealEstateImg v={v} key={v.id} />
             ))}
@@ -84,7 +91,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   container: {
-    marginTop: 10,
+    marginTop: 90,
     flexDirection: "column",
     padding: 25,
   },

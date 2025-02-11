@@ -30,6 +30,8 @@ export interface Translations {
   homeTitle:string
   homeDescription:string
   homeBtn:string
+  //profile
+  logOut:string
 }
 
 const translations: { [key in Language]: Translations } = {
@@ -55,6 +57,8 @@ const translations: { [key in Language]: Translations } = {
     homeTitle:"Modern house makes life better",
     homeDescription:"Discover how to improve your quality of life with a home tailored to you.",
     homeBtn: "Explore our properties",
+    //profile
+    logOut:"log out",
   },
   es: {
     //shared
@@ -78,6 +82,8 @@ const translations: { [key in Language]: Translations } = {
     homeTitle:"La casa moderna hace la vida mejor.",
     homeDescription:"Descubre cómo mejorar tu calidad de vida con una casa a tu medida.",
     homeBtn:"Explora nuestras propiedades",
+    //profile
+    logOut:"Cerrar sesion",
   },
   pt: {
     //shared
@@ -100,7 +106,9 @@ const translations: { [key in Language]: Translations } = {
     createRE:"publicar propriedade",
     homeTitle:"A casa moderna torna a vida melhor.",
     homeDescription:"Descubra como melhorar a sua qualidade de vida com uma casa à sua medida.",
-    homeBtn:"Explore nossos imóveis"
+    homeBtn:"Explore nossos imóveis",
+    //profile
+    logOut:"sair"
   },
 };
 
