@@ -45,12 +45,9 @@ export function HomePage() {
   const { texts, language } = useLanguageStore();
   const { handleRedirect } = useNagigation();
 
-  const handleSearch = () => {
-    Alert.alert("hi");
-  };
 
   const showRealEstate = (v: RealEstate) => {
-    handleRedirect("RealEstate");
+    handleRedirect("Profile", v.user);
   };
 
   const [currentType, setCurrentType] = useState("");

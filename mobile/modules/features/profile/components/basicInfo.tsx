@@ -18,7 +18,7 @@ export const BasicInfo = ({ user }: ParamsType) => {
           <Text>{AddressIcon}</Text>
           <Text> Cochabamba</Text>
         </Text>
-        <Text style={styles.email}>{user.email}</Text>
+        <Text style={styles.email}>{user?.email}</Text>
       </View>
     </View>
   );

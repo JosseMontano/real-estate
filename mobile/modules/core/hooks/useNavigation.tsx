@@ -18,7 +18,11 @@ type ProfileScreenNavigationProp = NativeStackNavigationProp<
 export const useNagigation = () => {
   const navigation = useNavigation<ProfileScreenNavigationProp>();
 
-  const handleRedirect = (v:Redirect) => {
+  const handleRedirect = (v:Redirect, val?:any) => {
+    if(val){
+      navigation.navigate(v, val)
+      return
+    }
     navigation.navigate(v);
   };
 

@@ -72,10 +72,10 @@ export function AuthPage() {
     },
   });
 
-
-  if (user.email !== "") {
+  if (user?.email !== "") {
     handleRedirect("Profile");
   }
+
   return (
     <View
       style={{

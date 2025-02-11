@@ -10,7 +10,7 @@ export type Favorites = {
 };
 
 interface AuthState {
-  user: User;
+  user: User | null;
   isAuthenticated: boolean;
   login: (user: User) => void;
   follow: (newFollowing: Follow) => void;
@@ -23,45 +23,66 @@ interface AuthState {
 const useAuthStore = create(
   persist<AuthState>(
     (set) => ({
-      user: {} as User,
+      user: null,
       isAuthenticated: false,
       login: (user: User) => set({ user, isAuthenticated: true }),
       follow: (newFollow: Follow) =>
-        set((state) => ({
-          user: {
-            ...state.user,
-            following: [...(state.user?.following || []), newFollow],
-          },
-        })),
+        set((state) => {
+          if (!state.user) {
+            // If user is null, initialize it with default values
+            const defaultUser: User = {
+              email: "", // Provide a default email
+              following: [newFollow],
+              favorites: [],
+              // Add other required properties from the User type
+            };
+            return { user: defaultUser };
+          }
+          return {
+            user: {
+              ...state.user,
+              following: [...state.user.following, newFollow],
+            },
+          };
+        }),
       unfollow: (followId: number) =>
-        set((state) => ({
-          user: {
-            ...state.user,
-            following: state.user.following.filter(
-              (follow) => follow.id !== followId
-            ),
-          },
-        })),
+        set((state) => {
+          if (!state.user) return state; // If user is null, return the current state
+          return {
+            user: {
+              ...state.user,
+              following: state.user.following.filter(
+                (follow) => follow.id !== followId
+              ),
+            },
+          };
+        }),
       addFavorite: (favorite: Favorites) =>
-        set((state) => ({
-          user: {
-            ...state.user,
-            favorites: [...state.user.favorites, favorite],
-          },
-        })),
+        set((state) => {
+          if (!state.user) return state; // If user is null, return the current state
+          return {
+            user: {
+              ...state.user,
+              favorites: [...state.user.favorites, favorite],
+            },
+          };
+        }),
       removeFavorite: (realEstateId: number) =>
-        set((state) => ({
-          user: {
-            ...state.user,
-            favorites: state.user.favorites.filter(
-              (favorite) => favorite.real_estate.id !== realEstateId
-            ),
-          },
-        })),
-      logout: () => set({ user: {} as User, isAuthenticated: false }),
+        set((state) => {
+          if (!state.user) return state; // If user is null, return the current state
+          return {
+            user: {
+              ...state.user,
+              favorites: state.user.favorites.filter(
+                (favorite) => favorite.real_estate.id !== realEstateId
+              ),
+            },
+          };
+        }),
+      logout: () => set({ user: null, isAuthenticated: false }), // Set user to null on logout
     }),
     {
-      name: "auth-storage", 
+      name: "auth-storage",
       storage: {
         getItem: async (name) => {
           const value = await AsyncStorage.getItem(name);
