@@ -101,7 +101,6 @@ export function HomePage() {
               lastPage={amountOfPages}
             />
 
-            {/* Form moves up when keyboard appears */}
             <QuestionForm />
           </View>
           <Footer />

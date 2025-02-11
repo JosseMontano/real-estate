@@ -65,7 +65,7 @@ export const Card = ({ v, showRealEstate }: ParamsType) => {
       </View>
 
       {activeButton == "info" && (
-        <View>
+        <View style={{height:115}}>
           <Text style={styles.title}>{v.title[language]}</Text>
           <Text style={styles.contact}>{v.user.email}</Text>
           <Text style={styles.description}>{v.description[language]}</Text>
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   webView: {
-    height: 200,
+    height: 115,
     width: "96%",
   },
 });
