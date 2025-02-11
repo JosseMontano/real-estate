@@ -9,15 +9,10 @@ import {
 } from "react-native";
 import { Card } from "./components/card";
 import { Header } from "./components/header";
-import useGet from "../../core/hooks/useGet";
-import { RealEstate, TypeRE } from "../../shared/types/realEstate";
-import { useNagigation } from "../../core/hooks/useNavigation";
 import { Pagination } from "../../core/components/pagination";
-import { useRef, useState, useMemo } from "react";
 import { Filter } from "./components/filter";
 import { Footer } from "./components/footer";
 import { QuestionForm } from "./components/questionForm";
-import { handleGet } from "../../core/helpers/fetch";
 import { useTypeRe } from "./hooks/useTypeRE";
 import { useRe } from "./hooks/useRE";
 import { useRedirect } from "./hooks/useRedirect";
