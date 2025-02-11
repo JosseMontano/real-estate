@@ -100,7 +100,7 @@ export default function App() {
           </Stack.Navigator>
         </NavigationContainer>
       </QueryClientProvider>
-      <Toast />
+      <Toast position="bottom"/>
     </SafeAreaProvider>
   );
 }

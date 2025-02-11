@@ -8,43 +8,46 @@ import {
 import { Btn } from "../../../core/components/btn";
 import { useNagigation } from "../../../core/hooks/useNavigation";
 import useAuthStore from "../../../core/store/auth";
-import { useRef } from "react";
+import { useLanguageStore } from "../../../core/store/language";
 
 type ParamsType = {
-  goRealEstates:()=>void;
+  goRealEstates: () => void;
 };
 
-export const Header = ({goRealEstates}: ParamsType) => {
-    const { handleRedirect } = useNagigation();
-  const {user} = useAuthStore()
+export const Header = ({ goRealEstates }: ParamsType) => {
+  const { handleRedirect } = useNagigation();
+  const { user } = useAuthStore();
+  const {texts} = useLanguageStore()
 
-
-
-  const redirect = ()=>{
-    if(user) handleRedirect("Profile")
-      else handleRedirect("Profile")
-  }
+  const redirect = () => {
+    if (user) handleRedirect("Profile");
+    else handleRedirect("Auth");
+  };
 
   return (
     <View>
       <View style={styles.headerContainer}>
         <Text style={styles.title}>InmoApp</Text>
-        <Btn text="Publicar propiedad" handleOnSubmit={()=>redirect()} />
+        <Btn text={texts.createRE} handleOnSubmit={() => redirect()} />
       </View>
 
       <ImageBackground
         source={require("../../../shared/assets/bg.jpg")}
         style={styles.imageContainer}
-        resizeMode="cover" // Ensures the image covers the entire container
+        resizeMode="cover" 
       >
         <View style={styles.overlay}>
           <Text style={styles.mainTitle}>
-            La casa moderna hace la vida mejor.
+            {texts.homeTitle}
           </Text>
           <Text style={styles.subtitle}>
-            Descubre cómo mejorar tu calidad de vida con una casa a tu medida.
+            {texts.homeDescription}
           </Text>
-          <Btn text="Explora nuestras propiedades" withAnimation handleOnSubmit={goRealEstates}/>
+          <Btn
+            text={texts.homeBtn}
+            withAnimation
+            handleOnSubmit={goRealEstates}
+          />
         </View>
       </ImageBackground>
     </View>
@@ -61,8 +64,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
     paddingTop: 40,
     paddingBottom: 20,
-    position:"absolute",
-    zIndex:10,
+    position: "absolute",
+    zIndex: 10,
   },
   title: {
     color: "#fff",
@@ -82,13 +85,13 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   imageContainer: {
-    position:"static",
-    width: "100%", // Full width
+    position: "static",
+    width: "100%", 
     height: Dimensions.get("window").height * 1, // 90% of screen height (adjust as needed)
     justifyContent: "center",
   },
   overlay: {
-    ...StyleSheet.absoluteFillObject, // Fills the entire parent container
+    ...StyleSheet.absoluteFillObject,
     backgroundColor: "rgba(0, 0, 0, 0.4)",
     justifyContent: "center",
     padding: 20,

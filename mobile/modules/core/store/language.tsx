@@ -26,6 +26,10 @@ export interface Translations {
   selectType:string
   btnInfo:string
   btnPlaces:string
+  createRE:string
+  homeTitle:string
+  homeDescription:string
+  homeBtn:string
 }
 
 const translations: { [key in Language]: Translations } = {
@@ -47,6 +51,10 @@ const translations: { [key in Language]: Translations } = {
     selectType:"Select type",
     btnInfo:"Information",
     btnPlaces:"Places",
+    createRE:"Post real estate",
+    homeTitle:"Modern house makes life better",
+    homeDescription:"Discover how to improve your quality of life with a home tailored to you.",
+    homeBtn: "Explore our properties",
   },
   es: {
     //shared
@@ -66,6 +74,10 @@ const translations: { [key in Language]: Translations } = {
     selectType:"Seleccionar tipo",
     btnInfo:"Informacion",
     btnPlaces:"Lugares",
+    createRE:"Publicar propiedad",
+    homeTitle:"La casa moderna hace la vida mejor.",
+    homeDescription:"Descubre cómo mejorar tu calidad de vida con una casa a tu medida.",
+    homeBtn:"Explora nuestras propiedades",
   },
   pt: {
     //shared
@@ -85,6 +97,10 @@ const translations: { [key in Language]: Translations } = {
      selectType:"selecione o tipo",
     btnInfo:"Informação",
     btnPlaces:"Lugares",
+    createRE:"publicar propriedade",
+    homeTitle:"A casa moderna torna a vida melhor.",
+    homeDescription:"Descubra como melhorar a sua qualidade de vida com uma casa à sua medida.",
+    homeBtn:"Explore nossos imóveis"
   },
 };
 
