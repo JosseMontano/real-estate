@@ -31,7 +31,7 @@ export const useUserShema = () => {
 export function AuthPage() {
   const { language,texts } = useLanguageStore();
   const { handleRedirect } = useNagigation();
-  const { login, user } = useAuthStore();
+  const { login } = useAuthStore();
 
 
   const userSchema = useUserShema();
@@ -71,10 +71,6 @@ export function AuthPage() {
       }
     },
   });
-
-  if (user?.email !== "") {
-    handleRedirect("Profile");
-  }
 
   return (
     <View

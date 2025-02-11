@@ -7,16 +7,23 @@ import {
 } from "react-native";
 import { Btn } from "../../../core/components/btn";
 import { useNagigation } from "../../../core/hooks/useNavigation";
+import useAuthStore from "../../../core/store/auth";
 
 type ParamsType = {};
 
 export const Header = ({}: ParamsType) => {
     const { handleRedirect } = useNagigation();
+  const {user} = useAuthStore()
+  const redirect = ()=>{
+    if(user) handleRedirect("Profile")
+      else handleRedirect("Profile")
+  }
+
   return (
     <View>
       <View style={styles.headerContainer}>
         <Text style={styles.title}>InmoApp</Text>
-        <Btn text="Publicar propiedad" handleOnSubmit={()=>handleRedirect("Auth")} />
+        <Btn text="Publicar propiedad" handleOnSubmit={()=>redirect()} />
       </View>
 
       <ImageBackground
