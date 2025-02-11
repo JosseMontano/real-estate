@@ -38,7 +38,7 @@ export const Header = ({}: ParamsType) => {
           <Text style={styles.subtitle}>
             Descubre cómo mejorar tu calidad de vida con una casa a tu medida.
           </Text>
-          <Btn text="Explora nuestras propiedades" />
+          <Btn text="Explora nuestras propiedades" withAnimation/>
         </View>
       </ImageBackground>
     </View>

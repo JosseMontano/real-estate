@@ -48,7 +48,7 @@ const TabNavigator = () => {
             ),
           }}
         />
-      {/*   <Tab.Screen name="Profile" component={ProfilePage} /> */}
+        {/*   <Tab.Screen name="Profile" component={ProfilePage} /> */}
       </Tab.Navigator>
       <ModalConfig
         mainModalVisible={modalVisible}
@@ -66,30 +66,24 @@ export default function App() {
       <QueryClientProvider client={queryClient}>
         <NavigationContainer>
           <Stack.Navigator>
-
-          <Stack.Screen
-              name="CreateRealEstate"
-              component={CreateRE}
-              options={{ headerShown: false }}
-              
-            />
-
-          <Stack.Screen
+            <Stack.Screen
               name="Home"
               component={HomePage}
               options={{ headerShown: false }}
             />
-       
 
-          <Stack.Screen
+            <Stack.Screen
+              name="CreateRealEstate"
+              component={CreateRE}
+              options={{ headerShown: false }}
+            />
+
+            <Stack.Screen
               name="Profile"
               component={ProfilePage}
               options={{ headerShown: false }}
-              
             />
 
-
-            
             <Stack.Screen
               name="Auth"
               component={AuthPage}
@@ -97,7 +91,6 @@ export default function App() {
                 headerShown: false,
               }}
             />
-         
 
             <Stack.Screen
               name="MainTabs"
