@@ -36,7 +36,8 @@ export const QuestionForm = ({}: ParamsType) => {
   });
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>
+    <View style={{gap:20,}}>
+    <Text style={styles.title}>
         Haz una <Text style={{ color: secondaryColor }}>pregunta</Text>
       </Text>
       <Text style={styles.description}>
@@ -67,14 +68,19 @@ export const QuestionForm = ({}: ParamsType) => {
         <Btn text="Guardar" handleOnSubmit={handleOnSubmit} fullWidth />
       </View>
     </View>
+    </View>
   );
 };
 const styles = StyleSheet.create({
   container: {
-    gap: 20,
+    marginTop:20,
+    paddingTop:10,
+    borderColor:"#dadada",
+    borderTopWidth:1,
+    alignItems:"center"
   },
   form: {
-    width: 300,
+    width: 260,
   },
   input: {
     borderWidth: 1,
