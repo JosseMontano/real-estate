@@ -4,11 +4,12 @@ import { useModal } from "@/core/hooks/useModal";
 import { ShowModal } from "@/core/components/form/modal";
 import { useLanguageStore } from "@/core/store/language";
 import Select from "@/core/components/form/select";
+import useNavigation from "@/core/hooks/useNavigate";
 
 export const Config = () => {
   const { texts, language, setLanguage } = useLanguageStore();
   const { handleStateModal, isModalOpen } = useModal();
-
+  const { location } = useNavigation();
   const options = [
     {
       id: "es",
@@ -23,6 +24,10 @@ export const Config = () => {
       name: { es: "Portugués", en: "Portuguese", pt: "Português" },
     },
   ];
+
+  if (location.includes("/map")  || location == "/select_address") {
+    return null;
+  }
 
   return (
     <>
@@ -43,7 +48,7 @@ export const Config = () => {
           <div className="w-[300px]">
             <div className="flex gap-2 ">
               <div className="h-10 flex items-center">
-              <h3 className=" ">{texts.languageConfig}</h3>
+                <h3 className=" ">{texts.languageConfig}</h3>
               </div>
 
               <Select

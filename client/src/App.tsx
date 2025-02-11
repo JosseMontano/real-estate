@@ -31,6 +31,8 @@ export type Routes =
   | "/dashboard/responses"
   | "/dashboard/reports"
   | "/visit_user"
+  | "/map"
+  | "/select_address"
   ;
 
 function App() {
