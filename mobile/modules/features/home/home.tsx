@@ -2,6 +2,10 @@ import {
   StyleSheet,
   View,
   ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import { Card } from "./components/card";
 import { Header } from "./components/header";
@@ -10,7 +14,7 @@ import { useLanguageStore } from "../../core/store/language";
 import { RealEstate, TypeRE } from "../../shared/types/realEstate";
 import { useNagigation } from "../../core/hooks/useNavigation";
 import { Pagination } from "../../core/components/pagination";
-import { useRef, useState, useEffect, useMemo } from "react"; // Add useMemo
+import { useRef, useState, useEffect, useMemo } from "react"; 
 import { Filter } from "./components/filter";
 import { Footer } from "./components/footer";
 import { QuestionForm } from "./components/questionForm";
@@ -58,47 +62,52 @@ export function HomePage() {
     }
   };
 
-  // Use useMemo to filter real estates
   const filteredRealEstates = useMemo(() => {
     if (currentType) {
-
       return realEstates?.filter(
         (realEstate) => realEstate.type_real_estate.id === parseInt(currentType)
       ) || [];
     } else {
-      // If no type is selected, show all real estates
       return realEstates || [];
     }
-  }, [currentType, realEstates]); // Re-run only when currentType or realEstates changes
+  }, [currentType, realEstates]);
 
   return (
-    <ScrollView style={styles.container} ref={scrollViewRef}>
-      <Header goRealEstates={handleScrollToRE} />
+    <KeyboardAvoidingView 
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView ref={scrollViewRef} keyboardShouldPersistTaps="handled">
+          <Header goRealEstates={handleScrollToRE} />
 
-      <View style={{ padding: 15 }} ref={realEstateRef}>
-        <Filter
-          currentType={currentType}
-          setCurrentType={setCurrentType}
-          data={typeRE}
-        />
+          <View style={{ padding: 15 }} ref={realEstateRef}>
+            <Filter
+              currentType={currentType}
+              setCurrentType={setCurrentType}
+              data={typeRE}
+            />
 
-        <View style={styles.cardContainer}>
-          {filteredRealEstates?.map((v) => (
-            <Card key={v.id} v={v} showRealEstate={showRealEstate} />
-          ))}
-        </View>
+            <View style={styles.cardContainer}>
+              {filteredRealEstates?.map((v) => (
+                <Card key={v.id} v={v} showRealEstate={showRealEstate} />
+              ))}
+            </View>
 
-        <Pagination
-          currentPage={currentPage}
-          amountOfPages={amountOfPages}
-          handlePagination={handlePagination}
-          lastPage={amountOfPages}
-        />
+            <Pagination
+              currentPage={currentPage}
+              amountOfPages={amountOfPages}
+              handlePagination={handlePagination}
+              lastPage={amountOfPages}
+            />
 
-        <QuestionForm />
-      </View>
-      <Footer />
-    </ScrollView>
+            {/* Form moves up when keyboard appears */}
+            <QuestionForm />
+          </View>
+          <Footer />
+        </ScrollView>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
 

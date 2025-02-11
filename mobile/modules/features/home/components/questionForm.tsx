@@ -5,6 +5,7 @@ import { useLanguageStore } from "../../../core/store/language";
 import { useMemo } from "react";
 import { z } from "zod";
 import { primaryColor, secondaryColor } from "../../../core/constants/colors";
+import { handlePost } from "../../../core/helpers/fetch";
 
 type ParamsType = {};
 
@@ -19,6 +20,7 @@ export const useQuestionShema = () => {
 
 export const QuestionForm = ({}: ParamsType) => {
   const questionSchema = useQuestionShema();
+  const { language } = useLanguageStore();
   const {
     register,
     handleOnSubmit,
@@ -28,56 +30,69 @@ export const QuestionForm = ({}: ParamsType) => {
     setErrorMsg,
     Controller,
     control,
+    reset,
   } = useForm({
     schema: questionSchema,
     form: async (data) => {
       console.log(data);
+      const res = await handlePost("questions", data);
+      console.log(res);
+      
+      if (res.status == 200 || res.status == 201) {
+        setSuccessMsg(res.message[language]);
+        setTimeout(() => {
+          reset();
+        }, 1000);
+      } else {
+        setErrorMsg(res.message[language]);
+      }
     },
   });
   return (
     <View style={styles.container}>
-    <View style={{gap:20,}}>
-    <Text style={styles.title}>
-        Haz una <Text style={{ color: secondaryColor }}>pregunta</Text>
-      </Text>
-      <Text style={styles.description}>
-        Tus preguntas se visualizarán en las publicaciones para que los
-        propietarios puedan responder de forma automática.
-      </Text>
+      <View style={{ gap: 20 }}>
+        <Text style={styles.title}>
+          Haz una <Text style={{ color: secondaryColor }}>pregunta</Text>
+        </Text>
+        <Text style={styles.description}>
+          Tus preguntas se visualizarán en las publicaciones para que los
+          propietarios puedan responder de forma automática.
+        </Text>
 
-      <View style={styles.form}>
-        <Controller
-          name="question"
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <View>
-              <TextInput
-                style={[styles.input, errors.question && styles.errorInput]}
-                placeholder="Password"
-                secureTextEntry
-                value={value}
-                onChangeText={onChange}
-              />
-              {errors.question && (
-                <Text style={styles.errorText}>{errors.question.message}</Text>
-              )}
-            </View>
-          )}
-        />
+        <View style={styles.form}>
+          <Controller
+            name="question"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <View>
+                <TextInput
+                  style={[styles.input, errors.question && styles.errorInput]}
+                  placeholder="Pregunta"
+                  value={value}
+                  onChangeText={onChange}
+                />
+                {errors.question && (
+                  <Text style={styles.errorText}>
+                    {errors.question.message}
+                  </Text>
+                )}
+              </View>
+            )}
+          />
 
-        <Btn text="Guardar" handleOnSubmit={handleOnSubmit} fullWidth />
+          <Btn text="Guardar" handleOnSubmit={handleOnSubmit} fullWidth />
+        </View>
       </View>
-    </View>
     </View>
   );
 };
 const styles = StyleSheet.create({
   container: {
-    marginTop:20,
-    paddingTop:10,
-    borderColor:"#dadada",
-    borderTopWidth:1,
-    alignItems:"center"
+    marginTop: 20,
+    paddingTop: 10,
+    borderColor: "#dadada",
+    borderTopWidth: 1,
+    alignItems: "center",
   },
   form: {
     width: 260,

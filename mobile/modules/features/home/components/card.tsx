@@ -4,6 +4,7 @@ import { StarIcon } from "../../../shared/icons/icons";
 import { RealEstate } from "../../../shared/types/realEstate";
 import { useLanguageStore } from "../../../core/store/language";
 import WebView from "react-native-webview";
+import { primaryColor } from "../../../core/constants/colors";
 
 type ParamsType = {
   v: RealEstate;
@@ -141,7 +142,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   activeButton: {
-    backgroundColor: "red", // Red background for active button
+    backgroundColor: primaryColor,
   },
   buttonText: {
     fontSize: 14,
