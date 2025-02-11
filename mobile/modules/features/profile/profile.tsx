@@ -16,7 +16,6 @@ import { Navbar } from "../../shared/components/navbar";
 import { useLanguageStore } from "../../core/store/language";
 import { SkeletonRECard } from "./components/skeletonRECard";
 
-
 export function ProfilePage() {
   const {texts} = useLanguageStore()
   const route = useRoute<RouteProp<{ Profile: User }, "Profile">>();
@@ -31,9 +30,6 @@ export function ProfilePage() {
     data: posts,
     isLoading,
     firstElementRef,
-    amountOfPages,
-    handlePagination,
-    currentPage,
   } = useGet({
     services: () => {
       if(userSelected){
@@ -66,7 +62,7 @@ export function ProfilePage() {
         <BasicInfo user={userSelected ?? userLogged} />
 
         <View>
-          <Operations />
+         {userSelected == null &&  <Operations />}
 
           <Categories
             activeCategory={activeCategory}

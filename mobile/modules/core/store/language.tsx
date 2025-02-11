@@ -34,6 +34,8 @@ export interface Translations {
   logOut:string
   profileRESelected:string
   profileREFavorites:string
+  profileCreateRE:string
+  profileEditUser:string
 }
 
 const translations: { [key in Language]: Translations } = {
@@ -63,6 +65,8 @@ const translations: { [key in Language]: Translations } = {
     logOut:"log out",
     profileRESelected:"Real estates",
     profileREFavorites:"favorites",
+    profileCreateRE:"Create estate",
+    profileEditUser:"Edit user"
   },
   es: {
     //shared
@@ -89,7 +93,9 @@ const translations: { [key in Language]: Translations } = {
     //profile
     logOut:"Cerrar sesion",
     profileRESelected:"Inmuebles",
-    profileREFavorites:"Favoritos"
+    profileREFavorites:"Favoritos",
+    profileCreateRE:"Crear inmueble",
+    profileEditUser:"Editar usuario"
   },
   pt: {
     //shared
@@ -116,7 +122,9 @@ const translations: { [key in Language]: Translations } = {
     //profile
     logOut:"sair",
     profileRESelected:"Propriedade",
-    profileREFavorites:"favoritos"
+    profileREFavorites:"favoritos",
+    profileCreateRE:"criar propriedade",
+    profileEditUser:"editar usuário"
   },
 };
 

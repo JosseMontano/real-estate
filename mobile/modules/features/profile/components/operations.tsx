@@ -1,23 +1,28 @@
-import { StyleSheet, Text, View, Image, Pressable } from "react-native";
+import { StyleSheet, Text, View, Pressable } from "react-native";
 import { Btn } from "../../../core/components/btn";
 import { AdHouse } from "../../../shared/icons/icons";
 import { useNagigation } from "../../../core/hooks/useNavigation";
+import { useLanguageStore } from "../../../core/store/language";
 type ParamsType = {};
+
 export const Operations = ({}: ParamsType) => {
   const {handleRedirect}= useNagigation()
+  const {texts}=useLanguageStore()
+
   return (
     <View style={styles.container}>
       <View style={[styles.btnContainer]}>
         <Pressable style={styles.btn} onPress={() => handleRedirect("CreateRealEstate")}>
           <Text>{AdHouse}</Text>
-          <Text style={styles.btnText} >{"Crear Inmueble"}</Text>
+          <Text style={styles.btnText} >{texts.profileCreateRE}</Text>
         </Pressable>
       </View>
 
-      <Btn text="Editar usuario" />
+      <Btn text={texts.profileEditUser} />
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
