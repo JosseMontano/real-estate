@@ -14,7 +14,7 @@ import { TrashIcon } from "@/shared/assets/icons/trash";
 import { useParams } from "react-router-dom";
 
 type ParamsType = {
-    nameFolder:string
+  nameFolder: string;
 };
 export const UplaodFiles = () => {
   const { nameFolder } = useParams<ParamsType>();
@@ -145,28 +145,30 @@ export const UplaodFiles = () => {
               <div className="max-h-64 overflow-y-auto">
                 {filesSelected.map((value, index) => (
                   <div key={index}>
-                    <ul className="flex flex-col gap-5 py-3 px-3 ">
-                      <div className="flex items-center w-full  ">
+                    <ul className="flex flex-col gap-5 py-3 px-3">
+                      <div className="flex items-center   ">
                         <span className="px-2 text-center rounded-full bg-secondary text-white text-xs">
                           {index + 1}
                         </span>
                         <div className="w-5 h-[3px] bg-secondary ml-1" />
-                        <div className="flex border-2 border-[#d3d3d3] h-16 w-full items-center gap-5 ">
+                        <div className="flex border-2 border-[#d3d3d3] h-16  items-center gap-3 max-w-[250px]">
                           {filesSelected[index].status === true ? (
-                            <span className="basis-3/12 md:basis-2/12 flex justify-center items-center">
+                            <span className=" flex justify-center items-center">
                               <span className="w-12 h-12 border-4 border-black border-b-transparent rounded-full inline-block animate-spin"></span>
                             </span>
                           ) : (
                             <img
-                              className="basis-3/12 md:basis-2/12 p-0 h-full w-full"
+                              className=" p-0 h-full"
                               src={uploadedFiles[index]?.url}
+                       
                               alt="image"
                             />
                           )}
 
-                          <div className="basis-8/12 md:basis-9/12 flex overflow-hidden text-ellipsis whitespace-nowrap flex-col">
+                          <div className=" flex overflow-hidden whitespace-nowrap flex-col">
                             <span className="w-[270px] overflow-hidden text-ellipsis whitespace-nowrap">
-                              {value.name}
+                              {value.name.slice(0, 7)}
+                              {value.name.length > 7 ? "..." : ""}
                             </span>
                             <span>
                               {value.size && (value?.size / 1024).toFixed(2)} KB
@@ -175,7 +177,7 @@ export const UplaodFiles = () => {
 
                           <button
                             onClick={() => handleDeleteFile(index)}
-                            className="text-red-400 text-xl font-semibold px-5"
+                            className="text-red-400 text-xl font-semibold pr-4"
                           >
                             <TrashIcon size="20" />
                           </button>

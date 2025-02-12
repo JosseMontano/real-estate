@@ -10,11 +10,11 @@ import {
 import { Card } from "./components/card";
 import { Header } from "./components/header";
 import { Pagination } from "../../core/components/pagination";
-import { Filter } from "./components/filter";
+import { Filter } from "../../shared/components/filter";
 import { Footer } from "./components/footer";
 import { QuestionForm } from "./components/questionForm";
 import { useTypeRe } from "./hooks/useTypeRE";
-import { useRe } from "./hooks/useRE";
+import { useRe } from "../../shared/hooks/useRE";
 import { useRedirect } from "./hooks/useRedirect";
 import { SkeletonCard } from "./components/card/skeletonCard";
 

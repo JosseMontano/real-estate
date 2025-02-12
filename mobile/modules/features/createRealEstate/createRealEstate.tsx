@@ -17,6 +17,8 @@ import useAuthStore from "../../core/store/auth";
 import UploadFilesWebView from "./uploadFiles";
 import { urls } from "../../core/constants/endpoint";
 import { SelectLocation } from "./selectLocation";
+import { Filter } from "../../shared/components/filter";
+import { useTypeRe } from "../home/hooks/useTypeRE";
 
 export const useRealEstateShema = () => {
   const { texts } = useLanguageStore();
@@ -63,6 +65,7 @@ export const useRealEstateShema = () => {
 };
 
 export const CreateRE = () => {
+    const { currentType, setCurrentType, typeRE } = useTypeRe();
   const { language, texts } = useLanguageStore();
   const realEstateSchema = useRealEstateShema();
   const [location, setLocation] = useState("");
@@ -241,29 +244,13 @@ export const CreateRE = () => {
               )}
             />
           </View>
-          {/* Type Real Estate ID Field */}
-          <Controller
-            name="typeRealEstateId"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <View>
-                <TextInput
-                  style={[
-                    styles.input,
-                    errors.typeRealEstateId && styles.errorInput,
-                  ]}
-                  placeholder="Type Real Estate ID"
-                  value={value}
-                  onChangeText={onChange}
-                />
-                {errors.typeRealEstateId && (
-                  <Text style={styles.errorText}>
-                    {errors.typeRealEstateId.message}
-                  </Text>
-                )}
-              </View>
-            )}
-          />
+             <Filter
+                      currentType={currentType}
+                      setCurrentType={setCurrentType}
+                      data={typeRE}
+                    />
+        
+       
 
           <SelectLocation
             setIsLoading={setIsLoading}

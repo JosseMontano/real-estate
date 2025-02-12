@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Image } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
-import { useLanguageStore } from "../../../core/store/language";
-import { TypeRE } from "../../../shared/types/realEstate";
+import { useLanguageStore } from "../../core/store/language";
+import { TypeRE } from "../types/realEstate";
 
 type ParamsType = {
   data: TypeRE[];

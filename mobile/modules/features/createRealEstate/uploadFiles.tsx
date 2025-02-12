@@ -1,23 +1,25 @@
-import React, { useRef, useState } from "react";
-import { WebView } from "react-native-webview";
-import { StyleSheet, Text, View } from "react-native";
-import { urls } from "../../core/constants/endpoint";
-
+import React, { useRef, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { urls } from '../../core/constants/endpoint';
+import WebView from 'react-native-webview';
 const UploadFilesWebView = () => {
-  //  const nameFolder = email.split("@")[0];
   const webViewRef = useRef(null);
   const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [webViewHeight, setWebViewHeight] = useState(100); // Initial height
 
-  const handleWebViewMessage = (event: any) => {
+  const handleWebViewMessage = (event:any) => {
     const { data } = event.nativeEvent;
     try {
       const parsedData = JSON.parse(data);
-      if (parsedData.type === "FILES_UPLOADED") {
-        console.log("Uploaded Files:", parsedData.files);
+      if (parsedData.type === 'FILES_UPLOADED') {
+        console.log('Uploaded Files:', parsedData.files);
         setUploadedFiles(parsedData.files);
+      } else if (parsedData.type === 'CONTENT_HEIGHT') {
+        // Update WebView height based on content height
+        setWebViewHeight(parsedData.height);
       }
     } catch (error) {
-      console.error("Error parsing message:", error);
+      console.error('Error parsing message:', error);
     }
   };
 
@@ -31,6 +33,16 @@ const UploadFilesWebView = () => {
       window.ReactNativeWebView.postMessage(JSON.stringify(event));
     };
 
+    // Function to send content height to React Native
+    const sendContentHeight = () => {
+      const height = document.documentElement.scrollHeight;
+      const event = {
+        type: 'CONTENT_HEIGHT',
+        height: height
+      };
+      window.ReactNativeWebView.postMessage(JSON.stringify(event));
+    };
+
     // Listen for changes in the uploadedFiles state
     let previousFiles = [];
     const interval = setInterval(() => {
@@ -38,20 +50,30 @@ const UploadFilesWebView = () => {
       if (currentFiles && currentFiles.length !== previousFiles.length) {
         previousFiles = currentFiles;
         sendUploadedFiles(currentFiles);
+        sendContentHeight(); // Send height after files are updated
       }
     }, 1000);
+
+    // Initial height calculation
+    sendContentHeight();
   `;
 
   return (
     <View>
       <WebView
         ref={webViewRef}
-        source={{ uri: urls.web + "#/upload_files/alejandra" }}
-        style={styles.webView}
+        source={{ uri: urls.web + '#/upload_files/alejandra' }}
+        style={[styles.webView, { height: webViewHeight }]} // Set dynamic height
         javaScriptEnabled={true}
         domStorageEnabled={true}
         injectedJavaScript={injectedJS}
         onMessage={handleWebViewMessage}
+        onLoadEnd={() => {
+          // Recalculate height after WebView finishes loading
+          webViewRef.current.injectJavaScript(`
+            sendContentHeight();
+          `);
+        }}
       />
     </View>
   );
@@ -59,8 +81,7 @@ const UploadFilesWebView = () => {
 
 const styles = StyleSheet.create({
   webView: {
-    minHeight: 100,
-    maxHeight: "auto",
+    minHeight: 50, // Minimum height
   },
 });
 

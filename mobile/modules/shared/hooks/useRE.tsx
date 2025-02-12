@@ -1,7 +1,7 @@
 import { useMemo } from "react";
-import { handleGet } from "../../../core/helpers/fetch";
-import useGet from "../../../core/hooks/useGet";
-import { RealEstate } from "../../../shared/types/realEstate";
+import { handleGet } from "../../core/helpers/fetch";
+import useGet from "../../core/hooks/useGet";
+import { RealEstate } from "../types/realEstate";
 
 type ParamsType = {
     currentType: string
