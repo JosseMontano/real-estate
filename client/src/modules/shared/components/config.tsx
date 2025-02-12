@@ -25,7 +25,7 @@ export const Config = () => {
     },
   ];
 
-  if (location.includes("/map")  || location == "/select_address") {
+  if (location.includes("/map")  || location == "/select_address" || location.includes("/upload_files")) {
     return null;
   }
 

@@ -25,11 +25,9 @@ export const UplaodFiles = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [countFilesUp, setCountFilesUp] = useState<number>(0);
 
-  console.log(nameFolder);
   const handleImageSelection = async (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files) {
-      console.log("try1");
       const fileArray = Array.from(files);
       fileArray.map((file) =>
         setFilesSelected((data) => [
@@ -37,14 +35,12 @@ export const UplaodFiles = () => {
           { name: file.name, size: file.size, status: true },
         ])
       );
-      console.log("try2");
 
       const uploadPromises = fileArray.map(async (file) => {
         const uniqueFileName = `${file.name}-${crypto.randomUUID()}`;
 
         const firebasePath = `realEstates/${nameFolder}/${uniqueFileName}`;
         const storageRef = ref(storage, firebasePath);
-        console.log("try3");
 
         try {
           await uploadBytes(storageRef, file);
@@ -56,7 +52,6 @@ export const UplaodFiles = () => {
               url: downloadUrl,
             },
           ]);
-          console.log("try4");
           setIsUploaded(true);
           setCountFilesUp((prev) => prev + 1);
         } catch (error) {
@@ -108,7 +103,10 @@ export const UplaodFiles = () => {
     setIsUploaded(false);
   }, [isUploaded == true]);
 
-  console.log(uploadedFiles);
+  useEffect(() => {
+    //@ts-ignore
+    window.uploadedFiles = uploadedFiles;
+  }, [uploadedFiles]);
 
   return (
     <>

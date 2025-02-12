@@ -2,7 +2,7 @@ import { MapContainer, TileLayer, useMapEvents, Marker, useMap } from "react-lea
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { useState, useEffect } from "react";
-import { useLanguageStore } from "@/core/store/language";
+
 
 const customIcon = new L.Icon({
   iconUrl:
@@ -38,11 +38,9 @@ const MapClick = ({ setLocation }: { setLocation: (loc: Location) => void }) => 
 
 export const SelectAddress = () => {
   const [location, setLocation] = useState<Location | null>();
-  const { texts } = useLanguageStore();
 
   return (
     <div className="flex flex-col">
-      <h1 className="mb-4">{texts.selectRE}</h1>
       <MapContainer
         center={[-17.37242843568179, -66.16250126879922]}
         zoom={13}
