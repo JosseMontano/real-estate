@@ -15,8 +15,8 @@ import { DashComments } from "@/features/dashComments/dashComments";
 import { DashResponses } from "@/features/dashResponses/dashResponses";
 import { DashReports } from "@/features/dashReports/dashReports";
 import { MapPage } from "@/features/map/map";
-import { Map } from "@/core/components/map/maps";
 import { SelectAddress } from "@/features/selectAddress/selectAddress";
+import { UplaodFiles } from "@/features/uploadFiles/uplaodFiles";
 
 export const queryClient = new QueryClient();
 export type Routes =
@@ -33,6 +33,7 @@ export type Routes =
   | "/visit_user"
   | "/map"
   | "/select_address"
+  | "/upload_files"
   ;
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
             {/* @ts-ignore */}
             <Route path="/map/:lat_long" element={<MapPage />} />
             <Route path="/select_address/" element={<SelectAddress />} />
+            <Route path="/upload_files/:nameFolder" element={<UplaodFiles />} />
             <Route path="/dashboard" element={<Dashboard />}>
               <Route path="" element={<DashGraphics />} />
               <Route path="realEstates" element={<DashRealEstates />} />
