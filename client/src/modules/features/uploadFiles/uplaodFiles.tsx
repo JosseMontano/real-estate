@@ -16,7 +16,7 @@ import { useParams } from "react-router-dom";
 type ParamsType = {
     nameFolder:string
 };
-export const UplaodFiles = ({}: ParamsType) => {
+export const UplaodFiles = () => {
   const { nameFolder } = useParams<ParamsType>();
 
   const [filesSelected, setFilesSelected] = useState<FileSelectedType[]>([]);
