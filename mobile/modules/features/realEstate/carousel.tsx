@@ -9,17 +9,16 @@ import {
   FlatList,
   ActivityIndicator,
   TouchableOpacity,
+  Text, // Make sure Text is imported
 } from 'react-native';
 
 type ParamsType = {
-  realEstate:RealEstate
+  realEstate: RealEstate;
 };
 
 const { width: screenWidth } = Dimensions.get('window');
 
-export const Carousel = ({realEstate}: ParamsType) => {
-
-
+export const Carousel = ({ realEstate }: ParamsType) => {
   // Track loading state for each image
   const [loadingStates, setLoadingStates] = useState<{ [key: string]: boolean }>({});
 
@@ -49,9 +48,9 @@ export const Carousel = ({realEstate}: ParamsType) => {
     return (
       <View style={styles.slide}>
         {isLoading && (
-          <View style={styles.loaderContainer}>
+          <Text style={styles.loaderContainer}>
             <ActivityIndicator size="small" color="#0000ff" /> {/* Loader for each image */}
-          </View>
+          </Text>
         )}
         <Image
           source={{ uri: item.image }}

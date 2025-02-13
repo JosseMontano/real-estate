@@ -29,8 +29,8 @@ const styles = StyleSheet.create({
         gap: 5,
       },
       title: {
-        fontSize: 23,
-        fontWeight: "bold",
+        fontSize: 21,
+        fontWeight: "heavy",
       },
       description: {
         fontSize: 15,
