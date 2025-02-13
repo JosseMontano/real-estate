@@ -103,7 +103,7 @@ export const CreateRE = () => {
         data.userId = user.id.toString();
         data.typeRealEstateId = currentType;
         data.images=uploadedFiles.map((v) => v.url)
-        console.log(data);
+
         const res = await handlePost("real_estates", data)
         if (res.status == 200 || res.status == 201) {
           setSuccessMsg(res.message[language]);
