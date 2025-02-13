@@ -2,8 +2,9 @@ import { useRef } from 'react';
 import { StyleSheet} from 'react-native';
 import WebView from 'react-native-webview';
 import { urls } from '../../core/constants/endpoint';
+import { Location } from './createRealEstate';
 type ParamsType = {
-    setLocation:(val:string)=>void
+    setLocation:(val:Location)=>void
     setIsLoading:(val:boolean)=>void
 }
 export const SelectLocation = ({setLocation, setIsLoading}:ParamsType) => {
@@ -15,7 +16,10 @@ export const SelectLocation = ({setLocation, setIsLoading}:ParamsType) => {
     try {
       const parsedData = JSON.parse(data);
       if (parsedData.type === "MAP_CLICK") {
-        setLocation(parsedData.location);
+        setLocation({
+          lat:parsedData.location.lat,
+          lng:parsedData.location.lng
+        });
       }
     } catch (error) {
       console.error("Error parsing message:", error);

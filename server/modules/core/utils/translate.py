@@ -1,29 +1,31 @@
-from googletrans import Translator
+from google.cloud import translate_v2 as translate
 import time
+import logging
+import os
+from dotenv import load_dotenv
+from pathlib import Path
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+KEY_PATH = os.path.join(BASE_DIR, "gcp_key.json")
+client = translate.Client.from_service_account_json(KEY_PATH)
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 def translate_es_en_pt(text: str) -> dict:
-    """
-    Translates the given text from Spanish to English and Portuguese.
-
-    :param text: The text to be translated.
-    :return: A dictionary with the original text, English translation, and Portuguese translation.
-    """
-    translator = Translator()
-    
-    # Translate from Spanish to English
-    translation_en = translator.translate(text, src="es", dest="en")
-    value_en = translation_en.text
-
-    # Translate from English to Portuguese
-    translation_pt = translator.translate(value_en, src="en", dest="pt")
-    value_pt = translation_pt.text
-
-    return {
+    result = {
         "valEs": text,
-        "valEn": value_en,
-        "valPt": value_pt
+        "valEn": text,  # Default to original text if translation fails
+        "valPt": text,  # Default to original text if translation fails
     }
-    
+
+    translation_en = client.translate(text, target_language="en")
+    result["valEn"] = translation_en["translatedText"]
+
+    translation_pt = client.translate(result["valEn"], target_language="pt")
+    result["valPt"] = translation_pt["translatedText"]
+
+    return result
 
 def translate_en_es_pt(text: str, max_retries: int = 3, delay: int = 2) -> dict:
     """

@@ -66,11 +66,13 @@ async def get_statistics(db: Session = Depends(get_db)):
         
     return {"status": 200, "message": Messages.DATA_FOUND, "val": val }
 
-@app.post('/')
+@app.post('')
 async def create_question(question: QuestionDTO, db: Session = Depends(get_db)):
     result_question = translate_es_en_pt(question.question)
 
     question_translate = models.Translate(es=result_question["valEs"], en=result_question["valEn"], pt=result_question["valPt"])
+    print(question.question)
+    print(result_question["valEn"])
     db.add(question_translate)
     db.commit()
     db.refresh(question_translate)

@@ -2,9 +2,15 @@ import React, { useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { urls } from '../../core/constants/endpoint';
 import WebView from 'react-native-webview';
-const UploadFilesWebView = () => {
+
+interface Params{
+  setUploadedFiles:(val:[])=>void
+  user:string
+}
+
+const UploadFilesWebView = ({setUploadedFiles, user}:Params) => {
   const webViewRef = useRef(null);
-  const [uploadedFiles, setUploadedFiles] = useState([]);
+
   const [webViewHeight, setWebViewHeight] = useState(100); // Initial height
 
   const handleWebViewMessage = (event:any) => {
@@ -12,7 +18,6 @@ const UploadFilesWebView = () => {
     try {
       const parsedData = JSON.parse(data);
       if (parsedData.type === 'FILES_UPLOADED') {
-        console.log('Uploaded Files:', parsedData.files);
         setUploadedFiles(parsedData.files);
       } else if (parsedData.type === 'CONTENT_HEIGHT') {
         // Update WebView height based on content height
@@ -62,7 +67,7 @@ const UploadFilesWebView = () => {
     <View>
       <WebView
         ref={webViewRef}
-        source={{ uri: urls.web + '#/upload_files/alejandra' }}
+        source={{ uri: urls.web + '#/upload_files/' +user}}
         style={[styles.webView, { height: webViewHeight }]} // Set dynamic height
         javaScriptEnabled={true}
         domStorageEnabled={true}

@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   ActivityIndicator,
   Modal,
@@ -8,17 +8,17 @@ import {
   TextInput,
   View,
 } from "react-native";
-import WebView from "react-native-webview";
 import { useLanguageStore } from "../../core/store/language";
 import { z } from "zod";
 import { useForm } from "../../core/hooks/useForm";
 import { Btn } from "../../core/components/btn";
 import useAuthStore from "../../core/store/auth";
 import UploadFilesWebView from "./uploadFiles";
-import { urls } from "../../core/constants/endpoint";
 import { SelectLocation } from "./selectLocation";
 import { Filter } from "../../shared/components/filter";
 import { useTypeRe } from "../home/hooks/useTypeRE";
+import { handlePost } from "../../core/helpers/fetch";
+import { useNagigation } from "../../core/hooks/useNavigation";
 
 export const useRealEstateShema = () => {
   const { texts } = useLanguageStore();
@@ -64,13 +64,25 @@ export const useRealEstateShema = () => {
   }, [texts]);
 };
 
+type FileUpType = {
+  url: string;
+  firebasePath: string;
+  error?: string;
+};
+
+export type Location={
+  lat:string 
+  lng:string
+}
+
 export const CreateRE = () => {
-    const { currentType, setCurrentType, typeRE } = useTypeRe();
+  const { currentType, setCurrentType, typeRE } = useTypeRe();
+  const [uploadedFiles, setUploadedFiles] = useState([] as FileUpType[]);
   const { language, texts } = useLanguageStore();
   const realEstateSchema = useRealEstateShema();
-  const [location, setLocation] = useState("");
+  const [location, setLocation] = useState<Location>({} as Location);
   const { user } = useAuthStore();
-
+  const {handleRedirect} = useNagigation()
   const [isLoading, setIsLoading] = useState(true);
 
   const {
@@ -86,9 +98,18 @@ export const CreateRE = () => {
     schema: realEstateSchema,
     form: async (data) => {
       if (user?.id) {
-        data.latLong = location;
+        console.log(location);
+        data.latLong = `${location.lat}, ${location.lng}`;
         data.userId = user.id.toString();
+        data.typeRealEstateId = currentType;
+        data.images=uploadedFiles.map((v) => v.url)
         console.log(data);
+        const res = await handlePost("real_estates", data)
+        if (res.status == 200 || res.status == 201) {
+          setSuccessMsg(res.message[language]);
+          handleRedirect("Profile")
+        } 
+      
       }
     },
   });
@@ -200,7 +221,7 @@ export const CreateRE = () => {
             />
           </View>
 
-          <View style={{ flexDirection: "row", gap: 3}}>
+          <View style={{ flexDirection: "row", gap: 3 }}>
             <Controller
               name="squareMeter"
               control={control}
@@ -244,19 +265,16 @@ export const CreateRE = () => {
               )}
             />
           </View>
-             <Filter
-                      currentType={currentType}
-                      setCurrentType={setCurrentType}
-                      data={typeRE}
-                    />
-        
-       
-
+          <Filter
+            currentType={currentType}
+            setCurrentType={setCurrentType}
+            data={typeRE}
+          />
           <SelectLocation
             setIsLoading={setIsLoading}
             setLocation={setLocation}
           />
-          <UploadFilesWebView />
+          <UploadFilesWebView setUploadedFiles={setUploadedFiles} user={user?.email.split("@")[0] ?? ""}/>
 
           <Btn text="Submit" fullWidth handleOnSubmit={handleOnSubmit} />
         </View>

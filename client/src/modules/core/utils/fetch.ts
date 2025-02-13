@@ -13,6 +13,7 @@ export const handlePost = async <T>(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "accept": "application/json",
       },
       body: JSON.stringify(payload),
     });

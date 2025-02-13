@@ -2,8 +2,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { DefaultValues, useForm as useFormHook, Controller } from "react-hook-form";
 import { z } from "zod";
-import { toast } from "sonner-native";
+import { handleToast } from "../helpers/toast";
 import { useEffect, useRef, useState } from "react";
+import { useLanguageStore } from "../store/language";
 
 type ParamsType<T extends z.ZodType<any, any>> = {
   schema: T;
@@ -20,6 +21,7 @@ export const useForm = <T extends z.ZodType<any, any>>({
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const isMounted = useRef(false);
+ const { texts}= useLanguageStore()
 
   const {
     register,
@@ -43,8 +45,8 @@ export const useForm = <T extends z.ZodType<any, any>>({
 
   useEffect(() => {
     if (isSubmitted) {
-    if (errorMsg != "") toast.success(errorMsg || "Error");
-    if (successMsg != "") toast.success(successMsg);
+    if (errorMsg != "") handleToast(errorMsg || "Error",texts.sucess );
+    if (successMsg != "") handleToast(successMsg, texts.sucess);
     }
   }, [isSubmitted, errorMsg, successMsg]);
 

@@ -54,6 +54,7 @@ export function AuthPage() {
         "auth/signup",
         data
       );
+
       if (status === 200) {
         handleToast(message[language], texts.sucess);
         login({

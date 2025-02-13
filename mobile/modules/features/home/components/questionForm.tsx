@@ -34,9 +34,7 @@ export const QuestionForm = ({}: ParamsType) => {
   } = useForm({
     schema: questionSchema,
     form: async (data) => {
-      console.log(data);
       const res = await handlePost("questions", data);
-      console.log(res);
       
       if (res.status == 200 || res.status == 201) {
         setSuccessMsg(res.message[language]);

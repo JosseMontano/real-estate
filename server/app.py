@@ -3,7 +3,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from googletrans import Translator
 import uvicorn
 import requests
-
 from pydantic import BaseModel
 from modules.core.database import engine
 import modules.core.models as models
@@ -20,13 +19,17 @@ from modules.routes import report_user
 from sqlalchemy.orm import Session
 from modules.core.database import get_db 
 
+
 import os
 import httpx
 from urllib.parse import urlencode
 from fastapi.responses import HTMLResponse
 
+
 # Create FastAPI instance
 app = FastAPI()
+
+
 models.Base.metadata.create_all(bind=engine)
 app.include_router(questions.app)
 app.include_router(typeRE.app)
@@ -38,6 +41,16 @@ app.include_router(users.app)
 app.include_router(follows.app)
 app.include_router(report_user.app)
 
+
+origins = ["http://localhost:5173","https://inmoapp-gamma.vercel.app", "exp://192.168.1.13:19000"]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins, 
+    allow_credentials=True, 
+    allow_methods=["*"],  
+    allow_headers=["*"], 
+)
+
 # Configure CORS
 """ origins = ["http://localhost:5173","http://localhost:5174", "exp://192.168.1.13:19000"]
 app.add_middleware(
@@ -47,13 +60,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 ) """
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # Permitir solicitudes desde cualquier origen
-    allow_credentials=True,  # Permitir cookies/credenciales
-    allow_methods=["*"],  # Permitir todos los métodos (GET, POST, etc.)
-    allow_headers=["*"],  # Permitir todos los encabezados
-)
+
 class TranslateRequest(BaseModel):
     val: str
 
@@ -67,7 +74,7 @@ class FetchImageRequest(BaseModel):  # Added request model for fetch_image
 
 @app.get('/')
 def index():
-    return {"Choo Choo": "Welcome to the API realEstates 🚅"}
+    return {"Choo Choo": "Welcome to the API realEstates v1.0 🚅"}
 
 
 def get_params_str(params: dict) -> str:

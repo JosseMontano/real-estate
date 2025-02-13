@@ -503,7 +503,7 @@ async def filter_real_estates(
         }
 
 
-@app.post('/')
+@app.post('')
 async def create_real_estate(real_estate: RealEstateDTO, db: Session = Depends(get_db)):
     try:
         # Get address from coordinates

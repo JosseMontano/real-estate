@@ -50,6 +50,7 @@ export const handlePost = async <T>(
 ) => {
   let errorMg = "";
   try {
+ 
     const response = await fetch(urls.endpoint + url, {
       method: "POST",
       headers: new Headers({
@@ -59,6 +60,8 @@ export const handlePost = async <T>(
       body: JSON.stringify(payload),
     });
 
+    console.log(response);
+    
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }

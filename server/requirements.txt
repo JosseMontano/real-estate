@@ -10,3 +10,4 @@ geopy
 python-dotenv
 bcrypt
 httpx
+google-cloud-translate
