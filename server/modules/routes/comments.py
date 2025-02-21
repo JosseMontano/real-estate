@@ -90,8 +90,8 @@ async def get_average_amount_start_by_user(user_id: int, db: Session = Depends(g
 
     if average is None:
         return {"status": 404, "message": Messages.DATA_NOT_FOUND.dict(), "val": {0}}
-    
-    return {"status": 200, "message": Messages.DATA_FOUND.dict(), "val": { average}}
+    rounded_average = round(average, 2)
+    return {"status": 200, "message": Messages.DATA_FOUND.dict(), "val": { rounded_average}}
 
 @app.post('/')
 async def create_comment(comment: CommentDTO, db: Session = Depends(get_db)):
