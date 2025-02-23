@@ -39,3 +39,5 @@ export const YTIcon = <Icon name="youtube" size={25} color="#fff" />;
 export const InstagramIcon = <Icon name="instagram" size={25} color="#fff" />;
 export const AddressIcon = <IconEntypo name="address" size={25} color="#9f9f9f" />;
 export const AdHouse = <IconFontAwesome6 name="house-chimney-medical" size={18} color="#9f9f9f" />;
+export const HeartOutLinedIcon = <Icon name="hearto" size={25}  color="#9f9f9f" />
+export const HeartIcon = <Icon name="heart" size={25}  color="#ff0505" />

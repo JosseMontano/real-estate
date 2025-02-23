@@ -6,13 +6,15 @@ import { useLanguageStore } from "../../../core/store/language";
 type ParamsType = {
   activeCategory: categoryType;
   setActiveCategory: (v: categoryType) => void;
+  isProfile: boolean;
 };
 
 export const Categories = ({
   activeCategory,
   setActiveCategory,
+  isProfile,
 }: ParamsType) => {
-  const {texts}= useLanguageStore()
+  const { texts } = useLanguageStore();
   return (
     <View style={styles.categoryContainer}>
       <Pressable onPress={() => setActiveCategory("realEstates")}>
@@ -26,13 +28,18 @@ export const Categories = ({
         </Text>
       </Pressable>
 
-      <Pressable onPress={() => setActiveCategory("Favs")}>
-        <Text
-          style={[styles.category, activeCategory === "Favs" && styles.active]}
-        >
-          {texts.profileREFavorites}
-        </Text>
-      </Pressable>
+      {!isProfile && (
+        <Pressable onPress={() => setActiveCategory("Favs")}>
+          <Text
+            style={[
+              styles.category,
+              activeCategory === "Favs" && styles.active,
+            ]}
+          >
+            {texts.profileREFavorites}
+          </Text>
+        </Pressable>
+      )}
     </View>
   );
 };
@@ -42,7 +49,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     gap: 30,
-    marginTop:5,
+    marginTop: 5,
   },
   category: {
     textAlign: "center",

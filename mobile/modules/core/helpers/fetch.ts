@@ -97,3 +97,10 @@ export const handlePost = async <T>(
   }
 }
 
+export const handleDelete = async (url: string, id: number | string) => {
+  const response = await fetch(urls.endpoint + `${url}/${id}`, {
+    method: 'DELETE'
+  })
+  const data = await response.json()
+  return data
+}

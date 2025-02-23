@@ -67,6 +67,7 @@ export function ProfilePage() {
           <Categories
             activeCategory={activeCategory}
             setActiveCategory={setActiveCategory}
+            isProfile={userSelected !=null}
           />
 
           <View style={styles.containerImg}>

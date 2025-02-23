@@ -48,7 +48,7 @@ async def get_favorites(
 
     return {"status": 200, "message": Messages.DATA_FOUND, "val": favorites}
 
-@app.post('/')
+@app.post('')
 async def create_favorite(favorite: FavoriteRealEstateDTO, db: Session = Depends(get_db)):
     try:
         # Create the favorite record
