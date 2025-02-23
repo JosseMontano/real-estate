@@ -9,7 +9,7 @@ type ParamsType = {
 }
 export const SelectLocation = ({setLocation, setIsLoading}:ParamsType) => {
     const webViewRef = useRef(null);
-    const mapUrl = urls.web + "#/select_address";
+    const mapUrl = urls.web + "select_address";
 
   const handleWebViewMessage = (event: any) => {
     const { data } = event.nativeEvent;

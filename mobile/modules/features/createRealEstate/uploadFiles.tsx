@@ -67,7 +67,7 @@ const UploadFilesWebView = ({setUploadedFiles, user}:Params) => {
     <View>
       <WebView
         ref={webViewRef}
-        source={{ uri: urls.web + '#/upload_files/' +user}}
+        source={{ uri: urls.web + 'upload_files/' +user}}
         style={[styles.webView, { height: webViewHeight }]} // Set dynamic height
         javaScriptEnabled={true}
         domStorageEnabled={true}

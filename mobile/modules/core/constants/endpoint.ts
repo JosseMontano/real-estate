@@ -1,4 +1,4 @@
 export const urls={
     endpoint:"https://real-estate-server-73ef63082d4b.herokuapp.com/api/",
-    web:"https://inmoapp-gamma.vercel.app/"
+    web:"https://inmoapp-gamma.vercel.app/#/"
 }

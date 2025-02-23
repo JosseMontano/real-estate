@@ -32,6 +32,7 @@ export const useFavsShema = () => {
 export const Card = ({ v, showRealEstate }: ParamsType) => {
   const [activeButton, setActiveButton] = useState<"info" | "places">("info");
   const { user, addFavorite,removeFavorite } = useAuthStore();
+
   const mapUrl = urls.web + "map/" + v.lat_long;
   const useFavsSchema = useFavsShema();
   const { language, texts } = useLanguageStore();

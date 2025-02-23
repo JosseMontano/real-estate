@@ -22,7 +22,7 @@ export const RealEstatePage = ({}: ParamsType) => {
   const realEstate = route.params;
   const [answerModalVisible, setAnswerModalVisible] = useState(false);
   const [question, setQuestion] = useState<Question | null>(null);
-  const mapUrl = urls.web + "#/map/" + realEstate.lat_long;
+  const mapUrl = urls.web + "map/" + realEstate.lat_long;
 
   const handleOpenModal = (v: Question) => {
     setQuestion(v);
