@@ -6,6 +6,7 @@ type ParamsType = {
 };
 export const RealEstateImg = ({ v }: ParamsType) => {
   const { handleRedirect } = useNagigation();
+
   return (
     <Pressable
       onPress={() => {
@@ -18,7 +19,7 @@ export const RealEstateImg = ({ v }: ParamsType) => {
         source={{
           uri: v.photos[0].image,
         }}
-        style={[styles.image, {width:"100%"}]}
+        style={[styles.image, { width: "100%" }]}
       />
     </Pressable>
   );

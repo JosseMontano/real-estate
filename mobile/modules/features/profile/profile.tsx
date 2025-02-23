@@ -1,6 +1,6 @@
 import { View, ScrollView, StyleSheet } from "react-native";
 import { BasicInfo } from "./components/basicInfo";
-import {  useState } from "react";
+import { act, useState } from "react";
 import { categoryType } from "./types/types";
 import { Categories } from "./components/category";
 import useAuthStore from "../../core/store/auth";
@@ -16,8 +16,15 @@ import { Navbar } from "../../shared/components/navbar";
 import { useLanguageStore } from "../../core/store/language";
 import { SkeletonRECard } from "./components/skeletonRECard";
 
+export interface FavRealEstate {
+  id: number;
+  real_estate_id: number;
+  user_id: number;
+  real_estate: RealEstate;
+}
+
 export function ProfilePage() {
-  const {texts} = useLanguageStore()
+  const { texts } = useLanguageStore();
   const route = useRoute<RouteProp<{ Profile: User }, "Profile">>();
   const userSelected = route.params;
 
@@ -32,7 +39,7 @@ export function ProfilePage() {
     firstElementRef,
   } = useGet({
     services: () => {
-      if(userSelected){
+      if (userSelected) {
         return handleGet<RealEstate[]>("real_estates/" + userSelected.id);
       }
       if (!userLogged) {
@@ -44,9 +51,19 @@ export function ProfilePage() {
       }
       return handleGet<RealEstate[]>("real_estates/" + userLogged.id);
     },
-    queryKey: ["realEstates", userLogged?.id], 
+    queryKey: ["realEstates", userLogged?.id],
     itemsPerPage: 4,
     valueToService: 1,
+  });
+
+  const { data: realEstateFavs } = useGet({
+    services: () =>
+      handleGet<FavRealEstate[]>(
+        "favorite_real_estates/?user_id=" + userLogged?.id
+      ),
+    queryKey: ["favs-real-estates", userLogged?.id],
+    itemsPerPage: 10,
+    valueToService: userLogged?.id,
   });
 
   if (!userLogged) {
@@ -55,26 +72,38 @@ export function ProfilePage() {
 
   return (
     <ScrollView style={styles.scroll}>
-
-      <Navbar onClick={()=>{logout(); handleRedirect("Auth")}} texts={texts.logOut} backgroundColor="#fff"/>
+      <Navbar
+        onClick={() => {
+          logout();
+          handleRedirect("Auth");
+        }}
+        texts={texts.logOut}
+        backgroundColor="#fff"
+      />
 
       <View style={styles.container}>
         <BasicInfo user={userSelected ?? userLogged} />
 
         <View>
-         {userSelected == null &&  <Operations />}
+          {userSelected == null && <Operations />}
 
           <Categories
             activeCategory={activeCategory}
             setActiveCategory={setActiveCategory}
-            isProfile={userSelected !=null}
+            isProfile={userSelected != null}
           />
 
           <View style={styles.containerImg}>
-          {isLoading && [1,2,3,4,5,6].map((v)=> <SkeletonRECard key={v}/>)}
-            {posts.map((v) => (
-              <RealEstateImg v={v} key={v.id} />
-            ))}
+            {isLoading &&
+              [1, 2, 3, 4, 5, 6].map((v) => <SkeletonRECard key={v} />)}
+            {activeCategory == "realEstates" &&
+              posts.map((v) => <RealEstateImg v={v} key={v.id} />)}
+
+            {activeCategory == "Favs" &&
+              realEstateFavs.length > 0 &&
+              realEstateFavs.map((v) => (
+                <RealEstateImg v={v.real_estate} key={v.id} />
+              ))}
           </View>
         </View>
       </View>
