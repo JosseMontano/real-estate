@@ -10,15 +10,24 @@ import { Questions } from "./questions";
 import { Feedback } from "./feedback";
 import useAuthStore from "../../core/store/auth";
 import { User } from "../../core/store/user";
+import { useState } from "react";
+import { AnswerModal } from "./answerModal";
+import { Question } from "./types/question";
 
 type ParamsType = {};
 export const RealEstatePage = ({}: ParamsType) => {
-  const { language } = useLanguageStore();
-  const {user} = useAuthStore()
+  const { language, texts } = useLanguageStore();
+  const { user } = useAuthStore();
   const route = useRoute<RouteProp<{ RealEstate: RealEstate }, "RealEstate">>();
   const realEstate = route.params;
-
+  const [answerModalVisible, setAnswerModalVisible] = useState(false);
+  const [question, setQuestion] = useState<Question | null>(null);
   const mapUrl = urls.web + "#/map/" + realEstate.lat_long;
+
+  const handleOpenModal = (v: Question) => {
+    setQuestion(v);
+    setAnswerModalVisible(true);
+  };
 
   return (
     <ScrollView>
@@ -34,13 +43,27 @@ export const RealEstatePage = ({}: ParamsType) => {
           domStorageEnabled={true}
         />
 
-       <View style={styles.extraInfoContainer}>
-       <Text style={[styles.title, {width:"100%"}]}>Preguntas</Text>
-        <Questions user={user ?? {} as User}/>
-        <Text style={[styles.title, {width:"100%"}]}>Reseñas</Text>
-        <Feedback />
-       </View>
+        <View style={styles.extraInfoContainer}>
+          <Text style={[styles.title, { width: "100%" }]}>Preguntas</Text>
+          <Questions
+            user={user ?? ({} as User)}
+            handleOpenModal={handleOpenModal}
+            realEstate={realEstate}
+          />
+          <Text style={[styles.title, { width: "100%" }]}>Reseñas</Text>
+          <Feedback />
+        </View>
       </View>
+
+      {question && user && (
+        <AnswerModal
+          setMainModalVisible={setAnswerModalVisible}
+          mainModalVisible={answerModalVisible}
+          question={question}
+          realEstate={realEstate}
+          user={user}
+        />
+      )}
     </ScrollView>
   );
 };
@@ -61,8 +84,8 @@ const styles = StyleSheet.create({
     width: "90%",
     alignSelf: "center",
   },
-  extraInfoContainer:{
+  extraInfoContainer: {
     width: "90%",
     alignSelf: "center",
-  }
+  },
 });

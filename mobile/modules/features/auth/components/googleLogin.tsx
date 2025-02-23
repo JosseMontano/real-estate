@@ -21,7 +21,6 @@ const GoogleLogin = () => {
     const parsedParams = params as Record<string, string> | null;
     //? here you get the params send from the backend endpoint, you can have a query getting the user from an endpoint with the id or something like that.
     const { id, name } = parsedParams ?? {};
-    console.log({ id, name });
   }
 
   const handlePress = async () => {

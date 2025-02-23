@@ -9,7 +9,6 @@ export const RealEstateImg = ({ v }: ParamsType) => {
   return (
     <Pressable
       onPress={() => {
-        console.log(v);
         handleRedirect("RealEstate", v);
       }}
       style={styles.image}

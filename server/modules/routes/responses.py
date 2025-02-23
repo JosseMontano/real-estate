@@ -73,7 +73,7 @@ async def get_all_responses(real_estate_id: int, db: Session = Depends(get_db)):
     }
 
 
-@app.post('/')
+@app.post('')
 async def create_response(response: ResponseDTO, db: Session = Depends(get_db)):
     try:
         result_response = translate_es_en_pt(response.response_text)

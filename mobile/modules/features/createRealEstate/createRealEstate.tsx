@@ -98,7 +98,6 @@ export const CreateRE = () => {
     schema: realEstateSchema,
     form: async (data) => {
       if (user?.id) {
-        console.log(location);
         data.latLong = `${location.lat}, ${location.lng}`;
         data.userId = user.id.toString();
         data.typeRealEstateId = currentType;

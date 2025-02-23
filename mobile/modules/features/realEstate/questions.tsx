@@ -6,11 +6,14 @@ import { Question } from "./types/question";
 import { AdHouse, FacebookIcon } from "../../shared/icons/icons";
 import { Pagination } from "../../core/components/pagination";
 import { useLanguageStore } from "../../core/store/language";
+import { RealEstate } from "../../shared/types/realEstate";
 
 type ParamsType = {
   user: User;
+  handleOpenModal:(val:Question)=>void
+    realEstate: Readonly<RealEstate>
 };
-export const Questions = ({ user }: ParamsType) => {
+export const Questions = ({ user, handleOpenModal, realEstate }: ParamsType) => {
   const { language } = useLanguageStore();
   const {
     data: unanswered,
@@ -19,14 +22,14 @@ export const Questions = ({ user }: ParamsType) => {
     amountOfPages,
     handlePagination,
   } = useGet({
-    services: () => handleGet<Question[]>("questions/unanswered/" + user.id),
-    queryKey: ["realEstates"],
+    services: () => handleGet<Question[]>("questions/unanswered/" + realEstate.id),
+    queryKey: ["questions-unanswered",realEstate.id],
     itemsPerPage: 2,
   });
 
   const { data: answered, isLoading: isLoadingAnswered } = useGet({
     services: () => handleGet<Question[]>("responses" + user.id),
-    queryKey: ["realEstates"],
+    queryKey: ["questions-responses"],
   });
 
   return (
@@ -36,7 +39,7 @@ export const Questions = ({ user }: ParamsType) => {
           <View style={styles.card} key={v.id}>
             <Text style={styles.questionText}>{v.question[language]}</Text>
 
-            <TouchableOpacity style={styles.replyButton} onPress={() => {}}>
+            <TouchableOpacity style={styles.replyButton} onPress={() =>handleOpenModal(v)}>
               <Text style={styles.replyText}>Responder</Text>
             </TouchableOpacity>
           </View>

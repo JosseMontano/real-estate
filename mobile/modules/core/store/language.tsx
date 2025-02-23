@@ -19,6 +19,7 @@ export interface Translations {
   required:string;
   limit:string 
   noNegative:string
+  loading:string
   //auth
   title: string;
   subTitle: string;
@@ -39,6 +40,9 @@ export interface Translations {
   profileREFavorites:string
   profileCreateRE:string
   profileEditUser:string
+  //realEstate
+  titleAnswerModal:string
+  placeHolderAnswer:string
 }
 
 const translations: { [key in Language]: Translations } = {
@@ -53,6 +57,7 @@ const translations: { [key in Language]: Translations } = {
     required:"This field is required",
     limit:"It must be 100 characters or less",
     noNegative:"This field must be a non-negative integer",
+    loading:"Loading...",
     //auth
     title: "Sign in",
     subTitle: "Enjoy life in your dream home",
@@ -72,7 +77,10 @@ const translations: { [key in Language]: Translations } = {
     profileRESelected:"Real estates",
     profileREFavorites:"favorites",
     profileCreateRE:"Create estate",
-    profileEditUser:"Edit user"
+    profileEditUser:"Edit user",
+    //real estate
+    titleAnswerModal:"Answer question",
+    placeHolderAnswer:"Answer",
   },
   es: {
     //shared
@@ -85,6 +93,7 @@ const translations: { [key in Language]: Translations } = {
     required:"Este campo es requerido",
     limit:"Debe ser 100 caracteres o menos",
     noNegative:"Este campo no debe tener valores negativos",
+    loading:"Cargando...",
     //auth
     title: "Iniciar sesion",
     subTitle: "Disfruta la vida en tu casa soñada",
@@ -104,7 +113,10 @@ const translations: { [key in Language]: Translations } = {
     profileRESelected:"Inmuebles",
     profileREFavorites:"Favoritos",
     profileCreateRE:"Crear inmueble",
-    profileEditUser:"Editar usuario"
+    profileEditUser:"Editar usuario",
+    //real estate
+    titleAnswerModal:"Responder pregunta",
+    placeHolderAnswer:"respuesta"
   },
   pt: {
     //shared
@@ -117,6 +129,7 @@ const translations: { [key in Language]: Translations } = {
     required:"Este campo é obrigatório",
     limit:"Deve ter 100 caracteres ou menos",
     noNegative:"Devem ser um número inteiro não negativo",
+    loading:"carregando...",
     //auth
     title: "Entrar",
     subTitle: "Disfruta la vida en tu casa soñada",
@@ -136,7 +149,10 @@ const translations: { [key in Language]: Translations } = {
     profileRESelected:"Propriedade",
     profileREFavorites:"favoritos",
     profileCreateRE:"criar propriedade",
-    profileEditUser:"editar usuário"
+    profileEditUser:"editar usuário",
+    //real estate
+    titleAnswerModal:"Responda a pergunta",
+    placeHolderAnswer:"responder",
   },
 };
 
