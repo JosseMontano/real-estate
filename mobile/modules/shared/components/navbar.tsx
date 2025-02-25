@@ -1,12 +1,13 @@
 import { StyleSheet, Text, View, Image } from "react-native";
 import { Btn } from "../../core/components/btn";
+import { useNagigation } from "../../core/hooks/useNavigation";
 type ParamsType = {
     texts:string
     onClick:()=>void
     backgroundColor:string
 };
 export const Navbar = ({texts, onClick, backgroundColor}: ParamsType) => {
-
+  const {handleRedirect} = useNagigation()
   const handleGetTextColor=()=>{
     if(backgroundColor=="#fff") return "#000"
     return "#fff"
@@ -14,7 +15,7 @@ export const Navbar = ({texts, onClick, backgroundColor}: ParamsType) => {
 
   return (
     <View style={[styles.headerContainer, {backgroundColor:backgroundColor}]}>
-      <Text style={[styles.title, {color:handleGetTextColor()}]}>InmoApp</Text>
+      <Text style={[styles.title, {color:handleGetTextColor()}]} onPress={(()=>handleRedirect("Home"))}>InmoApp</Text>
       <Btn text={texts} handleOnSubmit={() => onClick()} />
     </View>
   );

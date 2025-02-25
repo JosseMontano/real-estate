@@ -13,6 +13,7 @@ import { User } from "../../core/store/user";
 import { useState } from "react";
 import { AnswerModal } from "./answerModal";
 import { Question } from "./types/question";
+import { Config } from "../../shared/components/config";
 
 type ParamsType = {};
 export const RealEstatePage = ({}: ParamsType) => {
@@ -30,6 +31,7 @@ export const RealEstatePage = ({}: ParamsType) => {
   };
 
   return (
+    <>
     <ScrollView>
       <View style={styles.container}>
         <Carousel realEstate={realEstate} />
@@ -65,6 +67,8 @@ export const RealEstatePage = ({}: ParamsType) => {
         />
       )}
     </ScrollView>
+    <Config />
+    </>
   );
 };
 const styles = StyleSheet.create({

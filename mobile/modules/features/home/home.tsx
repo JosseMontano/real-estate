@@ -17,14 +17,21 @@ import { useTypeRe } from "./hooks/useTypeRE";
 import { useRe } from "../../shared/hooks/useRE";
 import { useRedirect } from "./hooks/useRedirect";
 import { SkeletonCard } from "./components/card/skeletonCard";
+import { Config } from "../../shared/components/config";
 
 export function HomePage() {
   const { currentType, setCurrentType, typeRE } = useTypeRe();
 
-  const { filteredRealEstates, amountOfPages, currentPage, handlePagination, isLoading } =
-    useRe({ currentType });
+  const {
+    filteredRealEstates,
+    amountOfPages,
+    currentPage,
+    handlePagination,
+    isLoading,
+  } = useRe({ currentType });
 
-  const {handleScrollToRE, realEstateRef, scrollViewRef, showRealEstate} = useRedirect()
+  const { handleScrollToRE, realEstateRef, scrollViewRef, showRealEstate } =
+    useRedirect();
 
   return (
     <KeyboardAvoidingView
@@ -34,7 +41,7 @@ export function HomePage() {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView ref={scrollViewRef} keyboardShouldPersistTaps="handled">
           <Header goRealEstates={handleScrollToRE} />
-
+         
           <View style={{ padding: 15 }} ref={realEstateRef}>
             <Filter
               currentType={currentType}
@@ -43,9 +50,7 @@ export function HomePage() {
             />
 
             <View style={styles.cardContainer}>
-              {isLoading && [1,2,3,4].map((v)=>(
-                <SkeletonCard key={v}/>
-              ))}
+              {isLoading && [1, 2, 3, 4].map((v) => <SkeletonCard key={v} />)}
               {filteredRealEstates?.map((v) => (
                 <Card key={v.id} v={v} showRealEstate={showRealEstate} />
               ))}
@@ -59,10 +64,16 @@ export function HomePage() {
             />
 
             <QuestionForm />
+
           </View>
+    
           <Footer />
+
+       
         </ScrollView>
+
       </TouchableWithoutFeedback>
+      <Config />
     </KeyboardAvoidingView>
   );
 }

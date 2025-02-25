@@ -139,7 +139,9 @@ export function AuthPage() {
           <GoogleLogin />
         </View>
       </View>
-      <Config />
+      <View style={styles.configContainer}>
+        <Config />
+      </View>
     </View>
   );
 }
@@ -201,5 +203,9 @@ const styles = StyleSheet.create({
     width: "100%",
     textAlign: "right",
     fontWeight: 400,
+  },  configContainer: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
   },
 });

@@ -15,6 +15,7 @@ import { User } from "../../core/store/user";
 import { Navbar } from "../../shared/components/navbar";
 import { useLanguageStore } from "../../core/store/language";
 import { SkeletonRECard } from "./components/skeletonRECard";
+import { Config } from "../../shared/components/config";
 
 export interface FavRealEstate {
   id: number;
@@ -107,6 +108,7 @@ export function ProfilePage() {
           </View>
         </View>
       </View>
+      <Config />
     </ScrollView>
   );
 }

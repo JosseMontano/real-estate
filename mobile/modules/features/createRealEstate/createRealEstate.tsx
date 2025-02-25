@@ -19,6 +19,7 @@ import { Filter } from "../../shared/components/filter";
 import { useTypeRe } from "../home/hooks/useTypeRE";
 import { handlePost } from "../../core/helpers/fetch";
 import { useNagigation } from "../../core/hooks/useNavigation";
+import { Config } from "../../shared/components/config";
 
 export const useRealEstateShema = () => {
   const { texts } = useLanguageStore();
@@ -114,7 +115,7 @@ export const CreateRE = () => {
   });
 
   return (
-    <>
+    <>  
       <Modal transparent visible={isLoading}>
         <View style={styles.loadingOverlay}>
           <ActivityIndicator size="large" color="#0a0a0a" />
@@ -277,7 +278,12 @@ export const CreateRE = () => {
 
           <Btn text="Submit" fullWidth handleOnSubmit={handleOnSubmit} />
         </View>
+      
       </ScrollView>
+
+        <Config />
+   
+     
     </>
   );
 };
@@ -319,5 +325,10 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginBottom: 5,
     marginLeft: 3,
+  },
+  configContainer:{
+    position:"absolute",
+    bottom:10,
+    right:10
   },
 });
