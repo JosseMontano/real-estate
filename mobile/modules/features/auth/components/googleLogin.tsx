@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import * as WebBrowser from "expo-web-browser";
 import * as Linking from "expo-linking";
 import { primaryColor } from "../../../core/constants/colors";
+import { useLanguageStore } from "../../../core/store/language";
 
 export const getParamsStr = (params: Record<string, string | undefined>) => {
   const arr = [];
@@ -16,6 +17,7 @@ export const getParamsStr = (params: Record<string, string | undefined>) => {
 
 const GoogleLogin = () => {
   const appUrl = Linking.createURL("");
+  const {texts} = useLanguageStore()
 
   const getUserData = (params: Linking.EventType | Linking.QueryParams | null) => {
     const parsedParams = params as Record<string, string> | null;
@@ -24,6 +26,7 @@ const GoogleLogin = () => {
   }
 
   const handlePress = async () => {
+   
     const REDIRECT_URI = process.env.EXPO_PUBLIC_BACKEND + "google";
     const CLIENT_ID = process.env.EXPO_PUBLIC_CLIENT_ID; 
 
@@ -57,7 +60,7 @@ const GoogleLogin = () => {
         style={styles.image}
         source={require('../assets/google.png')}
       />
-      <Text>Loguin con google</Text>
+      <Text>{texts.btnGoogleAuth}</Text>
     </Pressable>
   );
 };

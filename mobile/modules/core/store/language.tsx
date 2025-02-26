@@ -26,6 +26,10 @@ export interface Translations {
   subTitle: string;
   invalidEmailAuth:string;
   invalidPasswordAuth:string
+  forgotYourPasswordAuth:string
+  orAuth:string
+  googleAuth:string
+  btnGoogleAuth:string
   //homePage
   typeText: string;
   selectType:string
@@ -65,6 +69,10 @@ const translations: { [key in Language]: Translations } = {
     subTitle: "Enjoy life in your dream home",
     invalidEmailAuth:"Invalid email",
     invalidPasswordAuth:"Must be at least 6 characters",
+    forgotYourPasswordAuth:"Forgot your password?",
+    orAuth:"or",
+    googleAuth:"Sign in with Google",
+    btnGoogleAuth:"Sign in with google",
     //homePage
     typeText: "Type",
     selectType:"Select type",
@@ -102,6 +110,10 @@ const translations: { [key in Language]: Translations } = {
     subTitle: "Disfruta la vida en tu casa soñada",
     invalidEmailAuth:"Correo inválido",
     invalidPasswordAuth:"Debe tener al menos 6 caracteres",
+    forgotYourPasswordAuth:"¿Olvidaste tu contraseña?",
+    orAuth:"o",
+    googleAuth:"Inicia sesion con google",
+    btnGoogleAuth:"Login con google",
       //homePage
     typeText: "Tipo",
     selectType:"Seleccionar tipo",
@@ -139,6 +151,10 @@ const translations: { [key in Language]: Translations } = {
     subTitle: "Disfruta la vida en tu casa soñada",
     invalidEmailAuth:"Email inválido",
     invalidPasswordAuth:"Deve ter pelo menos 6 caracteres",
+    forgotYourPasswordAuth:"Esqueceu sua senha?",
+    orAuth:"ou",
+    googleAuth:"faça login com o google",
+    btnGoogleAuth:"faça login com o google",
       //homePage
     typeText: "Tipo",
      selectType:"selecione o tipo",

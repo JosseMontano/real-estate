@@ -132,14 +132,14 @@ export function AuthPage() {
             )}
           />
           <View style={styles.btnContainer}>
-            <Text style={styles.footerText}>¿Olvidaste tu contraseña?</Text>
-            <Btn text="Sign in" fullWidth handleOnSubmit={handleOnSubmit} />
+            <Text style={styles.footerText}>{texts.forgotYourPasswordAuth}</Text>
+            <Btn text={texts.title} fullWidth handleOnSubmit={handleOnSubmit} />
           </View>
         </View>
 
-        <Text>O</Text>
+        <Text>{texts.orAuth}</Text>
 
-        <Text>Inicia con Google</Text>
+        <Text>{texts.googleAuth}</Text>
         <View style={{ width: "90%" }}>
           <GoogleLogin />
         </View>
