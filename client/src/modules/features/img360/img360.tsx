@@ -10,13 +10,25 @@ const Img360 = () => {
   const { url } = use360photo();
   const [img, setImg] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const {lastPageVisited} = useGeneralStore()
+  const { lastPageVisited } = useGeneralStore();
 
   useEffect(() => {
     const handleGetImage = async () => {
       try {
-        setIsLoading(true); // Start loading
-        const res = await handlePostBlob("fetch_image", { url });
+        setIsLoading(true); 
+
+       const urlEncode = window.location.hash.split("#/img360/")[1] || "";
+
+        // Decodificar la URL
+        const decodedUrl = decodeURIComponent(urlEncode);
+        console.log("Decoded URL:", decodedUrl);
+        
+        // Usar la URL decodificada
+        const urlToBack = urlEncode ? decodedUrl : url;
+
+      
+        // Fetch the image using the decoded URL
+        const res = await handlePostBlob("fetch_image", { url:urlToBack });
 
         const base64data = (await new Promise((resolve) => {
           const reader = new FileReader();
@@ -45,7 +57,7 @@ const Img360 = () => {
 
   return (
     <>
-    <ComeBack location={lastPageVisited}/>
+      <ComeBack location={lastPageVisited} />
       {isLoading && (
         <div className="min-h-screen flex items-center justify-center bg-[#282c34] text-white">
           <Loading />
@@ -53,7 +65,6 @@ const Img360 = () => {
       )}
       {!isLoading && img && (
         <div className="bg-[#282c34] min-h-screen relative flex text-[calc(10px+2vmin)] text-white justify-center">
-          
           {/* @ts-expect-error: a-scene is not a recognized JSX element */}
           <a-scene className="RV" role="RV">
             {/* @ts-expect-error: a-sky is not a recognized JSX element */}

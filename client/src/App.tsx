@@ -49,6 +49,7 @@ function App() {
             <Route path="/auth" element={<AuthPage />} />
             <Route path="/reset_password/:code/:email" element={<AuthPage />} />
             <Route path="/img360" element={<Img360 />} />
+            <Route path="/img360/:urlEncode" element={<Img360 />} />
             {/* @ts-ignore */}
             <Route path="/map/:lat_long" element={<MapPage />} />
             <Route path="/select_address/" element={<SelectAddress />} />
