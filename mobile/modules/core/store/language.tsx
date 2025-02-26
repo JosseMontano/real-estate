@@ -16,6 +16,7 @@ export interface Translations {
   englishConfig: string;
   portugueseConfig: string;
   sucess: string;
+  error:string
   required:string;
   limit:string 
   noNegative:string
@@ -54,6 +55,7 @@ const translations: { [key in Language]: Translations } = {
     englishConfig: "English",
     portugueseConfig: "Portuguese",
     sucess: "Success",
+    error:"Error",
     required:"This field is required",
     limit:"It must be 100 characters or less",
     noNegative:"This field must be a non-negative integer",
@@ -90,6 +92,7 @@ const translations: { [key in Language]: Translations } = {
     englishConfig: "Inglés",
     portugueseConfig: "Portugués",
     sucess: "Exitoso",
+    error:"Error",
     required:"Este campo es requerido",
     limit:"Debe ser 100 caracteres o menos",
     noNegative:"Este campo no debe tener valores negativos",
@@ -126,6 +129,7 @@ const translations: { [key in Language]: Translations } = {
     englishConfig: "Inglês",
     portugueseConfig: "Português",
     sucess: "bem-sucedido",
+    error:"erro",
     required:"Este campo é obrigatório",
     limit:"Deve ter 100 caracteres ou menos",
     noNegative:"Devem ser um número inteiro não negativo",

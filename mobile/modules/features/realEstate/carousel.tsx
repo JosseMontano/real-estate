@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   Text, // Make sure Text is imported
 } from "react-native";
+import { urls } from "../../core/constants/endpoint";
 
 type ParamsType = {
   realEstate: RealEstate;
@@ -49,7 +50,7 @@ export const Carousel = ({ realEstate }: ParamsType) => {
 
   const encodedUrl = encodeURIComponent(url);
 
-  const redirectUrl = `http://192.168.1.6:5173/#/img360/${encodedUrl}`;
+  const redirectUrl = urls.web + `img360/${encodedUrl}`;
 
   console.log("Redirect URL:", redirectUrl);
 

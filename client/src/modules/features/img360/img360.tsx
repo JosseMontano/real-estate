@@ -18,16 +18,10 @@ const Img360 = () => {
         setIsLoading(true); 
 
        const urlEncode = window.location.hash.split("#/img360/")[1] || "";
-
-        // Decodificar la URL
-        const decodedUrl = decodeURIComponent(urlEncode);
-        console.log("Decoded URL:", decodedUrl);
+      const decodedUrl = decodeURIComponent(urlEncode);
         
-        // Usar la URL decodificada
         const urlToBack = urlEncode ? decodedUrl : url;
 
-      
-        // Fetch the image using the decoded URL
         const res = await handlePostBlob("fetch_image", { url:urlToBack });
 
         const base64data = (await new Promise((resolve) => {

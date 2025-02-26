@@ -9,7 +9,7 @@ import { useEffect, useMemo } from "react";
 import GoogleLogin from "./components/googleLogin";
 import { Btn } from "../../core/components/btn";
 import { handlePost } from "../../core/helpers/fetch";
-import { handleToast } from "../../core/helpers/toast";
+import { handleToast, handleToastError } from "../../core/helpers/toast";
 import { User } from "../../core/store/user";
 
 export const useUserShema = () => {
@@ -29,10 +29,9 @@ export const useUserShema = () => {
 };
 
 export function AuthPage() {
-  const { language,texts } = useLanguageStore();
+  const { language, texts } = useLanguageStore();
   const { handleRedirect } = useNagigation();
-  const { login } = useAuthStore();
-
+  const { login, user } = useAuthStore();
 
   const userSchema = useUserShema();
   const {
@@ -69,9 +68,15 @@ export function AuthPage() {
           favorites: val.favorites,
         });
         handleRedirect("Profile");
+      return
       }
+      handleToastError(message[language], texts.error);
     },
   });
+
+  useEffect(() => {
+    if (user != null) handleRedirect("Home");
+  }, [user]);
 
   return (
     <View
@@ -203,7 +208,8 @@ const styles = StyleSheet.create({
     width: "100%",
     textAlign: "right",
     fontWeight: 400,
-  },  configContainer: {
+  },
+  configContainer: {
     position: "absolute",
     bottom: 20,
     right: 20,

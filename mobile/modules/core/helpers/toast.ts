@@ -8,3 +8,11 @@ export const handleToast = (msg:string, title:string)=>{
         text2: msg
       });
 }
+
+export const handleToastError = (msg:string, title:string)=>{
+  Toast.show({
+      type: 'error',
+      text1: title,
+      text2: msg
+    });
+}
