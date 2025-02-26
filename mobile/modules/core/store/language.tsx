@@ -29,6 +29,7 @@ export interface Translations {
   invalidEmailAuth:string;
   invalidPasswordAuth:string
   forgotYourPasswordAuth:string
+  recuperateAccount:string
   orAuth:string
   googleAuth:string
   btnGoogleAuth:string
@@ -89,6 +90,7 @@ const translations: { [key in Language]: Translations } = {
     invalidEmailAuth:"Invalid email",
     invalidPasswordAuth:"Must be at least 6 characters",
     forgotYourPasswordAuth:"Forgot your password?",
+    recuperateAccount:"Recover account",
     orAuth:"or",
     googleAuth:"Sign in with Google",
     btnGoogleAuth:"Sign in with google",
@@ -147,6 +149,7 @@ const translations: { [key in Language]: Translations } = {
     invalidEmailAuth:"Correo inválido",
     invalidPasswordAuth:"Debe tener al menos 6 caracteres",
     forgotYourPasswordAuth:"¿Olvidaste tu contraseña?",
+    recuperateAccount:"Recuperar cuenta",
     orAuth:"o",
     googleAuth:"Inicia sesion con google",
     btnGoogleAuth:"Login con google",
@@ -205,6 +208,7 @@ const translations: { [key in Language]: Translations } = {
     invalidEmailAuth:"Email inválido",
     invalidPasswordAuth:"Deve ter pelo menos 6 caracteres",
     forgotYourPasswordAuth:"Esqueceu sua senha?",
+    recuperateAccount:"Recuperar conta",
     orAuth:"ou",
     googleAuth:"faça login com o google",
     btnGoogleAuth:"faça login com o google",

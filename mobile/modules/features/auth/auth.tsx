@@ -5,12 +5,13 @@ import { Config } from "../../shared/components/config";
 import { useNagigation } from "../../core/hooks/useNavigation";
 import useAuthStore from "../../core/store/auth";
 import { useForm } from "../../core/hooks/useForm";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import GoogleLogin from "./components/googleLogin";
 import { Btn } from "../../core/components/btn";
 import { handlePost } from "../../core/helpers/fetch";
 import { handleToast, handleToastError } from "../../core/helpers/toast";
 import { User } from "../../core/store/user";
+import { SendCode } from "./components/sendCode";
 
 export const useUserShema = () => {
   const { texts } = useLanguageStore();
@@ -74,6 +75,12 @@ export function AuthPage() {
     },
   });
 
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const handleOpenModal = () => {
+      setModalVisible(true);
+      };
+
   useEffect(() => {
     if (user != null) handleRedirect("Home");
   }, [user]);
@@ -132,7 +139,7 @@ export function AuthPage() {
             )}
           />
           <View style={styles.btnContainer}>
-            <Text style={styles.footerText}>{texts.forgotYourPasswordAuth}</Text>
+            <Text style={styles.footerText} onPress={()=>handleOpenModal()}>{texts.forgotYourPasswordAuth}</Text>
             <Btn text={texts.title} fullWidth handleOnSubmit={handleOnSubmit} />
           </View>
         </View>
@@ -147,6 +154,7 @@ export function AuthPage() {
       <View style={styles.configContainer}>
         <Config />
       </View>
+      <SendCode mainModalVisible={modalVisible} setMainModalVisible={setModalVisible}/>
     </View>
   );
 }
