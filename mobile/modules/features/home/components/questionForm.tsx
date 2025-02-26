@@ -20,7 +20,7 @@ export const useQuestionShema = () => {
 
 export const QuestionForm = ({}: ParamsType) => {
   const questionSchema = useQuestionShema();
-  const { language } = useLanguageStore();
+  const { language, texts } = useLanguageStore();
   const {
     register,
     handleOnSubmit,
@@ -50,11 +50,10 @@ export const QuestionForm = ({}: ParamsType) => {
     <View style={styles.container}>
       <View style={{ gap: 20 }}>
         <Text style={styles.title}>
-          Haz una <Text style={{ color: secondaryColor }}>pregunta</Text>
+          {texts.homeTitleQuestion} <Text style={{ color: secondaryColor }}>{texts.homeTitleBoldQuestion}</Text>
         </Text>
         <Text style={styles.description}>
-          Tus preguntas se visualizarán en las publicaciones para que los
-          propietarios puedan responder de forma automática.
+        {texts.homeDescriptionQuestion}
         </Text>
 
         <View style={styles.form}>
@@ -78,7 +77,7 @@ export const QuestionForm = ({}: ParamsType) => {
             )}
           />
 
-          <Btn text="Guardar" handleOnSubmit={handleOnSubmit} fullWidth />
+          <Btn text={texts.save} handleOnSubmit={handleOnSubmit} fullWidth />
         </View>
       </View>
     </View>

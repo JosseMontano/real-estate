@@ -21,6 +21,7 @@ export interface Translations {
   limit:string 
   noNegative:string
   loading:string
+  save:string
   //auth
   title: string;
   subTitle: string;
@@ -39,6 +40,10 @@ export interface Translations {
   homeTitle:string
   homeDescription:string
   homeBtn:string
+  homeTitleQuestion:string
+  homeTitleBoldQuestion:string;
+  homeDescriptionQuestion:string
+  footerTextQuestion:string
   //profile
   logOut:string
   profileRESelected:string
@@ -64,6 +69,7 @@ const translations: { [key in Language]: Translations } = {
     limit:"It must be 100 characters or less",
     noNegative:"This field must be a non-negative integer",
     loading:"Loading...",
+    save:"Save",
     //auth
     title: "Sign in",
     subTitle: "Enjoy life in your dream home",
@@ -82,6 +88,10 @@ const translations: { [key in Language]: Translations } = {
     homeTitle:"Modern house makes life better",
     homeDescription:"Discover how to improve your quality of life with a home tailored to you.",
     homeBtn: "Explore our properties",
+    homeTitleQuestion:"Make a",
+    homeTitleBoldQuestion:"question",
+    homeDescriptionQuestion:"Your questions are displayed in posts so owners can respond automatically.",
+    footerTextQuestion:"All rights reserved",
     //profile
     logOut:"log out",
     profileRESelected:"Real estates",
@@ -105,6 +115,7 @@ const translations: { [key in Language]: Translations } = {
     limit:"Debe ser 100 caracteres o menos",
     noNegative:"Este campo no debe tener valores negativos",
     loading:"Cargando...",
+    save:"Guardar",
     //auth
     title: "Iniciar sesion",
     subTitle: "Disfruta la vida en tu casa soñada",
@@ -123,6 +134,10 @@ const translations: { [key in Language]: Translations } = {
     homeTitle:"La casa moderna hace la vida mejor.",
     homeDescription:"Descubre cómo mejorar tu calidad de vida con una casa a tu medida.",
     homeBtn:"Explora nuestras propiedades",
+    homeTitleQuestion:"Haz una",
+    homeTitleBoldQuestion:"Pregunta",
+    homeDescriptionQuestion:"Tus preguntas se visualizan en las publicaciones para que los propietarios puedan responder de forma automática.",
+    footerTextQuestion:"Todos los derechos reservados",
     //profile
     logOut:"Cerrar sesion",
     profileRESelected:"Inmuebles",
@@ -146,6 +161,7 @@ const translations: { [key in Language]: Translations } = {
     limit:"Deve ter 100 caracteres ou menos",
     noNegative:"Devem ser um número inteiro não negativo",
     loading:"carregando...",
+    save:"Manter",
     //auth
     title: "Entrar",
     subTitle: "Disfruta la vida en tu casa soñada",
@@ -164,6 +180,10 @@ const translations: { [key in Language]: Translations } = {
     homeTitle:"A casa moderna torna a vida melhor.",
     homeDescription:"Descubra como melhorar a sua qualidade de vida com uma casa à sua medida.",
     homeBtn:"Explore nossos imóveis",
+    homeTitleQuestion:"faça uma",
+    homeTitleBoldQuestion:"pergunta",
+    homeDescriptionQuestion:"Suas perguntas são exibidas em postagens para que os proprietários possam responder automaticamente.",
+    footerTextQuestion:"Todos os direitos reservados",
     //profile
     logOut:"sair",
     profileRESelected:"Propriedade",

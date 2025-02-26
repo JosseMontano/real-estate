@@ -1,8 +1,10 @@
 import { StyleSheet, Text, View, Image } from "react-native";
 import { FacebookIcon, InstagramIcon, YTIcon } from "../../../shared/icons/icons";
+import { useLanguageStore } from "../../../core/store/language";
 
 type ParamsType = {};
 export const Footer = ({}: ParamsType) => {
+  const {texts } = useLanguageStore()
   return (
     <View style={styles.container}>
      <View style={styles.iconsContainer}>
@@ -11,7 +13,7 @@ export const Footer = ({}: ParamsType) => {
       {InstagramIcon}
      </View>
       <Text style={styles.text}>
-        Copyright © INMUEBLES EN LA NUBE - Todos los derechos reservados
+        Copyright © INMUEBLES EN LA NUBE - {texts.footerTextQuestion}
       </Text>
     </View>
   );
