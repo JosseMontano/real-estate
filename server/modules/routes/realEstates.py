@@ -416,7 +416,8 @@ async def get_real_estates_by_user(user_id:int ,db: Session = Depends(get_db)):
     query = db.query(models.RealEstate).options(
         joinedload(models.RealEstate.photos),
         joinedload(models.RealEstate.title),
-        joinedload(models.RealEstate.description)
+        joinedload(models.RealEstate.description),
+        joinedload(models.RealEstate.user) 
     ).filter(models.RealEstate.user_id == user_id)
     real_estates = query.all()
     

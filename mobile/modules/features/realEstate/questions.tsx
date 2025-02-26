@@ -1,62 +1,50 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { User } from "../../core/store/user";
-import useGet from "../../core/hooks/useGet";
+import useGet, { LanguageDB } from "../../core/hooks/useGet";
 import { handleGet } from "../../core/helpers/fetch";
 import { Question } from "./types/question";
 import { AdHouse, FacebookIcon } from "../../shared/icons/icons";
 import { Pagination } from "../../core/components/pagination";
 import { useLanguageStore } from "../../core/store/language";
 import { RealEstate } from "../../shared/types/realEstate";
+import useAuthStore from "../../core/store/auth";
+import { FormQuestion } from "./formQuestion";
+import { QuestionsWithResponse } from "./questionsWithResponse";
+import { secondaryColor } from "../../core/constants/colors";
 
 type ParamsType = {
   user: User;
-  handleOpenModal:(val:Question)=>void
-    realEstate: Readonly<RealEstate>
+  handleOpenModal: (val: Question) => void;
+  realEstate: Readonly<RealEstate>;
 };
-export const Questions = ({ user, handleOpenModal, realEstate }: ParamsType) => {
-  const { language } = useLanguageStore();
-  const {
-    data: unanswered,
-    isLoading: isLoadingUnanswered,
-    currentPage,
-    amountOfPages,
-    handlePagination,
-  } = useGet({
-    services: () => handleGet<Question[]>("questions/unanswered/" + realEstate.id),
-    queryKey: ["questions-unanswered",realEstate.id],
-    itemsPerPage: 2,
-  });
 
-  const { data: answered, isLoading: isLoadingAnswered } = useGet({
-    services: () => handleGet<Question[]>("responses" + user.id),
-    queryKey: ["questions-responses"],
-  });
+export const Questions = ({
+  user,
+  handleOpenModal,
+  realEstate,
+}: ParamsType) => {
+  const { user: userLogged } = useAuthStore();
 
   return (
     <View>
       <View style={{ flexDirection: "row" }}>
-        {unanswered.map((v) => (
-          <View style={styles.card} key={v.id}>
-            <Text style={styles.questionText}>{v.question[language]}</Text>
+        {user.id == userLogged?.id && (
+          <FormQuestion
+            handleOpenModal={handleOpenModal}
+            realEstate={realEstate}
+          />
+        )}
 
-            <TouchableOpacity style={styles.replyButton} onPress={() =>handleOpenModal(v)}>
-              <Text style={styles.replyText}>Responder</Text>
-            </TouchableOpacity>
-          </View>
-        ))}
+        {/* if is vistor */}
+        {user.id != userLogged?.id && (
+          <QuestionsWithResponse realEstate={realEstate} />
+        )}
       </View>
-
-      <Pagination
-        currentPage={currentPage}
-        amountOfPages={amountOfPages}
-        handlePagination={handlePagination}
-        lastPage={amountOfPages}
-      />
     </View>
   );
 };
 
-const styles = StyleSheet.create({
+export const questionStyles = StyleSheet.create({
   card: {
     backgroundColor: "#fff",
     borderRadius: 8,
@@ -68,7 +56,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
-    width: "40%",
+    width:150
   },
   questionText: {
     fontSize: 16,
@@ -82,7 +70,7 @@ const styles = StyleSheet.create({
   },
   replyText: {
     fontSize: 14,
-    color: "#007AFF",
+    color: secondaryColor,
     marginLeft: 4,
   },
 });

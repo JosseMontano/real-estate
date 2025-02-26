@@ -5,7 +5,7 @@ type ParamsType = {
     v: Readonly<RealEstate>
 }
 export const GeneralContainer = ({v}:ParamsType) => {
-      const { language } = useLanguageStore();
+      const { language,texts } = useLanguageStore();
     return (
         <View style={styles.generalContainer}>
         <Text style={styles.title}>{v.title[language]}</Text>
@@ -15,8 +15,8 @@ export const GeneralContainer = ({v}:ParamsType) => {
         <View
           style={{ flexDirection: "row", justifyContent: "space-evenly" }}
         >
-          <Text>Baños: {v.amount_bathroom}</Text>
-          <Text>Cuartos:{v.amount_bedroom}</Text>
+          <Text>{texts.realEstateBathroom}: {v.amount_bathroom}</Text>
+          <Text>{texts.realEstateBedroom}:{v.amount_bedroom}</Text>
         </View>
       </View>
     );

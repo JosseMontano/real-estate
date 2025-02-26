@@ -64,7 +64,7 @@ export const QuestionForm = ({}: ParamsType) => {
               <View>
                 <TextInput
                   style={[styles.input, errors.question && styles.errorInput]}
-                  placeholder="Pregunta"
+                  placeholder={texts.homeTitleBoldQuestion}
                   value={value}
                   onChangeText={onChange}
                 />

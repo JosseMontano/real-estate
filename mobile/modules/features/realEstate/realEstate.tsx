@@ -46,13 +46,13 @@ export const RealEstatePage = ({}: ParamsType) => {
         />
 
         <View style={styles.extraInfoContainer}>
-          <Text style={[styles.title, { width: "100%" }]}>Preguntas</Text>
+          <Text style={[styles.title, { width: "100%" }]}>{texts.realEstateQuestion}</Text>
           <Questions
-            user={user ?? ({} as User)}
+            user={realEstate.user ?? ({} as User)}
             handleOpenModal={handleOpenModal}
             realEstate={realEstate}
           />
-          <Text style={[styles.title, { width: "100%" }]}>Reseñas</Text>
+          <Text style={[styles.title, { width: "100%" }]}>{texts.realEstateFeedback}</Text>
           <Feedback />
         </View>
       </View>

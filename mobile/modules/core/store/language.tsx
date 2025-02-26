@@ -22,6 +22,7 @@ export interface Translations {
   noNegative:string
   loading:string
   save:string
+  upload:string
   //auth
   title: string;
   subTitle: string;
@@ -53,6 +54,17 @@ export interface Translations {
   //realEstate
   titleAnswerModal:string
   placeHolderAnswer:string
+  realEstateBathroom:string
+  realEstateBedroom:string
+  realEstateQuestion:string
+  realEstateFeedback:string
+  //create real estate
+  createRETitle:string
+  createREDescription:string
+  createREAmountBedrooms:string
+  createREAmountBathrooms:string
+  createRESquareMeter:string
+  createREPrice:string
 }
 
 const translations: { [key in Language]: Translations } = {
@@ -70,6 +82,7 @@ const translations: { [key in Language]: Translations } = {
     noNegative:"This field must be a non-negative integer",
     loading:"Loading...",
     save:"Save",
+    upload:"Upload",
     //auth
     title: "Sign in",
     subTitle: "Enjoy life in your dream home",
@@ -101,6 +114,17 @@ const translations: { [key in Language]: Translations } = {
     //real estate
     titleAnswerModal:"Answer question",
     placeHolderAnswer:"Answer",
+    realEstateBathroom:"bathrooms",
+    realEstateBedroom:"bedrooms",
+    realEstateQuestion:"Questions",
+    realEstateFeedback:"Feedback",
+    //create real estate
+    createRETitle:"Title",
+    createREDescription:"Description",
+    createREAmountBedrooms:"Amount of bedrooms",
+    createREAmountBathrooms:"Amount of bathrooms",
+    createRESquareMeter:"Square meters",
+    createREPrice:"Price",
   },
   es: {
     //shared
@@ -116,6 +140,7 @@ const translations: { [key in Language]: Translations } = {
     noNegative:"Este campo no debe tener valores negativos",
     loading:"Cargando...",
     save:"Guardar",
+    upload:"Subir",
     //auth
     title: "Iniciar sesion",
     subTitle: "Disfruta la vida en tu casa soñada",
@@ -146,7 +171,18 @@ const translations: { [key in Language]: Translations } = {
     profileEditUser:"Editar usuario",
     //real estate
     titleAnswerModal:"Responder pregunta",
-    placeHolderAnswer:"respuesta"
+    placeHolderAnswer:"respuesta",
+    realEstateBathroom:"baños",
+    realEstateBedroom:"cuartos",
+    realEstateQuestion:"Preguntas",
+    realEstateFeedback:"Reseñas",
+      //create real estate
+      createRETitle:"Titulo",
+      createREDescription:"Descripcion",
+      createREAmountBathrooms:"Cantidad de baños",
+      createREAmountBedrooms:"Cantidad de cuartos",
+      createREPrice:"Precio",
+      createRESquareMeter:"Cantidad de metros"
   },
   pt: {
     //shared
@@ -162,6 +198,7 @@ const translations: { [key in Language]: Translations } = {
     noNegative:"Devem ser um número inteiro não negativo",
     loading:"carregando...",
     save:"Manter",
+    upload:"carregar",
     //auth
     title: "Entrar",
     subTitle: "Disfruta la vida en tu casa soñada",
@@ -193,6 +230,17 @@ const translations: { [key in Language]: Translations } = {
     //real estate
     titleAnswerModal:"Responda a pergunta",
     placeHolderAnswer:"responder",
+    realEstateBathroom:"banheiros",
+    realEstateBedroom:"quartos",
+    realEstateQuestion:"Perguntas",
+    realEstateFeedback:"Comentários",
+      //create real estate
+      createRETitle:"título",
+      createREDescription:"descrição",
+      createREAmountBathrooms:"quantidade de banheiros",
+      createREAmountBedrooms:"quantidade de quartos",
+      createREPrice:"preço",
+      createRESquareMeter:"metro quadrado"
   },
 };
 

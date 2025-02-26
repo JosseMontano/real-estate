@@ -136,7 +136,7 @@ export const CreateRE = () => {
               <View>
                 <TextInput
                   style={[styles.input, errors.title && styles.errorInput]}
-                  placeholder="Title"
+                  placeholder={texts.createRETitle}
                   value={value}
                   onChangeText={onChange}
                 />
@@ -158,7 +158,7 @@ export const CreateRE = () => {
                     styles.input,
                     errors.description && styles.errorInput,
                   ]}
-                  placeholder="Description"
+                  placeholder={texts.createREDescription}
                   value={value}
                   onChangeText={onChange}
                   multiline
@@ -182,7 +182,7 @@ export const CreateRE = () => {
                       styles.input,
                       errors.amountBedroom && styles.errorInput,
                     ]}
-                    placeholder="Amount of Bedrooms"
+                    placeholder={texts.createREAmountBedrooms}
                     value={value?.toString()}
                     onChangeText={onChange}
                     keyboardType="numeric"
@@ -206,7 +206,7 @@ export const CreateRE = () => {
                       styles.input,
                       errors.amountBathroom && styles.errorInput,
                     ]}
-                    placeholder="Amount of Bathrooms"
+                    placeholder={texts.createREAmountBathrooms}
                     value={value?.toString()}
                     onChangeText={onChange}
                     keyboardType="numeric"
@@ -232,7 +232,7 @@ export const CreateRE = () => {
                       styles.input,
                       errors.squareMeter && styles.errorInput,
                     ]}
-                    placeholder="Square Meters"
+                    placeholder={texts.createRESquareMeter}
                     value={value?.toString()}
                     onChangeText={onChange}
                     keyboardType="numeric"
@@ -253,7 +253,7 @@ export const CreateRE = () => {
                 <View>
                   <TextInput
                     style={[styles.input, errors.price && styles.errorInput]}
-                    placeholder="Price"
+                    placeholder={texts.createREPrice}
                     value={value?.toString()}
                     onChangeText={onChange}
                     keyboardType="numeric"
@@ -276,7 +276,7 @@ export const CreateRE = () => {
           />
           <UploadFilesWebView setUploadedFiles={setUploadedFiles} user={user?.email.split("@")[0] ?? ""}/>
 
-          <Btn text="Submit" fullWidth handleOnSubmit={handleOnSubmit} />
+          <Btn text={texts.save} fullWidth handleOnSubmit={handleOnSubmit} />
         </View>
       
       </ScrollView>
