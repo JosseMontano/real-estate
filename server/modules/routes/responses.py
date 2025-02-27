@@ -19,7 +19,7 @@ class ResponseDTO(BaseModel):
     real_estate_id: int
 
 
-@app.get('/')
+@app.get('')
 async def get_responses(db: Session = Depends(get_db)):
     query = db.query(models.Response).options(
         joinedload(models.Response.response),

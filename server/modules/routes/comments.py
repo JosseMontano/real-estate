@@ -20,7 +20,7 @@ class CommentDTO(BaseModel):
     commentator_id: int
     real_estate_id: int
 
-@app.get('/')
+@app.get('')
 async def get_comments(db: Session = Depends(get_db)):
     query = db.query(models.Comment).options(
         joinedload(models.Comment.comment),
@@ -93,7 +93,7 @@ async def get_average_amount_start_by_user(user_id: int, db: Session = Depends(g
     rounded_average = round(average, 2)
     return {"status": 200, "message": Messages.DATA_FOUND.dict(), "val": { rounded_average}}
 
-@app.post('/')
+@app.post('')
 async def create_comment(comment: CommentDTO, db: Session = Depends(get_db)):
     try:
         result_comment = translate_es_en_pt(comment.comment_text)

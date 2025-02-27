@@ -56,7 +56,7 @@ async def get_reported_users_by_reporter(
     return response
 
 # Get all report users with the user data
-@app.get("/")
+@app.get("")
 async def get_all_reported_users(db: Session = Depends(get_db)):
     query = db.query(models.ReportUser).options(
         joinedload(models.ReportUser.user_reported),
@@ -105,7 +105,7 @@ async def get_statistics(db: Session = Depends(get_db)):
 
 
 # Report a new user
-@app.post('/')
+@app.post('')
 async def report_user(report: ReportUserDTO, db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.id == report.user_reported_id).first()
     if not user:

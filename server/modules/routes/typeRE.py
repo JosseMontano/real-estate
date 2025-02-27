@@ -23,7 +23,7 @@ class TypeRealEstateResponse(BaseModel):
         orm_mode = True
 
 
-@app.get('/')
+@app.get('')
 async def get_types(db: Session = Depends(get_db)):
     query = db.query(models.TypeRealEstate).options(joinedload(models.TypeRealEstate.name))
     typeRE= query.all()

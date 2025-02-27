@@ -17,7 +17,7 @@ class FollowDTO(BaseModel):
     user_id: int
     user_followed_id: int
 
-@app.post('/')
+@app.post('')
 async def follow(follow: FollowDTO, db: Session = Depends(get_db)):
     
     db_follow = models.Follow(

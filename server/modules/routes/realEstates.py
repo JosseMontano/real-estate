@@ -87,7 +87,7 @@ def model_to_dict(obj, include_relationships=True):
                     data[name] = model_to_dict(related_obj, include_relationships=False)
     return data
 
-@app.get('/')
+@app.get('')
 async def get_real_estates(db: Session = Depends(get_db)):
     # Step 1: Fetch all real estate data
     all_real_estates = db.query(models.RealEstate).options(

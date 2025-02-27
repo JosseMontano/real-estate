@@ -16,7 +16,7 @@ app = APIRouter(
 class QuestionDTO(BaseModel): 
     question: str
 
-@app.get('/')
+@app.get('')
 async def get_questions(db: Session = Depends(get_db)):
     query = db.query(models.Question).options(
         joinedload(models.Question.question)
