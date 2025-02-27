@@ -23,6 +23,7 @@ export interface Translations {
   loading:string
   save:string
   upload:string
+  empty:string
   //auth
   title: string;
   subTitle: string;
@@ -84,6 +85,7 @@ const translations: { [key in Language]: Translations } = {
     loading:"Loading...",
     save:"Save",
     upload:"Upload",
+    empty:"There is no data",
     //auth
     title: "Sign in",
     subTitle: "Enjoy life in your dream home",
@@ -143,6 +145,7 @@ const translations: { [key in Language]: Translations } = {
     loading:"Cargando...",
     save:"Guardar",
     upload:"Subir",
+    empty:"No hay datos",
     //auth
     title: "Iniciar sesion",
     subTitle: "Disfruta la vida en tu casa soñada",
@@ -202,6 +205,7 @@ const translations: { [key in Language]: Translations } = {
     loading:"carregando...",
     save:"Manter",
     upload:"carregar",
+    empty:"Não há dados",
     //auth
     title: "Entrar",
     subTitle: "Disfruta la vida en tu casa soñada",

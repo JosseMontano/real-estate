@@ -6,6 +6,7 @@ import {
   Platform,
   TouchableWithoutFeedback,
   Keyboard,
+  Text,
 } from "react-native";
 import { Card } from "./components/card";
 import { Header } from "./components/header";
@@ -18,6 +19,7 @@ import { useRe } from "../../shared/hooks/useRE";
 import { useRedirect } from "./hooks/useRedirect";
 import { SkeletonCard } from "./components/card/skeletonCard";
 import { Config } from "../../shared/components/config";
+import { Empty } from "../../core/components/empty";
 
 export function HomePage() {
   const { currentType, setCurrentType, typeRE } = useTypeRe();
@@ -41,7 +43,7 @@ export function HomePage() {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView ref={scrollViewRef} keyboardShouldPersistTaps="handled">
           <Header goRealEstates={handleScrollToRE} />
-         
+
           <View style={{ padding: 15 }} ref={realEstateRef}>
             <Filter
               currentType={currentType}
@@ -54,24 +56,23 @@ export function HomePage() {
               {filteredRealEstates?.map((v) => (
                 <Card key={v.id} v={v} showRealEstate={showRealEstate} />
               ))}
+              {filteredRealEstates.length == 0 && <Empty />}
             </View>
 
-            <Pagination
-              currentPage={currentPage}
-              amountOfPages={amountOfPages}
-              handlePagination={handlePagination}
-              lastPage={amountOfPages}
-            />
+            {filteredRealEstates.length > 0 && (
+              <Pagination
+                currentPage={currentPage}
+                amountOfPages={amountOfPages}
+                handlePagination={handlePagination}
+                lastPage={amountOfPages}
+              />
+            )}
 
             <QuestionForm />
-
           </View>
-    
+
           <Footer />
-
-       
         </ScrollView>
-
       </TouchableWithoutFeedback>
       <Config />
     </KeyboardAvoidingView>
