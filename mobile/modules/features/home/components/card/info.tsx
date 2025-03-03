@@ -11,7 +11,11 @@ export const Info = ({v}:ParamsType) => {
         <View style={{height:115}}>
         <Text style={styles.title}>{v.title[language]}</Text>
         <Text style={styles.contact}>{v.user.email}</Text>
-        <Text style={styles.description}>{v.description[language]}</Text>
+        <Text style={styles.description}>
+  {v.description[language].length > 20
+    ? `${v.description[language].slice(0, 90)}...`
+    : v.description[language]}
+</Text>
 
 
         <View style={styles.infoContainer}>

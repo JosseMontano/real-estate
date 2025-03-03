@@ -39,6 +39,8 @@ export const Questions = ({
         {user.id != userLogged?.id && (
           <QuestionsWithResponse realEstate={realEstate} />
         )}
+
+        
       </View>
     </View>
   );

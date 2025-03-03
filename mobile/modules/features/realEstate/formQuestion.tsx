@@ -48,6 +48,7 @@ export const FormQuestion = ({ realEstate, handleOpenModal }: ParamsType) => {
         handlePagination={handlePagination}
         lastPage={amountOfPages}
       />
+    
     </View>
   );
 };

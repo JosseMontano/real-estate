@@ -53,7 +53,7 @@ export function ProfilePage() {
       return handleGet<RealEstate[]>("real_estates/" + userLogged.id);
     },
     queryKey: ["realEstates", userLogged?.id],
-    itemsPerPage: 4,
+    itemsPerPage: 10,
     valueToService: 1,
   });
 

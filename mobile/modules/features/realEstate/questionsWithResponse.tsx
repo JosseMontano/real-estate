@@ -7,13 +7,14 @@ import { useLanguageStore } from "../../core/store/language";
 import { Pagination } from "../../core/components/pagination";
 import { Response } from "../../shared/types/response";
 import { questionStyles } from "./questions";
+import { Empty } from "../../core/components/empty";
 type ParamsType = {
   realEstate: Readonly<RealEstate>;
 };
 
 export const QuestionsWithResponse = ({ realEstate }: ParamsType) => {
   const { language } = useLanguageStore();
-  const styles= questionStyles
+  const styles = questionStyles;
   const {
     data: answered,
     isLoading: isLoadingAnswered,
@@ -23,30 +24,35 @@ export const QuestionsWithResponse = ({ realEstate }: ParamsType) => {
   } = useGet({
     services: () => handleGet<Response[]>("responses/" + realEstate.id),
     queryKey: ["questions-responses"],
-    itemsPerPage:2,
+    itemsPerPage: 2,
   });
 
   return (
-    <View style={{ flexDirection: "column" }}>
-      <View style={{ flexDirection: "row" }}>
-      {answered?.map((v) => (
-        <View style={styles.card} key={v.id}>
-          <Text style={styles.questionText}>
-            {v.question.question[language]}
-          </Text>
+    <>
+      <View style={{ flexDirection: "column" }}>
+        <View style={{ flexDirection: "row" }}>
+          {answered?.map((v) => (
+            <View style={styles.card} key={v.id}>
+              <Text style={styles.questionText}>
+                {v.question.question[language]}
+              </Text>
 
-          <TouchableOpacity style={styles.replyButton}>
-            <Text style={styles.replyText}>{v.response[language]}</Text>
-          </TouchableOpacity>
+              <TouchableOpacity style={styles.replyButton}>
+                <Text style={styles.replyText}>{v.response[language]}</Text>
+              </TouchableOpacity>
+            </View>
+          ))}
         </View>
-      ))}
-       </View>
-      <Pagination
-        currentPage={currentPage}
-        amountOfPages={amountOfPages}
-        handlePagination={handlePagination}
-        lastPage={amountOfPages}
-      />
-    </View>
+        {answered.length > 2 && (
+          <Pagination
+            currentPage={currentPage}
+            amountOfPages={amountOfPages}
+            handlePagination={handlePagination}
+            lastPage={amountOfPages}
+          />
+        )}
+      </View>
+      {answered?.length == 0 && <Empty />}
+    </>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { StyleSheet, View, Image, Pressable, Button, Text } from "react-native";
 import { RealEstate } from "../../../../shared/types/realEstate";
 import WebView from "react-native-webview";
@@ -64,9 +64,7 @@ export const Card = ({ v, showRealEstate }: ParamsType) => {
       }
     },
   });
-  const isFavorite = user?.favorites?.some(
-    (favorite: Favorites) => favorite.id === v.id
-  );
+
 
   const { mutate: deleteFav } = useMutation({
     mutationFn: ()=> handleDelete("favorite_real_estates", v.id + "/"+user?.id),
@@ -74,6 +72,18 @@ export const Card = ({ v, showRealEstate }: ParamsType) => {
       removeFavorite(v.id ?? 0);
     },
   });
+
+  const isFavoriteRef = useRef(false);
+
+  useEffect(() => {
+    const isFavorite = user?.favorites?.some(
+      (favorite) => favorite.id === v.id
+    );
+    isFavoriteRef.current = isFavorite ?? false;
+
+    // If you need to force a re-render, you can use a state toggle
+    // forceUpdate((prev) => !prev); // Uncomment if re-render is needed
+  }, [user?.favorites, v.id]);
 
   return (
     <View style={styles.container} key={v.id}>
@@ -88,8 +98,8 @@ export const Card = ({ v, showRealEstate }: ParamsType) => {
           />
         </Pressable>
 
-        <Pressable onPress={isFavorite ? ()=>deleteFav() : ()=>handleOnSubmit() } style={styles.heartIcon}>
-          <Text>{isFavorite ? HeartIcon : HeartOutLinedIcon}</Text>
+        <Pressable onPress={isFavoriteRef.current ? ()=>deleteFav() : ()=>handleOnSubmit() } style={styles.heartIcon}>
+          <Text>{isFavoriteRef.current ? HeartIcon : HeartOutLinedIcon}</Text>
         </Pressable>
       </View>
 

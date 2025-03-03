@@ -51,7 +51,7 @@ function App() {
             <Route path="/img360" element={<Img360 />} />
             <Route path="/img360/:urlEncode" element={<Img360 />} />
             {/* @ts-ignore */}
-            <Route path="/map/:lat_long" element={<MapPage />} />
+            <Route path="/map/:lat_long/:languageParams" element={<MapPage />} />
             <Route path="/select_address/" element={<SelectAddress />} />
             <Route path="/upload_files/:nameFolder" element={<UplaodFiles />} />
             <Route path="/dashboard" element={<Dashboard />}>
