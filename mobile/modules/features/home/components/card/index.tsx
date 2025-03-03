@@ -41,8 +41,6 @@ export const Card = ({ v, showRealEstate }: ParamsType) => {
       const parsedData = JSON.parse(data);
       if (parsedData.type === "FILTER_CHANGE") {
         const filterKey = parsedData.filterKey;
-        console.log("Filtrando por:", filterKey);
-        // Aquí puedes manejar el filtrado en React Native si es necesario
       }
     } catch (error) {
       console.error("Error parsing message:", error);
@@ -171,7 +169,7 @@ const styles = StyleSheet.create({
     padding: 5, // Optional: Add padding around the icon
   },
   webView: {
-    height: 115,
+    height: 150,
     width: "96%",
   },
 });

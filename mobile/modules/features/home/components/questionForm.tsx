@@ -25,7 +25,7 @@ export const QuestionForm = ({}: ParamsType) => {
     register,
     handleOnSubmit,
     errors,
-    isPending: isSignUpPending,
+    isPending,
     setSuccessMsg,
     setErrorMsg,
     Controller,
@@ -77,7 +77,7 @@ export const QuestionForm = ({}: ParamsType) => {
             )}
           />
 
-          <Btn text={texts.save} handleOnSubmit={handleOnSubmit} fullWidth />
+          <Btn text={isPending ? texts.loading : texts.save } handleOnSubmit={handleOnSubmit} fullWidth />
         </View>
       </View>
     </View>
