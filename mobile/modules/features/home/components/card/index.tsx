@@ -49,8 +49,8 @@ export const Card = ({ v, showRealEstate }: ParamsType) => {
     }
   };
 
- // const mapUrl = urls.web + "map/" + v.lat_long+"/"+language;
-  const mapUrl ="http://192.168.1.8:5173/#/"+ "map/" + v.lat_long+"/"+language;
+ const mapUrl = urls.web + "map/" + v.lat_long+"/"+language;
+
   const useFavsSchema = useFavsShema();
 
   const {

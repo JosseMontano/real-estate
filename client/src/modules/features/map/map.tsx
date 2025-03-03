@@ -71,7 +71,6 @@ export const MapPage = ({}: ParamsType) => {
   return (
     <div className="flex flex-col gap-2">
     <div className="">
-      {optionInMobile}
     <select className="w-[170px] text-sm px-2 py-[4px] border rounded-lg focus:outline-none"    onChange={(e) => {
             const selectedValue = e.target.value;
             const message = {
