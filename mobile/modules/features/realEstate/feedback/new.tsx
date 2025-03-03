@@ -1,14 +1,24 @@
 import { handleToast } from "../../../core/helpers/toast";
 import { queryClient } from "../../../../App";
 import { Btn } from "../../../core/components/btn";
-import { StyleSheet, Text, View, Image, TextInput } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TextInput,
+  Alert,
+  Pressable,
+} from "react-native";
 import { useForm } from "../../../core/hooks/useForm";
 import { useLanguageStore } from "../../../core/store/language";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { z } from "zod";
 import { RealEstate } from "../../../shared/types/realEstate";
 import useAuthStore from "../../../core/store/auth";
 import { handlePost } from "../../../core/helpers/fetch";
+import { StarIcon } from "../../../shared/icons/icons";
+import { ModalComp } from "../../../core/components/modal";
 
 export const useFeedbackSchema = () => {
   const { texts } = useLanguageStore();
@@ -26,22 +36,15 @@ type ParamsType = { realEstate: Readonly<RealEstate> };
 
 export const New = ({ realEstate }: ParamsType) => {
   const { user } = useAuthStore();
+  const [raiting, setRaiting] = useState(1);
+  const [showModal, setShowModal] = useState(false);
   const { language, texts } = useLanguageStore();
-  const {
-    register,
-    handleOnSubmit,
-    errors,
-    isPending,
-    setSuccessMsg,
-    setErrorMsg,
-    Controller,
-    control,
-  } = useForm({
+  const { handleOnSubmit, errors, isPending, Controller, control } = useForm({
     schema: useFeedbackSchema(),
     form: async (data) => {
       data.real_estate_id = realEstate?.id;
       data.commentator_id = user?.id;
-      data.amount_star = 3;
+      data.amount_star = raiting;
       const { message, status } = await handlePost("comments", data);
 
       if (status === 200 || status === 201) {
@@ -53,8 +56,13 @@ export const New = ({ realEstate }: ParamsType) => {
     },
   });
 
+  const handleStarPress = (selectedRating: number) => {
+    setRaiting(selectedRating);
+    setShowModal(false);
+  };
+
   return (
-    <View >
+    <View>
       <Controller
         name="comment_text"
         control={control}
@@ -63,12 +71,20 @@ export const New = ({ realEstate }: ParamsType) => {
             <View>
               <Image style={styles.image} source={{ uri: user?.photo }} />
             </View>
-            <TextInput
-              style={[styles.input, errors.comment_text && styles.errorInput]}
-              placeholder={texts.addFeedback}
-              value={value}
-              onChangeText={onChange}
-            />
+            <View style={styles.inputContainer}>
+              <TextInput
+                style={[styles.input, errors.comment_text && styles.errorInput]}
+                placeholder={texts.addFeedback}
+                value={value}
+                onChangeText={onChange}
+              />
+              <Pressable
+                style={styles.starIcon}
+                onPress={() => setShowModal(true)}
+              >
+                <StarIcon size={22} />
+              </Pressable>
+            </View>
             {errors.comment_text && (
               <Text style={styles.errorText}>
                 {errors.comment_text.message}
@@ -82,18 +98,46 @@ export const New = ({ realEstate }: ParamsType) => {
         fullWidth
         handleOnSubmit={handleOnSubmit}
       />
+
+      <ModalComp
+        setVisible={setShowModal}
+        title={texts.amountStarts}
+        visible={showModal}
+        children={
+          <View style={{ marginBottom: 10 }}>
+            <View
+              style={{ flexDirection: "row", gap: 5, justifyContent: "center" }}
+            >
+              {[1, 2, 3, 4, 5].map((star) => (
+                <Pressable key={star} onPress={() => handleStarPress(star)}>
+                  <StarIcon
+                    size={22}
+                    bg={star <= raiting ? "#ecda16" : "#ccc"}
+                  />
+                </Pressable>
+              ))}
+            </View>
+          </View>
+        }
+      />
     </View>
   );
 };
+
 const styles = StyleSheet.create({
-    form:{
-        flexDirection:"row",
-        gap:10,
-    },
+  form: {
+    flexDirection: "row",
+    gap: 10,
+    alignItems: "center", // Alinea los elementos verticalmente
+  },
   image: {
     width: 50,
     height: 50,
-    borderRadius: "50%",
+    borderRadius: 25, // Usa un número en lugar de "50%" para borderRadius
+  },
+  inputContainer: {
+    flex: 1, // Ocupa el espacio restante
+    position: "relative", // Necesario para posicionar la estrella de manera absoluta
   },
   input: {
     borderWidth: 1,
@@ -102,7 +146,14 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 13,
     fontSize: 16,
-    width:"80%"
+    width: "100%", // Ocupa todo el ancho del contenedor
+    paddingRight: 40, // Espacio para la estrella
+  },
+  starIcon: {
+    position: "absolute", // Posiciona la estrella de manera absoluta
+    right: 15, // Ajusta la posición horizontal
+    top: "50%", // Centra verticalmente
+    transform: [{ translateY: -12 }], // Ajusta la posición vertical (mitad del tamaño del ícono)
   },
   errorInput: {
     borderColor: "red",

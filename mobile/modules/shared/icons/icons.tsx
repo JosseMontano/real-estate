@@ -9,11 +9,12 @@ export const iconSize = 30;
 
 interface Params {
   size?: number;
+  bg?:string
 }
 
 export const PlusIcon = () => <Icon name="plus" size={iconSize} color="#000" />;
-export const StarIcon = ({ size }: Params) => (
-  <IconFontAwesome name="star" color={"#ecda16"} size={size ?? iconSize} />
+export const StarIcon = ({ size, bg="#ecda16" }: Params) => (
+  <IconFontAwesome name="star" color={bg} size={size ?? iconSize} />
 );
 export const SearchIcon = () => (
   <Icon name="search1" size={iconSize} color={"#000"} />
