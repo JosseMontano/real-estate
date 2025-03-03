@@ -60,6 +60,7 @@ export interface Translations {
   realEstateBedroom:string
   realEstateQuestion:string
   realEstateFeedback:string
+  addFeedback:string
   //create real estate
   createRETitle:string
   createREDescription:string
@@ -122,6 +123,7 @@ const translations: { [key in Language]: Translations } = {
     realEstateBedroom:"bedrooms",
     realEstateQuestion:"Questions",
     realEstateFeedback:"Feedback",
+    addFeedback:"Add feedback",
     //create real estate
     createRETitle:"Title",
     createREDescription:"Description",
@@ -182,6 +184,7 @@ const translations: { [key in Language]: Translations } = {
     realEstateBedroom:"cuartos",
     realEstateQuestion:"Preguntas",
     realEstateFeedback:"Reseñas",
+    addFeedback:"Agregar reseña",
       //create real estate
       createRETitle:"Titulo",
       createREDescription:"Descripcion",
@@ -242,6 +245,7 @@ const translations: { [key in Language]: Translations } = {
     realEstateBedroom:"quartos",
     realEstateQuestion:"Perguntas",
     realEstateFeedback:"Comentários",
+    addFeedback:"Adicionar comentário",
       //create real estate
       createRETitle:"título",
       createREDescription:"descrição",

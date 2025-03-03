@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Image } from "react-native";
-import { StarIcon } from "../../../../shared/icons/icons";
+import { RobotIcon, StarIcon } from "../../../../shared/icons/icons";
 import { RealEstate } from "../../../../shared/types/realEstate";
 import { useLanguageStore } from "../../../../core/store/language";
 type ParamsType = {
@@ -8,20 +8,21 @@ type ParamsType = {
 export const Info = ({ v }: ParamsType) => {
   const { language } = useLanguageStore();
   return (
-    <View style={{ height: 150, position:"relative" }}>
+    <View style={{ height: 150, position: "relative" }}>
       <Text style={styles.title}>{v.title[language]}</Text>
       <Text style={styles.contact}>{v.user.email}</Text>
       <Text style={styles.description}>
         {v.description[language].length > 20
-          ? `${v.description[language].slice(0, 150)}` 
-          : v.description[language]}{v.description[language].length > 150 ? "..." : ""}
+          ? `${v.description[language].slice(0, 150)}`
+          : v.description[language]}
+        {v.description[language].length > 150 ? "..." : ""}
       </Text>
 
       <View style={styles.infoContainer}>
         <Text style={styles.price}>{v.price} BS</Text>
         <View style={styles.ratingContainer}>
-          <StarIcon size={15} />
-          <Text style={styles.rating}>{v.user.qualification}</Text>
+          <Text> {RobotIcon}</Text>
+          <Text style={styles.rating}>{v.similarity_score}</Text>
         </View>
       </View>
     </View>
@@ -46,9 +47,9 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     //put down with flex
-    position:"absolute",
-    bottom:0,
-    width:"100%",
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -62,6 +63,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 5,
+
   },
   rating: {
     fontSize: 14,

@@ -2,12 +2,13 @@ import { useMemo } from "react";
 import { handleGet } from "../../core/helpers/fetch";
 import useGet from "../../core/hooks/useGet";
 import { RealEstate } from "../types/realEstate";
+import useAuthStore from "../../core/store/auth";
 
 type ParamsType = {
     currentType: string
 }
 export const useRe = ({currentType}:ParamsType) => {
-
+  const {user} = useAuthStore()
   const {
     data: realEstates,
     isLoading,
@@ -16,11 +17,12 @@ export const useRe = ({currentType}:ParamsType) => {
     handlePagination,
     currentPage,
   } = useGet({
-    services: () => handleGet<RealEstate[]>('real_estates/all_re/' + 1),
+    services: () => handleGet<RealEstate[]>('real_estates/all_re/' + user?.id),
     queryKey: ["realEstates"],
     itemsPerPage: 4,
     valueToService: 1,
   });
+
 
     const filteredRealEstates = useMemo(() => {
       if (currentType) {

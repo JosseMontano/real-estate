@@ -7,7 +7,7 @@ import { urls } from "../../core/constants/endpoint";
 import WebView from "react-native-webview";
 import { GeneralContainer } from "./generalContainer";
 import { Questions } from "./questions";
-import { Feedback } from "./feedback";
+import { Feedback } from "./feedback/feedback";
 import useAuthStore from "../../core/store/auth";
 import { User } from "../../core/store/user";
 import { useState } from "react";
@@ -53,7 +53,7 @@ export const RealEstatePage = ({}: ParamsType) => {
             realEstate={realEstate}
           />
           <Text style={[styles.title, { width: "100%" }]}>{texts.realEstateFeedback}</Text>
-          <Feedback />
+          <Feedback realEstate={realEstate}/>
         </View>
       </View>
 

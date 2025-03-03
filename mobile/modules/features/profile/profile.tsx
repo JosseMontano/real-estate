@@ -103,7 +103,7 @@ export function ProfilePage() {
             {activeCategory == "Favs" &&
               realEstateFavs.length > 0 &&
               realEstateFavs.map((v) => (
-                <RealEstateImg v={v.real_estate} key={v.id} />
+                <RealEstateImg v={v.real_estate} key={v.id} showTrash/>
               ))}
           </View>
         </View>

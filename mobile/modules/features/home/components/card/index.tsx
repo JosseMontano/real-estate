@@ -14,6 +14,7 @@ import { handleDelete, handlePost } from "../../../../core/helpers/fetch";
 import { handleToast } from "../../../../core/helpers/toast";
 import { useMutation } from "@tanstack/react-query";
 
+
 type ParamsType = {
   v: RealEstate;
   showRealEstate: (v: RealEstate) => void;
@@ -30,9 +31,15 @@ export const useFavsShema = () => {
 };
 
 export const Card = ({ v, showRealEstate }: ParamsType) => {
+  const { user, addFavorite, removeFavorite } = useAuthStore();
+
+  const isFavoriteRef = useRef(
+    user?.favorites?.some((favorite) => favorite.real_estate.id === v.id)
+  );
+
   const { language, texts } = useLanguageStore();
   const [activeButton, setActiveButton] = useState<"info" | "places">("info");
-  const { user, addFavorite,removeFavorite } = useAuthStore();
+
   const webViewRef = useRef(null);
 
   const handleWebViewMessage = (event: any) => {
@@ -47,19 +54,12 @@ export const Card = ({ v, showRealEstate }: ParamsType) => {
     }
   };
 
- const mapUrl = urls.web + "map/" + v.lat_long+"/"+language;
+  const mapUrl = urls.web + "map/" + v.lat_long + "/" + language;
 
   const useFavsSchema = useFavsShema();
 
   const {
-    register,
     handleOnSubmit,
-    errors,
-    isPending,
-    setSuccessMsg,
-    setErrorMsg,
-    Controller,
-    control,
   } = useForm({
     schema: useFavsSchema,
     form: async (data) => {
@@ -73,32 +73,19 @@ export const Card = ({ v, showRealEstate }: ParamsType) => {
       if (status === 200 || status === 201) {
         handleToast(message[language], texts.sucess);
         addFavorite(val);
-        /*          await queryClient.invalidateQueries({
-            queryKey: ["questions-unanswered", realEstate.id],
-          }); */
+        isFavoriteRef.current = true;
       }
     },
   });
 
-
   const { mutate: deleteFav } = useMutation({
-    mutationFn: ()=> handleDelete("favorite_real_estates", v.id + "/"+user?.id),
+    mutationFn: () =>
+      handleDelete("favorite_real_estates", v.id + "/" + user?.id),
     onSuccess: () => {
       removeFavorite(v.id ?? 0);
+      isFavoriteRef.current=false
     },
   });
-
-  const isFavoriteRef = useRef(false);
-
-  useEffect(() => {
-    const isFavorite = user?.favorites?.some(
-      (favorite) => favorite.id === v.id
-    );
-    isFavoriteRef.current = isFavorite ?? false;
-
-    // If you need to force a re-render, you can use a state toggle
-    // forceUpdate((prev) => !prev); // Uncomment if re-render is needed
-  }, [user?.favorites, v.id]);
 
   return (
     <View style={styles.container} key={v.id}>
@@ -113,7 +100,12 @@ export const Card = ({ v, showRealEstate }: ParamsType) => {
           />
         </Pressable>
 
-        <Pressable onPress={isFavoriteRef.current ? ()=>deleteFav() : ()=>handleOnSubmit() } style={styles.heartIcon}>
+        <Pressable
+          onPress={
+            isFavoriteRef.current ? () => deleteFav() : () => handleOnSubmit()
+          }
+          style={styles.heartIcon}
+        >
           <Text>{isFavoriteRef.current ? HeartIcon : HeartOutLinedIcon}</Text>
         </Pressable>
       </View>
