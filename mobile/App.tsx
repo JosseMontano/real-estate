@@ -66,6 +66,12 @@ export default function App() {
       <QueryClientProvider client={queryClient}>
         <NavigationContainer>
           <Stack.Navigator>
+          <Stack.Screen
+              name="CreateRealEstate"
+              component={CreateRE}
+              options={{ headerShown: false }}
+            />
+
             <Stack.Screen
               name="Auth"
               component={AuthPage}
@@ -92,11 +98,7 @@ export default function App() {
               options={{ headerShown: false }}
             />
 
-            <Stack.Screen
-              name="CreateRealEstate"
-              component={CreateRE}
-              options={{ headerShown: false }}
-            />
+    
 
             <Stack.Screen
               name="MainTabs"

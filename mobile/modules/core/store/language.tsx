@@ -125,7 +125,7 @@ const translations: { [key in Language]: Translations } = {
     //create real estate
     createRETitle:"Title",
     createREDescription:"Description",
-    createREAmountBedrooms:"Amount of bedrooms",
+    createREAmountBedrooms:"Bedrooms",
     createREAmountBathrooms:"Amount of bathrooms",
     createRESquareMeter:"Square meters",
     createREPrice:"Price",
@@ -186,9 +186,9 @@ const translations: { [key in Language]: Translations } = {
       createRETitle:"Titulo",
       createREDescription:"Descripcion",
       createREAmountBathrooms:"Cantidad de baños",
-      createREAmountBedrooms:"Cantidad de cuartos",
+      createREAmountBedrooms:"Cuartos",
       createREPrice:"Precio",
-      createRESquareMeter:"Cantidad de metros"
+      createRESquareMeter:"Metros"
   },
   pt: {
     //shared
@@ -246,7 +246,7 @@ const translations: { [key in Language]: Translations } = {
       createRETitle:"título",
       createREDescription:"descrição",
       createREAmountBathrooms:"quantidade de banheiros",
-      createREAmountBedrooms:"quantidade de quartos",
+      createREAmountBedrooms:"Quartos",
       createREPrice:"preço",
       createRESquareMeter:"metro quadrado"
   },

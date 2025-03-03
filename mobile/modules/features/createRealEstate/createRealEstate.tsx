@@ -71,10 +71,10 @@ type FileUpType = {
   error?: string;
 };
 
-export type Location={
-  lat:string 
-  lng:string
-}
+export type Location = {
+  lat: string;
+  lng: string;
+};
 
 export const CreateRE = () => {
   const { currentType, setCurrentType, typeRE } = useTypeRe();
@@ -83,14 +83,14 @@ export const CreateRE = () => {
   const realEstateSchema = useRealEstateShema();
   const [location, setLocation] = useState<Location>({} as Location);
   const { user } = useAuthStore();
-  const {handleRedirect} = useNagigation()
+  const { handleRedirect } = useNagigation();
   const [isLoading, setIsLoading] = useState(true);
 
   const {
     register,
     handleOnSubmit,
     errors,
-    isPending: isFormPending,
+    isPending,
     setSuccessMsg,
     setErrorMsg,
     Controller,
@@ -102,20 +102,19 @@ export const CreateRE = () => {
         data.latLong = `${location.lat}, ${location.lng}`;
         data.userId = user.id.toString();
         data.typeRealEstateId = currentType;
-        data.images=uploadedFiles.map((v) => v.url)
+        data.images = uploadedFiles.map((v) => v.url);
 
-        const res = await handlePost("real_estates", data)
+        const res = await handlePost("real_estates", data);
         if (res.status == 200 || res.status == 201) {
           setSuccessMsg(res.message[language]);
-          handleRedirect("Profile")
-        } 
-      
+          handleRedirect("Profile");
+        }
       }
     },
   });
 
   return (
-    <>  
+    <>
       <Modal transparent visible={isLoading}>
         <View style={styles.loadingOverlay}>
           <ActivityIndicator size="large" color="#0a0a0a" />
@@ -171,7 +170,7 @@ export const CreateRE = () => {
               </View>
             )}
           />
-          <View style={{ flexDirection: "row", gap: 3, maxWidth: 165 }}>
+          <View style={{ flexDirection: "row", gap: 3 }}>
             <Controller
               name="amountBedroom"
               control={control}
@@ -274,16 +273,20 @@ export const CreateRE = () => {
             setIsLoading={setIsLoading}
             setLocation={setLocation}
           />
-          <UploadFilesWebView setUploadedFiles={setUploadedFiles} user={user?.email.split("@")[0] ?? ""}/>
+          <UploadFilesWebView
+            setUploadedFiles={setUploadedFiles}
+            user={user?.email.split("@")[0] ?? ""}
+          />
 
-          <Btn text={texts.save} fullWidth handleOnSubmit={handleOnSubmit} />
+          <Btn
+            text={isPending ? texts.loading : texts.save}
+            fullWidth
+            handleOnSubmit={handleOnSubmit}
+          />
         </View>
-      
       </ScrollView>
 
-        <Config />
-   
-     
+      <Config />
     </>
   );
 };
@@ -299,15 +302,16 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: "#fff",
     paddingTop: 40,
-    padding: 10,
+    padding:10,
   },
   title: {
     fontSize: 22,
   },
   formContainer: {
     borderRadius: 15,
-    padding: 20,
+    padding: 10,
     gap: 15,
+    maxWidth:350
   },
   input: {
     borderWidth: 1,
@@ -316,6 +320,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 13,
     fontSize: 16,
+    minWidth: 163,
   },
   errorInput: {
     borderColor: "red",
@@ -326,9 +331,9 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     marginLeft: 3,
   },
-  configContainer:{
-    position:"absolute",
-    bottom:10,
-    right:10
+  configContainer: {
+    position: "absolute",
+    bottom: 10,
+    right: 10,
   },
 });
