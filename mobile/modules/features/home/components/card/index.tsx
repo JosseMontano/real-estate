@@ -30,12 +30,29 @@ export const useFavsShema = () => {
 };
 
 export const Card = ({ v, showRealEstate }: ParamsType) => {
+  const { language, texts } = useLanguageStore();
   const [activeButton, setActiveButton] = useState<"info" | "places">("info");
   const { user, addFavorite,removeFavorite } = useAuthStore();
+  const webViewRef = useRef(null);
 
-  const mapUrl = urls.web + "map/" + v.lat_long;
+  const handleWebViewMessage = (event: any) => {
+    const { data } = event.nativeEvent;
+    try {
+      const parsedData = JSON.parse(data);
+      if (parsedData.type === "FILTER_CHANGE") {
+        const filterKey = parsedData.filterKey;
+        console.log("Filtrando por:", filterKey);
+        // Aquí puedes manejar el filtrado en React Native si es necesario
+      }
+    } catch (error) {
+      console.error("Error parsing message:", error);
+    }
+  };
+
+ // const mapUrl = urls.web + "map/" + v.lat_long+"/"+language;
+  const mapUrl ="http://192.168.1.8:5173/#/"+ "map/" + v.lat_long+"/"+language;
   const useFavsSchema = useFavsShema();
-  const { language, texts } = useLanguageStore();
+
   const {
     register,
     handleOnSubmit,
@@ -116,6 +133,8 @@ export const Card = ({ v, showRealEstate }: ParamsType) => {
           style={styles.webView}
           javaScriptEnabled={true}
           domStorageEnabled={true}
+          ref={webViewRef}
+          onMessage={handleWebViewMessage}
         />
       )}
     </View>

@@ -42,7 +42,7 @@ app.include_router(follows.app)
 app.include_router(report_user.app)
 
 
-origins = ["http://localhost:5173","https://inmoapp-gamma.vercel.app", "exp://192.168.1.13:19000"]
+origins = ["http://localhost:5173","https://inmoapp-gamma.vercel.app", "exp://192.168.1.13:19000", "http://192.168.1.8:5173"]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins, 

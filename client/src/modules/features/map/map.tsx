@@ -17,6 +17,7 @@ export const MapPage = ({}: ParamsType) => {
   const allSelect = { en: "All", es: "Todos", pt: "Todos" };
   const [locationsType, setLocationsType] = useState<locationType[]>([]);
   const { lat_long, languageParams } = useParams<ParamsType>();
+  const [optionInMobile, setOptionInMobile] = useState("all");
   //@ts-ignore
   const [language, setLanguage] = useState<Language | null>(null);
   const [places, setPlaces] = useState<NearbyPlace[]>([]);
@@ -62,11 +63,25 @@ export const MapPage = ({}: ParamsType) => {
     if (languageParams) setLanguage(languageParams);
   }, [languageParams]);
 
+   useEffect(() => {
+    getCurrentLocationType({ key: optionInMobile, value: allSelect });
+   }, [optionInMobile]);
+
   if (language === null) return null;
   return (
     <div className="flex flex-col gap-2">
     <div className="">
-    <select className="w-[170px] text-sm px-2 py-[4px] border rounded-lg focus:outline-none">
+      {optionInMobile}
+    <select className="w-[170px] text-sm px-2 py-[4px] border rounded-lg focus:outline-none"    onChange={(e) => {
+            const selectedValue = e.target.value;
+            const message = {
+              type: "FILTER_CHANGE",
+              filterKey: selectedValue,
+            };
+            setOptionInMobile(selectedValue);
+            //@ts-ignore
+            window.ReactNativeWebView.postMessage(JSON.stringify(message));
+          }}>
         <option
           value={"all"}
           key={"all"}
