@@ -80,6 +80,7 @@ export interface Translations {
   locationInput: string;
   priceRangeLabel: string;
   priceRangeInput: string;
+  otherPrice: string;
   //home house buttons
   infoButton: string;
   placesButton: string;
@@ -220,6 +221,7 @@ const translations: { [key in Language]: Translations } = {
     locationInput: "Select location",
     priceRangeLabel: "Range",
     priceRangeInput: "Select price",
+    otherPrice: "Other price",
     //home house buttons
     infoButton: "Information",
     placesButton: "Places",
@@ -357,6 +359,7 @@ const translations: { [key in Language]: Translations } = {
     locationInput: "Seleccione la ubicación",
     priceRangeLabel: "Precio",
     priceRangeInput: "Seleccione el precio",
+    otherPrice:"Otro precio",
     //home house buttons
     infoButton: "Información",
     placesButton: "Lugares",
@@ -496,6 +499,7 @@ const translations: { [key in Language]: Translations } = {
     locationInput: "Selecione a localização",
     priceRangeLabel: "Preço",
     priceRangeInput: "Selecione o preço",
+    otherPrice:"Outro preço",
     //home house buttons
     infoButton: "Informação",
     placesButton: "Lugares",

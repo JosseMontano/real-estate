@@ -34,6 +34,8 @@ export interface Translations {
   orAuth:string
   googleAuth:string
   btnGoogleAuth:string
+  emailInput:string
+  passwordInput:string
   //homePage
   typeText: string;
   selectType:string
@@ -101,6 +103,8 @@ const translations: { [key in Language]: Translations } = {
     orAuth:"or",
     googleAuth:"Sign in with Google",
     btnGoogleAuth:"Sign in with google",
+    emailInput:"Email",
+    passwordInput:"Password",
     //homePage
     typeText: "Type",
     selectType:"Select type",
@@ -136,7 +140,7 @@ const translations: { [key in Language]: Translations } = {
     createRETitle:"Title",
     createREDescription:"Description",
     createREAmountBedrooms:"Bedrooms",
-    createREAmountBathrooms:"Amount of bathrooms",
+    createREAmountBathrooms:"Bathrooms",
     createRESquareMeter:"Square meters",
     createREPrice:"Price",
   },
@@ -166,6 +170,8 @@ const translations: { [key in Language]: Translations } = {
     orAuth:"o",
     googleAuth:"Inicia sesion con google",
     btnGoogleAuth:"Login con google",
+    emailInput:"Correo",
+    passwordInput:"Contraseña",
       //homePage
     typeText: "Tipo",
     selectType:"Seleccionar tipo",
@@ -231,6 +237,8 @@ const translations: { [key in Language]: Translations } = {
     orAuth:"ou",
     googleAuth:"faça login com o google",
     btnGoogleAuth:"faça login com o google",
+    emailInput:"Email",
+    passwordInput:"Senha",
       //homePage
     typeText: "Tipo",
      selectType:"selecione o tipo",

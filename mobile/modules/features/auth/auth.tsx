@@ -108,7 +108,7 @@ export function AuthPage() {
               <View>
                 <TextInput
                   style={[styles.input, errors.email && styles.errorInput]}
-                  placeholder="Email"
+                  placeholder={texts.emailInput}
                   value={value}
                   onChangeText={onChange}
                 />
@@ -126,7 +126,7 @@ export function AuthPage() {
               <View>
                 <TextInput
                   style={[styles.input, errors.password && styles.errorInput]}
-                  placeholder="Password"
+                  placeholder={texts.passwordInput}
                   secureTextEntry
                   value={value}
                   onChangeText={onChange}
