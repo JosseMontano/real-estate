@@ -140,7 +140,7 @@ export const HomePage = () => {
     valueToService: user.id,
     currentPageStore:currentPageMainRE
   });
-
+  console.log(currentPageMainRE);
   useEffect(() => {
     return () => {
       // get by class
