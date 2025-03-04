@@ -6,7 +6,7 @@ class TranslateResponse(BaseModel):
     pt: str
 
 class Messages:
-    DATA_FOUND = TranslateResponse(es="Datos encontradas", en="Data found", pt="Dados encontrados")
+    DATA_FOUND = TranslateResponse(es="Datos encontrados", en="Data found", pt="Dados encontrados")
     DATA_CREATED = TranslateResponse(es="Se creó el dato con éxito", en="Data created successfully", pt="Dado criado com sucesso")
     DATA_DELETED = TranslateResponse(es="Se eliminó el dato exitosamente", en="Data deleted successfully", pt="Dado excluído com sucesso")
     DATA_UPDATED = TranslateResponse(es="Se actualizó el dato con éxito", en="Data updated successfully", pt="Dado atualizado com sucesso")

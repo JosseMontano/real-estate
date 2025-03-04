@@ -41,10 +41,10 @@ export function HomePage() {
       style={styles.container}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScrollView ref={scrollViewRef} keyboardShouldPersistTaps="handled">
+        <ScrollView ref={scrollViewRef} keyboardShouldPersistTaps="handled" >
           <Header goRealEstates={handleScrollToRE} />
 
-          <View style={{ padding: 15 }} ref={realEstateRef}>
+          <View style={{ padding: 15, backgroundColor:"white" }} ref={realEstateRef}>
             <Filter
               currentType={currentType}
               setCurrentType={setCurrentType}
@@ -82,7 +82,6 @@ export function HomePage() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
   },
   cardContainer: {
     flexDirection: "row",

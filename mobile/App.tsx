@@ -77,7 +77,10 @@ export default function App() {
             <Stack.Screen
               name="Home"
               component={HomePage}
-              options={{ headerShown: false }}
+              options={{
+                headerShown: false,
+                contentStyle: { backgroundColor: "#000" },
+              }}
             />
 
             <Stack.Screen
@@ -97,7 +100,10 @@ export default function App() {
             <Stack.Screen
               name="RealEstate"
               component={RealEstatePage}
-              options={{ headerShown: false }}
+              options={{
+                headerShown: false,
+                contentStyle: { backgroundColor: "#fff" },
+              }}
             />
 
             <Stack.Screen

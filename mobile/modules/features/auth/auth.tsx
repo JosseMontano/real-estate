@@ -39,7 +39,7 @@ export function AuthPage() {
     register,
     handleOnSubmit,
     errors,
-    isPending: isSignUpPending,
+    isPending,
     setSuccessMsg,
     setErrorMsg,
     Controller,
@@ -141,7 +141,7 @@ export function AuthPage() {
           />
           <View style={styles.btnContainer}>
             <Text style={styles.footerText} onPress={()=>handleOpenModal()}>{texts.forgotYourPasswordAuth}</Text>
-            <Btn text={texts.title} fullWidth handleOnSubmit={handleOnSubmit} />
+            <Btn text={isPending ? texts.loading : texts.title} fullWidth handleOnSubmit={handleOnSubmit} />
           </View>
         </View>
 

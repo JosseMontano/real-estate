@@ -23,7 +23,7 @@ export const RealEstatePage = ({}: ParamsType) => {
   const realEstate = route.params;
   const [answerModalVisible, setAnswerModalVisible] = useState(false);
   const [question, setQuestion] = useState<Question | null>(null);
-  const mapUrl = urls.web + "map/" + realEstate.lat_long;
+  const mapUrl = urls.web + "map/" + realEstate.lat_long+ "/" + language;
 
   const handleOpenModal = (v: Question) => {
     setQuestion(v);
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   webView: {
-    height: 150,
+    height: 200,
     width: "90%",
     alignSelf: "center",
   },
