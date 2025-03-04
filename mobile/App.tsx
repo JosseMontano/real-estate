@@ -83,7 +83,10 @@ export default function App() {
             <Stack.Screen
               name="Profile"
               component={ProfilePage}
-              options={{ headerShown: false }}
+              options={{
+                headerShown: false,
+                contentStyle: { backgroundColor: "#fff" },
+              }}
             />
 
             <Stack.Screen

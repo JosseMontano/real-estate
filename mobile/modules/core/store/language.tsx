@@ -53,6 +53,9 @@ export interface Translations {
   profileREFavorites:string
   profileCreateRE:string
   profileEditUser:string
+  profileEmail:string
+  profileUsername:string
+  profileCellphone:string
   //realEstate
   titleAnswerModal:string
   placeHolderAnswer:string
@@ -117,6 +120,9 @@ const translations: { [key in Language]: Translations } = {
     profileREFavorites:"favorites",
     profileCreateRE:"Create estate",
     profileEditUser:"Edit user",
+    profileEmail:"Email",
+    profileUsername:"Username",
+    profileCellphone:"Cellphone",
     //real estate
     titleAnswerModal:"Answer question",
     placeHolderAnswer:"Answer",
@@ -179,6 +185,9 @@ const translations: { [key in Language]: Translations } = {
     profileREFavorites:"Favoritos",
     profileCreateRE:"Crear inmueble",
     profileEditUser:"Editar usuario",
+    profileEmail:"Correo",
+    profileUsername:"Nombre de usuario",
+    profileCellphone:"Celular",
     //real estate
     titleAnswerModal:"Responder pregunta",
     placeHolderAnswer:"respuesta",
@@ -241,6 +250,9 @@ const translations: { [key in Language]: Translations } = {
     profileREFavorites:"favoritos",
     profileCreateRE:"criar propriedade",
     profileEditUser:"editar usuário",
+    profileEmail:"Email",
+    profileUsername:"Nome de usuário",
+    profileCellphone:"Celular",
     //real estate
     titleAnswerModal:"Responda a pergunta",
     placeHolderAnswer:"responder",

@@ -97,6 +97,59 @@ export const handlePost = async <T>(
   }
 }
 
+export const handlePut = async <T>(
+  url: string,
+  payload: any,
+) => {
+  let errorMg = "";
+  try {
+ 
+    const response = await fetch(urls.endpoint + url, {
+      method: "PUT",
+      headers: new Headers({
+        accept: "application/json",
+        "Content-Type": "application/json",
+      }),
+      body: JSON.stringify(payload),
+    });
+
+    
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const data = await response.json() as Res<T>;
+
+    return {
+      message: data.message,
+      val: data.val,
+      status: data.status,
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      errorMg = error.message;
+      return {
+        message: {
+          en: errorMg,
+          es: errorMg,
+          pt: errorMg,
+        },
+        val: [] as T,
+        status: 500,
+      }
+    }
+    return {
+      message: {
+        en: errorMg,
+        es: errorMg,
+        pt: errorMg,
+      },
+      val: [] as T,
+      status: 500,
+    };
+  }
+}
+
 export const handleDelete = async (url: string, id: number | string) => {
   const response = await fetch(urls.endpoint + `${url}/${id}`, {
     method: 'DELETE'

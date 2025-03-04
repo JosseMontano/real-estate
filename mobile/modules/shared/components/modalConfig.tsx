@@ -1,7 +1,6 @@
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { Text, View } from 'react-native';
 import { ModalComp } from '../../core/components/modal';
 import { useLanguageStore } from '../../core/store/language';
-import { useState } from 'react';
 import { Dropdown } from 'react-native-element-dropdown';
 type ParamsType = {
     mainModalVisible:boolean
@@ -37,6 +36,3 @@ export const ModalConfig = ({mainModalVisible, setMainModalVisible}:ParamsType) 
       />
     );
 }
-const styles = StyleSheet.create({
-
-});

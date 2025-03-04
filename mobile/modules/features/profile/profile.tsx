@@ -16,6 +16,8 @@ import { Navbar } from "../../shared/components/navbar";
 import { useLanguageStore } from "../../core/store/language";
 import { SkeletonRECard } from "./components/skeletonRECard";
 import { Config } from "../../shared/components/config";
+import { ModalComp } from "../../core/components/modal";
+import { EditUser } from "./components/editUser/editUser";
 
 export interface FavRealEstate {
   id: number;
@@ -28,6 +30,7 @@ export function ProfilePage() {
   const { texts } = useLanguageStore();
   const route = useRoute<RouteProp<{ Profile: User }, "Profile">>();
   const userSelected = route.params;
+  const [editUser, setEditUser] = useState(false);
 
   const [activeCategory, setActiveCategory] =
     useState<categoryType>("realEstates");
@@ -72,52 +75,53 @@ export function ProfilePage() {
   }
 
   return (
-    <ScrollView style={styles.scroll}>
-      <Navbar
-        onClick={() => {
-          logout();
-          handleRedirect("Auth");
-        }}
-        texts={texts.logOut}
-        backgroundColor="#fff"
-      />
+    <>
+      <ScrollView>
+        <Navbar
+          onClick={() => {
+            logout();
+            handleRedirect("Auth");
+          }}
+          texts={texts.logOut}
+          backgroundColor="#fff"
+        />
 
-      <View style={styles.container}>
-        <BasicInfo user={userSelected ?? userLogged} />
+        <View style={styles.container}>
+          <BasicInfo user={userSelected ?? userLogged} />
 
-        <View>
-          {userSelected == null && <Operations />}
+          <View>
+            {userSelected == null && <Operations setEditUser={setEditUser}/>}
 
-          <Categories
-            activeCategory={activeCategory}
-            setActiveCategory={setActiveCategory}
-            isProfile={userSelected != null}
-          />
+            <Categories
+              activeCategory={activeCategory}
+              setActiveCategory={setActiveCategory}
+              isProfile={userSelected != null}
+            />
 
-          <View style={styles.containerImg}>
-            {isLoading &&
-              [1, 2, 3, 4, 5, 6].map((v) => <SkeletonRECard key={v} />)}
-            {activeCategory == "realEstates" &&
-              posts.map((v) => <RealEstateImg v={v} key={v.id} />)}
+            <View style={styles.containerImg}>
+              {isLoading &&
+                [1, 2, 3, 4, 5, 6].map((v) => <SkeletonRECard key={v} />)}
+              {activeCategory == "realEstates" &&
+                posts.map((v) => <RealEstateImg v={v} key={v.id} />)}
 
-            {activeCategory == "Favs" &&
-              realEstateFavs.length > 0 &&
-              realEstateFavs.map((v) => (
-                <RealEstateImg v={v.real_estate} key={v.id} showTrash/>
-              ))}
+              {activeCategory == "Favs" &&
+                realEstateFavs.length > 0 &&
+                realEstateFavs.map((v) => (
+                  <RealEstateImg v={v.real_estate} key={v.id} showTrash />
+                ))}
+            </View>
           </View>
         </View>
-      </View>
+      </ScrollView>
       <Config />
-    </ScrollView>
+
+   <EditUser setVisible={setEditUser} visible={editUser}/>
+
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  scroll: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
   container: {
     marginTop: 90,
     flexDirection: "column",

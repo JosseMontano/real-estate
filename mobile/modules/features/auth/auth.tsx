@@ -54,9 +54,10 @@ export function AuthPage() {
         "auth/signup",
         data
       );
-
+      console.log("hola");
       if (status === 200) {
         handleToast(message[language], texts.sucess);
+        console.log(val);
         login({
           email: val.email,
           role: val.role,

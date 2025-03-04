@@ -3,9 +3,11 @@ import { Btn } from "../../../core/components/btn";
 import { AdHouse } from "../../../shared/icons/icons";
 import { useNagigation } from "../../../core/hooks/useNavigation";
 import { useLanguageStore } from "../../../core/store/language";
-type ParamsType = {};
+type ParamsType = {
+  setEditUser: (val:boolean)=>void;
+};
 
-export const Operations = ({}: ParamsType) => {
+export const Operations = ({setEditUser}: ParamsType) => {
   const {handleRedirect}= useNagigation()
   const {texts}=useLanguageStore()
 
@@ -18,7 +20,7 @@ export const Operations = ({}: ParamsType) => {
         </Pressable>
       </View>
 
-      <Btn text={texts.profileEditUser} />
+      <Btn text={texts.profileEditUser} handleOnSubmit={()=>setEditUser(true)}/>
     </View>
   );
 };

@@ -12,6 +12,7 @@ export type Favorites = {
 interface AuthState {
   user: User | null;
   isAuthenticated: boolean;
+  updateUsernameAndCellphone: (username: string, cellphone: number) => void;
   login: (user: User) => void;
   follow: (newFollowing: Follow) => void;
   unfollow: (id: number) => void;
@@ -25,6 +26,18 @@ const useAuthStore = create(
     (set) => ({
       user: null,
       isAuthenticated: false,
+      updateUsernameAndCellphone: (username, cellphone) =>
+        set((state) => {
+          if (!state.user) return state;
+          return {
+            user: {
+              ...state.user,
+              username,
+              cellphone,
+            },
+          };
+        }),
+
       login: (user: User) => set({ user, isAuthenticated: true }),
       follow: (newFollow: Follow) =>
         set((state) => {

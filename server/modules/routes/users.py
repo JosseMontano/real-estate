@@ -72,6 +72,8 @@ async def sign_up(user: signUpDTO, db: Session = Depends(get_db)):
                 "id": found_user.id,
                 "email": found_user.email,
                 "role":found_user.role,
+                "username":found_user.username,
+                "cellphone":found_user.cellphone,
                 "photo":found_user.photo,
                 "favorites": [
                     {
