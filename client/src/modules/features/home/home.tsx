@@ -115,7 +115,7 @@ export const HomePage = () => {
         },
         {
           id: 6,
-          name: "superiores",
+          name: texts.otherPrice,
           type: "price",
         },
       ],
