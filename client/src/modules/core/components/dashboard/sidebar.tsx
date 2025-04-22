@@ -47,7 +47,7 @@ export const Sidebar = ({}: ParamsType) => {
         <div className="mb-7 mt-5 lg:mt-0 flex items-center gap-1">
           <ComeBack useAbsolute={false} location="/profile"/>
 
-          <Link to="" className="text-3xl font-semibold">
+          <Link to="/" className="text-3xl font-semibold">
             {"InmoApp"}
           </Link>
         </div>
