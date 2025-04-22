@@ -24,6 +24,7 @@ type ParamsType = {
   stateBtn: options;
   user: User;
   refetchCommentTop: () => void;
+  isLoadingRealEstate: boolean;
 };
 
 export enum Options {
@@ -42,6 +43,7 @@ export const PublicationsAndFavorites = ({
   user,
   realEstateFavs,
   refetchCommentTop,
+  isLoadingRealEstate,
 }: ParamsType) => {
   const [currentOption, setCurrentOption] = useState<Options>(1);
   const { language, texts } = useLanguageStore();
@@ -64,9 +66,8 @@ export const PublicationsAndFavorites = ({
     },
   ];
 
-
   return (
-    <div className="max-h-[240px] overflow-y-auto  ">
+    <div className="max-h-[240px] overflow-y-auto w-full ">
       <div className="w-full mt-5">
         <div className="flex flex-wrap justify-center md:justify-start gap-4 w-full max-w-none items-center">
           {stateBtn == "Publications" && (
@@ -80,8 +81,8 @@ export const PublicationsAndFavorites = ({
                   removeFavorite={removeFavorite}
                 />
               ))}
-              {realEstate.length == 0 && (
-                <div className="w-full">
+              {realEstate.length == 0 && !isLoadingRealEstate && (
+                <div className="w-full ">
                   <Empty data={realEstate} />
                 </div>
               )}

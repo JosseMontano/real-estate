@@ -322,8 +322,9 @@ const DashboardPage = () => {
             user={user}
             realEstateFavs={realEstateFavs ?? []}
             refetchCommentTop={refetchCommentTop}
+            isLoadingRealEstate={isLoading}
           />
-          {isLoading && <p>Loading...</p>}
+        
         </div>
       </div>
 
